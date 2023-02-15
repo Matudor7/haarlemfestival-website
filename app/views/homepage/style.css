@@ -1,0 +1,560 @@
+/* The Festival NavBar */
+.navbar {
+    position: absolute;
+    width: 1920px;
+    height: 218px;
+    left: 0px;
+    top: 741px;
+}
+
+h1 {
+    align-items: center;
+text-align: center;
+}
+
+
+/* Rectangle 164 */
+/*position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+background: #FFFFFF;
+box-shadow: 0px 9px 4px rgba(0, 0, 0, 0.25);
+*/
+
+
+/* Group 129
+
+position: absolute;
+left: 37.4%;
+right: 37.4%;
+top: 8.26%;
+bottom: 39.45%;
+*/
+
+
+/* festival-fireworks-icon 1
+
+position: absolute;
+left: 37.4%;
+right: 57.36%;
+top: 8.26%;
+bottom: 39.45%;
+
+
+
+/* Group 
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 8.07%;
+
+
+
+/* Vector 
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 8.07%;
+
+background: conic-gradient(from 73.18deg at 50% 50%, #8564CC -14.16deg, #8564CC 5.51deg, #EC5F41 13.2deg, #EC5F41 25.59deg, #EC5F41 34.67deg, #0052B4 41.44deg, #0D57BB 41.48deg, #3366CF 55.65deg, #EC5F41 76.55deg, #8564CC 90deg, #8564CC 104.62deg, #8564CC 118.29deg, #EC5F41 137.68deg, #EC5F41 150.24deg, #2560C8 170.28deg, #2661C8 180.25deg, #2661C8 197.04deg, #EC5F41 204.87deg, #EC5F41 226.83deg, #8564CC 237.76deg, #8564CC 245.22deg, #8564CC 256.39deg, #2460C7 277.18deg, #2360C7 284.73deg, #2561C8 304.15deg, #EC5F41 311.11deg, #EC5F41 339.53deg, #8564CC 345.84deg, #8564CC 365.51deg);
+
+
+/* The Festival
+
+position: absolute;
+left: 43.85%;
+right: 37.4%;
+top: 14.33%;
+bottom: 45.76%;
+
+font-family: 'Akshar';
+font-style: normal;
+font-weight: 400;
+font-size: 78.9834px;
+line-height: 87px;
+/* identical to box height 
+
+color: #000000;
+
+
+
+/* Dutch Flag
+
+position: absolute;
+left: 96.81%;
+right: 1.09%;
+top: 5.89%;
+bottom: 75.64%;
+
+filter: drop-shadow(0px 4.02596px 8.05192px rgba(0, 0, 0, 0.25));
+
+
+/* Vector
+
+position: absolute;
+left: 96.81%;
+right: 1.09%;
+top: 5.89%;
+bottom: 75.64%;
+
+background: #F0F0F0;
+
+
+/* Vector
+
+position: absolute;
+left: 96.88%;
+right: 1.16%;
+top: 5.89%;
+bottom: 88.09%;
+
+background: #A2001D;
+
+
+/* Vector
+
+position: absolute;
+left: 96.88%;
+right: 1.16%;
+top: 18.33%;
+bottom: 75.64%;
+
+background: #0052B4;
+
+
+/* UK Flag
+
+position: absolute;
+left: 93.66%;
+right: 4.24%;
+top: 5.89%;
+bottom: 75.64%;
+
+filter: drop-shadow(0px 4.02596px 8.05192px rgba(0, 0, 0, 0.25));
+
+
+/* Vector
+
+position: absolute;
+left: 93.66%;
+right: 4.24%;
+top: 5.89%;
+bottom: 75.64%;
+
+background: #F0F0F0;
+
+
+/* Group
+
+position: absolute;
+left: 93.7%;
+right: 4.27%;
+top: 6.21%;
+bottom: 75.96%;
+
+
+
+/* Vector
+
+position: absolute;
+left: 93.7%;
+right: 5.75%;
+top: 9.5%;
+bottom: 87.29%;
+
+background: #0052B4;
+
+
+/* Vector
+
+position: absolute;
+left: 95.18%;
+right: 4.27%;
+top: 9.5%;
+bottom: 87.29%;
+
+background: #0052B4;
+
+
+/* Vector
+
+position: absolute;
+left: 93.7%;
+right: 5.75%;
+top: 17.53%;
+bottom: 79.26%;
+
+background: #0052B4;
+
+
+/* Vector
+
+position: absolute;
+left: 94.99%;
+right: 4.65%;
+top: 6.21%;
+bottom: 88.99%;
+
+background: #0052B4;
+
+
+/* Vector 
+
+position: absolute;
+left: 94.07%;
+right: 5.56%;
+top: 19.23%;
+bottom: 75.96%;
+
+background: #0052B4;
+
+
+/* Vector 
+
+position: absolute;
+left: 94.07%;
+right: 5.56%;
+top: 6.21%;
+bottom: 88.99%;
+
+background: #0052B4;
+
+
+/* Vector 
+
+position: absolute;
+left: 94.99%;
+right: 4.65%;
+top: 19.23%;
+bottom: 75.96%;
+
+background: #0052B4;
+
+/* Vector 
+
+position: absolute;
+left: 95.18%;
+right: 4.27%;
+top: 17.53%;
+bottom: 79.26%;
+
+background: #0052B4;
+
+
+/* Group 
+
+position: absolute;
+left: 93.66%;
+right: 4.24%;
+top: 5.89%;
+bottom: 75.64%;
+
+
+
+/* Vector *
+
+position: absolute;
+left: 93.66%;
+right: 4.24%;
+top: 5.89%;
+bottom: 75.64%;
+
+background: #D80027;
+
+
+/* Vector *
+
+position: absolute;
+left: 94.99%;
+right: 4.48%;
+top: 17.53%;
+bottom: 78.35%;
+
+background: #D80027;
+
+
+/* Vector *
+
+position: absolute;
+left: 93.97%;
+right: 5.56%;
+top: 17.53%;
+bottom: 77.81%;
+
+background: #D80027;
+
+
+/* Vector *
+
+position: absolute;
+left: 93.91%;
+right: 5.56%;
+top: 8.59%;
+bottom: 87.29%;
+
+background: #D80027;
+
+
+/* Vector *
+
+position: absolute;
+left: 94.99%;
+right: 4.55%;
+top: 8.05%;
+bottom: 87.29%;
+
+background: #D80027;
+
+
+/* AAA | *
+
+position: absolute;
+left: 88.02%;
+right: 7.34%;
+top: 4.13%;
+bottom: 72.02%;
+
+font-family: 'Space Mono';
+font-style: normal;
+font-weight: 400;
+font-size: 35.3558px;
+line-height: 52px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Rectangle 165 *
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 66.06%;
+bottom: 0%;
+
+background: #2E2C2C;
+box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.25);
+
+
+/* Yummy! *
+
+position: absolute;
+left: 10.78%;
+right: 82.71%;
+top: 66.06%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Dance! *
+
+position: absolute;
+left: 20.52%;
+right: 74.27%;
+top: 66.06%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Home *
+
+position: absolute;
+left: 3.02%;
+right: 92.45%;
+top: 66.06%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Dr Teyler’s Secret *
+
+position: absolute;
+left: 50.05%;
+right: 36.82%;
+top: 66.06%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* A stroll through history *
+
+position: absolute;
+left: 28.96%;
+right: 53.18%;
+top: 66.06%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 140 *
+
+position: absolute;
+left: 66.41%;
+right: 21.04%;
+top: 68.35%;
+bottom: 1.38%;
+
+
+
+/* Visit Haarlem *
+
+position: absolute;
+left: 66.41%;
+right: 22.14%;
+top: 68.35%;
+bottom: 1.38%;
+
+font-family: 'Suez One';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 39px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Polygon 6 *
+
+position: absolute;
+left: 77.65%;
+right: 21.04%;
+top: 88.39%;
+bottom: 1.8%;
+
+background: #FFFFFF;
+border-radius: 1.33333px;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Line 6 *
+
+position: absolute;
+left: 0%;
+right: 63.39%;
+top: 35.32%;
+bottom: 61.01%;
+
+border: 4px solid #000000;
+
+
+/* Line 7 *
+
+position: absolute;
+left: 63.39%;
+right: 0%;
+top: 34.4%;
+bottom: 61.93%;
+
+border: 4px solid #000000;
+
+
+/* Group 225 *
+
+position: absolute;
+width: 305px;
+height: 67px;
+left: 1599px;
+top: 146px;
+
+
+
+/* Rectangle 258 *
+
+position: absolute;
+left: 83.28%;
+right: 0.83%;
+top: 70.18%;
+bottom: 5.05%;
+
+background: #285E9C;
+border-radius: 40px;
+
+
+/* Create a Program *
+
+position: absolute;
+left: 84.38%;
+right: 1.93%;
+top: 66.97%;
+bottom: 2.29%;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 36px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+*/
+

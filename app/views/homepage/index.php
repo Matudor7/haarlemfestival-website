@@ -19,19 +19,19 @@
              </a>
                 <ul class="nav bg-dark d-flex flex-nowrap">
                     <li class="nav-item">
-                        <a class="nav-link active text-light fw-bold" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active text-light fw-bold" aria-current="page" href="Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold" href="#">Yummy!</a>
+                        <a class="nav-link text-light fw-bold" href="/Yummy">Yummy!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold" href="#">Dance!</a>
+                        <a class="nav-link text-light fw-bold" href="/Dance">Dance!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="#">A Stroll Through Histrory</a>
+                        <a class="nav-link text-light fw-bold text-center" href="History">A Stroll Through Histrory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="#">Dr Teyler's Secret</a>
+                        <a class="nav-link text-light fw-bold text-center" href="/DrTeylers">Dr Teyler's Secret</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" data-bs-placement="bottom" aria-expanded="false">Visit Haarlem</a>
@@ -42,7 +42,7 @@
                             </ul>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1">Create a Program</button>
+                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
                     </li>
                 </ul>
         </nav>

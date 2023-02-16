@@ -6,4 +6,5 @@ class HomeController extends Controller{
         require __DIR__ . '/../views/homepage/index.php';
     }
 }
+
 ?>

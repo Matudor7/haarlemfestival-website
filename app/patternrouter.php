@@ -29,6 +29,8 @@ class PatternRouter
         // ignore query parameters
         $uri = $this->stripParameters($uri);
 
+
+        
         // read controller/method names from URL
         $explodedUri = explode('/', $uri);
 
@@ -56,7 +58,7 @@ class PatternRouter
         // dynamically call relevant controller method
         try {
             $controllerObj = new $controllerName;
-            $controllerObj-> {$methodName}();
+            $controllerObj->{$methodName}();
         } catch (Exception $e) {
             echo $e;
             http_response_code(404);

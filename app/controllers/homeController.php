@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . '/controller.php'; 
+require __DIR__ . '/controller.php';
+require __DIR__ . '/../Services/eventService.php';
 
 class HomeController extends Controller{
     public function index(){

@@ -22,6 +22,11 @@ class EventRepository extends Repository{
             $statement = $this->connection->prepare("SELECT event_id, event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM [event] WHERE event_name = :event_name");
             $statement->bindParam(':event_name', htmlspecialchars($name));
             $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'Event');
+
+            $event = $statement->fetch();
+
+            return $event;
         }catch(PDOEXCEPTION $e){
             echo $e;
         }

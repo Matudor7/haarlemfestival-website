@@ -1,6 +1,6 @@
 <?php
 
-class HomepageContent{
+class Event{
     private int $id;
     private string $name;
     private string $url;

@@ -8,5 +8,11 @@ class EventService{
 
         return $events;
     }
+
+    public function getByName(string $name){
+        $eventRepo = new EventRepository();
+
+        $eventRepo->getByName($name);
+    }
 }
 ?>

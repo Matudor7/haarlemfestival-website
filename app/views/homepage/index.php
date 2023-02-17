@@ -13,8 +13,24 @@
     </head>
     <body>
     <?php include __DIR__ . '/../nav.php';?>
+    
+    <section id="header" class="mx-0 my-0 py-0 bg-light">
+    <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner" >
+    <div id="banner-text"class="row mt-5 py-lg-5 justify-content text-center">
+        <h1 class="fw-semibold display-2 text-nowrap">The Festival Haarlem</h1>
+        <p class=" text-light fs-2">Haarlem's main event opens up again</p>
+        <p>
+        </p>
 
-        <h1>Welcome Home!</h1>
+        <div class="container bg-light w-50 opacity-75">
+        <h2 id="dateText" class="text-dark">Start Date - End Date Year</h2>
+        </div>
+    </div>
+  </section>
+
+        
+
+
     <?php include __DIR__ . '/../footer.php';?>
         <style>
             body{
@@ -24,7 +40,27 @@
             .bi {
                 fill: white;
                 }
+
+                #banner-text{
+                    position: absolute;
+                    top: 15%;
+                    left: 50%;
+                    transform: translate(-50%, 0%);
+                    color: white;
+                }
+
+                #banner-text h1{
+                    font-size: 80;
+                }
+
+                .img-fluid{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
             </style>
+
 
     </body>
 </html>

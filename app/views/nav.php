@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="/stylesheet.css" type="text/css">
     </head>
     <body>
-    <nav class="navbar bg-dark d-flex flex-column mb-3 align-items-center pt-0 sticky-top">
+    <nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
              <a class="navbar-brand px-0 mx-0 py-0" href="#">
             <img src="media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
              </a>
@@ -25,21 +25,14 @@
                         <a class="nav-link text-light fw-bold" href="/Dance">Dance!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="History">A Stroll Through Histrory</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="/DrTeylers">Dr Teyler's Secret</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" data-bs-placement="bottom" aria-expanded="false">Visit Haarlem</a>
-                            <ul class="dropdown-menu dropdown-menu-end bg-light my-0 me-5 py-0 border-0 border rounded-0">
-                            <li><a class="dropdown-item text-secondary" href="#">History</a></li>
-                            <li><a class="dropdown-item text-secondary" href="#">Food</a></li>
-                            <li><a class="dropdown-item text-secondary" href="#">Entertainment</a></li>
-                            </ul>
+                        <a class="nav-link text-light fw-bold text-center" href="History">Walking Tour!</a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
                     </li>
                 </ul>
         </nav>
@@ -47,19 +40,5 @@
         <style>
             body{
                 background-color: blueviolet;
-            }
-
-            .dropdown-item:hover {
-                background-color: #282323;
-            }
-
-            .btn:hover{
-                background-color: white;
-            }
-            .navbar-nav .dropdown-menu {
-               position: absolute;
-               top: 100%;
-               left:0;
-               right: 100%;
             }
             </style>

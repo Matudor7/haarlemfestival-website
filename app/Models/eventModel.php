@@ -3,8 +3,10 @@
 class Event{
     private int $id;
     private string $name;
-    private string $url;
-    private string $text;
+    private string $urlRedirect;
+    #private string $text;
+
+    private string $imageUrl;
 
     #[ReturnTypeWillChange]
 
@@ -21,15 +23,16 @@ class Event{
         return $this;
     }
 
-    public function getUrl(): string{
-        return $this->url;
+    public function getUrlRedirect(): string{
+        return $this->urlRedirect;
     }
 
-    public function setUrl(string $url):self{
-        $this->url = $url;
+    public function setUrlRedirect(string $url):self{
+        $this->urlRedirect = $url;
         return $this;
     }
 
+    /*
     public function getText():string{
         return $this->text;
     }
@@ -38,5 +41,6 @@ class Event{
         $this->text = $text;
         return $this;
     }
+    */
 }
 ?>

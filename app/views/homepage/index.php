@@ -13,7 +13,6 @@
         include __DIR__ . '/../nav.php';
         ?>
         
-
 <?php
         include __DIR__ . '/../footer.php';
         ?>

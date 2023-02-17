@@ -13,7 +13,7 @@
     </head>
     <body>
         
-        <nav class="navbar bg-dark d-flex flex-column mb-3 align-items-center pt-0 sticky-top">
+        <nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
              <a class="navbar-brand px-0 mx-0 py-0" href="#">
             <img src="media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
              </a>
@@ -28,83 +28,94 @@
                         <a class="nav-link text-light fw-bold" href="/Dance">Dance!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="History">A Stroll Through Histrory</a>
+                        <a class="nav-link text-light fw-bold text-center" href="History">Walking Tour!</a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
                     </li>
                 </ul>
         </nav>
 
         
-       
+        <footer id="secondversion" class="container bg-dark">
+            <div id="logo-div" class="col-4">
+            <a class="navbar-brand px-0 mx-0 py-0" href="#">
+            <img src="media/FooterLogo.jpg" class="img-fluid " alt="Logo">
+             </a>
+      <p class="text-muted-light text-light">© 2023</p>
+            </div>
+            <div id="section-div" class="col-8">
+                <div id="yummy-div" class="col">
+                <h5 class="text-light fw-bold">Yummy!</h5>
+                <ul class="nav flex-column">
+                <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-light text-muted-light">Specktackle</a></li>
+                <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-light text-muted-light lh-sm">Restaurant<br>Mr. & Mrs.</a></li>
+                </ul>
+                </div>
+                <div id="Dance-div">
+                    
+                </div>
+                <div id="Walking-div">
+                    
+                </div>
+                <div id="contact-div">
+                    
+                </div>
+            </div>
+        </footer>
 
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-0 mt-5 mb-0 border-top bg-dark">
+
+
+
+        <footer id="firstversion" class="row row-cols-1 row-cols-sm-2 flex-nowrap row-cols-md-5 mx-0 py-0 mt-5 mb-0 border-top bg-dark">
     <div class="col mb-3">
     <a class="navbar-brand px-0 mx-0 py-0" href="#">
             <img src="media/FooterLogo.jpg" class="img-fluid " alt="Logo">
-             </a>
       </a>
-      <p class="text-muted-light text-light">© 2023</p>
+      <p class="text-muted-light text-light">© 2023 first version</p>
     </div>
 
-    <div class="col mb-3 d-flex flex-nowrap">
 
-    <div class="col mb-3 mx-1">
-      <h5 class="text-light">Yummy!</h5>
+
+    <div class="col my-3 mx-1 text-center">
+      <h5 class="text-light fw-bold">Yummy!</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+        <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-light text-muted-light">Specktackle</a></li>
+        <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-light text-muted-light lh-sm">Restaurant<br>Mr. & Mrs.</a></li>
       </ul>
     </div>
 
-    <div class="col mb-3 mx-2">
-      <h5 class="text-light">Dance!</h5>
+    <div class="col my-3 mx-2 text-center">
+      <h5 class="text-light fw-bold">Dance!</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Afrojack</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Martin Garrix</a></li>
       </ul>
     </div>
 
-    <div class="col mb-3 mx-2">
-      <h5 class="text-light">A Stroll Through History</h5>
+    <div class="col my-3 mx-2 text-center">
+      <h5 class="text-light fw-bold">Walking Tour!</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Home</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Features</a></li>
       </ul>
     </div>
 
-    <div class="col mb-3 mx-2">
-      <h5 class="text-light">Contact</h5>
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+    <div class="col my-3 mx-2 pe-0">
+      <h6 class="text-light fs-5 box-sizing-content-box">Contact</h6>
+      <ul class="nav flex-column box-sizing-content-box">
+        <li class="nav-item mb-2 box-sizing-content-box"><a href="#" class="nav-link p-0 text-light text-muted-light fs-6">Email</a></li>
+        <li class="nav-item mb-2 box-sizing-content-box"><a href="#" class="nav-link p-0 text-light text-muted-light fs-6">Follow Us: </a></li>
+        <li class="nav-item mb-2 box-sizing-content-box"><a href="#" class="nav-link p-0 text-light text-muted-light">social media</a></li>
+
       </ul>
     </div>
 
-    <div class="col mb-3 mx-2">
-      <h5 class="text-light">Section</h5>
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-      </ul>
-    </div>
-    </div>
+    
   </footer>
 
         <style>
@@ -116,9 +127,6 @@
                 background-color: #282323;
             }
 
-            .btn:hover{
-                background-color: white;
-            }
             .navbar-nav .dropdown-menu {
                position: absolute;
                top: 100%;

@@ -5,7 +5,7 @@ require __DIR__ . '/../Models/eventModel.php';
 class EventRepository extends Repository{
     public function getAll(){
         try{
-            $statement = $this -> connection -> prepare("SELECT event_id, event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM [event]");
+            $statement = $this -> connection -> prepare("SELECT event_id, event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM event");
             $statement->execute();
 
             $statement->setFetchMode(PDO::FETCH_CLASS, 'Event');
@@ -19,8 +19,9 @@ class EventRepository extends Repository{
 
     public function getByName(string $name){
         try{
-            $statement = $this->connection->prepare("SELECT event_id, event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM [event] WHERE event_name = :event_name");
-            $statement->bindParam(':event_name', htmlspecialchars($name));
+            $statement = $this->connection->prepare("SELECT event_id, event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM event WHERE event_name = :event_name");
+            $sanitizedName = htmlspecialchars($name);
+            $statement->bindParam(':event_name', $sanitizedName);
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_CLASS, 'Event');
 

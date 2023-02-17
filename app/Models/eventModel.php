@@ -1,12 +1,12 @@
 <?php
 
 class Event{
-    private int $id;
-    private string $name;
-    private string $urlRedirect;
+    private int $id = 0;
+    private string $name = "";
+    private string $urlRedirect = "";
     #private string $text;
 
-    private string $imageUrl;
+    private string $imageUrl = "";
 
     #[ReturnTypeWillChange]
 

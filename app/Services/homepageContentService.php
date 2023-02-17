@@ -1,12 +1,12 @@
 <?php
-require __DIR__ . '/../Repositories/homepageContentRepository.php';
+require __DIR__ . '/../Repositories/eventRepository.php';
 
-class HomepageContentService{
+class EventService{
     public function getAll(){
-        $homepageRepo = new homepageContentRepository();
-        $homepageContents = $homepageRepo->getAll();
+        $eventRepo = new EventRepository();
+        $events = $eventRepo->getAll();
 
-        return $homepageContents;
+        return $events;
     }
 }
 ?>

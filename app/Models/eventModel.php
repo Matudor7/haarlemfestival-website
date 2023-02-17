@@ -32,6 +32,10 @@ class Event{
         return $this;
     }
 
+    public function getImageUrl() : string{
+        return $this->imageUrl;
+    }
+
     /*
     public function getText():string{
         return $this->text;

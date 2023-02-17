@@ -31,17 +31,6 @@
                         <a class="nav-link text-light fw-bold text-center" href="History">A Stroll Through Histrory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="/DrTeylers">Dr Teyler's Secret</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" data-bs-placement="bottom" aria-expanded="false">Visit Haarlem</a>
-                            <ul class="dropdown-menu dropdown-menu-end bg-light my-0 me-5 py-0 border-0 border rounded-0">
-                            <li><a class="dropdown-item text-secondary" href="#">History</a></li>
-                            <li><a class="dropdown-item text-secondary" href="#">Food</a></li>
-                            <li><a class="dropdown-item text-secondary" href="#">Entertainment</a></li>
-                            </ul>
-                    </li>
-                    <li class="nav-item">
                         <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
                     </li>
                 </ul>
@@ -62,7 +51,7 @@
     <div class="col mb-3 d-flex flex-nowrap">
 
     <div class="col mb-3 mx-1">
-      <h5 class="text-light">Section</h5>
+      <h5 class="text-light">Yummy!</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
@@ -73,7 +62,7 @@
     </div>
 
     <div class="col mb-3 mx-2">
-      <h5 class="text-light">Section</h5>
+      <h5 class="text-light">Dance!</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
@@ -84,7 +73,7 @@
     </div>
 
     <div class="col mb-3 mx-2">
-      <h5 class="text-light">Section</h5>
+      <h5 class="text-light">A Stroll Through History</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
@@ -95,7 +84,7 @@
     </div>
 
     <div class="col mb-3 mx-2">
-      <h5 class="text-light">Section</h5>
+      <h5 class="text-light">Contact</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>

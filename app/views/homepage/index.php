@@ -10,12 +10,12 @@
     </head>
     <body>
     <?php
-        include __DIR__ . '/nav.php';
+        include __DIR__ . '/../nav.php';
         ?>
         
 
 <?php
-        include __DIR__ . '/footer.php';
+        include __DIR__ . '/../footer.php';
         ?>
     </body>
 </html>

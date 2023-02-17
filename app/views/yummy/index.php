@@ -12,13 +12,13 @@
     </head>
     <body>
     <?php
-        include __DIR__ . '/nav.php';
+        include __DIR__ . '/../nav.php';
         ?>
 
 
 <h1>Welcome to the yummy page!</h1>
 <?php
-        include __DIR__ . '/footer.php';
+        include __DIR__ . '/../footer.php';
         ?>
     </body>
 </html>

@@ -9,6 +9,11 @@ class homepageContentRepository extends Repository{
             $statement->execute();
 
             $statement->setFetchMode(PDO::FETCH_CLASS, 'HomepageContent');
+            $homepageContents = $statement->fetchAll();
+
+            return $homepageContents;
+        }catch(PDOException $e){
+            echo $e;
         }
     }
 }

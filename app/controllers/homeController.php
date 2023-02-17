@@ -7,8 +7,6 @@ class HomeController extends Controller{
         $eventService = new EventService();
 
         $danceEvent = $eventService->getByName('dance');
-
-        echo $danceEvent->getUrlRedirect();
         
         require __DIR__ . '/../views/homepage/index.php';
     }

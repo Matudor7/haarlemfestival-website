@@ -20,5 +20,23 @@ class HomepageContent{
         $this->name = $name;
         return $this;
     }
+
+    public function getUrl(): string{
+        return $this->url;
+    }
+
+    public function setUrl(string $url):self{
+        $this->url = $url;
+        return $this;
+    }
+
+    public function getText():string{
+        return $this->text;
+    }
+
+    public function setText(string $text): self{
+        $this->text = $text;
+        return $this;
+    }
 }
 ?>

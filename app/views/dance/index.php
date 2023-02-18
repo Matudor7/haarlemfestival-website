@@ -35,9 +35,9 @@
 
             <!-- <div class="p-3 mb-2 bg-light text-dark fw-bold">PARTICIPATING ARTISTS</div> -->
 
-            <div class="row">
-                <div class="col"> <h4 id="dance-title-light" class="p-1 bg-light fw-semibold"></h4> </div>
-                <div class="col"> <h2 id="dance-title-light" class="display-5 p-1 bg-light fw-semibold">Participating Artists</h2> </div>
+            <div class="row mb-4">
+                <div class="col"> <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> ....  </h5> </div>
+                <div class="col"> <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Participating Artists</h2> </div>
                 <div class="col"> </div>
                 <div class="col"> </div>
             </div>
@@ -186,7 +186,13 @@ body {
 }
 
 #dance-artists-learn-more-button {
+    border-color: #C7DBFF ;
+    border-width: 3px;
     background-color: #C7DBFF;
+}
+#dance-artists-learn-more-button:hover {
+    border-color: #679DFF ;
+    background-color: #679DFF;
 }
 
 #dance-artist-card-dark {
@@ -195,6 +201,14 @@ body {
 
 #dance-titles-slim-blue-rectangle {
     margin-bottom: 2cm;
+}
+#dance-title-blue{
+    background-color: #3366CF;
+    color: #3366CF;
+}
+#dance-title-light{
+    background-color: #F6F6F6;
+    color: #3366CF;
 }
 </style>
 

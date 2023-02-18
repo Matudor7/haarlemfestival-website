@@ -12,7 +12,9 @@ class EventService{
     public function getByName(string $name){
         $eventRepo = new EventRepository();
 
-        $eventRepo->getByName($name);
+        $event = $eventRepo->getByName($name);
+
+        return $event;
     }
 }
 ?>

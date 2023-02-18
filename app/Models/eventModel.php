@@ -1,39 +1,39 @@
 <?php
 
 class Event{
-    private int $id;
-    private string $name;
-    private string $urlRedirect;
+    private int $event_id = 0;
+    private string $event_name = "";
+    private string $event_urlRedirect = "";
     #private string $text;
 
-    private string $imageUrl;
+    private string $event_imageUrl = "";
 
     #[ReturnTypeWillChange]
 
     public function getId(): int{
-        return $this->id;
+        return $this->event_id;
     }
 
     public function getName(): string{
-        return $this->name;
+        return $this->event_name;
     }
 
     public function setName(string $name): self{
-        $this->name = $name;
+        $this->event_name = $name;
         return $this;
     }
 
     public function getUrlRedirect(): string{
-        return $this->urlRedirect;
+        return $this->event_urlRedirect;
     }
 
     public function setUrlRedirect(string $url):self{
-        $this->urlRedirect = $url;
+        $this->event_urlRedirect = $url;
         return $this;
     }
 
     public function getImageUrl() : string{
-        return $this->imageUrl;
+        return $this->event_imageUrl;
     }
 
     /*

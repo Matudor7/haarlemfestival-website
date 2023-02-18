@@ -27,8 +27,8 @@
     <div class="col my-4 mx-2 text-center">
       <h5 class="text-light fw-bold">Walking Tour!</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Home</a></li>
-        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Features</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">Chruch of St. Bavo</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light text-muted-light">De Adriaan Windmill</a></li>
       </ul>
     </div>
 
@@ -59,10 +59,6 @@
   </footer>
 
         <style>
-            body{
-                background-color: blueviolet;
-            }
-
             .bi {
                 fill: white;
                 }

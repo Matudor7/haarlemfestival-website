@@ -16,20 +16,43 @@
     
     <section id="header" class="mx-0 my-0 py-0 bg-light">
     <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner" >
-    <div id="banner-text"class="row mt-5 py-lg-5 justify-content text-center">
+    <div id="banner-text" class="row mt-5 py-lg-5 justify-content text-center">
         <h1 class="fw-semibold display-2 text-nowrap">The Festival Haarlem</h1>
         <p class=" text-light fs-2">Haarlem's main event opens up again</p>
-        <p>
-        </p>
 
-        <div class="container bg-light w-50 opacity-75">
+        <div id="date-container" class="container bg-light w-50 opacity-75">
         <h2 id="dateText" class="text-dark">Start Date - End Date Year</h2>
         </div>
     </div>
   </section>
 
         
+  <section class="mx-0 my-5 py-0 bg-light">
+    <div class="py-lg-5 justify-content text-center">
+        <h4 class="fw-semibold text-nowrap display-6">What's there to do?</h4>
+        <p class="text-dark fs-5 mx-5">From partying to fulfilling your gastronomic needs to strolling through historical landmarks, The Festival covers many of your possible desires.</p>
 
+
+    </div>
+  </section>
+
+  <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
+    <img src="media\homepagemedia\detail-page-1-banner.png" class="img-fluid py-0" alt="banner" >
+    
+        <h2 id="detail-page-title" class="fw-semibold text-nowrap display-1">Event Title</h2>
+        <p id="detail-page-description" class="text-light text-center">Here will go a DESCRPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
+
+    <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
+  </section>
+
+  <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
+    <img src="media\homepagemedia\detail-page-1-banner.png" class="img-fluid py-0" alt="banner" >
+    
+        <h2 id="detail-page-title" class="fw-semibold text-nowrap display-1">Event Title</h2>
+        <p id="detail-page-description" class="text-light text-center">Here will go a DESCRPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
+
+    <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
+  </section>
 
     <?php include __DIR__ . '/../footer.php';?>
         <style>
@@ -53,11 +76,64 @@
                     font-size: 80;
                 }
 
+                #date-container{
+                    position: absolute;
+                    top: 98%;
+                    left: 50%;
+                    transform: translate(-50%, 0%);
+                    color: white;
+                }
+
                 .img-fluid{
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
                 }
+
+                #detail-page-1{
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    background-color: white;
+                }
+
+                #detail-page-1 img{
+                    position: relative;
+                    z-index: 1;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                #detail-page-1 button{
+                    position: absolute;
+                    top: 55%;
+                    left: 20%;
+                    width: 15%;
+                    height: 8%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+
+                }
+
+                #detail-page-title{
+                    position: absolute;
+                    top: 15%;
+                    left: 20%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    color: white;
+                }
+
+                #detail-page-description{
+                    position: absolute;
+                    top: 35%;
+                    left: 20%;
+                    max-width: 30%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    color: white;
+                }
+         
 
             </style>
 

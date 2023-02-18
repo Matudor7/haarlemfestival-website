@@ -36,9 +36,3 @@
                     </li>
                 </ul>
         </nav>
-
-        <style>
-            body{
-                background-color: blueviolet;
-            }
-            </style>

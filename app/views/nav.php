@@ -18,6 +18,14 @@
                     <li class="nav-item">
                         <a class="nav-link active text-light fw-bold" aria-current="page" href="Home">Home</a>
                     </li>
+                    <?php foreach($events as $event){?>
+                        <li class="nav-item">
+                            <a class="nav-link text-light fw-bold" href="<?php echo $event->getUrlRedirect()?>"><?php echo $event->getName()?></a>
+                        </li>
+                    <?php    
+                    };
+                    ?>
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link text-light fw-bold" href="/Yummy">Yummy!</a>
                     </li>
@@ -27,10 +35,10 @@
                     <li class="nav-item">
                         <a class="nav-link text-light fw-bold text-center" href="History">Walking Tour!</a>
                     </li>
+                    -->
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
                     </li>
-
                     <li class="nav-item">
                         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
                     </li>

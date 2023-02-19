@@ -36,15 +36,20 @@
     </div>
   </section>
 
-  <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
-    <img src="media\homepagemedia\detail-page-1-banner.png" class="img-fluid py-0" alt="banner" >
-    
-        <h2 id="detail-page-1-title" class="fw-semibold text-nowrap display-1">Event Title</h2>
-        <p id="detail-page-1-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
+  <?php
+    foreach($events as $event){
+        ?>
+        <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
+            <a href="<?php echo $event->getUrlRedirect()?>"><img src=<?php echo $event->getImageUrl()?> class="img-fluid py-0" alt="banner"></a>
 
-    <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
-  </section>
+            <p id="detail-page-1-description" class="text-light text-center"><?php echo $event->getDescription()?></p>
 
+            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
+        </section>    
+        <?php
+    };
+  ?>
+<!--
   <section id="detail-page-2" class="mx-0 my-5 py-0 bg-light">
     <img id="detail-page-2-img" src="media\homepagemedia\detail-page-2-banner.png" class="img-fluid py-0" alt="banner" >
     <img id="detail-page-2-logo" src="media\homepagemedia\detail-page-2-logo.png" class="img-fluid py-0" alt="banner" >
@@ -53,7 +58,7 @@
         <p id="detail-page-2-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
     <button type="button" class="btn border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
   </section>
-
+-->
     <?php include __DIR__ . '/../footer.php';?>
 
 
@@ -108,8 +113,8 @@
                 }
                 #detail-page-1 button{
                     position: absolute;
-                    top: 55%;
-                    left: 20%;
+                    top: 70%;
+                    left: 22%;
                     width: 15%;
                     height: 8%;
                     transform: translate(-50%, -50%);

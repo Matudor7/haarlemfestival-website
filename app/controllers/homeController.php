@@ -6,10 +6,9 @@ class HomeController extends Controller{
     public function index(){
         $eventService = new EventService();
 
-        $danceEvent = $eventService->getByName("dance");
+        $events = $eventService->getAll();
         
         require __DIR__ . '/../views/homepage/index.php';
     }
 }
-
 ?>

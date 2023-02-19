@@ -64,7 +64,7 @@
 
         <style>
             body{
-                background-color: blueviolet;
+                background-color: white;
             }
 
             .bi {

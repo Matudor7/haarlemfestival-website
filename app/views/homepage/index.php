@@ -31,70 +31,41 @@
     <div class="py-lg-5 justify-content text-center">
         <h4 class="fw-semibold text-nowrap display-6">What's there to do?</h4>
         <p class="text-dark fs-5 mx-5">From partying to fulfilling your gastronomic needs to strolling through historical landmarks, The Festival covers many of your possible desires.</p>
+
+
     </div>
   </section>
 
-  <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
-    <img src="media\homepagemedia\detail-page-1-banner.png" class="img-fluid py-0" alt="banner" >
-    
-        <h2 id="detail-page-1-title" class="fw-semibold text-nowrap display-1">Event Title</h2>
-        <p id="detail-page-1-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
+  <?php
+    foreach($events as $event){
+        ?>
+        <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
+            <a href="<?php echo $event->getUrlRedirect()?>"><img src=<?php echo $event->getImageUrl()?> class="img-fluid py-0" alt="banner"></a>
 
-    <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1 fw-bold" onclick="location.href='#'">Go To Page</button>
-  </section>
+            <p id="detail-page-1-description" class="text-light text-center"><?php echo $event->getDescription()?></p>
 
+            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
+        </section>    
+        <?php
+    };
+  ?>
+<!--
   <section id="detail-page-2" class="mx-0 my-5 py-0 bg-light">
     <img id="detail-page-2-img" src="media\homepagemedia\detail-page-2-banner.png" class="img-fluid py-0" alt="banner" >
-    <img id="detail-page-2-logo" src="media\homepagemedia\detail-page-2-logo.png" class="img-fluid py-0" alt="logo" >
+    <img id="detail-page-2-logo" src="media\homepagemedia\detail-page-2-logo.png" class="img-fluid py-0" alt="banner" >
         <h2 id="detail-page-2-title" class="fw-semibold display-6 text-center">Event Title</h2>
         
         <p id="detail-page-2-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
-    <button type="button" class="btn border boder-light rounded-pill mx-1 px-3 mt-1 fw-bold" onclick="location.href='#'">Go To Page</button>
+    <button type="button" class="btn border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
   </section>
-
-  <section id="detail-page-3" class="mx-0 my-5 py-0 bg-light">
-    <img id="detail-page-3-img" src="media\homepagemedia\detail-page-3-banner.png" class="img-fluid py-0" alt="banner" >
-    <img id="detail-page-3-logo" src="media\homepagemedia\detail-page-3-logo.png" class="py-0" alt="logo" >
-        <h2 id="detail-page-3-title" class="fw-semibold text-center">A Stroll Through History</h2>
-        
-        <p id="detail-page-3-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
-    <button type="button" class="btn border boder-light rounded-pill mx-1 px-3 mt-1 fw-bold text-light" onclick="location.href='#'">Go To Page</button>
-  </section>
-
-  <section class="mx-0 my-5 py-0 bg-light">
-    <div class="py-lg-5 justify-content text-center">
-        <h4 class="fw-semibold text-nowrap display-6 mb-5">Where to find The Festival?</h4>
-        <p class="text-dark fs-5 mx-5">The Festival takes place in Haarlem, a student city situated to the west of Amsterdam and north of The Hague.</p>
-
-        <div id="API-container" class="container mt-5">
-        <img id="API-placeholder" src="media\homepagemedia\API-placeholder.png" class="img-fluid py-0" alt="map" >
-        </div>
-
-    </div>
-  </section>
-
-  <section class="mx-0 my-5 py-0 bg-light">
-    <div class="py-lg-5 justify-content text-center">
-        <h4 class="fw-semibold text-nowrap display-6 mb-5">Make your own program!</h4>
-        <p class="text-dark fs-5 mx-5">Whether you come to the festival solo or with a family, it is a good idea to create a program for yourself in advance. Think of all the events you want to attend and organize them to your liking.</p>
-        
-        <button id="program-button-large" type="button" class="btn btn-primary rounded-pill mx-1 p-0 mt-5 w-25 fs-3" onClick="location.href='/CreateProgram'">Create a Program</button>
-
-    </div>
-  </section>
-
-  <section id="ad-section" class="mx-0 my-5 py-0">
-        
-        <img src="media\homepagemedia\ad-placeholder.png" class="img-fluid py-0" alt="ad" >
-        <button type="button" class="btn rounded-pill px-3 mt-5 fw-bold" onClick="#">Click Here</button>
-
-  </section>
-
-
+-->
     <?php include __DIR__ . '/../footer.php';?>
 
 
         <style>
+            body{
+                background-color: blueviolet;
+            }
 
             .bi {
                 fill: white;
@@ -142,8 +113,8 @@
                 }
                 #detail-page-1 button{
                     position: absolute;
-                    top: 55%;
-                    left: 20%;
+                    top: 70%;
+                    left: 22%;
                     width: 15%;
                     height: 8%;
                     transform: translate(-50%, -50%);
@@ -228,99 +199,7 @@
                     border-radius: 15px;
                     padding: 15px;
                 }
-
-                #detail-page-3{
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    background-color: white;
-                }
-
-                #detail-page-3-img{
-                    position: relative;
-                    z-index: 1;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-
-                #detail-page-3-logo{
-                    width: 400px;
-                    height: 200px;
-                    position: absolute;
-                    top: 20%;
-                    left: 50%;
-                    transform: translate(-50%, 0%);
-                    z-index: 2;
-                }
-                #detail-page-3 button{
-                    position: absolute;
-                    top: 75%;
-                    left: 50%;
-                    width: 15%;
-                    height: 8%;
-                    transform: translate(-50%, -50%);
-                    z-index: 2;
-                    background-color: #8564CC;
-                    border-width: 2px;
-                    border-color: #09B4BB ;
-
-                }
-
-                #detail-page-3-title{
-                    position: absolute;
-                    font-family: Bubblegum Sans;
-                    top: 27%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    z-index: 2;
-                    color: white;
-                    max-width: 40%;
-                }
-
-                #detail-page-3-description{
-                    position: absolute;
-                    font-family: Bubblegum Sans;
-                    top: 38%;
-                    left: 50%;
-                    max-width: 30%;
-                    transform: translate(-50%, -50%);
-                    z-index: 2;
-                    color: black;
-                }
-
-                #API-container{
-                    position: relative;
-                    width: 500px;
-                    height: 450px;
-                    background-color: white;
-                }
-
-                #program-button-large{
-                    height: 50px;}
          
-                #ad-section{
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                }
-
-                #ad-section img{
-                    position: relative;
-                    z-index: 1;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-
-                #ad-section button{
-                    position: absolute;
-                    top: 80%;
-                    left: 81%;
-                    transform: translate(-50%, -50%);
-                    z-index: 2;
-                    background-color: #7EC745;
-                }
 
             </style>
 

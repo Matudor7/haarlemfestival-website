@@ -4,9 +4,10 @@ class Event{
     private int $event_id = 0;
     private string $event_name = "";
     private string $event_urlRedirect = "";
-    #private string $text;
 
     private string $event_imageUrl = "";
+
+    private string $event_description = "";
 
     #[ReturnTypeWillChange]
 
@@ -36,15 +37,15 @@ class Event{
         return $this->event_imageUrl;
     }
 
-    /*
-    public function getText():string{
-        return $this->text;
+
+    public function getDescription():string{
+        return $this->event_description;
     }
 
-    public function setText(string $text): self{
-        $this->text = $text;
+    public function setDescription(string $desc): self{
+        $this->event_description = $desc;
         return $this;
     }
-    */
+
 }
 ?>

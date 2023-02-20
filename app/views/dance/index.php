@@ -28,21 +28,28 @@
                         DJs
                         perform in
                         Haarlem!</h2>
-                    <button type="button" class="btn btn-primary rounded-pill fw-bold">Learn More</button>
-                    <button type="button" class="btn btn-primary rounded-pill fw-bold ">Buy Tickets</button>
+                    <button id="dance-button-learn-more" type="button"
+                        class="btn btn-primary rounded-pill fw-bold">Learn More</button>
+                    <button id="dance-button-buy-tickets" type="button"
+                        class="btn btn-primary rounded-pill fw-bold ">Buy Tickets</button>
                 </div>
             </div>
 
             <!-- <div class="p-3 mb-2 bg-light text-dark fw-bold">PARTICIPATING ARTISTS</div> -->
 
             <div class="row mb-4">
-                <div class="col"> <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> ....  </h5> </div>
-                <div class="col"> <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Participating Artists</h2> </div>
+                <div class="col">
+                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+                </div>
+                <div class="col">
+                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
+                        Participating Artists</h2>
+                </div>
                 <div class="col"> </div>
                 <div class="col"> </div>
             </div>
 
-            <!-- 2 col artists -->
+            <!-- 2 col artists WILL BE A PHP LOOP OF 2 -->
 
             <div class="col-md-6">
                 <div id="dance-artist-card-light"
@@ -88,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <!-- 4 col artists -->
+        <!-- 4 col artists WILL BE A PHP LOOP OF 4-->
         <div class="row">
             <div class="col">
                 <div id="dance-artist-card-dark"
@@ -158,7 +165,61 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Locations Section -->
+            <!-- Locations Title -->
+            <div class="row mt-4 mb-4">
+                <div class="col">
+                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+                </div>
+                <div class="col">
+                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Locations
+                    </h2>
+                </div>
+                <div class="col"> </div>
+                <div class="col"> </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    </h4>
+                    <img src="/media/events/PlaceHolderMap.png" alt="..." class="img-thumbnail">
+                </div>
+
+                <!-- Locations MUST BE PHP LOOP -->
+                <div class="col-md-8 order-md-1">
+                    <ul class="mx-4 list-group list-group-flush">
+                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 1</a> Location 1 </li>
+                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 2</a> Location 2 </li>
+                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 3</a> Location 3 </li>
+                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 4</a> Location 4 </li>
+                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 5</a> Location 5 </li>
+                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
+                                href="#" class="link-primary">Location Link 6</a> Location 6</li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Schedule Section -->
+            <!-- Schedule Title -->
+            <div class="row mt-4 mb-4">
+                <div class="col">
+                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+                </div>
+                <div class="col">
+                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Schedule
+                    </h2>
+                </div>
+                <div class="col"> </div>
+                <div class="col"> </div>
+            </div>
 
     </main>
 
@@ -185,13 +246,35 @@ body {
     color: white;
 }
 
+#dance-button-learn-more {
+    background-color: white;
+    color: #3366CF;
+}
+
+#dance-button-learn-more:hover {
+    background-color: #3366CF;
+    color: white;
+    ;
+}
+
+#dance-button-buy-tickets {
+    background-color: #3366CF;
+    color: white;
+}
+
+#dance-button-buy-tickets:hover {
+    background-color: white;
+    color: #3366CF;
+}
+
 #dance-artists-learn-more-button {
-    border-color: #C7DBFF ;
+    border-color: #C7DBFF;
     border-width: 3px;
     background-color: #C7DBFF;
 }
+
 #dance-artists-learn-more-button:hover {
-    border-color: #679DFF ;
+    border-color: #679DFF;
     background-color: #679DFF;
 }
 
@@ -202,13 +285,25 @@ body {
 #dance-titles-slim-blue-rectangle {
     margin-bottom: 2cm;
 }
-#dance-title-blue{
+
+#dance-title-blue {
     background-color: #3366CF;
     color: #3366CF;
 }
-#dance-title-light{
+
+#dance-title-light {
     background-color: #F6F6F6;
     color: #3366CF;
+}
+
+#dance-locations-address-light {
+    background-color: #E7EFFF;
+    color: black;
+}
+
+#dance-locations-address-darl {
+    background-color: #7A8E9A;
+    color: white;
 }
 </style>
 

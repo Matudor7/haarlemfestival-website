@@ -221,6 +221,221 @@
                 <div class="col"> </div>
             </div>
 
+
+        </div class="container">
+        <!-- First Day -->
+        <h4 class="text-light">[Day Name]'s Schedule </h4>
+
+        <!-- First Day Table -->
+        <table id="dance-schedule-tables" class="table">
+            <thead id="dance-schedule-table-header" class="thead-light">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Duration</th>
+                </tr>
+            </thead>
+            <tbody id="dance-schedule-table-body-blue">
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
+
+        <!-- Second Day -->
+        <h4 class="text-light">[Second Day Name]'s Schedule </h4>
+
+        <!-- Second Day Table -->
+        <table id="dance-schedule-tables" class="table">
+            <thead id="dance-schedule-table-header" class="thead-light">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Duration</th>
+                </tr>
+            </thead>
+            <tbody id="dance-schedule-table-body-pink">
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
+
+        <!-- Third Day -->
+        <h4 class="text-light">[Day Name]'s Schedule </h4>
+
+        <!-- Third Day Table -->
+        <table id="dance-schedule-tables" class="table">
+            <thead id="dance-schedule-table-header" class="thead-light">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Duration</th>
+                </tr>
+            </thead>
+            <tbody id="dance-schedule-table-body-blue">
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Location</td>
+                    <td>Artist</td>
+                    <td>Session</td>
+                    <td>Duration</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
+        </div>
+
+        <!-- Flashback Section -->
+        <!-- Flashback Title -->
+        <div class="row mt-4 mb-4">
+            <div class="col">
+                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+            </div>
+            <div class="col">
+                <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Bringing the
+                    Party Back: Photos from Previous Dance! Events
+                </h2>
+            </div>
+            <div class="col"> </div>
+            <div class="col"> </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="\media\events\dance.png" alt="..." class="img-thumbnail">
+                <p class="text-left text-light">[Credit to the photo]]</p>
+            </div>
+            <div class="col-md-3">
+                <img src="\media\events\dance.png" alt="..." class="img-thumbnail">
+                <p class="text-left text-light">[Credit to the photo]]</p>
+            </div>
+            <div class="col-md-3">
+                <img src="\media\events\dance.png" alt="..." class="img-thumbnail">
+                <p class="text-left text-light">[Credit to the photo]]</p>
+            </div>
+            <div class="col-md-3">
+                <img src="\media\events\dance.png" alt="..." class="img-thumbnail">
+                <p class="text-left text-light">[Credit to the photo]]</p>
+            </div>
+        </div>
     </main>
 
     <?php
@@ -304,6 +519,21 @@ body {
 #dance-locations-address-darl {
     background-color: #7A8E9A;
     color: white;
+}
+
+#dance-schedule-table-header {
+    background-color: white;
+}
+
+#dance-schedule-table-body-blue {
+    background-color: #C7DBFF;
+}
+
+#dance-schedule-table-body-pink {
+    background-color: #DFD1FF;
+}
+#dance-schedule-tables td,th {
+  border: 1px solid black;
 }
 </style>
 

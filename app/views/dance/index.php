@@ -170,7 +170,7 @@
             <!-- Locations Title -->
             <div class="row mt-4 mb-4">
                 <div class="col">
-                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
                 </div>
                 <div class="col">
                     <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Locations

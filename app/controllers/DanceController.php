@@ -11,6 +11,15 @@ class DanceController extends Controller{
 
         require __DIR__ . '/../views/dance/index.php';
     }
+
+    public function danceDetailPage(){
+
+        $eventService = new EventService();
+
+        $events = $eventService->getAll();
+        
+        require __DIR__ . '/../views/dance/danceDetailPage.php';
+    }
 }
 
 ?>

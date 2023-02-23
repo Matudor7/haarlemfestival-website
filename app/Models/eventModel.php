@@ -9,6 +9,11 @@ class Event{
 
     private string $event_description = "";
 
+    private string $event_startTime = "";
+
+    private string $event_endTime = "";
+    
+
     #[ReturnTypeWillChange]
 
     public function getId(): int{

@@ -16,7 +16,7 @@
              </a>
                 <ul class="nav bg-dark d-flex flex-nowrap">
                     <li class="nav-item">
-                        <a class="nav-link active text-light fw-bold" aria-current="page" href="Home">Home</a>
+                        <a class="nav-link active text-light fw-bold" aria-current="page" href="/">Home</a>
                     </li>
                     <?php foreach($events as $event){?>
                         <li class="nav-item">

@@ -18,5 +18,12 @@ class YummyController extends Controller{
 
     }
 
+    public function details(){
+        $eventService = new EventService();
+
+        $events = $eventService->getAll();
+        require __DIR__ . '/../views/yummy/details.php';
+    }
+
 }
 ?>

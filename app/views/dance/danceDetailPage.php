@@ -57,7 +57,8 @@
                     orci, at fermentum nibh condimentum nec. In hac habitasse platea dictumst. </p>
             </div>
             <div class="col-4">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Artist name]">
+                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                    alt="[Artist name]">
             </div>
         </div>
     </section>
@@ -75,11 +76,12 @@
         <div class="col"> </div>
     </div>
 
-    <!-- left align and blue color-->
+    <!-- left align-->
     <section id="dance-detail-artist-career-highlights-left" class="my-5 mx-5">
         <div class="row mt-4 mb-4">
             <div class="col">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Career Highlight 1]">
+                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                    alt="[Career Highlight 1]">
             </div>
             <div class="col">
                 <p id="dance-detail-career-highlights-grey" class="p-4 text-dark"> Lorem ipsum
@@ -92,7 +94,7 @@
         </div>
     </section>
 
-    <!-- right align and grey color-->
+    <!-- right align-->
     <section id="dance-detail-artist-career-highlights-right" class="my-5 mx-5">
         <div class="row mt-4 mb-4">
             <div class="col"> </div>
@@ -104,7 +106,8 @@
                     ligula, ac aliquam ipsum rutrum vel. Donec laoreet ante scelerisque congue commodo. </p>
             </div>
             <div class="col">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Career Highlight 1]">
+                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                    alt="[Career Highlight 1]">
             </div>
         </div>
     </section>
@@ -131,7 +134,9 @@
                 <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
                     <div class="row">
                         <div class="col-3">
-                            <img id="dance-detail-artist-albums-image" src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Album Cover]">
+                            <img id="dance-detail-artist-albums-image"
+                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                                alt="[Album Cover]">
                         </div>
                         <div class="col">
                             <h5>Album Name</h5>
@@ -143,11 +148,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- loop end here. after looping, delete duplicated code below. i duplicated just to see how it looks -->
                 <!-- here 2nd -->
                 <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
                     <div class="row">
                         <div class="col-3">
-                            <img id="dance-detail-artist-albums-image" src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Album Cover]">
+                            <img id="dance-detail-artist-albums-image"
+                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                                alt="[Album Cover]">
                         </div>
                         <div class="col">
                             <h5>Album Name</h5>
@@ -163,7 +171,9 @@
                 <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
                     <div class="row">
                         <div class="col-3">
-                            <img id="dance-detail-artist-albums-image" src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="[Album Cover]">
+                            <img id="dance-detail-artist-albums-image"
+                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                                alt="[Album Cover]">
                         </div>
                         <div class="col">
                             <h5>Album Name</h5>
@@ -183,12 +193,10 @@
     <!-- 4 Tracks Part -->
     <section id="dance-detail-artist-important-tracks" class="my-5 mx-5">
         <div class="row mt-4 mb-4">
-            <!-- Looped From here -->
+            <!-- Loop From here -->
             <div class="col">
-                <!-- Content -->
                 <div class="d-flex justify-content-center my-4 mb-5">
                     <div id="mobile-box">
-                        <!-- Card -->
                         <div class="card">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <img class="card-img-top rounded"
@@ -222,50 +230,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Loop end-->
+            <!-- Loop end. after looping, delete duplicated code below. -->
             <div class="col">
-                <!-- Content -->
                 <div class="d-flex justify-content-center my-4 mb-5">
                     <div id="mobile-box">
-                        <!-- Card -->
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img class="card-img-top rounded"
-                                    src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg"
-                                    alt="Card image cap">
-                                <a href="#!">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body text-left">
-                                <h4 class="font-weight-bold text-left">Track Title</a></h4>
-                                <h6 class="mb-0">Artist Name</h6>
-
-                                <audio id="music" preload="true">
-                                    <source src="#">
-                                </audio>
-                                <div id="audioplayer">
-                                </div>
-                                <div class="fs-4 mb-3">
-                                    <svg id="pButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-                                        <path
-                                            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-                                    </svg>
-                                    <div id="timeline">
-                                        <div id="playhead"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <!-- Content -->
-                <div class="d-flex justify-content-center my-4 mb-5">
-                    <div id="mobile-box">
-                        <!-- Card -->
                         <div class="card">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <img class="card-img-top rounded"
@@ -300,10 +268,44 @@
                 </div>
             </div>
             <div class="col">
-                <!-- Content -->
                 <div class="d-flex justify-content-center my-4 mb-5">
                     <div id="mobile-box">
-                        <!-- Card -->
+                        <div class="card">
+                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                <img class="card-img-top rounded"
+                                    src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg"
+                                    alt="Card image cap">
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+                            <div class="card-body text-left">
+                                <h4 class="font-weight-bold text-left">Track Title</a></h4>
+                                <h6 class="mb-0">Artist Name</h6>
+
+                                <audio id="music" preload="true">
+                                    <source src="#">
+                                </audio>
+                                <div id="audioplayer">
+                                </div>
+                                <div class="fs-4 mb-3">
+                                    <svg id="pButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                                        <path
+                                            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+                                    </svg>
+                                    <div id="timeline">
+                                        <div id="playhead"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-center my-4 mb-5">
+                    <div id="mobile-box">
                         <div class="card">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <img class="card-img-top rounded"
@@ -357,19 +359,21 @@
     <section id="dance-detail-artist-final-schedule" class="my-5 mx-5">
         <div class="row">
             <div id="dance-detail-artist-description-light" class="col mx-5 p-5 text-dark">
-                <h4 class= "mb-3"> Watch [Artist Name] perform at [Festival Name]! </h4>
+                <h4 class="mb-3"> Watch [Artist Name] perform at [Festival Name]! </h4>
+                <!-- Loop these of course-->
                 <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
                 <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
                 <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
                 <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
             </div>
             <div class="col">
-            <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid" alt="Responsive image">
+                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
+                    alt="Responsive image">
             </div>
         </div>
     </section>
 
-    
+
     <?php
         include __DIR__ . '/../footerfordance.php';
         ?>

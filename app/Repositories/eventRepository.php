@@ -13,7 +13,7 @@ class EventRepository extends Repository{
 
             return $events;
         }catch(PDOException $e){
-            echo $e;
+            echo $e->getMessage();
         }
     }
 
@@ -29,7 +29,7 @@ class EventRepository extends Repository{
 
             return $event;
         }catch(PDOEXCEPTION $e){
-            echo $e;
+            echo $e->getMessage();
         }
     }
 }

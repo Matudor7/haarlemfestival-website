@@ -1,9 +1,9 @@
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Events</a>
+    <a class="nav-link active" aria-current="page" href="#">Festival</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Events</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Link</a>

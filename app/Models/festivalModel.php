@@ -8,6 +8,8 @@ class Festival{
     private string $festival_endingDate = "";
 
     private int $event_id = 0;
+
+    private string $event_name = "";
     
 
     #[ReturnTypeWillChange]
@@ -40,6 +42,15 @@ class Festival{
 
     public function setEventId(int $id): self{
         $this -> event_id = $id;
+        return $this;
+    }
+
+    public function getEventName(): string{
+        return $this->event_name;
+    }
+
+    public function setEventName(string $name):self{
+        $this ->event_name = $name;
         return $this;
     }
 }

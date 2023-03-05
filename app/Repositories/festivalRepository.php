@@ -6,7 +6,7 @@ class FestivalRepository extends Repository{
     public function getFestival()
     {
         try{
-            $statement = $this ->connection->prepare("SELECT festival_id, festival_startingDate, festival_endingDate FROM festival");
+            $statement = $this ->connection->prepare("SELECT festival_id, festival_startingDate, festival_endingDate, event_id FROM festival");
             $statement ->execute();
 
             $statement -> setFetchMode(PDO::FETCH_CLASS, 'Festival');

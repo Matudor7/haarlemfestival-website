@@ -35,8 +35,8 @@ include __DIR__ . '/../nav.php';
             ?>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="/<?=$restaurant->restaurant_name?>"> <img class="productPictures" src="<?php echo$restaurant->restaurant_pictureURL?>"
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+                        <a href="/<?=$restaurant->restaurant_name?>"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
                                  role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
                         </a>
                         <div  style="background: #09B4BB;text-align: center; color:white;" class="card-body">
@@ -59,10 +59,51 @@ include __DIR__ . '/../nav.php';
 </div>
 </div>
 <div  id="recipesToCookHome">
-    <div  style=" height: 100px;  border-color: #EC5F41;border-width 10px; text-align: center; color:black; " class="card-body">
-        <h2 class="card-text" style="padding-bottom: 30px; padding-top: 30px;text-align: center;"><strong>I know that you are excited and can’t wait any longer to try some tasty food, that is why we are offering you some recipes to be cooked at home</strong></h2>
+    <div style="padding-top: 30px; padding-right: 30px; padding-left: 30px;">
+        <div style="border: thick solid  #EC5F41; height: 140px;">
+            <h2 class="card-text" style="padding-bottom: 30px; padding-top: 30px; margin-left:  25px; margin-right 25px; text-align: center;"><strong>I know that you are excited and can’t wait any longer to try some tasty food, that is why we are offering you some recipes to be cooked at home</strong></h2>
+        </div>
     </div>
 </div>
+
+<div class="container" style="padding: 40px;">
+    <div class="row">
+        <div class="col-6" style="padding: 5px; border: thick solid #09B4BB; display: flex; align-items: center;">
+            <div style="float: left; margin-right: 10px;">
+                <img src="<?php echo $restaurant->restaurant_pictureURL; ?>" style="border-radius: 50%; max-width: 300px;" class="img-rounded" alt="Your Image">
+            </div>
+            <div style="text-align: center;">
+                <h2 style="margin-top: 0;">Your Heading here</h2>
+                <p>Your small text here</p>
+                <button>Click me</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="container" style="padding: 40px;">
+    <div class="row">
+        <?php
+        foreach ($recipes as $recipe) {
+            ?>
+            <div class="col-6" style="padding: 5px; border: thick solid #09B4BB; display: flex; align-items: center;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="<?php echo $recipe->pictureURL; ?>" style="border-radius: 50%; max-width: 300px;" class="img-rounded" alt="Your Image">
+                </div>
+                <div style="text-align: center;">
+                    <h2 style="margin-top: 0;"><?php echo $recipe->tittle; ?></h2>
+                    <p><?php echo $recipe->type;  ?><?php echo $recipe->duration; ?></p>
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        <?php }
+        ?>
+    </div>
+</div>
+
+
+
 
 <?php
 include __DIR__ . '/../footer.php';

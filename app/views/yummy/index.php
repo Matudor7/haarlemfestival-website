@@ -31,16 +31,43 @@ include __DIR__ . '/../nav.php';
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <?php
+            //TODO FIND A BETTER PLACE FOR THIS METHOD AND FIGURE OUT HOW TO READ THE ENUM VALUE PROPERLY FROM THE DATABASE
+              function displayImageBasedOnEnum($enumValue) {
+                switch ($enumValue) {
+                   /* case 'NoRating':
+                        echo '<img src="\yummyPics\3starsPic.svg" alt="Red Image">';
+                        break;
+                    case 'OneStar':
+                        echo '<img src="\yummyPics\4starsPic.png" alt="Green Image">';
+                        break;
+                     case 'TwoStar':
+                         echo '<img src="blue-image.jpg" alt="Blue Image">';
+                         break;*/
+                     case 'threeStar':
+                         return  '<img src="media/yummyPics/3starsPic.png" alt="Blue Image">';
+                         break;
+                     case 'FourStar':
+                        return '<img src="media/yummyPics/4starsPic.png" alt="Blue Image">';
+                         break;
+                    default:
+                        return '<img src="media/yummyPics/4starsPic.png" alt="Default Image">';
+                        break;
+                }
+
+            }
+            //TODO change line 63  <a href="/<?=$restaurant->restaurant_name? in order to make it possible when the user click on the restaurant it takes them to the detail page. right now the router is looking for a its controller wich does not exixt. I want it to call the method that has the same name from the restaurant name in the yummy controller
             foreach ($restaurants as $restaurant) {
             ?>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="/<?=$restaurant->restaurant_name?>"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
+                        <form method="post">
+                        <a href="/yummy/<?=$restaurant->restaurant_name?>"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
                                  role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
-                        </a>
+                        </a></form>
                         <div  style="background: #09B4BB;text-align: center; color:white;" class="card-body">
                             <h4><?=$restaurant->restaurant_name?> </h4>
+                            <p><?php echo displayImageBasedOnEnum($restaurant->restaurant_rating)?></p>
                             <p class="card-text" > </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
@@ -65,23 +92,6 @@ include __DIR__ . '/../nav.php';
         </div>
     </div>
 </div>
-
-<div class="container" style="padding: 40px;">
-    <div class="row">
-        <div class="col-6" style="padding: 5px; border: thick solid #09B4BB; display: flex; align-items: center;">
-            <div style="float: left; margin-right: 10px;">
-                <img src="<?php echo $restaurant->restaurant_pictureURL; ?>" style="border-radius: 50%; max-width: 300px;" class="img-rounded" alt="Your Image">
-            </div>
-            <div style="text-align: center;">
-                <h2 style="margin-top: 0;">Your Heading here</h2>
-                <p>Your small text here</p>
-                <button>Click me</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
 <div class="container" style="padding: 40px;">
     <div class="row">
         <?php
@@ -92,8 +102,8 @@ include __DIR__ . '/../nav.php';
                     <img src="<?php echo $recipe->pictureURL; ?>" style="border-radius: 50%; max-width: 300px;" class="img-rounded" alt="Your Image">
                 </div>
                 <div style="text-align: center;">
-                    <h2 style="margin-top: 0;"><?php echo $recipe->tittle; ?></h2>
-                    <p><?php echo $recipe->type;  ?><?php echo $recipe->duration; ?></p>
+                    <h3 style="margin-top: 0;"><?php echo $recipe->tittle; ?></h3>
+                    <p><?=$recipe->type;?>,  <?=$recipe->duration;?> minutes</p>
                     <button>Subscribe</button>
                 </div>
             </div>
@@ -101,10 +111,6 @@ include __DIR__ . '/../nav.php';
         ?>
     </div>
 </div>
-
-
-
-
 <?php
 include __DIR__ . '/../footer.php';
 ?>

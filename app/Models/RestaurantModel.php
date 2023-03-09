@@ -10,6 +10,8 @@ class RestaurantModel
     public  $restaurant_rating;
     public  $restaurant_foodType;
 
+
+
     //TODO change the variables of type time into string in the database. the ones of type decimal as well
 
 

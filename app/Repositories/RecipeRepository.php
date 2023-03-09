@@ -7,8 +7,7 @@ class RecipeRepository extends Repository
     public function getAllRecipes()
     {
         try {
-            $statement = $this->connection->prepare("SELECT id, name	, tittle, pictureURL,
-       duration, type, content FROM recipes");
+            $statement = $this->connection->prepare("SELECT id, name	, tittle, pictureURL, duration, type, content FROM recipes");
             $statement->execute();
 
             $statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');

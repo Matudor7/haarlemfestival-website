@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/../../Models/eventModel.php';
 require __DIR__ . '/../../Services/eventService.php';
+require_once __DIR__ . '/../../Models/eventModel.php';
 
 class EventsController{
     private $eventService;

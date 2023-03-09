@@ -13,6 +13,14 @@ class AdminController extends Controller{
         
         require __DIR__ . '/../views/admin/index.php';
     }
+
+    public function events(){
+        //TODO: Use constructor to avoid duplicate code
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        require __DIR__ . '/../views/admin/events.php';
+    }
 }
 
 ?>

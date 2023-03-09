@@ -2,28 +2,36 @@
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/YummyService.php';
+require __DIR__ . '/../Services/RecipeService.php';
 
 class YummyController extends Controller{
+
+
     public function index(){
 
         $eventService = new EventService();
         $events = $eventService->getAll();
         
 
-
         $yummyService = new YummyService();
         $restaurants = $yummyService->getAllRestaurants();
+
+
+        $recipeService = new RecipeService();
+        $recipes = $recipeService->getAllRecipes();
 
         require __DIR__ . '/../views/yummy/index.php';
 
     }
 
-    public function details(){
-        $eventService = new EventService();
 
+    public function Specktakel() {
+        $eventService = new EventService();
+        $yummyService = new YummyService();
+        //$restaurant = $yummyService->getByName($_POST['restaurant_name']);
         $events = $eventService->getAll();
-        require __DIR__ . '/../views/yummy/details.php';
-    }
+        require __DIR__ . '/../views/yummy/specktakel.php';
+        }
 
 }
 ?>

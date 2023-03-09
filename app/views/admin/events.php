@@ -18,12 +18,12 @@
         <div class="row mb-2">
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
+        <div class="col p-4" style="margin-right:20%">
           <h3 class="mb-0"><?php echo $event->getName()?></h3>
-          <p class="card-text mb-auto"><?php echo $event->getDescription()?></p>
+          <p class="card-text"><?php echo $event->getDescription()?></p>
         </div>
-        <div class="col-auto d-none d-lg-block">
-          <img src=<?php echo "/" . $event->getImageUrl()?> alt=<?php echo $event->getName()?>>
+        <div>
+            <img src=<?php echo "/" . $event->getImageUrl()?> alt=<?php echo $event->getName()?> style="width: 30%; height:auto; float:right">
         </div>
       </div>
     </div>
@@ -31,7 +31,6 @@
     <?php
     }
     ?>
-
     <button class="btn btn-success mt-3">Add Event</button>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>

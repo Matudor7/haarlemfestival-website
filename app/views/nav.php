@@ -25,17 +25,6 @@
                     <?php    
                     };
                     ?>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link text-light fw-bold" href="/Yummy">Yummy!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light fw-bold" href="/Dance">Dance!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light fw-bold text-center" href="History">Walking Tour!</a>
-                    </li>
-                    -->
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
                     </li>

@@ -58,11 +58,12 @@
                 <div class="col-md-6">
                     <div id="dance-artist-card-light"
                         class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
-                        <img class="p-2 bd-placeholder-img card-img-top" src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                        <img class="p-2 bd-placeholder-img card-img-top"
+                            src="<?php echo $artist->getArtistHomepageImageUrl()?>"
                             alt="<?php echo $artist->getName()?>'s photo">
                         <div class="col p-4 d-flex flex-column position-static">
                             <h3 class="mb-0 fw-bold text-dark"><?php echo $artist->getName()?></h3>
-                            <p class="card-text mb-auto">ARTIST GENRE(s)</p>
+                            <p class="card-text mb-auto"> </p>
 
                         </div>
                         <div class="col-auto p-4 d-none d-lg-block">
@@ -84,7 +85,8 @@
                 <div class="col">
                     <div id="dance-artist-card-dark"
                         class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <img class="p-2 bd-placeholder-img card-img-top" src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                        <img class="p-2 bd-placeholder-img card-img-top"
+                            src="<?php echo $artist->getArtistHomepageImageUrl()?>"
                             alt="<?php echo $artist->getName()?>'s photo">
                         <div class="col p-4 d-flex flex-column position-static">
                             <h3 class="mb-0 fw-bold text-light"><?php echo $artist->getName()?></h3>

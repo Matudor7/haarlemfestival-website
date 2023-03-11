@@ -15,5 +15,11 @@ class DanceService
         $artists = $this->danceRepository->getAllArtists();
         return $artists;
     }
+
+    /*public function getArtistMusicTypes($artistId)
+    {
+        $artists = $this->danceRepository->getMusicTypesByArtist($artistId);
+        return $artists;
+    }*/
 }
 ?>

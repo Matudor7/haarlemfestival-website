@@ -2,6 +2,7 @@
 require __DIR__ . '/../Repositories/eventRepository.php';
 
 class EventService{
+    //TODO: Make a constructor for the repos
     public function getAll(){
         $eventRepo = new EventRepository();
         $events = $eventRepo->getAll();
@@ -15,6 +16,12 @@ class EventService{
         $event = $eventRepo->getByName($name);
 
         return $event;
+    }
+
+    public function insert($event){
+        $eventRepo = new EventRepository();
+
+        $eventRepo->insert($event);
     }
 }
 ?>

@@ -23,7 +23,7 @@
           <p class="card-text"><?php echo $event->getDescription()?></p>
         </div>
         <div>
-            <img src=<?php echo "/" . $event->getImageUrl()?> alt=<?php echo $event->getName()?> style="width: 30%; height:auto; float:right">
+            <img src=<?php echo $event->getImageUrl()?> alt=<?php echo $event->getName()?> style="width: 30%; height:auto; float:right">
         </div>
       </div>
     </div>

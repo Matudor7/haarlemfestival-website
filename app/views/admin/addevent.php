@@ -10,7 +10,7 @@
 <body>
     <h1>Add Event</h1>
 
-    <form action="POST">
+    <form>
         <div class="mb-3" style="width: 10%">
             <label for="eventnametextbox" class="form-label">Event name</label>
             <input type="text" class="form-control" id="eventnametextbox" placeholder="Event Name">
@@ -28,8 +28,9 @@
             <input type="date" class="form-control" id="eventendtimecalendar">
         </div>
         <div class="mb-3" style="width: 15%">
-            <label for="eventimage" class="form-label">Image</label>
-            <input type="file" class="form-control" id="eventimage" accept="image/png, image/jpg">
+            <label for="eventinput" class="form-label">Image</label>
+            <img id="eventimage">
+            <input type="file" class="form-control" id="eventinput" name="eventinput" accept="image/png, image/jpg" onchange="updateFileInput()">
         </div>
         <div>
             <button type="button" class="btn btn-primary mt-5" onclick="addEvent()">Add Event</button>
@@ -37,22 +38,28 @@
         </div>
     </form>
     <script>
+
         function addEvent(){
             const eventNameTextbox = document.getElementById('eventnametextbox').value;
             const eventDescriptionTextbox = document.getElementById('eventdesctextbox').value;
             var eventStartTime = new Date(document.getElementById('eventstarttimecalendar').value);
             var eventEndTime = new Date(document.getElementById('eventendtimecalendar').value);
-            const eventImage = document.getElementById('eventimage').value;
+            const eventInput = document.getElementById('eventinput');
+            const eventImage = document.getElementById('eventimage');
+
+            var url = URL.createObjectURL(eventInput.files[0]);
+            eventImage.src = url;
+            console.log(url);
 
             //Display message if any input is ignored
-            if(eventNameTextbox.trim() == '' || eventDescriptionTextbox.trim() == '' || !eventStartTime || !eventEndTime || !eventImage){
+            if(eventNameTextbox.trim() == '' || eventDescriptionTextbox.trim() == '' || !eventStartTime || !eventEndTime || !eventinput){
                 window.confirm('Event form filled incorrectly. Please try again');
             }else{
                 const eventData = 
                 {
                     event_name: eventNameTextbox.trim(), 
                     event_urlRedirect: "/" + eventNameTextbox.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().trim(), 
-                    event_imageUrl: eventImage, 
+                    event_imageUrl: url,
                     event_description: eventDescriptionTextbox.trim(), 
                     event_startTime: eventStartTime.getFullYear() + "-" + (eventStartTime.getMonth() + 1).toString().padStart(2, '0') + "-" + eventStartTime.getDate().toString().padStart(2, '0'), 
                     event_endTime: eventEndTime.getFullYear() + "-" + (eventEndTime.getMonth() + 1).toString().padStart(2, '0') + "-" + eventEndTime.getDate().toString().padStart(2, '0')
@@ -64,7 +71,7 @@
                     headers: {'Content-Type' : 'application/json',},
                     body: JSON.stringify(eventData),
                 })
-                .then(response => {goBack()})
+                //.then(response => {goBack()})
                 .catch((err) => {console.error('Error: ', err);});
             }
         }

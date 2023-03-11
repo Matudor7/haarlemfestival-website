@@ -21,6 +21,9 @@ class AdminController extends Controller{
 
         require __DIR__ . '/../views/admin/events.php';
     }
+    function addevent(){
+        require __DIR__ . '/../views/admin/addevent.php';
+    }
 }
 
 ?>

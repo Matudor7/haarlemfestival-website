@@ -14,6 +14,17 @@ class EventsController{
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($this -> eventService -> getAll());
         }
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $eventJsonString = file_get_contents('php://input');
+
+            $eventData = json_decode($eventJsonString, true);
+
+            $event = new Event();
+
+            //TODO: complete the POST by filling all event variables in
+            $event->setName($eventData["event_name"]);
+        }
     }
 }
 ?>

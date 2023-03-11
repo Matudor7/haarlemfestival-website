@@ -1,6 +1,6 @@
 <?php
 
-class Event{
+class Event implements JsonSerializable{
     private int $event_id = 0;
     private string $event_name = "";
     private string $event_urlRedirect = "";
@@ -15,6 +15,11 @@ class Event{
     
 
     #[ReturnTypeWillChange]
+
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
     public function getId(): int{
         return $this->event_id;
@@ -47,8 +52,26 @@ class Event{
         return $this->event_description;
     }
 
-    public function setDescription(string $desc): self{
+    public function setDescription(string $desc):self{
         $this->event_description = $desc;
+        return $this;
+    }
+
+    public function getStartTime():string{
+        return $this ->event_startTime;
+    }
+
+    public function setStartTime(string $startTime):self{
+        $this->event_startTime = $startTime;
+        return $this;
+    }
+
+    public function getEndTime(): string{
+        return $this->event_endTime;
+    }
+
+    public function setEndTime(string $endTime):self{
+        $this->event_endTime = $endTime;
         return $this;
     }
 

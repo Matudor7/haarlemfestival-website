@@ -9,8 +9,8 @@ class DanceController extends Controller{
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        //$danceService = new DanceService();
-        //$artists = $danceService->getAllArtists();
+        $danceService = new DanceService();
+        $artists = $danceService->getAllArtists();
 
         require __DIR__ . '/../views/dance/index.php';
 

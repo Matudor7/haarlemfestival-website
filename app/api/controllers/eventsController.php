@@ -21,9 +21,23 @@ class EventsController{
             $eventData = json_decode($eventJsonString, true);
 
             $event = new Event();
+            
+            //Get image URL, then download that image into /media/events
+            $imageUrl = $eventData['event_imageUrl'];
+            
+            $imageName = htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $eventData['event_name'])) .'.png';
+
+            $downloadPath = '/media/events/' . $imageName; // /media/events/event.png
+
+            //Put the file from the image path to the download path
+            file_put_contents($downloadPath, file_get_contents($imageUrl));
 
             //TODO: complete the POST by filling all event variables in
-            $event->setName($eventData["event_name"]);
+            $event->setName($eventData['event_name']);
+            $event->setDescription($eventData['event_description']);
+            $event->setUrlRedirect($eventData['event_urlRedirect']);
+            $event->setImageUrl($downloadPath);
+            
         }
     }
 }

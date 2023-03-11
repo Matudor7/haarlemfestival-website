@@ -29,7 +29,7 @@
         </div>
         <div class="mb-3" style="width: 15%">
             <label for="eventimage" class="form-label">Image</label>
-            <input type="file" class="form-control" id="eventimage" accept="image/png, image/jpeg, image/jpg">
+            <input type="file" class="form-control" id="eventimage" accept="image/png, image/jpg">
         </div>
         <div>
             <button type="button" class="btn btn-primary mt-5" onclick="addEvent()">Add Event</button>
@@ -58,6 +58,14 @@
                     event_endTime: eventEndTime.getFullYear() + "-" + (eventEndTime.getMonth() + 1).toString().padStart(2, '0') + "-" + eventEndTime.getDate().toString().padStart(2, '0')
                 };
                 console.log(eventData);
+
+                fetch("http://localhost/api/events",{
+                    method: 'POST',
+                    headers: {'Content-Type' : 'application/json',},
+                    body: JSON.stringify(eventData),
+                })
+                .then(response => {goBack()})
+                .catch((err) => {console.error('Error: ', err);});
             }
         }
 

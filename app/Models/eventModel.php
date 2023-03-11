@@ -47,6 +47,11 @@ class Event implements JsonSerializable{
         return $this->event_imageUrl;
     }
 
+    public function setImageUrl(string $url):self{
+        $this->event_imageUrl = $url;
+        return $this;
+    }
+
 
     public function getDescription():string{
         return $this->event_description;

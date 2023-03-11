@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <!-- <div class="p-3 mb-2 bg-light text-dark fw-bold">PARTICIPATING ARTISTS</div> -->
+            <!--PARTICIPATING ARTISTS-->
 
             <div class="row mb-4">
                 <div class="col">
@@ -49,122 +49,54 @@
                 <div class="col"> </div>
             </div>
 
-            <!-- 2 col artists WILL BE A PHP LOOP OF 2 -->
+            <!-- 2 col artists-->
+            <div class="row">
+                <?php 
+                foreach ($artists as $artist){
+                    if($artist->getHasDetailPage() == 1){                
+                ?>
+                <div class="col-md-6">
+                    <div id="dance-artist-card-light"
+                        class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
+                        <img class="p-2 bd-placeholder-img card-img-top" src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                            alt="<?php echo $artist->getName()?>'s photo">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0 fw-bold text-dark"><?php echo $artist->getName()?></h3>
+                            <p class="card-text mb-auto">ARTIST GENRE(s)</p>
 
-            <div class="col-md-6">
-                <div id="dance-artist-card-light"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold text-dark">ARTIST NAME</h3>
-                        <p class="card-text mb-auto">ARTIST GENRE(s)</p>
-
-                    </div>
-                    <div class="col-auto p-4 d-none d-lg-block">
-                        <button id="dance-artists-learn-more-button" type="button"
-                            class="btn rounded-pill mb-auto fw-semibold text-dark">Learn More About the Artist</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div id="dance-artist-card-dark"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold text-light">ARTIST NAME</h3>
-                        <p class="card-text mb-auto text-light">ARTIST GENRE(s)</p>
-
-                    </div>
-                    <div class="col-auto p-4 d-none d-lg-block">
-                        <button id="dance-artists-learn-more-button" type="button"
-                            class="btn rounded-pill mb-auto fw-semibold text-dark">Learn More About the Artist</button>
+                        </div>
+                        <div class="col-auto p-4 d-none d-lg-block">
+                            <button id="dance-artists-learn-more-button" type="button"
+                                class="btn rounded-pill mb-auto fw-semibold text-dark">Learn More About the
+                                Artist</button>
+                        </div>
                     </div>
                 </div>
+                <?php }}
+                ?>
             </div>
-        </div>
-        <!-- 4 col artists WILL BE A PHP LOOP OF 4-->
-        <div class="row">
-            <div class="col">
-                <div id="dance-artist-card-dark"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold text-light">ARTIST NAME</h3>
-                        <p class="card-text mb-auto text-light">ARTIST GENRE(s)</p>
-
+            <!-- 4 col artists WILL BE A PHP LOOP OF 4-->
+            <div class="row">
+                <?php 
+                foreach ($artists as $artist){
+                    if($artist->getHasDetailPage() == 0){                
+                ?>
+                <div class="col">
+                    <div id="dance-artist-card-dark"
+                        class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <img class="p-2 bd-placeholder-img card-img-top" src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                            alt="<?php echo $artist->getName()?>'s photo">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0 fw-bold text-light"><?php echo $artist->getName()?></h3>
+                            <p class="card-text mb-auto text-light">ARTIST GENRE(s)</p>
+                        </div>
                     </div>
                 </div>
+                <?php }}
+                ?>
             </div>
-            <div class="col">
-                <div id="dance-artist-card-light"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold">ARTIST NAME</h3>
-                        <p class="card-text mb-auto">ARTIST GENRE(s)</p>
 
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div id="dance-artist-card-dark"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold text-light">ARTIST NAME</h3>
-                        <p class="card-text mb-auto text-light">ARTIST GENRE(s)</p>
 
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div id="dance-artist-card-light"
-                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
-                    <svg class="p-2 bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Artist's photo</text>
-                    </svg>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0 fw-bold">ARTIST NAME</h3>
-                        <p class="card-text mb-auto">ARTIST GENRE(s)</p>
-
-                    </div>
-                </div>
-            </div>
 
             <!-- Locations Section -->
             <!-- Locations Title -->
@@ -173,7 +105,8 @@
                     <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
                 </div>
                 <div class="col">
-                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Locations
+                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
+                        Locations
                     </h2>
                 </div>
                 <div class="col"> </div>
@@ -532,8 +465,10 @@ body {
 #dance-schedule-table-body-pink {
     background-color: #DFD1FF;
 }
-#dance-schedule-tables td,th {
-  border: 1px solid black;
+
+#dance-schedule-tables td,
+th {
+    border: 1px solid black;
 }
 </style>
 

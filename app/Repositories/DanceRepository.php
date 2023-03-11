@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/repository.php';
 require __DIR__ . '/../Models/ArtistModel.php';
+require __DIR__ . '/../Models/MusicType.php';
+require __DIR__ . '/../Models/DanceLocation.php';
 
 class DanceRepository extends Repository{
     public function getAllArtists(){
@@ -23,27 +25,60 @@ class DanceRepository extends Repository{
             $statement->execute();
 
             $statement->setFetchMode(PDO::FETCH_CLASS, 'MusicType');
-            $artists = $statement->fetchAll();
+            $musicTypes = $statement->fetchAll();
 
-            return $artists;
+            return $musicTypes;
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+    public function getMusicTypeById($id){
+        try{
+            $statement = $this -> connection -> prepare("SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id` = ?");
+            $statement->execute([$id]);
+
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'MusicType');
+
+            $musicType = $statement->fetchAll();
+
+            return $musicType;
         }catch(PDOException $e){
             echo $e;
         }
     }
 
-    /*public function getMusicTypesByArtist($artistId){
+    public function getMusicTypesByArtist($artistId){
         try{
-            $statement = $this -> connection -> prepare("SELECT `dance_artistMusicType_artistId`, `dance_artistMusicType_musicTypeId` FROM `dance_artistMusicType` WHERE `dance_artistMusicType_artistId` = :artistId");
-            $statement->bindValue(':artistId', $artistId, PDO::PARAM_INT);
+            $statement = $this->connection->prepare("SELECT `dance_artistMusicType_musicTypeId` FROM `dance_artistMusicType` WHERE `dance_artistMusicType_artistId` = ?");
+            $statement->execute([$artistId]);
+    
+            $musicTypes = array();
+    
+            while ($row = $statement->fetch()) {
+                $musicTypeId = $row['dance_artistMusicType_musicTypeId'];
+                $musicType = $this->getMusicTypeById($musicTypeId);
+                $musicTypes[] = $musicType;
+            }
+    
+            return $musicTypes;
+        } catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public function getAllDanceLocations(){
+        try{
+            $statement = $this -> connection -> prepare("SELECT `dance_location_id`, `dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl` FROM `dance_location`");
             $statement->execute();
-    
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'ArtistMusicType');
-            $artistMusicTypes = $statement->fetchAll();
-    
-            return $artistMusicTypes;
+
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'DanceLocation');
+            $danceLocations = $statement->fetchAll();
+
+            return $danceLocations;
         }catch(PDOException $e){
             echo $e;
         }
-    }   */ 
+    }
+
 }
 ?>

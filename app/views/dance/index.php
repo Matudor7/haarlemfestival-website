@@ -20,141 +20,145 @@
         ?>
 
     <main class="container-fluid">
-        <div class="row mb-2">
-            <div class="p-4 p-md-5 mb-4 ">
-                <div class="col-md-6 px-0">
+        <div class="row my-5">
+            <div class="row">
+                <div class="col-md-6 mt-auto p-5">
                     <h1 id="dance-header-title" class="display-4 fw-semibold">DANCE!</h1>
                     <h2 id="dance-header-description" class="lead my-3 fw-semibold text-light">Enjoy the world's best
-                        DJs
-                        perform in
-                        Haarlem!</h2>
+                        DJs perform in Haarlem!</h2>
                     <button id="dance-button-learn-more" type="button"
                         class="btn btn-primary rounded-pill fw-bold">Learn More</button>
-                    <button id="dance-button-buy-tickets" type="button"
-                        class="btn btn-primary rounded-pill fw-bold ">Buy Tickets</button>
+                    <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold">Buy
+                        Tickets</button>
+                </div>
+                <div class="col-md-6">
+                    <img id="dance-header-image" class="m-0 p-0 bd-placeholder-img card-img-top"
+                        src="media/dancePics/dance.png" alt="Banner photo">
                 </div>
             </div>
+        </div>
 
-            <!--PARTICIPATING ARTISTS-->
 
-            <div class="row mb-4">
-                <div class="col">
-                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
-                </div>
-                <div class="col">
-                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
-                        Participating Artists</h2>
-                </div>
-                <div class="col"> </div>
-                <div class="col"> </div>
+        <!--PARTICIPATING ARTISTS-->
+
+        <div class="row mb-4">
+            <div class="col">
+                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
             </div>
+            <div class="col">
+                <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
+                    Participating Artists</h2>
+            </div>
+            <div class="col"> </div>
+            <div class="col"> </div>
+        </div>
 
-            <!-- 2 col artists-->
-            <div class="row">
-                <?php 
+        <!-- 2 col artists-->
+        <div class="row">
+            <?php 
                 foreach ($artists as $artist){
                     if($artist->getHasDetailPage() == 1){                
                 ?>
-                <div class="col-md-6">
-                    <div id="dance-artist-card-light"
-                        class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
-                        <img class="p-2 bd-placeholder-img card-img-top"
-                            src="<?php echo $artist->getArtistHomepageImageUrl()?>"
-                            alt="<?php echo $artist->getName()?>'s photo">
-                        <div class="col p-4 d-flex flex-column position-static">
-                            <h3 class="mb-0 fw-bold text-dark"><?php echo $artist->getName()?></h3>
-                            <p class="card-text mb-auto"> </p>
-
-                        </div>
-                        <div class="col-auto p-4 d-none d-lg-block">
-                            <button id="dance-artists-learn-more-button" type="button"
-                                class="btn rounded-pill mb-auto fw-semibold text-dark">Learn More About the
-                                Artist</button>
-                        </div>
+            <div class="col-md-6">
+                <div id="dance-artist-card-light"
+                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
+                    <img class="p-2 bd-placeholder-img card-img-top"
+                        src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                        alt="<?php echo $artist->getName()?>'s photo">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0 fw-bold text-dark"><?php echo $artist->getName()?></h3>
+                        <p class="card-text mb-auto"> </p>
+                        <?php /*
+                                $danceService = new DanceService();
+                         $artistMusicTypes = $danceService->getArtistMusicTypes($artist->getId());
+                foreach ($artistMusicTypes as $musicType){
+                echo $musicType->getMusicTypeName();    }*/
+                ?>
+                    </div>
+                    <div class="col-auto p-4 d-none d-lg-block">
+                        <button id="dance-artists-learn-more-button" type="button"
+                            class="btn rounded-pill mb-auto fw-semibold text-dark">Learn More About the
+                            Artist</button>
                     </div>
                 </div>
-                <?php }}
-                ?>
             </div>
-            <!-- 4 col artists WILL BE A PHP LOOP OF 4-->
-            <div class="row">
-                <?php 
+            <?php }}
+                ?>
+        </div>
+        <!-- 4 col artists WILL BE A PHP LOOP OF 4-->
+        <div class="row">
+            <?php 
                 foreach ($artists as $artist){
                     if($artist->getHasDetailPage() == 0){                
                 ?>
-                <div class="col">
-                    <div id="dance-artist-card-dark"
-                        class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <img class="p-2 bd-placeholder-img card-img-top"
-                            src="<?php echo $artist->getArtistHomepageImageUrl()?>"
-                            alt="<?php echo $artist->getName()?>'s photo">
-                        <div class="col p-4 d-flex flex-column position-static">
-                            <h3 class="mb-0 fw-bold text-light"><?php echo $artist->getName()?></h3>
-                            <p class="card-text mb-auto text-light">ARTIST GENRE(s)</p>
-                        </div>
+            <div class="col">
+                <div id="dance-artist-card-dark"
+                    class="row g-0 border overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <img class="p-2 bd-placeholder-img card-img-top"
+                        src="<?php echo $artist->getArtistHomepageImageUrl()?>"
+                        alt="<?php echo $artist->getName()?>'s photo">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0 fw-bold text-light text-center"><?php echo $artist->getName()?></h3>
+                        <p class="card-text mb-auto text-light text-center">ARTIST GENRE(s)</p>
                     </div>
                 </div>
-                <?php }}
+            </div>
+            <?php }}
                 ?>
+        </div>
+
+        <!-- Locations Section -->
+        <!-- Locations Title -->
+        <div class="row mt-4 mb-4">
+            <div class="col">
+                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
+            </div>
+            <div class="col">
+                <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
+                    Locations
+                </h2>
+            </div>
+            <div class="col"> </div>
+            <div class="col"> </div>
+        </div>
+
+        <div class="row">
+            <!--This is a placeholder now. if we can do, we'll put a map like 
+            google maps there, if we cant, i will put a bootstrap carousel here -->
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                </h4>
+                <img src="/media/dancePics/PlaceHolderMap.png" alt="..." class="img-thumbnail">
             </div>
 
-
-
-            <!-- Locations Section -->
-            <!-- Locations Title -->
-            <div class="row mt-4 mb-4">
-                <div class="col">
-                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
-                </div>
-                <div class="col">
-                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
-                        Locations
-                    </h2>
-                </div>
-                <div class="col"> </div>
-                <div class="col"> </div>
+            <div class="col-md-8 order-md-1">
+                <ul class="mx-4 list-group list-group-flush">
+                    <!-- Locations Loop-->
+                    <?php 
+                foreach ($danceLocations as $danceLocation){
+                ?>
+                    <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center fw-semibold"> <a href="<?php echo $danceLocation->getDanceLocationUrlToTheirSite()?>"
+                            class="link-primary"><?php echo $danceLocation->getDanceLocationName()?></a> | <?php echo $danceLocation->getDanceLocationName() . " " . 
+                            $danceLocation->getDanceLocationNumber() . ", ".  $danceLocation->getDanceLocationPostcode() . ", " . $danceLocation->getDanceLocationCity()?>  </li>
+                    <?php }
+                ?>
+                </ul>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-4 order-md-2 mb-4">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    </h4>
-                    <img src="/media/events/PlaceHolderMap.png" alt="..." class="img-thumbnail">
-                </div>
-
-                <!-- Locations MUST BE PHP LOOP -->
-                <div class="col-md-8 order-md-1">
-                    <ul class="mx-4 list-group list-group-flush">
-                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 1</a> Location 1 </li>
-                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 2</a> Location 2 </li>
-                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 3</a> Location 3 </li>
-                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 4</a> Location 4 </li>
-                        <li id="dance-locations-address-dark" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 5</a> Location 5 </li>
-                        <li id="dance-locations-address-light" class="rounded my-3 list-group-item text-center"> <a
-                                href="#" class="link-primary">Location Link 6</a> Location 6</li>
-
-                    </ul>
-                </div>
+        <!-- Schedule Section -->
+        <!-- Schedule Title -->
+        <div class="row mt-4 mb-4">
+            <div class="col">
+                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
             </div>
-
-            <!-- Schedule Section -->
-            <!-- Schedule Title -->
-            <div class="row mt-4 mb-4">
-                <div class="col">
-                    <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
-                </div>
-                <div class="col">
-                    <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Schedule
-                    </h2>
-                </div>
-                <div class="col"> </div>
-                <div class="col"> </div>
+            <div class="col">
+                <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Schedule
+                </h2>
             </div>
+            <div class="col"> </div>
+            <div class="col"> </div>
+        </div>
 
 
         </div class="container">
@@ -342,16 +346,15 @@
         <!-- Flashback Section -->
         <!-- Flashback Title -->
         <div class="row mt-4 mb-4">
-            <div class="col">
-                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> .... </h5>
+            <div class="col-3">
+                <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Bringing the
                     Party Back: Photos from Previous Dance! Events
                 </h2>
             </div>
-            <div class="col"> </div>
-            <div class="col"> </div>
+            <div class="col-3"> </div>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -381,7 +384,7 @@
 
 <style>
 body {
-    background-color: #05050C;
+    background-color: #010104;
 }
 
 .text-bg-light {
@@ -394,6 +397,11 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: white;
+    font-size: 800%;
+}
+
+#dance-header-description {
+    font-size: 250%;
 }
 
 #dance-button-learn-more {
@@ -404,7 +412,7 @@ body {
 #dance-button-learn-more:hover {
     background-color: #3366CF;
     color: white;
-    ;
+
 }
 
 #dance-button-buy-tickets {
@@ -449,11 +457,6 @@ body {
 #dance-locations-address-light {
     background-color: #E7EFFF;
     color: black;
-}
-
-#dance-locations-address-darl {
-    background-color: #7A8E9A;
-    color: white;
 }
 
 #dance-schedule-table-header {

@@ -32,5 +32,14 @@ class EventRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function insert($event){
+        try{
+            $statement = $this ->connection->prepare("INSERT INTO events (event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl, event_description) VALUES (?, ?, ?, ?, ?, ?)");
+            $statement->execute(array(htmlspecialchars($event->getName()), htmlspecialchars($event->getStartTime()), htmlspecialchars($event->getEndTime()), htmlspecialchars($event->getUrlRedirect()), htmlspecialchars($event->getImageUrl()), htmlspecialchars($event->getDescription())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 ?>

@@ -13,6 +13,7 @@ class DanceController extends Controller{
         $danceService = new DanceService();
         $artists = $danceService->getAllArtists();
         $danceLocations = $danceService->getAllDanceLocations();
+        $danceFlashbacks = $danceService->getAllDanceFlashbacks();
 
         require __DIR__ . '/../views/dance/index.php';
     }

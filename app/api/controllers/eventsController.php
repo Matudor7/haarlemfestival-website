@@ -12,7 +12,7 @@ class EventsController{
     function index(){
         if($_SERVER["REQUEST_METHOD"] == "GET"){
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($this -> eventService -> getAll());
+            echo json_encode($this -> eventService -> getAll());     
         }
 
         if($_SERVER["REQUEST_METHOD"] == "POST"){

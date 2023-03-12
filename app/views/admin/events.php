@@ -12,7 +12,7 @@
     require __DIR__ . '/../adminNavbar.php';
     ?>
     <h1>Events</h1>
-
+<form action="" method="POST">
     <?php foreach($events as $event){
         ?>
   <div class="row mb-2">
@@ -24,18 +24,31 @@
         </div>
         <div>
             <img src=<?php echo $event->getImageUrl()?> alt=<?php echo $event->getName()?> style="width: 30%; height:auto; float:right">
-        </div>
+          </div>
       </div>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-warning" onclick="editEvent(<?php echo $event->getId()?>)">Edit Event</button>
+      <button type="button" name="deletebutton" class="btn btn-danger" onclick="deleteEvent(<?php echo $event->getId()?>)">Delete Event</button>
     </div>
   </div>
     <?php
     }
     ?>
+  </form>
     <button class="btn btn-success mt-3" onclick="goToAddEvent()">Add Event</button>
     
     <script>
       function goToAddEvent(){
         window.location.href = '/admin/addevent';
+      }
+
+      function editEvent(id){
+        window.location.href = '/admin/editevent?id=' + id;
+      }
+
+      function deleteEvent(id){
+        window.location.href = '/admin/deleteevent?id=' + id;
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

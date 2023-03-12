@@ -11,12 +11,12 @@
     </head>
     <body>
     <nav class="navbar bg-white d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
-             <a class="navbar-brand px-0 mx-0 py-0" href="#">
-            <img src="media/NavbarLogoForDance.jpg" class="img-fluid " alt="Logo">
+             <a class="navbar-brand px-0 mx-0 py-0" href="/">
+            <img src="/media/NavbarLogoForDance.jpg" class="img-fluid " alt="Logo">
              </a>
                 <ul class="nav bg-white d-flex flex-nowrap">
                     <li class="nav-item">
-                        <a class="nav-link active text-dark fw-bold" href="Home">Home</a>
+                        <a class="nav-link active text-dark fw-bold" href="/">Home</a>
                     </li>
                     <?php foreach($events as $event){?>
                         <li class="nav-item">

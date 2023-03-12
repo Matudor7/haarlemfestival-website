@@ -85,7 +85,24 @@ class DanceLocation {
     }
     
     //ctor
-    /*public function __construct($id, $name, $musicType, $hasDetailPage, $url) {
+    /* public function __construct(
+        int $id,
+        string $name,
+        string $street,
+        int $number,
+        string $postcode,
+        string $city,
+        string $urlToTheirSite,
+        string $imageUrl
+    ) {
+        $this->dance_location_id = $id;
+        $this->dance_location_name = $name;
+        $this->dance_location_street = $street;
+        $this->dance_location_number = $number;
+        $this->dance_location_postcode = $postcode;
+        $this->dance_location_city = $city;
+        $this->dance_location_urlToTheirSite = $urlToTheirSite;
+        $this->dance_location_imageUrl = $imageUrl;
     }*/
 }
 ?>

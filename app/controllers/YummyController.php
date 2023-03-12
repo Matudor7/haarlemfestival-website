@@ -23,41 +23,15 @@ class YummyController extends Controller{
         require __DIR__ . '/../views/yummy/index.php';
 
     }
+
+
     public function Specktakel() {
         $eventService = new EventService();
         $yummyService = new YummyService();
+        //$restaurant = $yummyService->getByName($_POST['restaurant_name']);
         $events = $eventService->getAll();
         require __DIR__ . '/../views/yummy/specktakel.php';
-    }
+        }
 
 }
-
-
-
-
-    /*public function detail($restaurant_name) {
-        $eventService = new EventService();
-        $yummyService = new YummyService();
-        try{
-            $restaurant = $yummyService->getByName($restaurant_name);
-           switch ($restaurant_name) {
-          case Specktakel:
-             require __DIR__ . '/../views/yummy/specktakel.php';
-            break;
-          case Mr and MRS:
-               require __DIR__ . '/../views/yummy/MrAndMrs.php';
-            break;
-
-          default:
-             require __DIR__ . '/../views/yummy/specktakel.php';
-        }
-
-
-        }catch (Exception $e) {
-            echo $e;
-        }
-        $events = $eventService->getAll();
-        }
-
-}*/
 ?>

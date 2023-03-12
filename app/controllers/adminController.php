@@ -11,6 +11,13 @@ class AdminController extends Controller{
         $festival = $festivalService->getFestival();
         $events = $eventService->getAll();
         
+        if(isset($_POST['events'])){
+            $festivalEvent = $festival[0];
+            $newEvent = $eventService->getByName($_POST['events']);
+            $festivalService->changeEvent($newEvent ->getName(), $festivalEvent->getEventName(), $newEvent->getId());
+            echo "Selected event is: " . $_POST['events'];
+        }
+        
         require __DIR__ . '/../views/admin/index.php';
     }
 

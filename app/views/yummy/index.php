@@ -60,11 +60,19 @@ include __DIR__ . '/../nav.php';
             ?>
                 <div class="col">
                     <div class="card shadow-sm">
+                        <!-- <form method="post">
+        <a href="/yummy/detail(<?=$restaurant->restaurant_name?>)"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
+                 role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
+        </a></form>-->
+
                         <form method="post">
-                        <a href="/yummy/<?=$restaurant->restaurant_name?>"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
-                                 role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
-                        </a></form>
+                            <a href="/yummy/detail/<?=$restaurant->restaurant_name?>"> <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->restaurant_pictureURL?>"
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
+                                     role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
+                            </a></form>
+
+
                         <div  style="background: #09B4BB;text-align: center; color:white;" class="card-body">
                             <h4><?=$restaurant->restaurant_name?> </h4>
                             <p><?php echo displayImageBasedOnEnum($restaurant->restaurant_rating)?></p>

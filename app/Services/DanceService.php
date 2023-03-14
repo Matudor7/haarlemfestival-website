@@ -37,5 +37,12 @@ class DanceService
         $danceFlashbacks = $this->danceRepository->getAllDanceFlashbacks();
         return $danceFlashbacks;
     }
+
+    // DANCE EVENTS
+    public function getAllDanceEvents()
+    {
+        $danceEvents = $this->danceRepository->getAllDanceEvents();
+        return $danceEvents;
+    }
 }
 ?>

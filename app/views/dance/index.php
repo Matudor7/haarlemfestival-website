@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Homepage</title>
+    <title>Dance! Event Homepage</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -181,46 +181,19 @@
                 </tr>
             </thead>
             <tbody id="dance-schedule-table-body-blue">
+            <?php 
+                foreach ($danceEvents as $danceEvent){              
+                ?>
                 <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
+                    <td><?php echo $danceEvent->getDanceEventDate()?></td>
+                    <td><?php echo $danceEvent->getDanceEventTime()?></td>
+                    <td><?php echo $danceEvent->getDanceLocationName()?></td>
+                    <td><?php echo $danceEvent->getPerformingArtists()?></td>
+                    <td><?php echo $danceEvent->getDanceSessionTypeName()?></td>
+                    <td><?php echo $danceEvent->getDanceEventDuration()?></td>
                 </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
+                <?php }
+                ?>
             </tbody>
         </table>
         <p class="text-left text-light mb-4">* [If there's an additional note.]</p>

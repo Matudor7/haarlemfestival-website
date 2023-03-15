@@ -68,12 +68,7 @@
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="mb-0 fw-bold text-dark"><?php echo $artist->getName()?></h3>
                         <p class="card-text mb-auto"> </p>
-                        <?php /*
-                                $danceService = new DanceService();
-                         $artistMusicTypes = $danceService->getArtistMusicTypes($artist->getId());
-                foreach ($artistMusicTypes as $musicType){
-                echo $musicType->getMusicTypeName();    }*/
-                ?>
+                        <?php echo $artist->getArtistMusicTypes()?>
                     </div>
                     <div class="col-auto p-4 d-none d-lg-block">
                         <button id="dance-artists-learn-more-button" type="button"
@@ -99,7 +94,7 @@
                         alt="<?php echo $artist->getName()?>'s photo">
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="mb-0 fw-bold text-light text-center"><?php echo $artist->getName()?></h3>
-                        <p class="card-text mb-auto text-light text-center">ARTIST GENRE(s)</p>
+                        <p class="card-text mb-auto text-light text-center"><?php echo $artist->getArtistMusicTypes()?></p>
                     </div>
                 </div>
             </div>
@@ -181,7 +176,7 @@
                 </tr>
             </thead>
             <tbody id="dance-schedule-table-body-blue">
-            <?php 
+                <?php 
                 foreach ($danceEvents as $danceEvent){              
                 ?>
                 <tr>
@@ -196,7 +191,13 @@
                 ?>
             </tbody>
         </table>
-        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
+        <p class="text-left text-light mb-4"><?php 
+            foreach ($extraNotes as $extraNote) {
+                if ($extraNote != "") {
+                    echo $extraNote . "<br>";
+                }
+            }
+        ?></p>
 
         <!-- Second Day -->
         <h4 class="text-light">[Second Day Name]'s Schedule </h4>

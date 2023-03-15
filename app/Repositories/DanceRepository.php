@@ -10,7 +10,14 @@ class DanceRepository extends Repository{
 
     // ARTISTS
     public function getAllArtists() {
-        $sql = "SELECT `dance_artist_id`, `dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`, `dance_artist_detailPageUrl` FROM `dance_artist` ORDER BY `dance_artist_hasDetailPage` DESC";
+        //$sql = "SELECT `dance_artist_id`, `dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`, `dance_artist_detailPageUrl` FROM `dance_artist` ORDER BY `dance_artist_hasDetailPage` DESC";
+
+        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
+        FROM dance_artist da
+        JOIN dance_artistMusicType damt ON damt.dance_artistMusicType_artistId = da.dance_artist_id
+        JOIN dance_musicType dmt ON dmt.dance_musicType_id = damt.dance_artistMusicType_musicTypeId
+        GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
+        ORDER BY da.dance_artist_hasDetailPage DESC;";
     
         try {
             $statement = $this->connection->prepare($sql);

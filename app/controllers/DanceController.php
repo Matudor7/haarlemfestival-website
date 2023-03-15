@@ -15,6 +15,10 @@ class DanceController extends Controller{
         $danceLocations = $danceService->getAllDanceLocations();
         $danceFlashbacks = $danceService->getAllDanceFlashbacks();
         $danceEvents = $danceService->getAllDanceEvents();
+        $extraNotes = []; // create an empty array to hold the extra notes
+        foreach ($danceEvents as $danceEvent) {
+            $extraNotes[] = $danceEvent->getDanceEventExtraNote(); // add the event's extra note to the array
+        }       
 
         require __DIR__ . '/../views/dance/index.php';
     }

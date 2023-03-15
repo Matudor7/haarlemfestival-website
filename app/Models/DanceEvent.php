@@ -15,7 +15,7 @@ GROUP BY de.dance_event_id, de.dance_event_date, de.dance_event_time,
 ORDER BY de.dance_event_date ASC, de.dance_event_time ASC, dl.dance_location_name ASC;
 */
 class DanceEvent {
-    //TODO: modift these variables as Location, DateTime etc.
+    //TODO: modift these variables as Location etc.
     private int $dance_event_id = 0;
     private DateTime $dance_event_datetime;
     private string $dance_location_name = "";

@@ -1,57 +1,45 @@
 <?php
 
 class ArtistModel{
-    private int $artist_id = 0;
-    private string $artist_name = "";
-    private MusicType $artist_MusicType;   
-    private bool $artist_HasDetailPage; 
-    private string $artist_UrlInHomepage;
+    private int $dance_artist_id = 0;
+    private string $dance_artist_name = ""; 
+    private bool $dance_artist_hasDetailPage; 
+    private string $dance_artist_imageUrl;
+    private string $dance_artist_detailPageUrl = "";
 
     #[ReturnTypeWillChange]
 
     //getters
     public function getId(): int{
-        return $this->artist_id;
+        return $this->dance_artist_id;
     }
 
     public function getName(): string{
-        return $this->artist_name;
-    }
-    public function getMusicType(): MusicType{
-        return $this->artist_MusicType;
+        return $this->dance_artist_name;
     }
     public function getHasDetailPage(): bool{
-        return $this->artist_HasDetailPage;
+        return $this->dance_artist_hasDetailPage;
     }
-    public function getUrlRedirect(): string{
-        return $this->artist_UrlInHomepage;
-    }
+    public function getArtistHomepageImageUrl(): string{
+        return $this->dance_artist_imageUrl;
+    }    
 
     //setters
     public function setName(string $name): self{
-        $this->artist_name = $name;
-        return $this;
-    }
-    public function setMusicType(MusicType $musicType): self{
-        $this->artist_MusicType = $musicType;
+        $this->dance_artist_name = $name;
         return $this;
     }
     public function setHasDetailPAge(bool $hasDetailPage): self{
-        $this->artist_HasDetailPage = $hasDetailPage;
+        $this->dance_artist_hasDetailPage = $hasDetailPage;
         return $this;
     }
-    public function setUrlRedirect(string $url):self{
-        $this->artist_UrlInHomepage = $url;
+    public function setArtistHomepageImageUrl(string $url):self{
+        $this->dance_artist_imageUrl = $url;
         return $this;
     }
 
     //ctor
     /*public function __construct($id, $name, $musicType, $hasDetailPage, $url) {
-        $this->artist_id = $id;
-        $this->artist_name = $name;
-        $this->artist_musicType = $musicType;
-        $this->artist_hasDetailPage = $hasDetailPage;
-        $this->artist_urlInHomepage = $url;
     }*/
 }
 ?>

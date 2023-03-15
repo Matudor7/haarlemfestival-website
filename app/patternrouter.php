@@ -44,6 +44,8 @@ class PatternRouter
         }
         $methodName = $explodedUri[1];
 
+
+
         // load the file with the controller class
         $filename = __DIR__ . '/controllers/' . $controllerName . '.php';
         if ($api) {
@@ -58,7 +60,13 @@ class PatternRouter
         // dynamically call relevant controller method
         try {
             $controllerObj = new $controllerName;
-            $controllerObj->{$methodName}();
+            // Pass the restaurant name as a parameter to the detail method
+           /* if ($methodName === 'detail' && !is_null($restaurantName)) {
+                $controllerObj->{$methodName}($restaurantName);
+            } else {*/
+                $controllerObj->{$methodName}();
+           // }
+
         } catch (Exception $e) {
             echo $e;
             http_response_code(404);

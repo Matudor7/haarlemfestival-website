@@ -4,7 +4,7 @@ require __DIR__ . '/../Repositories/RecipeRepository.php';
 
 class RecipeService
 {
-    public function getAllRecipess()
+    public function getAllRecipes()
     {
         $recipeRepo = new RecipeRepository();
         $recipeRepo = $recipeRepo->getAllRecipes();

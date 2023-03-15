@@ -17,5 +17,19 @@ class FestivalRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    //This does not work as intended: changes all festival events at once
+    public function changeEvent(string $newEventName, string $oldEventName, int $eventId){
+        try{
+            $statement = $this->connection->prepare("UPDATE festival SET event_id = :eventId, event_name = :newEventName WHERE festival_id IN (SELECT festival_id FROM festival WHERE event_name = :oldEventName)");
+            $statement->bindParam(':eventId', $eventId);
+            $statement->bindParam(':newEventName', $newEventName);
+            $statement->bindParam(':oldEventName', $oldEventName);
+            $statement->execute();
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 ?>

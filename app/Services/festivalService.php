@@ -8,5 +8,11 @@ class FestivalService{
 
         return $festival;
     }
+
+    public function changeEvent(string $newEventName, string $oldEventName, int $eventId){
+        $festivalRepo = new FestivalRepository();
+
+        $festivalRepo->changeEvent($newEventName, $oldEventName, $eventId);
+    }
 }
 ?>

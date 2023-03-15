@@ -15,8 +15,9 @@
 <?php
 foreach($festival as $f){
 ?>
+<form action="" method="POST">
 <label for="events">Event: </label>
-<select name="events" id="events">
+<select name="events" id="events" onchange="this.form.submit()">
     <?php foreach($events as $e){
     ?>
         <option value=<?php echo $e->getName()?> <?php if($e->getName() == $f->getEventName()) echo 'selected'?>><?php echo $e->getName()?></option>
@@ -24,6 +25,7 @@ foreach($festival as $f){
     };
     ?>
 </select><br><br>
+</form>
 <?php
 };
 ?>

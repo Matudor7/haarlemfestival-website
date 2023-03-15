@@ -19,7 +19,16 @@ class DanceController extends Controller{
         $extraNotes = []; // creating an empty array to hold the extra notes
         foreach ($danceEvents as $danceEvent) {
             $extraNotes[] = $danceEvent->getDanceEventExtraNote(); // add the event's extra note to the array
-        }    
+        }
+
+        $danceEventsByDate = [];
+        foreach ($danceEvents as $danceEvent) {
+            $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');
+            if (!isset($danceEventsByDate[$date])) {
+                $danceEventsByDate[$date] = [];
+            }
+            $danceEventsByDate[$date][] = $danceEvent;
+        }
         
         require __DIR__ . '/../views/dance/index.php';
     }
@@ -29,6 +38,10 @@ class DanceController extends Controller{
         $events = $eventService->getAll();
         
         require __DIR__ . '/../views/dance/danceDetailPage.php';
+    }
+
+    public function groupDanceEventsByDate($danceEvents){
+        
     }
 }
 

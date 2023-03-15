@@ -159,13 +159,21 @@
             <div class="col"> </div>
         </div>
 
-
         </div class="container">
-        <!-- First Day -->
-        <h4 class="text-light">[Day Name]'s Schedule </h4>
-
-        <!-- First Day Table -->
+        <?php
+            // Create a table for each day's events
+            foreach ($danceEventsByDate as $date => $events) {
+        ?>
+        <h4 class="text-light"><?php echo date('l', strtotime($date)); ?>'s Schedule </h4>
         <table id="dance-schedule-tables" class="table">
+            <colgroup>
+                <col class="date" style="width:10%">
+                <col class="time" style="width:10%">
+                <col class="location" style="width:20%">
+                <col class="artist" style="width:30%">
+                <col class="session" style="width:20%">
+                <col class="duration" style="width:10%">
+            </colgroup>
             <thead id="dance-schedule-table-header" class="thead-light">
                 <tr>
                     <th scope="col">Date</th>
@@ -177,149 +185,28 @@
                 </tr>
             </thead>
             <tbody id="dance-schedule-table-body-blue">
-                <?php 
-                foreach ($danceEvents as $danceEvent){              
-                ?>
+                <?php foreach ($events as $danceEvent){ ?>
                 <tr>
-                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('d-m-Y')?></td>
+                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('d-m-Y') . " " . date('l', strtotime($date));?>
+                    </td>
                     <td><?php echo $danceEvent->getDanceEventDateTime()->format('H:i')?></td>
                     <td><?php echo $danceEvent->getDanceLocationName()?></td>
                     <td><?php echo $danceEvent->getPerformingArtists()?></td>
                     <td><?php echo $danceEvent->getDanceSessionTypeName()?></td>
                     <td><?php echo $danceEvent->getDanceEventDuration()?></td>
                 </tr>
-                <?php }
-                ?>
+                <?php } ?>
             </tbody>
         </table>
-        <p class="text-left text-light mb-4"><?php 
-            foreach ($extraNotes as $extraNote) {
-                if ($extraNote != "") {
-                    echo $extraNote . "<br>";
-                }
-            }
-        ?></p>
+        <?php 
+        // Check if the extraNote is not null, and print it
+        if ($events[0]->getDanceEventExtraNote() != null) {
+            echo '<p class="text-left text-light mb-4">'. $events[0]->getDanceEventExtraNote() . "</p>";
+        }       
+    ?>
+        <?php } ?>
 
-        <!-- Second Day -->
-        <h4 class="text-light">[Second Day Name]'s Schedule </h4>
 
-        <!-- Second Day Table -->
-        <table id="dance-schedule-tables" class="table">
-            <thead id="dance-schedule-table-header" class="thead-light">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Artist</th>
-                    <th scope="col">Session</th>
-                    <th scope="col">Duration</th>
-                </tr>
-            </thead>
-            <tbody id="dance-schedule-table-body-blue">
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
-
-        <!-- Third Day -->
-        <h4 class="text-light">[Day Name]'s Schedule </h4>
-
-        <!-- Third Day Table -->
-        <table id="dance-schedule-tables" class="table">
-            <thead id="dance-schedule-table-header" class="thead-light">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Artist</th>
-                    <th scope="col">Session</th>
-                    <th scope="col">Duration</th>
-                </tr>
-            </thead>
-            <tbody id="dance-schedule-table-body-blue">
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Time</td>
-                    <td>Location</td>
-                    <td>Artist</td>
-                    <td>Session</td>
-                    <td>Duration</td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="text-left text-light mb-4">* [If there's an additional note.]</p>
-        </div>
 
         <!-- Flashback Section -->
         <!-- Flashback Title -->
@@ -442,6 +329,7 @@ body {
 #dance-schedule-table-body-blue {
     background-color: #C7DBFF;
 }
+
 #dance-schedule-tables td,
 th {
     border: 1px solid black;

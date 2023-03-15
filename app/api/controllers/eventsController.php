@@ -23,15 +23,16 @@ class EventsController{
             $event = new Event();
             
             try{
-            //Get image URL from API, then download that image into /media/events
-            $imageUrl = $eventData['event_imageUrl'];
             
-            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $eventData['event_name']))) .'.png';
+            //Get image URL from POST request, then download that image into /media/events
+            $imageUrl = $_FILES['eventinput']['tmp_name'];
+            
+            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $eventData['event_name'])));
 
-            $downloadPath = '/media/events/' . $imageName; // /media/events/event.png
+            $downloadPath = '/media/events/' . $imageName . '.png'; // /media/events/event.png
 
             //Put the file from the image path to the download path
-            file_put_contents($downloadPath, file_get_contents($imageUrl));
+            move_uploaded_file($imageUrl, $downloadPath);
             }catch(Exception $e){
                 echo $e->getMessage();
             }

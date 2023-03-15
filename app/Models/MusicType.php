@@ -1,5 +1,4 @@
 <?php
-
 class MusicType{
     private int $dance_musicType_id = 0;
     private string $dance_musicType_name = ""; 

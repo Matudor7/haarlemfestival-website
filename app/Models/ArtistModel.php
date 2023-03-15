@@ -3,6 +3,7 @@
 class ArtistModel{
     private int $dance_artist_id = 0;
     private string $dance_artist_name = ""; 
+    private string $dance_artistMusicTypes = "";
     private bool $dance_artist_hasDetailPage; 
     private string $dance_artist_imageUrl;
     private string $dance_artist_detailPageUrl = "";
@@ -17,6 +18,9 @@ class ArtistModel{
     public function getName(): string{
         return $this->dance_artist_name;
     }
+    public function getArtistMusicTypes(): string{
+        return $this->dance_artistMusicTypes;
+    }
     public function getHasDetailPage(): bool{
         return $this->dance_artist_hasDetailPage;
     }
@@ -27,6 +31,10 @@ class ArtistModel{
     //setters
     public function setName(string $name): self{
         $this->dance_artist_name = $name;
+        return $this;
+    }
+    public function setArtistMusicTypes(string $types): self{
+        $this->dance_artistMusicTypes = $types;
         return $this;
     }
     public function setHasDetailPAge(bool $hasDetailPage): self{

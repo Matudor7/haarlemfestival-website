@@ -17,8 +17,7 @@ ORDER BY de.dance_event_date ASC, de.dance_event_time ASC, dl.dance_location_nam
 class DanceEvent {
     //TODO: modift these variables as Location, DateTime etc.
     private int $dance_event_id = 0;
-    private string $dance_event_date = "";
-    private string $dance_event_time = "";
+    private DateTime $dance_event_datetime;
     private string $dance_location_name = "";
     private string $performing_artists = "";
     private string $dance_sessionType_name = "";
@@ -32,12 +31,8 @@ class DanceEvent {
         return $this->dance_event_id;
     }
     
-    public function getDanceEventDate(): string {
-        return $this->dance_event_date;
-    }
-    
-    public function getDanceEventTime(): string {
-        return $this->dance_event_time;
+    public function getDanceEventDateTime(): DateTime {
+        return $this->dance_event_datetime;
     }
     
     public function getDanceLocationName(): string {
@@ -74,13 +69,8 @@ class DanceEvent {
         return $this;
     }
     
-    public function setDanceEventDate(string $dance_event_date): self {
-        $this->dance_event_date = $dance_event_date;
-        return $this;
-    }
-    
-    public function setDanceEventTime(string $dance_event_time): self {
-        $this->dance_event_time = $dance_event_time;
+    public function setDanceEventDateTime(DateTime $dance_event_datetime): self {
+        $this->dance_event_datetime = $dance_event_datetime;
         return $this;
     }
     
@@ -111,6 +101,10 @@ class DanceEvent {
     
     public function setDanceEventPrice(float $dance_event_price): self {
         $this->dance_event_price = $dance_event_price;
+        return $this;
+    }    
+    public function setDanceEventExtraNote(string $dance_event_extraNote): self {
+        $this->dance_event_extraNote = $dance_event_extraNote;
         return $this;
     }
    //ctor

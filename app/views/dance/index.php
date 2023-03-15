@@ -94,7 +94,8 @@
                         alt="<?php echo $artist->getName()?>'s photo">
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="mb-0 fw-bold text-light text-center"><?php echo $artist->getName()?></h3>
-                        <p class="card-text mb-auto text-light text-center"><?php echo $artist->getArtistMusicTypes()?></p>
+                        <p class="card-text mb-auto text-light text-center"><?php echo $artist->getArtistMusicTypes()?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -180,8 +181,8 @@
                 foreach ($danceEvents as $danceEvent){              
                 ?>
                 <tr>
-                    <td><?php echo $danceEvent->getDanceEventDate()?></td>
-                    <td><?php echo $danceEvent->getDanceEventTime()?></td>
+                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('d-m-Y')?></td>
+                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('H:i')?></td>
                     <td><?php echo $danceEvent->getDanceLocationName()?></td>
                     <td><?php echo $danceEvent->getPerformingArtists()?></td>
                     <td><?php echo $danceEvent->getDanceSessionTypeName()?></td>
@@ -214,7 +215,7 @@
                     <th scope="col">Duration</th>
                 </tr>
             </thead>
-            <tbody id="dance-schedule-table-body-pink">
+            <tbody id="dance-schedule-table-body-blue">
                 <tr>
                     <td>Date</td>
                     <td>Time</td>
@@ -441,11 +442,6 @@ body {
 #dance-schedule-table-body-blue {
     background-color: #C7DBFF;
 }
-
-#dance-schedule-table-body-pink {
-    background-color: #DFD1FF;
-}
-
 #dance-schedule-tables td,
 th {
     border: 1px solid black;

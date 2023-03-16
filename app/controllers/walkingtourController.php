@@ -11,6 +11,13 @@ class walkingtourController extends Controller{
         require __DIR__ . '/../views/walkingtour/index.php';
 
     }
+
+    public function DetailPage() {
+        $eventService = new EventService();
+        $yummyService = new YummyService();
+        $events = $eventService->getAll();
+        require __DIR__ . '/../views/walkingtour/walkingTourDetailPage.php';
+    }
 }
 
 ?>

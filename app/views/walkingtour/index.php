@@ -162,7 +162,7 @@
                 <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
                 <p>We curated quite some more details about this beautiful city, accompanied with a photo gallery and an audio guide for you to enjoy further.</p>
                 <br>
-            <button class="rounded-pill">I wanna learn more</button>
+            <button class="rounded-pill" href="/walkingtour/DetailPage">I wanna learn more</button>
     </div>
 </div>
 
@@ -208,10 +208,6 @@ button:hover{
     z-index: 1;
     width: 1204px;
     height: 100%;
-    background-image: url("/media/walkingtourPics/walkingtourHeader.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 #text-container{

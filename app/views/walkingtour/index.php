@@ -78,17 +78,96 @@
 </div>
 
 <div class="row pt-4">
-    <div class="container text center">
+    <div id="locations-text-container" class="container text-center">
         <h3>Sites to See</h3>
         <div class="row">
-        <div id="map-container" class="col">
+        <div id="locations-map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
         </div>
             <div class="col">
                 <p>The guide will bring you to these 9 majestic Haarlem landmarks; starting with the Bavo Cathedraal</p>
+                <br>
+                <ol>
+                    <li><a href="#">Location 1</a></li>
+                    <li><a href="#">Location 2</a></li>
+                    <li><a href="#">Location 3</a></li>
+                </ol>
             </div>
         </div>
     </div>
+</div>
+
+<div class="row pt-4">
+    <div id="timetable-text-container" class="container text-center">
+        <h3>Timetables</h3>
+        <p>We have plenty of timeslots available during the festival weekend; as well as multiple languages. make sure to reserve your spot. We can’t wait to show you the secrets Haarlem has in store!</p>
+<table id="timetable-table" class="table table-bordered border-dark">
+  <thead>
+    <th scope="col" class="border border-dark border-4">date</th>
+    <th scope="col" class="border border-dark border-4">time</th>
+    <th scope="col" class="border border-dark border-4">English</th>
+    <th scope="col" class="border border-dark border-4">Dutch</th>
+    <th scope="col" class="border border-dark border-4">Chinese</th>
+    <th scope="col" class="border border-dark border-4">Spots</th>
+  </thead>
+  <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
+    <tr>
+        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $event->getStartTime()?></th>
+      <td class="p-0">
+        <table class="table p-0 m-0">
+          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>10:00</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>13:00</td></tr>
+            <tr><td class="border border-0">16:00</td></tr>
+        </tr>
+        </table>
+      </td>
+
+      <td class="p-0">
+        <table class="table my-0">
+          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
+            <tr><td class="border border-0">1</td></tr>
+        </tr>
+        </table>
+</td>
+        <td class="p-0">
+            <table class="table my-0">
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
+                <tr><td class="border border-0">1</td></tr>
+            </tr>
+            </table>
+</td>
+
+        <td class="p-0">
+            <table class="table my-0">
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>0</td></tr>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
+                <tr><td class="border border-0">0</td></tr>
+            </tr>
+            </table>
+</td>
+<td>12</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</div>
+</div>
+
+<div class="row pt-4">
+    <div id="extra-text-container" class="container text-center">
+        <h3>Let's revisit</h3>
+                <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
+                <p>We curated quite some more details about this beautiful city, accompanied with a photo gallery and an audio guide for you to enjoy further.</p>
+                <br>
+            <button class="rounded-pill">I wanna learn more</button>
+    </div>
+</div>
+
+
+</div>
 </div>
 
 </main>
@@ -176,6 +255,7 @@ button:hover{
     border: 4px solid #8564CC;
     padding: 10px;
     border-radius: 60px;
+    max-width: 350px;
 }
 #description-right{
     padding-top: 20px;
@@ -185,18 +265,55 @@ button:hover{
     border: 4px solid #8564CC;
     padding: 10px;
     border-radius: 60px;
-    margin-right: 10px;
+    margin: auto;
+    max-width: 460px;
 }
 
 #text-container-right{
     border: 4px solid #8564CC;
     padding: 10px;
     border-radius: 60px;
-    margin-left: 10px;
+    margin: auto;
+    max-width: 460px;
 }
 
 label{
     font-size: 12px;
+}
+
+#locations-text-container{
+    border: 4px solid #8564CC;
+    padding: 10px;
+    border-radius: 60px;
+    max-width: 1000px;
+}
+
+#locations-map-container{
+    border: 4px solid #8564CC;
+    padding: 10px;
+    border-radius: 60px;
+    margin: 30px;
+    max-width: 330px;
+}
+
+#timetable-text-container{
+    border: 4px solid #8564CC;
+    padding: 10px;
+    max-width: 1000px;
+    border-radius: 60px;
+}
+
+table{
+    font-size: 14px;
+    max-width: 550px;
+    margin: auto;
+}
+
+#extra-text-container{
+    border: 4px solid #8564CC;
+    padding: 20px;
+    border-radius: 60px;
+    max-width: 1000px;
 }
 </style>
 

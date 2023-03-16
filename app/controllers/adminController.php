@@ -30,6 +30,23 @@ class AdminController extends Controller{
         require __DIR__ . '/../views/admin/events.php';
     }
     function addevent(){
+        if(isset($_POST['addbutton'])){
+            try{
+            
+                //Get image URL from POST request, then download that image into /media/events
+                $imageUrl = $_FILES['eventinput']['tmp_name'];
+                
+                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['eventnametextbox'])));;
+                //strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $eventData['event_name'])));
+    
+                $downloadPath = SITE_ROOT . '/media/events/' . $imageName . '.png'; // /media/events/event.png
+    
+                //Put the file from the image path to the download path
+                move_uploaded_file($imageUrl, $downloadPath);
+                }catch(Exception $e){
+                    echo $e->getMessage();
+                }
+        }
         require __DIR__ . '/../views/admin/addevent.php';
     }
 

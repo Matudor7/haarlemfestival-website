@@ -13,7 +13,7 @@
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="mb-3" style="width: 10%">
             <label for="eventnametextbox" class="form-label">Event name</label>
-            <input type="text" class="form-control" id="eventnametextbox" placeholder="Event Name">
+            <input type="text" class="form-control" id="eventnametextbox" name="eventnametextbox" placeholder="Event Name">
         </div>
         <div class="mb-3" style="width: 50%">
             <label for="eventdesctextbox" class="form-label">Description</label>
@@ -32,7 +32,7 @@
             <input type="file" class="form-control" id="eventinput" name="eventinput" accept="image/png, image/jpg">
         </div>
         <div>
-            <button type="submit" class="btn btn-primary mt-5" onclick="addEvent()">Add Event</button>
+            <button type="submit" class="btn btn-primary mt-5" name="addbutton" onclick="addEvent()">Add Event</button>
             <button type="button" class="btn btn-danger mt-5" onclick="goBack()">Cancel</button>
         </div>
     </form>

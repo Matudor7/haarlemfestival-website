@@ -13,14 +13,9 @@ class DanceController extends Controller{
         $danceService = new DanceService();
         $artists = $danceService->getAllArtists();
         $danceLocations = $danceService->getAllDanceLocations();
-        $danceFlashbacks = $danceService->getAllDanceFlashbacks();
         $danceEvents = $danceService->getAllDanceEvents();
-
-        $extraNotes = []; // creating an empty array to hold the extra notes
-        foreach ($danceEvents as $danceEvent) {
-            $extraNotes[] = $danceEvent->getDanceEventExtraNote(); // add the event's extra note to the array
-        }
-
+        $danceFlashbacks = $danceService->getAllDanceFlashbacks();
+        
         $danceEventsByDate = [];
         foreach ($danceEvents as $danceEvent) {
             $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');
@@ -29,7 +24,6 @@ class DanceController extends Controller{
             }
             $danceEventsByDate[$date][] = $danceEvent;
         }
-        
         require __DIR__ . '/../views/dance/index.php';
     }
 

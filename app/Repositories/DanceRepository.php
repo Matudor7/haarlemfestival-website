@@ -33,7 +33,7 @@ class DanceRepository extends Repository{
     
 
     // MUSIC TYPES
-    public function getAllMusicTypes() {
+    /*public function getAllMusicTypes() {
         $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType`";
     
         try {
@@ -46,9 +46,9 @@ class DanceRepository extends Repository{
             error_log('Error retrieving all music types: ' . $e->getMessage());
             return [];
         }
-    }
+    }*/
     
-    public function getMusicTypeById($id) {
+    /*public function getMusicTypeById($id) {
         $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id` = ?";
     
         try {
@@ -61,9 +61,9 @@ class DanceRepository extends Repository{
             error_log('Error retrieving music type with id ' . $id . ': ' . $e->getMessage());
             return null;
         }
-    }
+    }*/
 
-    public function getMusicTypesByArtist($artistId) {
+    /*public function getMusicTypesByArtist($artistId) {
         $sql = "SELECT `dance_artistMusicType_musicTypeId` FROM `dance_artistMusicType` WHERE `dance_artistMusicType_artistId` = ?";
     
         try {
@@ -83,7 +83,7 @@ class DanceRepository extends Repository{
             error_log('Error retrieving music types for artist with id ' . $artistId . ': ' . $e->getMessage());
             return array();
         }
-    }    
+    }   */ 
 
 
     //DANCE LOCATIONS
@@ -151,8 +151,8 @@ class DanceRepository extends Repository{
                 $date = new DateTime($row['dance_event_date']);
                 $time = new DateTime($row['dance_event_time']);
                 $dateTime = new DateTime();
-                $dateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
-                $dateTime->setTime($time->format('H'), $time->format('i'), $time->format('s'));
+                $dateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d')); //date
+                $dateTime->setTime($time->format('H'), $time->format('i'), $time->format('s')); //time
     
                 $danceEvent->setDanceEventDateTime($dateTime);
                 $danceEvents[] = $danceEvent;

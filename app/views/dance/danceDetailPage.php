@@ -28,7 +28,7 @@
         </div>
 
         <section id="dance-detail-header-schedule">
-            <div class="row px-4 py-4">
+            <div class="row px-4 py-4 mx-0">
                 <div class="col-8"></div>
                 <div class="col-4 bg-light opacity-75 fw-semi-bold">
                     <h3 id="dance-detail-header-schedule-header">[Artist
@@ -345,15 +345,14 @@
 
     <!-- Final Schedule Part (Schedule at the end of the page) -->
     <div class="row mt-4 mb-4">
-        <div class="col">
+        <div class="col-3">
             <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
         </div>
-        <div class="col">
-            <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">Career Highlights
+        <div class="col-6">
+            <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">[Artist Name]'s `[Festival Name]` Schedule
             </h2>
         </div>
-        <div class="col"> </div>
-        <div class="col"> </div>
+        <div class="col-3"> </div>
     </div>
 
     <section id="dance-detail-artist-final-schedule" class="my-5 mx-5">

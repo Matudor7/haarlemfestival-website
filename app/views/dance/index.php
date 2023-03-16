@@ -26,9 +26,10 @@
                     <h1 id="dance-header-title" class="display-4 fw-semibold">DANCE!</h1>
                     <h2 id="dance-header-description" class="lead my-3 fw-semibold text-light">Enjoy the world's best
                         DJs perform in Haarlem!</h2>
-                    <button id="dance-button-learn-more" type="button"
-                        class="btn btn-primary rounded-pill fw-bold">Learn More</button>
-                    <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold">Buy
+                    <button id="dance-button-learn-more" type="button" class="btn btn-primary rounded-pill fw-bold"
+                        onClick="scrollToElement()">Learn More</button>
+                    <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold"
+                        onClick="location.href='/../CreateProgram'">Buy
                         Tickets</button>
                 </div>
                 <div class="col-md-6">
@@ -147,7 +148,7 @@
 
         <!-- Schedule Section -->
         <!-- Schedule Title -->
-        <div class="row mt-4 mb-4">
+        <div id = "dance-homepage-schedule" class="row mt-4 mb-4">
             <div class="col">
                 <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
             </div>
@@ -164,41 +165,41 @@
     // Create a table for each day's events
     foreach ($danceEventsByDate as $date => $events) {
 ?>
-    <h4 class="text-light"><?php echo date('l', strtotime($date)); ?>'s Schedule </h4>
-    <table id="dance-schedule-tables" class="table">
-        <colgroup>
-            <col class="date" style="width:10%">
-            <col class="time" style="width:10%">
-            <col class="location" style="width:20%">
-            <col class="artist" style="width:30%">
-            <col class="session" style="width:20%">
-            <col class="duration" style="width:10%">
-        </colgroup>
-        <thead id="dance-schedule-table-header" class="thead-light">
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-                <th scope="col">Location</th>
-                <th scope="col">Artist</th>
-                <th scope="col">Session</th>
-                <th scope="col">Duration approx.</th>
-            </tr>
-        </thead>
-        <tbody id="dance-schedule-table-body-blue">
-            <?php foreach ($events as $danceEvent){ ?>
-            <tr>
-                <td><?php echo $danceEvent->getDanceEventDateTime()->format('d-m-Y') . " " . date('l', strtotime($date));?>
-                </td>
-                <td><?php echo $danceEvent->getDanceEventDateTime()->format('H:i')?></td>
-                <td><?php echo $danceEvent->getDanceLocationName()?></td>
-                <td><?php echo $danceEvent->getPerformingArtists()?></td>
-                <td><?php echo $danceEvent->getDanceSessionTypeName()?></td>
-                <td><?php echo $danceEvent->getDanceEventDuration() . " mins"?></td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-    <?php 
+        <h4 class="text-light"><?php echo date('l', strtotime($date)); ?>'s Schedule </h4>
+        <table id="dance-schedule-tables" class="table">
+            <colgroup>
+                <col class="date" style="width:10%">
+                <col class="time" style="width:10%">
+                <col class="location" style="width:20%">
+                <col class="artist" style="width:30%">
+                <col class="session" style="width:20%">
+                <col class="duration" style="width:10%">
+            </colgroup>
+            <thead id="dance-schedule-table-header" class="thead-light">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Duration approx.</th>
+                </tr>
+            </thead>
+            <tbody id="dance-schedule-table-body-blue">
+                <?php foreach ($events as $danceEvent){ ?>
+                <tr>
+                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('d-m-Y') . " " . date('l', strtotime($date));?>
+                    </td>
+                    <td><?php echo $danceEvent->getDanceEventDateTime()->format('H:i')?></td>
+                    <td><?php echo $danceEvent->getDanceLocationName()?></td>
+                    <td><?php echo $danceEvent->getPerformingArtists()?></td>
+                    <td><?php echo $danceEvent->getDanceSessionTypeName()?></td>
+                    <td><?php echo $danceEvent->getDanceEventDuration() . " mins"?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <?php 
         // Check if the extraNote is not null, and print it for each event
         foreach ($events as $danceEvent) {
             if ($danceEvent->getDanceEventExtraNote() != null) {
@@ -206,10 +207,7 @@
             }       
         }
     ?>
-<?php } ?>
-
-
-
+        <?php } ?>
 
         <!-- Flashback Section -->
         <!-- Flashback Title -->
@@ -245,6 +243,14 @@
     <?php
         include __DIR__ . '/../footerfordance.php';
         ?>
+
+    <script>
+    function scrollToElement() {
+        document.querySelector('#dance-homepage-schedule').scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+    </script>
 
 </body>
 

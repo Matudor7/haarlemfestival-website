@@ -29,10 +29,10 @@ class EventsController{
             
             $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $eventData['event_name'])));
 
-            $downloadPath = '/media/events/' . $imageName . '.png'; // /media/events/event.png
+            $downloadPath ='/media/events/' . $imageName . '.png'; // /media/events/event.png
 
             //Put the file from the image path to the download path
-            move_uploaded_file($imageUrl, $downloadPath);
+            move_uploaded_file($imageUrl, SITE_ROOT . $downloadPath);
             }catch(Exception $e){
                 echo $e->getMessage();
             }

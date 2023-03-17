@@ -1,6 +1,7 @@
 <?php
-class TourLanguage
+enum TourLanguage
 {
-    public int $walkingTour_language_id;
-    public string $walkingTour_Language_language;
-}
+   case English;
+    case Dutch;
+    case Chinese;
+}?>

@@ -2,12 +2,11 @@
 class WalkingTourModel
 {
     public int $walkingTour_eventid, $walkingTour_capacity, $walkingTour_availability;
-    public string $walkingTour_name, $walkingTour_pictureURL;
-    public $walkingTour_kidsPrice, $walkingTour_adultsPrice;
-    public $walkingTour_OpeningTime, 	$duration;
-    public bool $walkingTour_isItAvailable;
-    public  $walkingTour_rating;
-    public  $walkingTour_foodType;
+    public DateTime $walkingTour_duration;
+    public TourLocation $walkingTour_startingLocation;
+    public float $walkingTour_price;
+    public TourTimetable $walkingTour_timetable;
+    public TourLanguage $walkingTour_language;
 }
 
 ?>

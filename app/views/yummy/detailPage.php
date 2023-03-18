@@ -14,22 +14,32 @@ require __DIR__ . '/../nav.php';
 <div class="mt-5 mb-5 border-top" style="background: #09B4BB; margin-left: 30%; margin-right: 30%">
     <h1 class="text-center py-3" style="color: black"><?=$restaurant->getRestaurantName()?></h1>
 </div><br>
+<div- class="text-center">
+<?php
+if(isset($_SESSION['noDetailPageMessage'])){
+    echo '<div class="alert alert-danger">' . $_SESSION['noDetailPageMessage'] . '</div>';
+    unset($_SESSION['noDetailPageMessage']);
+}
+?>
+</div->
 <div>
     <div class="row">
         <div class="box-sizing-border-box"style="position:absolute; margin-top: 200px; right: 75px; z-index: -1">
             <img class="box-sizing-border-box" src="/media/yummyPics/details_stripes.png" alt="detail stripes">
         </div>
         <div class="col" style="margin-left: 2%; max-height: 511px; max-width: 474px;">
-            <img src="<?=$html->getDetailPic1URL()?>" alt="..."/>
+            <img src="<?php echo$html->getDetailPic1URL()?>" alt="..."/>
         </div>
         <div class="col" style="margin-right: 2%">
-            <img src="<?=$html->getDetailPic2URL()?>" alt="..."/><br><br>
+            <img src="<?php echo$html->getDetailPic2URL()?>" alt="..."/><br><br>
         </div>
         <div class="col" style="margin-right: 2%; max-height: 511px; max-width: 474px;">
-            <img src="<?=$html->getDetailPic3URL()?>" alt="..."/>
+            <img src="<<?php echo$html->getDetailPic3URL()?>" alt="..."/>
 
         </div>
     </div>
+
+
     <div class="scrollable" style="height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;">
         <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px;">Make a Reservation</button>
     </div>
@@ -95,9 +105,11 @@ require __DIR__ . '/../nav.php';
 
             <div style="background: #09B4BB; height: auto;">
                 <div style="padding: 30px; font-size: 18px; text-align: left; padding-left: 30px; padding-right: 30px;" >
-                    <p> address: <?=$address->getAddressStreet()?> </p>
-                    <p> Tel: tel goes here</p>
-                    <p> email: email goes here</p>
+                    <p><strong> Address:</strong> <?=$address->getAddressStreet()?> </p>
+                    <p><strong> Tel: </strong> tel goes here </p>
+                    <p> <strong> email: </strong> email goes here </p>
+                   <!-- <p> Tel: <?=$contact->getTelephoneNumber()?> </p>
+                    <p> email: <?=$contact->getEmail()?> </p>-->
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-class ContactInfo
+class ContactInf
 {
 
     private int $contactInf_id;

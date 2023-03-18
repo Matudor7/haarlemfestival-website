@@ -10,10 +10,10 @@
 <body>
     <h1>Add Event</h1>
 
-    <form>
+    <form action="" method="POST" enctype="multipart/form-data">
         <div class="mb-3" style="width: 10%">
             <label for="eventnametextbox" class="form-label">Event name</label>
-            <input type="text" class="form-control" id="eventnametextbox" placeholder="Event Name">
+            <input type="text" class="form-control" id="eventnametextbox" name="eventnametextbox" placeholder="Event Name">
         </div>
         <div class="mb-3" style="width: 50%">
             <label for="eventdesctextbox" class="form-label">Description</label>
@@ -29,11 +29,10 @@
         </div>
         <div class="mb-3" style="width: 15%">
             <label for="eventinput" class="form-label">Image</label>
-            <img id="eventimage">
-            <input type="file" class="form-control" id="eventinput" name="eventinput" accept="image/png, image/jpg" onchange="updateFileInput()">
+            <input type="file" class="form-control" id="eventinput" name="eventinput" accept="image/png, image/jpg">
         </div>
         <div>
-            <button type="button" class="btn btn-primary mt-5" onclick="addEvent()">Add Event</button>
+            <button type="submit" class="btn btn-primary mt-5" name="addbutton" onclick="addEvent()">Add Event</button>
             <button type="button" class="btn btn-danger mt-5" onclick="goBack()">Cancel</button>
         </div>
     </form>
@@ -45,11 +44,7 @@
             var eventStartTime = new Date(document.getElementById('eventstarttimecalendar').value);
             var eventEndTime = new Date(document.getElementById('eventendtimecalendar').value);
             const eventInput = document.getElementById('eventinput');
-            const eventImage = document.getElementById('eventimage');
 
-            var url = URL.createObjectURL(eventInput.files[0]);
-            eventImage.src = url;
-            console.log(url);
 
             //Display message if any input is ignored
             if(eventNameTextbox.trim() == '' || eventDescriptionTextbox.trim() == '' || !eventStartTime || !eventEndTime || !eventinput){
@@ -59,7 +54,7 @@
                 {
                     event_name: eventNameTextbox.trim(), 
                     event_urlRedirect: "/" + eventNameTextbox.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().trim(), 
-                    event_imageUrl: url,
+                    event_imageUrl: eventInput.value,
                     event_description: eventDescriptionTextbox.trim(), 
                     event_startTime: eventStartTime.getFullYear() + "-" + (eventStartTime.getMonth() + 1).toString().padStart(2, '0') + "-" + eventStartTime.getDate().toString().padStart(2, '0'), 
                     event_endTime: eventEndTime.getFullYear() + "-" + (eventEndTime.getMonth() + 1).toString().padStart(2, '0') + "-" + eventEndTime.getDate().toString().padStart(2, '0')

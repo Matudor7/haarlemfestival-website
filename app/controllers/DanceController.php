@@ -13,8 +13,17 @@ class DanceController extends Controller{
         $danceService = new DanceService();
         $artists = $danceService->getAllArtists();
         $danceLocations = $danceService->getAllDanceLocations();
+        $danceEvents = $danceService->getAllDanceEvents();
         $danceFlashbacks = $danceService->getAllDanceFlashbacks();
-
+        
+        $danceEventsByDate = [];
+        foreach ($danceEvents as $danceEvent) {
+            $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');
+            if (!isset($danceEventsByDate[$date])) {
+                $danceEventsByDate[$date] = [];
+            }
+            $danceEventsByDate[$date][] = $danceEvent;
+        }
         require __DIR__ . '/../views/dance/index.php';
     }
 
@@ -23,6 +32,10 @@ class DanceController extends Controller{
         $events = $eventService->getAll();
         
         require __DIR__ . '/../views/dance/danceDetailPage.php';
+    }
+
+    public function groupDanceEventsByDate($danceEvents){
+        
     }
 }
 

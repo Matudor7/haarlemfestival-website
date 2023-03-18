@@ -19,4 +19,12 @@ class YummyService
 
         return $yummy;
     }
+
+    public function getById($restaurant_id)
+    {
+        $yummyRepo = new YummyRepository();
+        $yummy = $yummyRepo->getById($restaurant_id);
+
+        return $yummy;
+    }
 }

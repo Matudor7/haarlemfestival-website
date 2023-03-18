@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/controller.php'; 
 require __DIR__ . '/../Services/eventService.php';
-require __DIR__ . '/../Services/walkinTourService.php';
+require __DIR__ . '/../Services/walkingTourService.php';
 
 class walkingtourController extends Controller{
     public function index(){
@@ -15,11 +15,11 @@ class walkingtourController extends Controller{
         require __DIR__ . '/../views/walkingtour/index.php';
     }
 
-    public function DetailPage() {
+    public function detailpage() {
         $eventService = new EventService();
         $walkinTourService = new WalkingTourService();
         $events = $eventService->getAll();
-        
+
         require __DIR__ . '/../views/walkingtour/walkingTourDetailPage.php';
     }
 }

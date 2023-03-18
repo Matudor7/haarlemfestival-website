@@ -1,7 +1,7 @@
 <?php 
 
-require __DIR__ . '/Repositories/walkingTourRepository.php';
-require __DIR__ . '/Models/walkingTourModel.php';
+require __DIR__ . '/../Repositories/walkingTourRepository.php';
+require __DIR__ . '/../Models/walkingTourModel.php';
 
 class WalkingTourService {
 

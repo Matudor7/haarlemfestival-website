@@ -36,7 +36,7 @@ class DanceController extends Controller{
 
     public function detail(){
         $events = $this->eventService->getAll();
-        $artist_id = $_GET['artist_id'];
+        $artist_id = filter_input(INPUT_GET, 'artist_id', FILTER_SANITIZE_NUMBER_INT);
         try {
             $artist = $this->danceService->getArtistById($artist_id);             
 
@@ -44,13 +44,21 @@ class DanceController extends Controller{
                 $html =  $this->danceDetailPageService->getDanceDetailPageContentById($artist->getId());
                 $danceEventsByArtistId = $this->danceDetailPageService->getDanceEventsByArtistIdFromRepository($artist_id);
 
+                foreach ($danceEventsByArtistId as $danceEvent) {
+                    $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');
+                    if (!isset($danceEventsByDate[$date])) {
+                        $danceEventsByDate[$date] = [];
+                    }
+                    $danceEventsByDate[$date][] = $danceEvent;
+                }
+
                 require __DIR__ . '/../views/dance/danceDetailPage.php';
             } else {
-                echo "This artist does not have a detail page yet. Please check again later.";
+                throw new Exception("This artist does not have a detail page yet. Please check again later.");
             }            
 
         } catch (Exception $e) {
-            echo $e;
+            echo "An error occurred: " . $e->getMessage();
         }
     }
 

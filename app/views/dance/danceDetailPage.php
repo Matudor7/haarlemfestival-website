@@ -16,51 +16,64 @@
 </head>
 
 <body>
-    <?php
-        include __DIR__ . '/../navfordance.php';
-        ?>
-    <section id="dance-detail-header" class="mx-0 my-0 py-0 bg-dark">
-        <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner">
-        <div id="dance-detail-header" class="mx-5 py-lg-5 justify-content text-left">
-            <h1 id="dance-detail-artist-header" class="fw-semibold display-2 bg-light w-50 opacity-75 text-dark"> <?=$artist->getName()?></h1>
-            <h2 id="dance-detail-subheader" class="bg-light w-50 opacity-75 text-dark"><?php if ($artist->getDanceArtistSubHeader() !== null): ?>
-    <?=$artist->getDanceArtistSubHeader()?>
-<?php endif; ?>
-</h2>
+    <?php include __DIR__ . "/../navfordance.php"; ?>
+    <section id="dance-detail-header" class="mx-0 my-0 py-0 bg-dark"
+        style="background-image: url('<?php echo $artist->getDanceArtistDetailPageBanner(); ?>');">
+        <div class="mx-5 py-lg-5 justify-content text-left">
+            <h1 id="dance-detail-artist-header" class="p-2 fw-semibold display-2 bg-light w-50 opacity-75 text-dark">
+                <?= $artist->getName() ?>
+            </h1>
+            <h2 id="dance-detail-subheader" class="px-2 bg-light w-50 opacity-75 text-dark">
+                <?php if ($artist->getDanceArtistSubHeader() != ""): ?>
+                <?= $artist->getDanceArtistSubHeader() ?>
+                <?php endif; ?>
+            </h2>
         </div>
 
         <section id="dance-detail-header-schedule">
             <div class="row px-4 py-4 mx-0">
                 <div class="col-8"></div>
                 <div class="col-4 bg-light opacity-75 fw-semi-bold">
-                    <h3 id="dance-detail-header-schedule-header"><?=$artist->getName()?> is in Dance! Schedule:</h3>
+                    <h3 id="dance-detail-header-schedule-header"><?= $artist->getName() ?> is in Dance! Schedule:</h3>
                     <dl class="row">
-                        <dt class="col-3">[Date] - [Time]</dt>
-                        <dd class="col-9">Place</dd>
-                        <dt class="col-3">[Date] - [Time]</dt>
-                        <dd class="col-9">Place</dd>
-                        <dt class="col-3">[Date] - [Time]</dt>
-                        <dd class="col-9">Place</dd>
+                        <?php foreach (
+                            $danceEventsByArtistId
+                            as $danceEvent
+                        ) { ?>
+                        <dt class="col-4"> <?php echo $danceEvent
+                            ->getDanceEventDateTime()
+                            ->format("d/m/Y") .
+                            " - " .
+                            $danceEvent
+                                ->getDanceEventDateTime()
+                                ->format("H:i"); ?></dt>
+                        <dd class="col-8"> <?php echo $danceEvent->getDanceLocationName(); ?></dd>
+                        <?php } ?>
+                    </dl>
                 </div>
             </div>
         </section>
     </section>
 
+
     <!-- Artist Description Part -->
     <section id="dance-detail-artist-description" class="my-5 mx-5">
         <div class="row">
-            <div class="col-8 pr-5">
-                <p id="dance-detail-artist-description-light" class="p-4 text-dark"> Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Quisque aliquam massa at libero tempus accumsan. Nam venenatis suscipit
-                    ligula, ac aliquam ipsum rutrum vel. Donec laoreet ante scelerisque congue commodo. Maecenas vitae
-                    sagittis sapien. Nullam pellentesque ornare lorem, vel euismod leo tempor vel. Curabitur sit amet
-                    hendrerit nisl, in pharetra quam. Fusce mattis lobortis sapien sed bibendum. Aliquam aliquet luctus
-                    orci, at fermentum nibh condimentum nec. In hac habitasse platea dictumst. </p>
+            <div class="col-6 pr-5">
+                <p id="dance-detail-artist-description-light" class="m-5 p-4 text-dark">
+                    <?= $artist->getDanceArtistLongDescription() ?> </p>
+            </div>
+            <div class="col-1 pr-5">
+
             </div>
             <div class="col-4">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                    alt="[Artist name]">
+                <img src="<?= $artist->getDanceArtistLongDescriptionPicture() ?>" class="mt-5 img-fluid"
+                    alt="<?= $artist->getName() ?>">
             </div>
+            <div class="col-1 pr-5">
+
+            </div>
+
         </div>
     </section>
 
@@ -350,7 +363,9 @@
             <h5 id="dance-title-blue" class="mt-4 mr-0 p-1 fw-semibold text-center"> &nbsp; </h5>
         </div>
         <div class="col-6">
-            <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">[Artist Name]'s `[Festival Name]` Schedule
+            <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
+                <?= $artist->getName() ?>'s
+                `Dance` Schedule
             </h2>
         </div>
         <div class="col-3"> </div>
@@ -359,12 +374,19 @@
     <section id="dance-detail-artist-final-schedule" class="my-5 mx-5">
         <div class="row">
             <div id="dance-detail-artist-description-light" class="col mx-5 p-5 text-dark">
-                <h4 class="mb-3"> Watch [Artist Name] perform at [Festival Name]! </h4>
-                <!-- Loop these of course-->
-                <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
-                <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
-                <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
-                <p> [Date] [Day] - [Time] - [Location] [if with someone] [if there's an extra info] </p>
+                <h4 class="mb-3"> Watch <?= $artist->getName() ?> perform at Haarlem Festival! </h4>
+                <?php foreach ($danceEventsByArtistId as $danceEvent) { ?>
+                <p> <?php echo $danceEvent
+                    ->getDanceEventDateTime()
+                    ->format("d-m-Y") .
+                    " " .
+                    date("l", strtotime($date)); ?> - <?php echo $danceEvent
+     ->getDanceEventDateTime()
+     ->format("H:i"); ?> -
+                    <?php echo $danceEvent->getDanceLocationName() .
+                        " " .
+                        $danceEvent->getDanceEventExtraNote(); ?> </p>
+                <?php } ?>
             </div>
             <div class="col">
                 <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
@@ -374,9 +396,7 @@
     </section>
 
 
-    <?php
-        include __DIR__ . '/../footerfordance.php';
-        ?>
+    <?php include __DIR__ . "/../footerfordance.php"; ?>
 </body>
 
 <style>
@@ -390,6 +410,7 @@ body {
 
 #dance-detail-artist-description-light {
     background-color: #E7EFFF;
+    font-size: large;
 }
 
 #dance-title-blue {

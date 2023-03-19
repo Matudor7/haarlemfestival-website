@@ -42,7 +42,8 @@ class DanceController extends Controller{
 
             if ($artist->getHasDetailPage()) {
                 $html =  $this->danceDetailPageService->getDanceDetailPageContentById($artist->getId());
-                $danceEventsByArtistId = $this->danceDetailPageService->getDanceEventsByArtistIdFromRepository($artist_id);
+                $danceEventsByArtistId = $this->danceDetailPageService->getDanceEventsByArtistId($artist_id);
+                $careerHighlights = $this->danceDetailPageService->getAllCareerHighlights($artist_id);
 
                 foreach ($danceEventsByArtistId as $danceEvent) {
                     $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');

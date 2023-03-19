@@ -91,40 +91,42 @@
     </div>
 
     <!-- left align-->
+    <?php foreach ($careerHighlights as $highlight) {
+        if ($highlight->getAlignment() == 0) { ?>
+    <!-- left align-->
     <section id="dance-detail-artist-career-highlights-left" class="my-5 mx-5">
         <div class="row mt-4 mb-4">
             <div class="col">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                    alt="[Career Highlight 1]">
+                <img src="<?= $highlight->getImageUrl() ?>" class="img-fluid"
+                    alt="[Career Highlight <?= $highlight->getId() ?>]">
             </div>
             <div class="col">
-                <p id="dance-detail-career-highlights-grey" class="p-4 text-dark"> Lorem ipsum
-                    dolor sit amet,
-                    consectetur adipiscing elit. Quisque aliquam massa at libero tempus accumsan. Nam venenatis suscipit
-                    ligula, ac aliquam ipsum rutrum vel. Donec laoreet ante scelerisque congue commodo. </p>
+                <p id="dance-detail-career-highlights-grey" class="p-4 text-dark"><?= $highlight->getDescription() ?>
+                </p>
             </div>
             <div class="col"> </div>
             <div class="col"> </div>
         </div>
     </section>
-
+    <?php } else { ?>
     <!-- right align-->
     <section id="dance-detail-artist-career-highlights-right" class="my-5 mx-5">
         <div class="row mt-4 mb-4">
             <div class="col"> </div>
             <div class="col"> </div>
             <div class="col">
-                <p id="dance-detail-career-highlights-grey" class="p-4 text-dark"> Lorem ipsum
-                    dolor sit amet,
-                    consectetur adipiscing elit. Quisque aliquam massa at libero tempus accumsan. Nam venenatis suscipit
-                    ligula, ac aliquam ipsum rutrum vel. Donec laoreet ante scelerisque congue commodo. </p>
+                <p id="dance-detail-career-highlights-grey" class="p-4 text-dark"><?= $highlight->getDescription() ?>
+                </p>
             </div>
             <div class="col">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                    alt="[Career Highlight 1]">
+                <img src="<?= $highlight->getImageUrl() ?>" class="img-fluid"
+                    alt="[Career Highlight <?= $highlight->getId() ?>]">
             </div>
         </div>
     </section>
+    <?php }
+    } ?>
+
 
     <!-- Albums and Tracks Part -->
     <div class="row mt-4 mb-4">

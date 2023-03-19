@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Dance Detail Page</title>
+    <title>Dance! - <?= $artist->getName() ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -147,61 +147,25 @@
         <div class="container">
             <div class="row">
                 <!-- This should be 3 loop -->
+                <?php foreach ($albums as $album) { ?>
                 <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
                     <div class="row">
                         <div class="col-3">
                             <img id="dance-detail-artist-albums-image"
-                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                                alt="[Album Cover]">
+                                src="<?= $album->getImageUrl() ?>" class="img-fluid"
+                                alt="<?= $album->getName() ?> Album Cover">
                         </div>
                         <div class="col">
-                            <h5>Album Name</h5>
+                            <h5><?=$album->getName() ?></h5>
                             <div class="row">
                                 <div class="col-9">
-                                    <h6> Release Year </h6>
+                                    <h6> <?= $album->getReleaseYear() ?> </h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- loop end here. after looping, delete duplicated code below. i duplicated just to see how it looks -->
-                <!-- here 2nd -->
-                <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
-                    <div class="row">
-                        <div class="col-3">
-                            <img id="dance-detail-artist-albums-image"
-                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                                alt="[Album Cover]">
-                        </div>
-                        <div class="col">
-                            <h5>Album Name</h5>
-                            <div class="row">
-                                <div class="col-9">
-                                    <h6> Release Year </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 3rd -->
-                <div id="dance-detail-artist-albums" class="col p-1 mx-5 rounded">
-                    <div class="row">
-                        <div class="col-3">
-                            <img id="dance-detail-artist-albums-image"
-                                src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                                alt="[Album Cover]">
-                        </div>
-                        <div class="col">
-                            <h5>Album Name</h5>
-                            <div class="row">
-                                <div class="col-9">
-                                    <h6> Release Year </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- loop ended  -->
+                <?php }?>
             </div>
         </div>
     </section>
@@ -367,7 +331,7 @@
         <div class="col-6">
             <h2 id="dance-title-light" class="display-6 ml-0 p-3 fw-semibold text-center text-dark">
                 <?= $artist->getName() ?>'s
-                `Dance` Schedule
+                Dance! Schedule
             </h2>
         </div>
         <div class="col-3"> </div>
@@ -391,8 +355,8 @@
                 <?php } ?>
             </div>
             <div class="col">
-                <img src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg" class="img-fluid"
-                    alt="Responsive image">
+                <img src="<?= $artist->getDanceArtistDetailPageSchedulePicture() ?>" class="img-fluid"
+                    alt="<?= $artist->getName() ?>">
             </div>
         </div>
     </section>

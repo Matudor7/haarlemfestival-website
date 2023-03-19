@@ -44,6 +44,7 @@ class DanceController extends Controller{
                 $html =  $this->danceDetailPageService->getDanceDetailPageContentById($artist->getId());
                 $danceEventsByArtistId = $this->danceDetailPageService->getDanceEventsByArtistId($artist_id);
                 $careerHighlights = $this->danceDetailPageService->getAllCareerHighlights($artist_id);
+                $albums = $this->danceDetailPageService->getAllArtistAlbums($artist_id);
 
                 foreach ($danceEventsByArtistId as $danceEvent) {
                     $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');

@@ -23,10 +23,6 @@ class DanceFlashback {
     }
 
     // Setters
-    public function setDanceFlashbackId(int $id): self {
-        $this->dance_flashback_id = $id;
-        return $this;
-    }
 
     public function setDanceFlashbackUrl(string $url): self {
         $this->dance_flashback_url = $url;

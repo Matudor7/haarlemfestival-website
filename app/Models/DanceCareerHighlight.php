@@ -1,6 +1,6 @@
 <?php
 
-class CareerHighlight
+class DanceCareerHighlight
 {
     private int $dance_careerHighlights_id = 0;
     private int $dance_careerHighlights_artistId = 0;
@@ -35,11 +35,6 @@ class CareerHighlight
     }
 
     // setters
-    public function setId(int $id): self
-    {
-        $this->dance_careerHighlights_id = $id;
-        return $this;
-    }
 
     public function setArtistId(int $artistId): self
     {

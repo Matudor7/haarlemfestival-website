@@ -6,6 +6,7 @@ require_once __DIR__ . "/../Models/DanceLocation.php";
 require_once __DIR__ . "/../Models/DanceFlashback.php";
 require_once __DIR__ . "/../Models/DanceEvent.php";
 require_once __DIR__ . "/../Models/DanceCareerHighlight.php";
+require_once __DIR__ . "/../Models/DanceAlbum.php";
 
 class DanceDetalPageRepository extends Repository
 {
@@ -59,7 +60,7 @@ class DanceDetalPageRepository extends Repository
     }
 
     //CAREER HIGHLIGHT
-    public function getAllCareerHighlightsFromDatabase($artist_id){
+    public function getAllArtistCareerHighlightsFromDatabase($artist_id){
         $sql = "SELECT `dance_careerHighlights_id`, `dance_careerHighlights_artistId`, `dance_careerHighlights_description`, `dance_careerHighlights_imageUrl`, `dance_careerHighlights_alignment` FROM `dance_careerHighlights` WHERE `dance_careerHighlights_artistId` = :artist_id";
         
         try {
@@ -67,12 +68,30 @@ class DanceDetalPageRepository extends Repository
             $statement->bindParam(":artist_id", $artist_id, PDO::PARAM_INT);
             $statement->execute();
     
-            $careerHighlights = $statement->fetchAll(PDO::FETCH_CLASS, 'CareerHighlight');
+            $careerHighlights = $statement->fetchAll(PDO::FETCH_CLASS, 'DanceCareerHighlight');
             return $careerHighlights;
         } catch (PDOException $e) {
             error_log('Error retrieving career highlights: ' . $e->getMessage());
             return [];
         }
     }
+
+    //ALBUM
+    public function getAllArtistAlbumsFromDatabase($artist_id){
+        $sql = "SELECT `dance_album_id`, `dance_album_artistId`, `dance_album_name`, `dance_album_releaseYear`, `dance_album_imageUrl` FROM `dance_album` WHERE `dance_album_artistId` = :artist_id";
+        
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(":artist_id", $artist_id, PDO::PARAM_INT);
+            $statement->execute();
+    
+            $albums = $statement->fetchAll(PDO::FETCH_CLASS, 'DanceAlbum');
+            return $albums;
+        } catch (PDOException $e) {
+            error_log('Error retrieving albums: ' . $e->getMessage());
+            return [];
+        }
+    }
+
 }
 ?>

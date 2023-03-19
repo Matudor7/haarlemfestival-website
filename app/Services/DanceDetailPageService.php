@@ -20,8 +20,12 @@ class DanceDetailPageService
     }
 
     public function getAllCareerHighlights($artist_id){
-        $careerHighlights = $this->danceDetailPageRepository->getAllCareerHighlightsFromDatabase($artist_id);
+        $careerHighlights = $this->danceDetailPageRepository->getAllArtistCareerHighlightsFromDatabase($artist_id);
         return $careerHighlights;
     }
 
+    public function getAllArtistAlbums($artist_id){
+        $albums = $this->danceDetailPageRepository->getAllArtistAlbumsFromDatabase($artist_id);
+        return $albums;
+    }
 }

@@ -22,17 +22,18 @@
     <section id="dance-detail-header" class="mx-0 my-0 py-0 bg-dark">
         <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner">
         <div id="dance-detail-header" class="mx-5 py-lg-5 justify-content text-left">
-            <h1 id="dance-detail-artist-header" class="fw-semibold display-2 bg-light w-50 opacity-75 text-dark">Artist
-                Name</h1>
-            <h2 id="dance-detail-subheader" class="bg-light w-50 opacity-75 text-dark">Artist Subheader</h2>
+            <h1 id="dance-detail-artist-header" class="fw-semibold display-2 bg-light w-50 opacity-75 text-dark"> <?=$artist->getName()?></h1>
+            <h2 id="dance-detail-subheader" class="bg-light w-50 opacity-75 text-dark"><?php if ($artist->getDanceArtistSubHeader() !== null): ?>
+    <?=$artist->getDanceArtistSubHeader()?>
+<?php endif; ?>
+</h2>
         </div>
 
         <section id="dance-detail-header-schedule">
             <div class="row px-4 py-4 mx-0">
                 <div class="col-8"></div>
                 <div class="col-4 bg-light opacity-75 fw-semi-bold">
-                    <h3 id="dance-detail-header-schedule-header">[Artist
-                        Name] is in [Festival Name]!!</h3>
+                    <h3 id="dance-detail-header-schedule-header"><?=$artist->getName()?> is in Dance! Schedule:</h3>
                     <dl class="row">
                         <dt class="col-3">[Date] - [Time]</dt>
                         <dd class="col-9">Place</dd>

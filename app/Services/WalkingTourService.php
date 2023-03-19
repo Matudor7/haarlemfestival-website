@@ -1,7 +1,5 @@
 <?php 
-
 require __DIR__ . '/../Repositories/walkingTourRepository.php';
-require __DIR__ . '/../Models/walkingTourModel.php';
 
 class WalkingTourService {
 
@@ -30,6 +28,18 @@ class WalkingTourService {
         $walkingTour = $this->walkingTourRepository->getWalkingTourByLanguage($lanuageId);
 
         return $walkingTour;
+    }
+
+    public function getTourPrices(){
+        $prices = $this->walkingTourRepository->getTourPrices();
+
+        return $prices;
+    }
+
+    public function getTourLocations(){
+        $locations = $this->walkingTourRepository->getTourLocations();
+
+        return $locations;
     }
 }
 ?>

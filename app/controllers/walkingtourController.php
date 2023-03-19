@@ -2,22 +2,29 @@
 require __DIR__ . '/controller.php'; 
 require __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/walkingTourService.php';
+require_once __DIR__ . '/../Models/WalkingTourModel.php';
 
-class walkingtourController extends Controller{
+class WalkingTourController extends Controller{
+    
     public function index(){
 
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        $walkinTourService = new WalkingTourService();
-        $walkingTours = $walkinTourService->getAllWalkingTours();
+        $walkingTourService = new WalkingTourService();
+        $walkingTours = $walkingTourService->getAllWalkingTours();
+        $prices = $walkingTourService->getTourPrices();
+        $locations = $walkingTourService->getTourLocations();
 
         require __DIR__ . '/../views/walkingtour/index.php';
     }
 
+    /**
+     * Summary of detailpage
+     * @return void
+     */
     public function detailpage() {
         $eventService = new EventService();
-        $walkinTourService = new WalkingTourService();
         $events = $eventService->getAll();
 
         require __DIR__ . '/../views/walkingtour/walkingTourDetailPage.php';

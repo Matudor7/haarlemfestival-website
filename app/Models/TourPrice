@@ -1,7 +1,0 @@
-<?php
-class TourPrice
-{
-    public int $walkingTour_Price_id;
-    public float $walkingTour_Price_price;
-    public string $walkingTour_Price_description;
-}?>

@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/WalkingTourModel.php';
+require_once __DIR__ . '/../Models/WalkingTourModel.php';
+require __DIR__ . '/../Models/TourPrice.php';
+require __DIR__ . '/../Models/TourTimetable.php';
+require __DIR__ . '/../Models/TourLocation.php';
+require __DIR__ . '/../Models/TourLanguage.php';
 
 class walkingTourRepository extends Repository{
 
@@ -67,6 +71,42 @@ class walkingTourRepository extends Repository{
         }catch(PDOException $e){
             echo $e;
         }
+    }
+
+    public function getTourPrices(){
+
+        $query = "SELECT walkingTour_Price_id, walkingTour_Price_price, walkingTour_Price_description
+        FROM walkingTour_Price";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'TourPrice');
+            $prices = $statement->fetch();
+
+            return $prices;
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public function getTourLocations(){
+            
+            $query = "SELECT walkingTour_Locations_id, walkingTour_Locations_venueName, walkingTour_Locations_addresId
+            FROM walkingTour_Locations";
+    
+            try{
+                $statement = $this->connection->prepare($query);
+                $statement->execute();
+    
+                $statement->setFetchMode(PDO::FETCH_CLASS, 'TourLocation');
+                $locations = $statement->fetch();
+    
+                return $locations;
+            }catch(PDOException $e){
+                echo $e;
+            }
     }
 }
 ?>

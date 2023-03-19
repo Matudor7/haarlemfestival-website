@@ -61,7 +61,13 @@
 
     <div class="container text-center">
         <div class="row">
-            <div class="col">
+            <?php foreach ($prices as $price ) { ?>
+                <div class="col">
+                    <h6><?php echo $price->getDescription()?></h6>
+                    <p><?php echo $price->getPrice()?></p>
+                </div>
+            <?php } ?>
+            <!---<div class="col">
                 <h6>regular ticket</h6>
                 <p>regular price</p>
             </div>
@@ -69,7 +75,7 @@
                 <h6>family ticket</h6>
                 <p class="mb-0">family price</p>
                 <label>max 4 people</label>
-            </div>
+            </div>!--->
     </div>
         
         <button class="rounded-pill">sing me up!</button>	
@@ -88,7 +94,9 @@
                 <p>The guide will bring you to these 9 majestic Haarlem landmarks; starting with the Bavo Cathedraal</p>
                 <br>
                 <ol>
-                    <li><a href="#">Location 1</a></li>
+                    <?php foreach ($locations as $location) { ?>
+                        <li><a href="#"><?php echo $location->$walkingTour_Locations_venueName?></a></li><?php } ?>
+                    <li><a href="#">locations 1</a></li>
                     <li><a href="#">Location 2</a></li>
                     <li><a href="#">Location 3</a></li>
                 </ol>
@@ -162,7 +170,7 @@
                 <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
                 <p>We curated quite some more details about this beautiful city, accompanied with a photo gallery and an audio guide for you to enjoy further.</p>
                 <br>
-            <button class="rounded-pill" href="walkingtour/DetailPage">I wanna learn more</button>
+            <button class="rounded-pill" href="WalkingTour/DetailPage">I wanna learn more</button>
     </div>
 </div>
 
@@ -221,7 +229,7 @@ button:hover{
 
 #header-button-show{
     position: absolute;
-    top: 70%;
+    top: 75%;
     left: 40%;
     width: 220px;
     transform: translate(-50%, -50%);
@@ -232,7 +240,7 @@ button:hover{
 #header-button-program{
     position: absolute;
     width: 220px;
-    top: 70%;
+    top: 75%;
     left: 65%;
     transform: translate(-50%, -50%);
     z-index: 2;

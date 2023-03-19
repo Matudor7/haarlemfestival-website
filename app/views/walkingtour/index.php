@@ -108,8 +108,9 @@
     <th scope="col" class="border border-dark border-4">Spots</th>
   </thead>
   <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
+  <?php foreach ($timetables as $timetable) {?>
     <tr>
-        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $event->getStartTime()?></th>
+        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $timetable->getTimetableStartDateTime()->format(' D dS / M')?></th>
       <td class="p-0">
         <table class="table p-0 m-0">
           <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>10:00</td></tr>
@@ -146,6 +147,7 @@
 </td>
 <td>12</td>
     </tr>
+  <?php } ?>
   </tbody>
 </table>
 

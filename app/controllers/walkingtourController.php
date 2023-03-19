@@ -15,6 +15,7 @@ class WalkingTourController extends Controller{
         $walkingTours = $walkingTourService->getAllWalkingTours();
         $prices = $walkingTourService->getTourPrices();
         $locations = $walkingTourService->getTourLocations();
+        $timetables = $walkingTourService->getTourTimetable();
 
         require __DIR__ . '/../views/walkingtour/index.php';
     }

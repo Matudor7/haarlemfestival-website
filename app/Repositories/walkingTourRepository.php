@@ -105,5 +105,47 @@ class walkingTourRepository extends Repository{
                 echo $e;
             }
     }
+
+    public function getTourTimetable2(){
+        $query = "SELECT walkingTour_Timetable_id, walkingTour_Timetable_startingDate, 
+       walkingTour_Timetable_startingTime FROM walkingTour_Timetable";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+        } catch(PDOException $e){
+            echo $e;
+        }
+    }
+    public function getTourTimetable(){
+        $query = "SELECT walkingTour_Timetable_id, walkingTour_Timetable_startingDate, 
+       walkingTour_Timetable_startingTime FROM walkingTour_Timetable";
+
+        try{
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+
+        $timetables = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+            $timetable = new TourTimetable();
+            $timetable->setTimetableId($row['walkingTour_Timetable_id']);
+            $date = $row['walkingTour_Timetable_startingDate'];
+            $time = $row['walkingTour_Timetable_startingTime'];
+
+            $dateTime_string = $row['walkingTour_Timetable_startingDate'].' '.$row['walkingTour_Timetable_startingTime'];
+
+            $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTime_string);
+            $timetable->setTimetableStartDateTime($dateTime);
+
+            $timetables[] = $timetable;
+            return $timetables;
+    }
+    } catch (PDOException $e) {
+error_log('Error retrieving dance events: ' . $e->getMessage());
+return [];
+}
+}
 }
 ?>

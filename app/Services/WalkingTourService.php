@@ -41,5 +41,10 @@ class WalkingTourService {
 
         return $locations;
     }
+
+    public function getTourTimetable(){
+        $timetables = $this->walkingTourRepository->getTourTimetable();
+        return $timetables;
+    }
 }
 ?>

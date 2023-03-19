@@ -5,10 +5,12 @@ require_once __DIR__ . "/../Models/MusicType.php";
 require_once __DIR__ . "/../Models/DanceLocation.php";
 require_once __DIR__ . "/../Models/DanceFlashback.php";
 require_once __DIR__ . "/../Models/DanceEvent.php";
+require_once __DIR__ . "/../Models/DanceCareerHighlight.php";
 
 class DanceDetalPageRepository extends Repository
 {
-    public function getDanceEventsByArtistId($artist_id)
+    //ARTIST
+    public function getDanceEventsByArtistIdFromDatabase($artist_id)
     {
         $sql = "SELECT de.dance_event_id, de.dance_event_date, de.dance_event_time, dl.dance_location_name, GROUP_CONCAT(da.dance_artist_name 
         ORDER BY da.dance_artist_name ASC SEPARATOR ', ') AS performing_artists, ds.dance_sessionType_name, de.dance_event_duration, de.dance_event_availableTickets, de.dance_event_price, de.dance_event_extraNote 
@@ -52,6 +54,23 @@ class DanceDetalPageRepository extends Repository
                 return $danceEvents;
         } catch (PDOException $e) {
             error_log('Error retrieving dance events: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    //CAREER HIGHLIGHT
+    public function getAllCareerHighlightsFromDatabase($artist_id){
+        $sql = "SELECT `dance_careerHighlights_id`, `dance_careerHighlights_artistId`, `dance_careerHighlights_description`, `dance_careerHighlights_imageUrl`, `dance_careerHighlights_alignment` FROM `dance_careerHighlights` WHERE `dance_careerHighlights_artistId` = :artist_id";
+        
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(":artist_id", $artist_id, PDO::PARAM_INT);
+            $statement->execute();
+    
+            $careerHighlights = $statement->fetchAll(PDO::FETCH_CLASS, 'CareerHighlight');
+            return $careerHighlights;
+        } catch (PDOException $e) {
+            error_log('Error retrieving career highlights: ' . $e->getMessage());
             return [];
         }
     }

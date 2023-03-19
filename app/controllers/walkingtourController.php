@@ -19,10 +19,6 @@ class WalkingTourController extends Controller{
         require __DIR__ . '/../views/walkingtour/index.php';
     }
 
-    /**
-     * Summary of detailpage
-     * @return void
-     */
     public function detailpage() {
         $eventService = new EventService();
         $events = $eventService->getAll();

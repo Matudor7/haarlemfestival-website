@@ -75,15 +75,14 @@ class walkingTourRepository extends Repository{
 
     public function getTourPrices(){
 
-        $query = "SELECT walkingTour_Price_id, walkingTour_Price_price, walkingTour_Price_description
+        $query = "SELECT walkingTour_Price_id, walkingTour_Price_price, walkingTour_Price_description, 	walkingTour_Price_amoutofPeople
         FROM walkingTour_Price";
 
         try{
             $statement = $this->connection->prepare($query);
             $statement->execute();
 
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'TourPrice');
-            $prices = $statement->fetch();
+            $prices = $statement->fetchAll(PDO::FETCH_CLASS, 'TourPrice');
 
             return $prices;
         }catch(PDOException $e){
@@ -100,9 +99,7 @@ class walkingTourRepository extends Repository{
                 $statement = $this->connection->prepare($query);
                 $statement->execute();
     
-                $statement->setFetchMode(PDO::FETCH_CLASS, 'TourLocation');
-                $locations = $statement->fetch();
-    
+                $locations = $statement->fetchAll(PDO::FETCH_CLASS, 'TourLocation');
                 return $locations;
             }catch(PDOException $e){
                 echo $e;

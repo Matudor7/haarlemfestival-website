@@ -64,18 +64,10 @@
             <?php foreach ($prices as $price ) { ?>
                 <div class="col">
                     <h6><?php echo $price->getDescription()?></h6>
-                    <p><?php echo $price->getPrice()?></p>
+                    <p class="mb-0"><?php echo $price->getPrice()?></p>
+                    <label>for <?php echo $price->getAmountofPeople()?> p</label>
                 </div>
             <?php } ?>
-            <!---<div class="col">
-                <h6>regular ticket</h6>
-                <p>regular price</p>
-            </div>
-            <div class="col">
-                <h6>family ticket</h6>
-                <p class="mb-0">family price</p>
-                <label>max 4 people</label>
-            </div>!--->
     </div>
         
         <button class="rounded-pill">sing me up!</button>	
@@ -95,10 +87,7 @@
                 <br>
                 <ol>
                     <?php foreach ($locations as $location) { ?>
-                        <li><a href="#"><?php echo $location->$walkingTour_Locations_venueName?></a></li><?php } ?>
-                    <li><a href="#">locations 1</a></li>
-                    <li><a href="#">Location 2</a></li>
-                    <li><a href="#">Location 3</a></li>
+                        <li><a href="#"><?php echo $location->getLocationName()?></a></li><?php } ?>
                 </ol>
             </div>
         </div>
@@ -168,7 +157,7 @@
     <div id="extra-text-container" class="container text-center">
         <h3>Let's revisit</h3>
                 <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
-                <p>We curated quite some more details about this beautiful city, accompanied with a photo gallery and an audio guide for you to enjoy further.</p>
+                <p>We curated quite some more details about this beautiful city, accompanied by a photo gallery and an audio guide for you to enjoy further.</p>
                 <br>
             <button class="rounded-pill" href="WalkingTour/DetailPage">I wanna learn more</button>
     </div>

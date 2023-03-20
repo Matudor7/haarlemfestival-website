@@ -81,6 +81,21 @@ class AdminController extends Controller{
 
         header('Location: /admin/events');
     }
+
+    public function danceAdmin(){
+        //TODO: Use constructor to avoid duplicate code
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        require __DIR__ . '/../views/admin/danceAdmin/danceManage.php'; 
+    }
+
+    function danceAdminManageArtists(){
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        require __DIR__ . '/../views/admin/danceAdmin/danceManage.php'; 
+    }
 }
 
 ?>

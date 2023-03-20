@@ -28,4 +28,8 @@ class DanceDetailPageService
         $albums = $this->danceDetailPageRepository->getAllArtistAlbumsFromDatabase($artist_id);
         return $albums;
     }
+    public function getAllArtistSongs($artist_id){
+        $songs = $this->danceDetailPageRepository->getAllArtistSongsFromDatabase($artist_id);
+        return $songs;
+    }
 }

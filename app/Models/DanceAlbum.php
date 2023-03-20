@@ -35,12 +35,6 @@ class DanceAlbum
     }
 
     // Setters
-    public function setId(int $id): self
-    {
-        $this->dance_album_id = $id;
-        return $this;
-    }
-
     public function setArtistId(int $artistId): self
     {
         $this->dance_album_artistId = $artistId;

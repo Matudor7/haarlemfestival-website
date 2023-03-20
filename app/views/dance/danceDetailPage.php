@@ -340,7 +340,7 @@
     <section id="dance-detail-artist-final-schedule" class="my-5 mx-5">
         <div class="row">
             <div id="dance-detail-artist-description-light" class="col mx-5 p-5 text-dark">
-                <h4 class="mb-3"> Watch <?= $artist->getName() ?> perform at Haarlem Festival! </h4>
+                <h3 class="mb-5"> Watch <?= $artist->getName() ?> perform at Haarlem Festival! </h3>
                 <?php foreach ($danceEventsByArtistId as $danceEvent) { ?>
                 <p> <?php echo $danceEvent
                     ->getDanceEventDateTime()

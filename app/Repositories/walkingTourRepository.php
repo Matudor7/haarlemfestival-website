@@ -86,7 +86,7 @@ public function getTourLanguages()
         $statement = $this->connection->prepare($query);
         $statement->execute();
 
-        $languages = $statement->fetch(PDO::FETCH_CLASS, 'TourLanguage');
+        $languages = $statement->fetchAll(PDO::FETCH_CLASS, 'TourLanguage');
 
         return $languages;
     } catch (PDOException $e) {echo $e;}

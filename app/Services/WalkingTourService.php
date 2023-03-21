@@ -51,10 +51,10 @@ class WalkingTourService {
         return $timetables;
     }
     public function getTourLanguages(){
-        return $this->getTourLanguages();
+        return $this->walkingTourRepository->getTourLanguages();
     }
     public function getTourLanguageById(int $id){
-        return $this->getTourLanguageById($id);
+        return $this->walkingTourRepository->getTourLanguageById($id);
     }
 }
 ?>

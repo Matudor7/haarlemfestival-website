@@ -23,9 +23,9 @@ class WalkingTourService {
         return $walkingTour;
     }
 
-    public function getWalkingTourByLanguage(int $lanuageId) {
+    public function getWalkingTourByLanguage(int $languageId) {
 
-        $walkingTour = $this->walkingTourRepository->getWalkingTourByLanguage($lanuageId);
+        $walkingTour = $this->walkingTourRepository->getWalkingTourByLanguage($languageId);
 
         return $walkingTour;
     }
@@ -35,16 +35,22 @@ class WalkingTourService {
 
         return $prices;
     }
-
+    public function getTourPriceById(int $id){
+        return $this->walkingTourRepository->getTourPriceById($id);
+    }
     public function getTourLocations(){
         $locations = $this->walkingTourRepository->getTourLocations();
 
         return $locations;
     }
-
+    public function getTourLocationById(int $id){
+        return $this->walkingTourRepository->getTourLocationById($id);
+    }
     public function getTourTimetable(){
         $timetables = $this->walkingTourRepository->getTourTimetable();
         return $timetables;
     }
+
+
 }
 ?>

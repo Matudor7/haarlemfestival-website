@@ -26,7 +26,7 @@
 <button id="header-button-program" class="rounded-pill">Save me a spot</button>
 </section>
 
-<div class="container pt-5 text-center">
+<div class="container pt-5 text-center" >
   <img src="/media/walkingtourPics/walking-tour-title-logo.png" class="" id="title-logo">
   <div class="container text-center">
     <div class="row pt-4">
@@ -65,7 +65,7 @@
                 <div class="col">
                     <h6><?php echo $price->getDescription()?></h6>
                     <p class="mb-0"><?php echo $price->getPrice()?></p>
-                    <label>for <?php echo $price->getAmountofPeople()?> p</label>
+                    <label>for <?php echo $price->getAmountofPeople()?> pax</label>
                 </div>
             <?php } ?>
     </div>
@@ -162,9 +162,15 @@
                 <p>We curated quite some more details about this beautiful city, accompanied by a photo gallery and an audio guide for you to enjoy further.</p>
                 <br>
             <button class="rounded-pill" href="WalkingTour/DetailPage">I wanna learn more</button>
+
     </div>
 </div>
 
+      <div class="container">
+          <?php foreach ($walkingTours as $walkingTour) {?>
+              <p><?php echo $walkingTour->getTourLanguage()?></p>
+          <?php } ?>
+      </div>
 
 </div>
 </div>

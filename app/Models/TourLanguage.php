@@ -1,7 +1,8 @@
 <?php
-enum TourLanguage
+enum TourLanguage: int
 {
-   case English;
-    case Dutch;
-    case Chinese;
-}?>
+   case English = 1;
+    case Dutch = 2;
+    case Chinese = 3;
+}
+?>

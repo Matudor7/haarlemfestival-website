@@ -8,27 +8,6 @@ require __DIR__ . '/../Models/TourLanguage.php';
 
 class walkingTourRepository extends Repository{
 
-    public function getAllWalkingTours(){
-
-        $query = "SELECT walkingTour_eventId, 
-        walkingTour_capacity, walkingTour_availability, walkingTour_duration, 
-        walkingTour_startingLocationId, walkingTour_priceId, walkingTour_timetableId, 
-        walkingTour_languageId 
-        FROM walkingTour";
-
-        try{
-            $statement = $this->connection->prepare($query);
-            $statement->execute();
-
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'WalkingTourModel');
-            $walkingTours = $statement->fetchAll();
-
-            return $walkingTours;
-        }catch(PDOException $e){
-            echo $e;
-        }
-    }
-
     public function getWalkingTourById(int $id){
 
         $query = "SELECT walkingTour_eventId, 
@@ -46,9 +25,7 @@ class walkingTourRepository extends Repository{
             $walkingTour = $statement->fetch();
 
             return $walkingTour;
-        }catch(PDOException $e){
-            echo $e;
-        }
+        }catch(PDOException $e){echo $e;}
     }
 
     public function getWalkingTourByLanguage(int $lanuageId){
@@ -68,26 +45,38 @@ class walkingTourRepository extends Repository{
             $walkingTour = $statement->fetch();
 
             return $walkingTour;
-        }catch(PDOException $e){
-            echo $e;
-        }
+        }catch(PDOException $e){echo $e;}
     }
 
-    public function getTourPrices(){
+    public function getTourPrices()
+    {
 
         $query = "SELECT walkingTour_Price_id, walkingTour_Price_price, walkingTour_Price_description, 	walkingTour_Price_amoutofPeople
         FROM walkingTour_Price";
 
-        try{
+        try {
             $statement = $this->connection->prepare($query);
             $statement->execute();
 
             $prices = $statement->fetchAll(PDO::FETCH_CLASS, 'TourPrice');
 
             return $prices;
-        }catch(PDOException $e){
-            echo $e;
-        }
+        } catch (PDOException $e) {echo $e;}
+    }
+    public function getTourPriceById(int $id){
+        $query ="SELECT walkingTour_Price_id, walkingTour_Price_price, walkingTour_Price_description, 
+       walkingTour_Price_amoutofPeople FROM walkingTour_Price WHERE walkingTour_Price_id = :id";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'TourPrice');
+            $tourPrice = $statement->fetch();
+
+            return $tourPrice;
+        } catch (PDOException $e){echo $e;}
     }
 
     public function getTourLocations(){
@@ -101,23 +90,26 @@ class walkingTourRepository extends Repository{
     
                 $locations = $statement->fetchAll(PDO::FETCH_CLASS, 'TourLocation');
                 return $locations;
-            }catch(PDOException $e){
-                echo $e;
-            }
+            }catch(PDOException $e){echo $e;}
     }
 
-    public function getTourTimetable2(){
-        $query = "SELECT walkingTour_Timetable_id, walkingTour_Timetable_startingDate, 
-       walkingTour_Timetable_startingTime FROM walkingTour_Timetable";
+    public function getTourLocationById(int $id){
+        $query = "SELECT walkingTour_Locations_id, walkingTour_Locations_venueName, walkingTour_Locations_addresId
+            FROM walkingTour_Locations WHERE walkingTour_Locations_id = :id";
 
         try{
             $statement = $this->connection->prepare($query);
+            $statement->bindParam(':id', $id);
             $statement->execute();
 
-        } catch(PDOException $e){
-            echo $e;
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'TourLocation');
+            $tourLocation = $statement->fetch();
+
+            return $tourLocation;
         }
+        catch(PDOException $e){echo $e;}
     }
+
     public function getTourTimetable(){
         $query = "SELECT walkingTour_Timetable_id, walkingTour_Timetable_startingDate, 
        walkingTour_Timetable_startingTime FROM walkingTour_Timetable";
@@ -140,12 +132,65 @@ class walkingTourRepository extends Repository{
             $timetable->setTimetableStartDateTime($dateTime);
 
             $timetables[] = $timetable;
-            return $timetables;
     }
-    } catch (PDOException $e) {
-error_log('Error retrieving dance events: ' . $e->getMessage());
-return [];
+            return $timetables;
+    } catch (PDOException $e) {echo $e;}
 }
+public function getTourTimetableById(int $id){
+    $query = "SELECT walkingTour_Timetable_id, walkingTour_Timetable_startingDate, walkingTour_Timetable_startingTime
+            FROM walkingTour_Timetable WHERE walkingTour_Timetable_id = :id";
+
+    try{
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+            $timetable = new TourTimetable();
+            $timetable->setTimetableId($row['walkingTour_Timetable_id']);
+
+            $dateTime_string = $row['walkingTour_Timetable_startingDate'].' '.$row['walkingTour_Timetable_startingTime'];
+
+            $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTime_string);
+            $timetable->setTimetableStartDateTime($dateTime);
+
+            return $timetable;
+        }
+    }
+    catch(PDOException $e){echo $e;}
+}
+public function getAllWalkingTours(){
+        $query = "SELECT walkingTour_eventId, walkingTour_capacity, walkingTour_availability, walkingTour_duration, 
+        walkingTour_startingLocationId, walkingTour_priceId, walkingTour_timetableId, WalkingTour_languageId
+        FROM walkingTour";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+                $walkingTour = new WalkingTourModel();
+                $walkingTour->setEventId($row['walkingTour_eventId']);
+                $walkingTour->setTourCapacity($row['walkingTour_capacity']);
+                $walkingTour->setTourAvailability($row['walkingTour_availability']);
+                $walkingTour->setStartLocation($this->getTourLocationById($row['walkingTour_startingLocationId']));
+                $walkingTour->setTourPrice($this->getTourPriceById($row['walkingTour_priceId']));
+                $walkingTour->setTourTimetable($this->getTourTimetableById($row['walkingTour_timetableId']));
+                $walkingTour->setTourDuration($row['walkingTour_duration']);
+
+                $languageId = $row['WalkingTour_languageId'];
+                $language = TourLanguage::from($languageId);
+
+                $walkingTour->setTourLanguage($language);
+
+                $walkingTours[] = $walkingTour;
+            }
+
+            return $walkingTours;
+
+        } catch(PDOException $e){echo $e;}
 }
 }
 ?>

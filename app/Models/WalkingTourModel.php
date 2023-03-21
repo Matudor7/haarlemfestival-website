@@ -31,8 +31,8 @@ class WalkingTourModel
     public function getTourTimetable(): TourTimetable{
         return $this->walkingTour_timetable;
     }
-    public function getTourLanguage(): string{
-        return $this->walkingTour_language->name;
+    public function getTourLanguage(): TourLanguage{
+        return $this->walkingTour_language;
     }
     //setters
     public function setEventId(int $id){

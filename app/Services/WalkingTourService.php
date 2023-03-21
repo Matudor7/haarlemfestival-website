@@ -50,7 +50,11 @@ class WalkingTourService {
         $timetables = $this->walkingTourRepository->getTourTimetable();
         return $timetables;
     }
-
-
+    public function getTourLanguages(){
+        return $this->getTourLanguages();
+    }
+    public function getTourLanguageById(int $id){
+        return $this->getTourLanguageById($id);
+    }
 }
 ?>

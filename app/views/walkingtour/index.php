@@ -15,7 +15,7 @@
         include __DIR__ . '/../nav.php';
         ?>
 
-<main>
+<main id="main">
 
 <section id="header-container" class="container mx-0 px-0">
 <img src="/media/walkingtourPics/walkingtourHeader.png" class="mx-auto" alt="Header" id="header-img">
@@ -23,7 +23,7 @@
 <p id="header-text" class="text-dark"><?php echo $event->getDescription()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill">Save me a spot</button>
+<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()" href="#">Save me a spot</button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -161,15 +161,13 @@
                 <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
                 <p>We curated quite some more details about this beautiful city, accompanied by a photo gallery and an audio guide for you to enjoy further.</p>
                 <br>
-            <button class="rounded-pill" href="WalkingTour/DetailPage">I wanna learn more</button>
+            <button class="rounded-pill" onClick="location.href='/WalkingTour/walkingTourDetailPage'">I wanna learn more</button>
 
     </div>
 </div>
 
       <div class="container">
-          <?php foreach ($walkingTours as $walkingTour) {?>
-              <p><?php echo $walkingTour->getTourLanguage()?></p>
-          <?php } ?>
+
       </div>
 
 </div>
@@ -211,7 +209,7 @@ button:hover{
 #header-img{
     position: relative;
     z-index: 1;
-    width: 1204px;
+    max-width: 1193px;
     height: 100%;
 }
 

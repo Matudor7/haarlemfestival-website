@@ -7,6 +7,7 @@ require_once __DIR__ . "/../Models/DanceFlashback.php";
 require_once __DIR__ . "/../Models/DanceEvent.php";
 require_once __DIR__ . "/../Models/DanceCareerHighlight.php";
 require_once __DIR__ . "/../Models/DanceAlbum.php";
+require_once __DIR__ . "/../Models/DanceSong.php";
 
 class DanceDetalPageRepository extends Repository
 {
@@ -89,6 +90,23 @@ class DanceDetalPageRepository extends Repository
             return $albums;
         } catch (PDOException $e) {
             error_log('Error retrieving albums: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    //SONG
+    public function getAllArtistSongsFromDatabase($artist_id){
+        $sql = "SELECT `dance_song_id`, `dance_song_artistId`, `dance_song_name`, `dance_song_imageUrl`, `dance_song_mp3Url` FROM `dance_song` WHERE `dance_song_artistId`= :artist_id";
+        
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(":artist_id", $artist_id, PDO::PARAM_INT);
+            $statement->execute();
+    
+            $songs = $statement->fetchAll(PDO::FETCH_CLASS, 'DanceSong');
+            return $songs;
+        } catch (PDOException $e) {
+            error_log('Error retrieving songs: ' . $e->getMessage());
             return [];
         }
     }

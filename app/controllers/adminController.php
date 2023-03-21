@@ -87,14 +87,14 @@ class AdminController extends Controller{
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        require __DIR__ . '/../views/admin/danceAdmin/danceManage.php'; 
+        require __DIR__ . '/../views/admin/danceAdmin/danceAdminIndex.php'; 
     }
 
-    function danceAdminManageArtists(){
+    public function danceAdminManage(){
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        require __DIR__ . '/../views/admin/danceAdmin/danceManage.php'; 
+        require __DIR__ . '/../views/admin/danceAdmin/danceAdminManage.php'; 
     }
 }
 

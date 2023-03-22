@@ -115,14 +115,16 @@ class AdminController extends Controller{
             case 'Artist':
                 $tableHtml = $this->generateArtistTable($artists);
                 break;
-                case 'Location':
-                    $tableHtml = $this->generateLocationTable($danceLocations);
-                    break;
+            case 'Location':
+                $tableHtml = $this->generateLocationTable($danceLocations);
+                break;
+            case 'Event':
+                $tableHtml = $this->generateEventTable($danceEvents);
+                break;
             default:
-                // Handle invalid type
+                $tableHtml = '<p>There has been an error. Please try again later.</p>';
                 break;
         }
-
 
         require __DIR__ . '/../views/admin/danceAdminManage.php'; 
     }
@@ -190,6 +192,47 @@ class AdminController extends Controller{
             $tableHtml .= '<td>' . $location->getDanceLocationCity() . '</td>';
             $tableHtml .= '<td>' . $location->getDanceLocationUrlToTheirSite() . '</td>';
             $tableHtml .= '<td>' . $location->getDanceLocationImageUrl() . '</td>';            
+            $tableHtml .= '<td><button class="btn btn-warning">Edit</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '</tr>';
+        }
+    
+        $tableHtml .= '</tbody></table>';
+        return $tableHtml;
+    }
+
+    function generateEventTable($danceEvents){
+        $tableHtml = '<table class="table">';
+        $tableHtml .= '<thead class="thead-light">
+                <tr>
+                    <th scope="col">Event Id </th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location Name</th>
+                    <th scope="col">Artists</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Available Tickets</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Extra Note</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>';
+        $tableHtml .= '<tbody>';
+    
+        foreach ($danceEvents as $event) {
+            $tableHtml .= '<tr>';
+            $tableHtml .= '<td>' . $event->getDanceEventId() . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceEventDateTime()->format("d-m-Y") . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceEventDateTime()->format("H:i") . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceLocationName() . '</td>';
+            $tableHtml .= '<td>' . $event->getPerformingArtists() . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceSessionTypeName() . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceEventDuration() . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceEventAvailableTickets() . '</td>';
+            $tableHtml .= '<td>' . number_format($event->getDanceEventPrice(), 2, '.', '') . '€' . '</td>';
+            $tableHtml .= '<td>' . $event->getDanceEventExtraNote() . '</td>';            
             $tableHtml .= '<td><button class="btn btn-warning">Edit</button></td>';
             $tableHtml .= '<td><button class="btn btn-danger">Delete</button></td>';
             $tableHtml .= '</tr>';

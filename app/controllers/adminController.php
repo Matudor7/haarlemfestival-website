@@ -2,8 +2,19 @@
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../services/festivalService.php';
 require __DIR__ . '/../services/eventService.php';
+require __DIR__ . '/../services/DanceService.php';
 
 class AdminController extends Controller{
+    private $eventService;
+    private $danceService;
+    private $events;
+
+    public function __construct() {
+        $this->eventService = new EventService();
+        $this->danceService = new DanceService();
+
+        $this->events = $this->eventService->getAll();
+    }
     public function index(){
         $festivalService = new FestivalService();
         $eventService = new EventService();
@@ -82,19 +93,26 @@ class AdminController extends Controller{
         header('Location: /admin/events');
     }
 
-    public function danceAdmin(){
-        //TODO: Use constructor to avoid duplicate code
-        $eventService = new EventService();
-        $events = $eventService->getAll();
-
-        require __DIR__ . '/../views/admin/danceAdmin/danceAdminIndex.php'; 
+    public function danceAdminIndex(){
+        require __DIR__ . '/../views/admin/danceAdminIndex.php'; 
     }
 
     public function danceAdminManage(){
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        $artists = $this->danceService->getAllArtists();
+        $danceLocations = $this->danceService->getAllDanceLocations();
+        $danceEvents = $this->danceService->getAllDanceEvents();
 
-        require __DIR__ . '/../views/admin/danceAdmin/danceAdminManage.php'; 
+        foreach ($danceEvents as $danceEvent) {
+            $date = $danceEvent->getDanceEventDateTime()->format('Y-m-d');
+            if (!isset($danceEventsByDate[$date])) {
+                $danceEventsByDate[$date] = [];
+            }
+        }
+
+        $element = htmlspecialchars($_GET['type'], ENT_QUOTES, 'UTF-8');
+
+
+        require __DIR__ . '/../views/admin/danceAdminManage.php'; 
     }
 }
 

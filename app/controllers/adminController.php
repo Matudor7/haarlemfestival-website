@@ -111,8 +111,50 @@ class AdminController extends Controller{
 
         $element = htmlspecialchars($_GET['type'], ENT_QUOTES, 'UTF-8');
 
+        switch ($element) {
+            case 'Artist':
+                $tableHtml = $this->generateArtistTable($artists);
+                break;
+            default:
+                // Handle invalid type
+                break;
+        }
+
 
         require __DIR__ . '/../views/admin/danceAdminManage.php'; 
+    }
+
+    function generateArtistTable($artists) {
+        $tableHtml = '<table class="table">';
+        $tableHtml .= '<thead class="thead-light">
+                <tr>
+                    <th scope="col">Artist Id </th>
+                    <th scope="col">Artist Photo</th>
+                    <th scope="col">Artist Name</th>
+                    <th scope="col">Music Type</th>
+                    <th scope="col">Detail Page</th>
+                    <th scope="col">Image Url</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>';
+        $tableHtml .= '<tbody>';
+    
+        foreach ($artists as $artist) {
+            $tableHtml .= '<tr>';
+            $tableHtml .= '<td>' . $artist->getId() . '</td>';
+            $tableHtml .= '<td><img src="' . $artist->getArtistHomepageImageUrl() . '" class="img-fluid" alt="' . $artist->getName() . ' Photo" style="max-height:30px;"></td>';
+            $tableHtml .= '<td>' . $artist->getName() . '</td>';
+            $tableHtml .= '<td>' . $artist->getArtistMusicTypes() . '</td>';
+            $tableHtml .= '<td>' . ($artist->getHasDetailPage() ? 'Yes' : 'No') . '</td>';
+            $tableHtml .= '<td>' . $artist->getArtistHomepageImageUrl() . '</td>';
+            $tableHtml .= '<td><button class="btn btn-warning">Edit</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '</tr>';
+        }
+    
+        $tableHtml .= '</tbody></table>';
+        return $tableHtml;
     }
 }
 

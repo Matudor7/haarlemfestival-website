@@ -19,36 +19,7 @@
 
         <button class="btn btn-success my-3">Add New Dance <?php echo $element ?></button>
 
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">[element id]</th>
-                    <th scope="col">[element x]</th>
-                    <th scope="col">[element x]</th>
-                    <th scope="col">[element x]</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">[element id]</th>
-                    <td>[element x]</td>
-                    <td>[element x]</td>
-                    <td>[element x]</td>
-                    <td><button class="btn btn-warning">Edit</button></td>
-                    <td><button class="btn btn-danger">Delete</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">[element id]</th>
-                    <td>[element x]</td>
-                    <td>[element x]</td>
-                    <td>[element x]</td>
-                    <td><button class="btn btn-warning">Edit</button></td>
-                    <td><button class="btn btn-danger">Delete</button></td>
-                </tr>
-            </tbody>
-        </table>
+        <?php echo $tableHtml?>
     </div>
     <script>
     </script>

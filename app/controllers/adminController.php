@@ -241,6 +241,10 @@ class AdminController extends Controller{
         $tableHtml .= '</tbody></table>';
         return $tableHtml;
     }
+
+    public function danceAdminAdd(){
+        require __DIR__ . '/../views/admin/danceAdminAdd.php'; 
+    }
 }
 
 ?>

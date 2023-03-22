@@ -115,6 +115,9 @@ class AdminController extends Controller{
             case 'Artist':
                 $tableHtml = $this->generateArtistTable($artists);
                 break;
+                case 'Location':
+                    $tableHtml = $this->generateLocationTable($danceLocations);
+                    break;
             default:
                 // Handle invalid type
                 break;
@@ -148,6 +151,45 @@ class AdminController extends Controller{
             $tableHtml .= '<td>' . $artist->getArtistMusicTypes() . '</td>';
             $tableHtml .= '<td>' . ($artist->getHasDetailPage() ? 'Yes' : 'No') . '</td>';
             $tableHtml .= '<td>' . $artist->getArtistHomepageImageUrl() . '</td>';
+            $tableHtml .= '<td><button class="btn btn-warning">Edit</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '</tr>';
+        }
+    
+        $tableHtml .= '</tbody></table>';
+        return $tableHtml;
+    }
+
+    function generateLocationTable($danceLocations){
+        $tableHtml = '<table class="table">';
+        $tableHtml .= '<thead class="thead-light">
+                <tr>
+                    <th scope="col">Location Id </th>
+                    <th scope="col">Location Photo</th>
+                    <th scope="col">Location Name</th>
+                    <th scope="col">Street</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Postcode</th>
+                    <th scope="col">City</th>
+                    <th scope="col">URL to their site</th>
+                    <th scope="col">Image URL</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>';
+        $tableHtml .= '<tbody>';
+    
+        foreach ($danceLocations as $location) {
+            $tableHtml .= '<tr>';
+            $tableHtml .= '<td>' . $location->getDanceLocationId() . '</td>';
+            $tableHtml .= '<td><img src="' . $location->getDanceLocationImageUrl() . '" class="img-fluid" alt="' . $location->getDanceLocationName() . ' Photo" style="max-height:30px;"></td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationName() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationStreet() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationNumber() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationPostcode() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationCity() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationUrlToTheirSite() . '</td>';
+            $tableHtml .= '<td>' . $location->getDanceLocationImageUrl() . '</td>';            
             $tableHtml .= '<td><button class="btn btn-warning">Edit</button></td>';
             $tableHtml .= '<td><button class="btn btn-danger">Delete</button></td>';
             $tableHtml .= '</tr>';

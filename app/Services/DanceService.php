@@ -16,13 +16,17 @@ class DanceService
         $artists = $this->danceRepository->getAllArtists();
         return $artists;
     }
+    public function getArtistById($artist_id)
+    {
+        return $this->danceRepository->getArtistById($artist_id);    
+    }
 
     //MUSIC TYPES
-    public function getArtistMusicTypes($artistId)
+    /*public function getArtistMusicTypes($artistId)
     {
         $musicTypes = $this->danceRepository->getMusicTypesByArtist($artistId);
         return $musicTypes;
-    }
+    }*/
 
     // DANCE LOCATIONS
     public function getAllDanceLocations()

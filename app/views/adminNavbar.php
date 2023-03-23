@@ -5,4 +5,7 @@
   <li class="nav-item">
     <a class="nav-link" href="/admin/events">Events</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/danceAdminIndex">"Dance!" Content</a>
+  </li>
 </ul>

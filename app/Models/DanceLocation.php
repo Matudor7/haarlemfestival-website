@@ -44,10 +44,6 @@ class DanceLocation {
     }
 
     // setters
-    public function setDanceLocationId(int $id): self {
-        $this->dance_location_id = $id;
-        return $this;
-    }
 
     public function setDanceLocationName(string $name): self {
         $this->dance_location_name = $name;

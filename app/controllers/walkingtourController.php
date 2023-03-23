@@ -10,6 +10,7 @@ class WalkingTourController extends Controller{
 
         $eventService = new EventService();
         $events = $eventService->getAll();
+        $thisEvent = $eventService->getByName("Walking Tour");
 
         $walkingTourService = new WalkingTourService();
         $walkingTours = $walkingTourService->getAllWalkingTours();
@@ -19,9 +20,10 @@ class WalkingTourController extends Controller{
         $languages = $walkingTourService->getTourLanguages();
 
         require __DIR__ . '/../views/walkingtour/index.php';
+        require __DIR__ .'/../views/buyTicketForm.php';
     }
 
-    public function detailpage() {
+    public function walkingTourDetailPage() {
         $eventService = new EventService();
         $events = $eventService->getAll();
 

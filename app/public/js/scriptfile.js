@@ -8,3 +8,10 @@ function closeTicketForm(){
     document.getElementById("ticketForm").style.display = "none";
     document.getElementById("main").style.filter = "none";
 }
+
+//DANCE JS METHODS
+function scrollToElement() {
+    document.querySelector('#dance-homepage-schedule').scrollIntoView({
+        behavior: 'smooth'
+    });
+}

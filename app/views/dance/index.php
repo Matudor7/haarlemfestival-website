@@ -249,13 +249,9 @@
 
     <?php include __DIR__ . "/../footerfordance.php"; ?>
 
-    <script>
-    function scrollToElement() {
-        document.querySelector('#dance-homepage-schedule').scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-    </script>
+    
+    <script src="/js/scriptfile.js"></script>
+    
 
 </body>
 

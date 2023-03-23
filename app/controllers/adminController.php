@@ -99,5 +99,5 @@ class AdminController extends Controller{
         require __DIR__ . '/../views/admin/manageRestaurantPage.php';
     }
 
-
+}
 ?>

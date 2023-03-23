@@ -9,9 +9,9 @@ class Event implements JsonSerializable{
 
     private string $event_description = "";
 
-    private DateTime $event_startTime;
+    private string $event_startTime = "";
 
-    private DateTime $event_endTime;
+    private string $event_endTime = "";
     
 
     #[ReturnTypeWillChange]
@@ -67,22 +67,20 @@ class Event implements JsonSerializable{
         return $this;
     }
 
-    public function getStartTime():DateTime{
+    public function getStartTime():string{
         return $this ->event_startTime;
     }
 
-    public function setStartTime(DateTime $startTime):self{
-        $startTime->format('Y-m-s');
+    public function setStartTime(string $startTime):self{
         $this->event_startTime = $startTime;
         return $this;
     }
 
-    public function getEndTime(): DateTime{
+    public function getEndTime(): string{
         return $this->event_endTime;
     }
 
-    public function setEndTime(DateTime $endTime):self{
-        $endTime->format('Y-m-d');
+    public function setEndTime(string $endTime):self{
         $this->event_endTime = $endTime;
         return $this;
     }

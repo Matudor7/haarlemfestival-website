@@ -45,6 +45,9 @@
                     <li class="nav-item">
                         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
                     </li>
+                    <li class="nav-item" style="margin-top:3px">
+                        <a class="btn btn-success rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas" role ="button" href="#offcanvas"></a>
+                    </li>
 
                     <li>
                         <?php
@@ -65,7 +68,16 @@
             <?php
         } ?>
 
-
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas right</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                    ...
+            </div>
+        </div>
+        
         </nav>
     <script src="/js/scriptfile.js"></script>
     </body>

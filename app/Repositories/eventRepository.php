@@ -6,10 +6,24 @@ class EventRepository extends Repository{
     public function getAll(){
         try{
             $statement = $this -> connection -> prepare("SELECT event_id, event_name, event_description, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM event");
+            
             $statement->execute();
+            $events = [];
+            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                $event = new Event();
 
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'Event');
-            $events = $statement->fetchAll();
+                $event->setId($row['event_id']);
+                $event->setName($row['event_name']);
+                $event->setDescription($row['event_description']);
+                $eventStartTime_DateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['event_startTime']);
+                $event->setStartTime($eventStartTime_DateTime);
+                $eventEndTime_DateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['event_endTime']);
+                $event->setEndTime($eventEndTime_DateTime);
+                $event->setUrlRedirect($row['event_urlRedirect']);
+                $event->setImageUrl($row['event_imageUrl']);
+
+                $events[] = $event;
+            }
 
             return $events;
         }catch(PDOException $e){
@@ -51,7 +65,7 @@ class EventRepository extends Repository{
     public function insert($event){
         try{
             $statement = $this ->connection->prepare("INSERT INTO event (event_name, event_startTime, event_endTime, event_urlRedirect, event_imageUrl, event_description) VALUES (?, ?, ?, ?, ?, ?)");
-            $statement->execute(array(htmlspecialchars($event->getName()), htmlspecialchars($event->getStartTime()), htmlspecialchars($event->getEndTime()), htmlspecialchars($event->getUrlRedirect()), htmlspecialchars($event->getImageUrl()), htmlspecialchars($event->getDescription())));
+            $statement->execute(array(htmlspecialchars($event->getName()), $event->getStartTime(), $event->getEndTime(), htmlspecialchars($event->getUrlRedirect()), htmlspecialchars($event->getImageUrl()), htmlspecialchars($event->getDescription())));
         }catch(PDOException $e){
             echo $e->getMessage();
         }

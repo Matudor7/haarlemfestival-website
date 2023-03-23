@@ -38,7 +38,7 @@ class AdminController extends Controller{
                 
                 $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['eventnametextbox'])));;
     
-                $downloadPath = SITE_ROOT . '/media/events/' . $imageName . '.png'; // /media/events/event.png
+                $downloadPath = SITE_ROOT . '/media/events/' . $imageName . '.png'; // public/media/events/event.png
     
                 //Put the file from the image path to the download path
                 move_uploaded_file($imageUrl, $downloadPath);

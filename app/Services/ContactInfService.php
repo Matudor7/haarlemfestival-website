@@ -14,7 +14,7 @@ class ContactInfService
 
     public function getById($contactInf_id)
     {
-        $contactRepo = new YummyRepository();
+        $contactRepo = new ContactInfRepository();
         $contact = $contactRepo->getById($contactInf_id);
 
         return $contact;

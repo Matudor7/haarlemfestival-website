@@ -3,6 +3,11 @@ require __DIR__ . '/controller.php';
 require __DIR__ . '/../services/festivalService.php';
 require __DIR__ . '/../services/eventService.php';
 require __DIR__ . '/../services/DanceService.php';
+require __DIR__ . '/../Services/FoodTypeService.php';
+require __DIR__ . '/../Services/RatingService.php';
+require __DIR__ . '/../Services/YummyService.php';
+require __DIR__ . '/../Services/UserService.php';
+git
 
 class AdminController extends Controller{
     private $eventService;
@@ -93,11 +98,119 @@ class AdminController extends Controller{
         header('Location: /admin/events');
     }
 
-    public function manageRestaurantPage(){
+    public function addRestaurantPage()
+    {
         $eventService = new EventService();
         $events = $eventService->getAll();
-        require __DIR__ . '/../views/admin/manageRestaurantPage.php';
+
+        $foodTypeService = new FoodTypeService();
+        $foodTypes = $foodTypeService->getAllFoodType();
+
+        $ratingService = new RatingService();
+        $ratings = $ratingService->getAllRating();
+
+        require __DIR__ . '/../views/admin/addRestaurantPage.php';
+    }
+    public function manageRestaurants()
+    {
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        $yummyService = new YummyService();
+        $restaurants = $yummyService->getAllRestaurants();
+
+        $foodTypeService = new FoodTypeService();
+        $foodTypes = $foodTypeService->getAllFoodType();
+
+        $ratingService = new RatingService();
+        $ratings = $ratingService->getAllRating();
+
+
+        require __DIR__ . '/../views/admin/manageRestaurants.php';
     }
 
+    public function addRestaurant()
+    {
+        $restaurant = new RestaurantModel();
+        $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
+        $restaurant->setFoodTypeId(htmlspecialchars($_POST['restaurant_foodType']));
+        $restaurant->setRestaurantRatingId(htmlspecialchars($_POST['restaurant_rating']));
+        $restaurant->setRestaurantKidsPrice(htmlspecialchars($_POST['restaurant_kidsPrice']));
+        $restaurant->setRestaurantAdultsPrice(htmlspecialchars($_POST['restaurant_adultsPrice']));
+        $restaurant->setDuration(htmlspecialchars($_POST['duration']));
+        $restaurant->setHavaDetailPageOrNot(htmlspecialchars($_POST['haveDetailPage']));
+        $restaurant->setRestaurantOpeningTime(htmlspecialchars($_POST['opening_time']));
+        $restaurant->setNumberOfTimeSlots(htmlspecialchars($_POST['numTime_slots']));
+        $restaurant->setRestaurantNumberOfAvailableSeats(htmlspecialchars($_POST['num_seats']));
+        $restaurant->setRestaurantPictureURL(htmlspecialchars($_POST['restaurant_pictureURL']));
+
+        $restaurantService = new YummyService();
+        $restaurantService->insertRestaurant($restaurant);
+    }
+    public function editRestaurantPage($restaurant)
+    {
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        $yummyService = new YummyService();
+        $yummyService->getById($restaurant);
+
+        $foodTypeService = new FoodTypeService();
+        $foodTypes = $foodTypeService->getAllFoodType();
+
+        $ratingService = new RatingService();
+        $ratings = $ratingService->getAllRating();
+
+        require __DIR__ . '/../views/admin/editRestaurantPage.php';
+    }
+    public function editRestaurant($restaurant){
+        /* if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['dateOfAppointment']) && !empty($_POST['startingTime']) && !empty($_POST['employee']) && !empty($_POST['service'])) {
+             require_once("../Model/Appointment.php");
+             $appointment = new Appointment();
+
+             $updatedCustomerName = htmlspecialchars($_POST["name"]);
+             $updatedEmail = htmlspecialchars($_POST["email"]);
+             $updatedDateOfAppointment = htmlspecialchars($_POST["dateOfAppointment"]);
+             $updatedStartingTime = htmlspecialchars($_POST["startingTime"]);
+             $updatedEmployeeId = htmlspecialchars($_POST['employee']);
+             $updatedProductID = htmlspecialchars($_POST['service']);
+
+             $appointment->customerName = $updatedCustomerName;
+             $appointment->email = $updatedEmail;
+             $appointment->dateOfAppointment = $updatedDateOfAppointment;
+             $appointment->startingTime = $updatedStartingTime;
+             $appointment->employeeId = $updatedEmployeeId;
+             $appointment->productID = $updatedProductID;
+             $appointment->id = $_POST['id'];
+             require_once("../Service/AppointmentService.php");
+             $appointmentService = new AppointmentService();
+             $appointmentService->updateAppointment($appointment);
+         }*/
+    }
+
+
+    public function RegisterNewUser(){
+        /*
+            $user = new User();
+            $user->username = $_POST['firstname'];
+            $user->userPicURL = $_POST['lastname'];
+            $user->user_firstName = $_POST['password'];
+            $user->username = $_POST['username'];
+            require_once("../Service/AdminService.php");
+            $adminService = new AdminService();
+            $adminService->createUser($user);*/
+    }
+
+
+    /*username
+     userPicURL
+     user_firstName
+ user_lastName
+ user_email
+     user_password
+ user_userType
+ */
+
 }
+
 ?>

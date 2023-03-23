@@ -32,31 +32,31 @@ include __DIR__ . '/../nav.php';
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <?php
             foreach ($restaurants as $restaurant) {
-            ?>
+                ?>
                 <div class="col">
                     <div class="card shadow-sm">
-                <a href="Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>" > <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
-                         role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
-                </a>
+                        <a href="Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>" > <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
+                                 role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
+                        </a>
                         <div  style="background: #09B4BB;text-align: center; color:white;" class="card-body">
                             <h4><?=$restaurant->getRestaurantName()?> </h4>
                             <p><?php echo $restaurant->displayImageBasedOnEnum($restaurant->getRestaurantRating())?></p>
                             <p class="card-text" > </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" onClick="location.href='/Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>'" class="btn btn-sm btn-outline-secondary">View</button>
                                 </div>
-                                <small class="text-muted"><strong><?=$restaurant->getRestaurantFoodType()?> </strong></small>
+                                <small class="text-muted"><strong><?=$restaurant->getFoodTypeName()?> </strong></small>
                             </div>
                         </div>
                     </div>
                 </div>
 
-        <?php }
-        ?>
+            <?php }
+            ?>
+        </div>
     </div>
-</div>
 </div>
 <div  id="recipesToCookHome">
     <div style="padding-top: 30px; padding-right: 30px; padding-left: 30px;">

@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php //session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +17,6 @@
 <?php
 include __DIR__ . '/../nav.php';
 ?>
-
 
 <body class="body"><br>
 <br>

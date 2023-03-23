@@ -27,4 +27,9 @@ class YummyService
 
         return $yummy;
     }
+    public function insertRestaurant($restaurant){
+        $yummyRepo = new YummyRepository();
+        $yummyRepo->insertRestaurant($restaurant);
+
+    }
 }

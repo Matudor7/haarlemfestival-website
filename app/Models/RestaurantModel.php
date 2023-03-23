@@ -4,7 +4,6 @@ class RestaurantModel
 {
     private int $restaurant_id;
     private string $restaurant_name;
-    private string $restaurant_title;
     private float $restaurant_kidsPrice;
     private float $restaurant_adultsPrice;
     private string $restaurant_OpeningTime;
@@ -131,15 +130,6 @@ class RestaurantModel
         $this->restaurant_pictureURL = $restaurant_pictureURL;
     }
 
-    public function getRestaurantTitle(): string
-    {
-        return $this->restaurant_title;
-    }
-
-    public function setRestaurantTitle(string $restaurant_title): void
-    {
-        $this->restaurant_title = $restaurant_title;
-    }
 
     public function getRestaurantKidsPrice(): float
     {

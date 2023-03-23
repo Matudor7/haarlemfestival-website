@@ -15,8 +15,8 @@
         include __DIR__ . '/../nav.php';
         ?>
 
-<main>
-<h1>Detail Page 1</h1>
+<main id="main">
+<h1>Detail Page 0</h1>
 
 </main>
 

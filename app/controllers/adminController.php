@@ -93,7 +93,11 @@ class AdminController extends Controller{
         header('Location: /admin/events');
     }
 
-    
-}
+    public function manageRestaurantPage(){
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+        require __DIR__ . '/../views/admin/manageRestaurantPage.php';
+    }
+
 
 ?>

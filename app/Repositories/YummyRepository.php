@@ -7,7 +7,7 @@ class YummyRepository extends Repository
     public function getAll()
     {
         try {
-            $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	, restaurant_title, restaurant_kidsPrice,
+            $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name, restaurant_kidsPrice,
        restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
        restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
 FROM restaurant");
@@ -25,7 +25,10 @@ FROM restaurant");
     public function getByName(string $name)
     {
         try {
-            $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name, restaurant_kidsPrice, restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration, restaurant_isItAvailable, restaurant_addressId, restaurant_rating, restaurant_pictureURL, restaurant_foodType  FROM restaurant WHERE restaurant_name = :restaurant_name");
+            $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	,  restaurant_kidsPrice,
+       restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
+       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
+FROM restaurant WHERE restaurant_name = :restaurant_name");
             //TODO make sure that the name comes from a dropdown option no input from the user
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
@@ -40,24 +43,87 @@ FROM restaurant");
 
     public function getById($restaurant_id)
     {
-            try {
-                $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	, restaurant_title, restaurant_kidsPrice,
+        try {
+            $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	,  restaurant_kidsPrice,
        restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
        restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
 FROM restaurant WHERE restaurant_id = :restaurant_id");
-                //TODO make sure that the name comes from a dropdown option no input from the user
-                $statement->bindParam(':restaurant_id', $restaurant_id);
-                $statement->execute();
-                $statement->setFetchMode(PDO::FETCH_CLASS, 'RestaurantModel');
+            //TODO make sure that the name comes from a dropdown option no input from the user
+            $statement->bindParam(':restaurant_id', $restaurant_id);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'RestaurantModel');
 
-                $restaurant = $statement->fetch();
+            $restaurant = $statement->fetch();
 
-                return $restaurant;
-            } catch (PDOEXCEPTION $e) {
-                echo $e;
-            }
+            return $restaurant;
+        } catch (PDOEXCEPTION $e) {
+            echo $e;
+        }
 
     }
 
+    public function insertRestaurant($restaurant)
+    {
+        try {
+            $statement = $this->connection->prepare("INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_kidsPrice, restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration, restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $statement->execute(array(
+                htmlspecialchars($restaurant->getRestaurantId()),
+                htmlspecialchars($restaurant->getRestaurantName()),
+                htmlspecialchars($restaurant->getRestaurantKidsPrice()),
+                htmlspecialchars($restaurant->getRestaurantAdultsPrice()),
+                htmlspecialchars($restaurant->getRestaurantOpeningTime()),
+                htmlspecialchars($restaurant->getRestaurantNumberOfAvailableSeats()),
+                htmlspecialchars($restaurant->getNumberOfTimeSlots()),
+                htmlspecialchars($restaurant->getDuration()),
+                htmlspecialchars($restaurant->isRestaurantIsItAvailable()),
+                htmlspecialchars($restaurant->getRestaurantAddressId()),
+                htmlspecialchars($restaurant->getHavaDetailPageOrNot()),
+                htmlspecialchars($restaurant->getDetailId()),
+                htmlspecialchars($restaurant->getRestaurantPictureURL()),
+                htmlspecialchars($restaurant->getRestaurantFoodType()),
+                htmlspecialchars($restaurant->getRestaurantRating()),
+                htmlspecialchars($restaurant->getContactInfId())
+            ));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function updateRestaurant($restaurant)
+    {
+        try {
+            $statement = $this->connection->prepare("UPDATE restaurant SET restaurant_name = :restaurantName, restaurant_kidsPrice = :restaurantKidsPrice, restaurant_adultsPrice = :restaurantAdultsPrice, restaurant_OpeningTime = :restaurantOpeningTime, restaurant_numberOfAvailableSeats = :restaurantNumberOfAvailableSeats, numberOfTimeSlots = :numberOfTimeSlots, duration = :duration, restaurant_isItAvailable = :restaurantIsItAvailable, restaurant_addressId = :restaurantAddressId, havaDetailPageOrNot = :havaDetailPageOrNot, detail_id = :detailId, restaurant_pictureURL = :restaurantPictureURL, restaurant_foodType = :restaurantFoodType, restaurant_rating = :restaurantRating, contactInf_id = :contactInfId WHERE restaurant_id = :restaurantId");
+
+            $statement->bindParam(':restaurantName', $restaurantName);
+            $statement->bindParam(':restaurantKidsPrice', $restaurantKidsPrice);
+            $statement->bindParam(':restaurantAdultsPrice', $restaurantAdultsPrice);
+            $statement->bindParam(':restaurantOpeningTime', $restaurantOpeningTime);
+            $statement->bindParam(':restaurantNumberOfAvailableSeats', $restaurantNumberOfAvailableSeats);
+            $statement->bindParam(':numberOfTimeSlots', $numberOfTimeSlots);
+            $statement->bindParam(':duration', $duration);
+            $statement->bindParam(':restaurantIsItAvailable', $restaurantIsItAvailable);
+            $statement->bindParam(':restaurantAddressId', $restaurantAddressId);
+            $statement->bindParam(':havaDetailPageOrNot', $havaDetailPageOrNot);
+            $statement->bindParam(':detailId', $detailId);
+            $statement->bindParam(':restaurantPictureURL', $restaurantPictureURL);
+            $statement->bindParam(':restaurantFoodType', $restaurantFoodType);
+            $statement->bindParam(':restaurantRating', $restaurantRating);
+            $statement->bindParam(':contactInfId', $contactInfId);
+            $statement->bindParam(':restaurantId', $restaurantId);
+
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function deleteRestaurant($restaurantId) {
+        try {
+            $statement = $this->connection->prepare("DELETE FROM restaurant WHERE restaurantId = :restaurantId");
+            $statement->bindParam(':restaurantId', $restaurantId);
+            $statement->execute();
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
 }

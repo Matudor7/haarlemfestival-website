@@ -2,7 +2,7 @@
 <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mx-0 py-0 mt-5 mb-0 border-top" style="background-color: #141414;">
     <div class="col mb-3 text-center">
     <a class="navbar-brand px-0 mx-0 py-0" href="#">
-            <img src="media/FooterLogoForDance.jpg" class="img-fluid " alt="Logo">
+            <img src="/media/FooterLogoForDance.jpg" class="img-fluid " alt="Logo">
       </a>
     </div>
 

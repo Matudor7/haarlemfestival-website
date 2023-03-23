@@ -26,7 +26,7 @@
                     };
                     ?>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Create a Program</button>
+                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onClick="location.href='/CreateProgram'">Buy Tickets</button>
                     </li>
 
                     <li class="nav-item">

@@ -32,17 +32,14 @@ class YummyController extends Controller
         require __DIR__ . '/../views/yummy/index.php';
 
     }
+    // echo $_SERVER['REQUEST_METHOD'];
 
-   public function detail()
-    {
+   public function detail(){
         $eventService = new EventService();
         $events = $eventService->getAll();
-
         $yummyService = new YummyService();
         $restaurant_id = $_GET['restaurant_id'];
         $contactInfService = new ContactInfService();
-
-       // echo $_SERVER['REQUEST_METHOD'];
 
         try {
             $restaurant = $yummyService->getById($restaurant_id);
@@ -51,8 +48,6 @@ class YummyController extends Controller
             $addressService = new AddressService();
             $address = $addressService->getById($address_id);
             $contact = $contactInfService->getById($restaurant->getContactInfId());
-
-            //var_dump($restaurant->getHavaDetailPageOrNot());
 
             if($restaurant->getHavaDetailPageOrNot()){
                 $yummyDetailPageService = new YummyDetailPageService();
@@ -66,14 +61,9 @@ class YummyController extends Controller
                  Please check out our other pages and have fun in the festival!";
 
                 require __DIR__ . '/../views/yummy/detailPage.php';
-
             }
-
-        } catch (Exception $e) {
-            echo $e;
-        }
+        } catch (Exception $e) {echo $e;}
     }
+
 }
-
-
 ?>

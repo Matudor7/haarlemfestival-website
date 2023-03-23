@@ -31,5 +31,23 @@
                     <li class="nav-item">
                         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
                     </li>
+
+                    <li>
+                        <?php
+                        if (isset($_SESSION['user'])){
+                        echo"<a class='nav-link' href='/admin/manageRestaurantPage'>Manage Restaurants</a>"; ?>
+                    </li>
+                    <li>
+                        <?php
+                        echo"<a class='nav-link' href='/admin/registerUser'>Register User</a>";
+                        }
+                        ?> </li>
                 </ul>
+        <?php
+        if (isset($_SESSION['user'])){?>
+            <button type="button" class="btn btn-success ;" onClick="location.href='/logOut'" STYLE="margin: 2px 30px;">Log
+                out</button>&nbsp;
+            <?php
+        } ?>
+
         </nav>

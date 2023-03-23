@@ -1,11 +1,18 @@
 <?php
-
-class LoginController
+require __DIR__ . '/controller.php';
+require __DIR__ . '/../Services/eventService.php';
+class LoginController extends Controller
 {
-    public function loginPage()
+    public function index()
     {
-        require_once("../views/login.php");
+
+        $eventService = new EventService();
+        $events = $eventService->getAll();
+
+        require __DIR__ . '/../views/login.php';
+
     }
+
 
     public function loginValidation(){
         if (isset($_POST['LoginButton'])) {

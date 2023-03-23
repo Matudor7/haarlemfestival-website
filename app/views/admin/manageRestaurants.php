@@ -15,8 +15,8 @@
 <?php
 include __DIR__ . '/../nav.php';
 ?>
-<<br><br>
-    <h2> Manage Restaurants</h2>
+<br><br>
+<h2 style="text-align: center;"> Manage Restaurants</h2>
 </div>
 <div class="album py-5 bg-light">
     <div class="container">
@@ -27,21 +27,32 @@ include __DIR__ . '/../nav.php';
                 ?>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>" > <img class="productPictures" style="width: 100%;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
-                                 role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
-                        </a>
-                        <div  style="background: #09B4BB;text-align: center; color:white;" class="card-body">
-                            <h4><?=$restaurant->getRestaurantName()?> </h4>
-                            <p><?php echo $restaurant->displayImageBasedOnEnum($restaurant->getRestaurantRating())?></p>
-                            <p class="card-text" > </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                                </div>
-                                <small class="text-muted"><strong><?=$restaurant->getFoodTypeName()?> </strong></small>
+
+                        <div   style="border: thick solid  #09B4BB;" class="card-body">
+                            <h4 style="text-align: center;"><?=$restaurant->getRestaurantName()?> </h4><br>
+
+                            <p><strong>General Information</strong></p>
+                            <p> Type of Food: <?=$restaurant->getFoodTypeName()?> </p>
+                            <p> Rating: <?=$restaurant->getRestaurantRating()?> stars </p>
+                            <p>Number of available seats:  <?=$restaurant->getRestaurantNumberOfAvailableSeats()?><br></p>
+                            <p>Have detail page:   <?=$restaurant->getDetailPageAsYesOrNoTxt()?><br></p><br>
+
+                            <p><strong>Time Information</strong></p>
+                            <p>Opening time:   <?=$restaurant->getRestaurantOpeningTime()?>pm<br></p>
+                            <p>Number of Time Slots:   <?php echo $restaurant-> getNumberOfTimeSlots();?></p>
+                            <p>Duration of Time Slots:   <?php echo $restaurant->getDuration();?></p><br>
+
+
+                            <p><strong>Price</strong></p>
+                            <p>Kids menu:  &#x20AC; <?=$restaurant->getRestaurantKidsPrice()?><br>
+                            <p>Adults menu: &#x20AC; <?=$restaurant->getRestaurantAdultsPrice()?><br></p>
+
+                            <div class="btn-group" style="text-align: right; margin-left: 10px;">
+                                <button onclick="location.href='/admin/editRestaurantPage'"type="button" class="btn btn-warning">Edit</button>
+                                <button onclick="location.href='/admin/deleteRestaurantPage'" type="button" class="btn btn-danger">Delete</button>
+                            </div>
+                            <div class="scrollable" style="height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;">
+                                <button onclick="location.href='/admin/addRestaurantPage'" style="background-color:#14A44D; color:white; padding: 10px; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px; ">Add New Restaurant</button>
                             </div>
                         </div>
                     </div>
@@ -52,8 +63,6 @@ include __DIR__ . '/../nav.php';
         </div>
     </div>
 </div>
-
-
 <?php
 include __DIR__ . '/../footer.php';
 ?>

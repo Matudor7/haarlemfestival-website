@@ -9,6 +9,7 @@ require_once __DIR__ . '/../Models/Address.php';
 require __DIR__ . '/../Services/YummyDetailPageService.php';
 require_once __DIR__ . '/../Models/YummyDetailPageModel.php';
 require __DIR__ . '/../Services/ContactInfService.php';
+require_once __DIR__ .'/../Models/ContactInf.php';
 
 
 
@@ -34,7 +35,7 @@ class YummyController extends Controller
     }
     // echo $_SERVER['REQUEST_METHOD'];
 
-   public function detail(){
+    public function detail(){
         $eventService = new EventService();
         $events = $eventService->getAll();
         $yummyService = new YummyService();
@@ -52,9 +53,9 @@ class YummyController extends Controller
             if($restaurant->getHavaDetailPageOrNot()){
                 $yummyDetailPageService = new YummyDetailPageService();
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
+
                 require __DIR__ . '/../views/yummy/detailPage.php';
             }else{
-                //set open a default restaurant page without changing the restaurant Id in the db
                 $yummyDetailPageService = new YummyDetailPageService();
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
                 $_SESSION['noDetailPageMessage'] = "We are sorry to inform you that we don't have this detail page for now.

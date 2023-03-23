@@ -15,6 +15,21 @@ class RestaurantModel
     private bool $havaDetailPageOrNot;
     private int $detail_id;
     private int $contactInf_id;
+    private string $restaurant_pictureURL;
+    private int $foodType_id;
+    private int $restaurantRating_id;
+
+
+
+    public function getRestaurantRatingId(): int
+    {
+        return $this->restaurantRating_id;
+    }
+
+    public function setRestaurantRatingId(int $restaurantRating_id): void
+    {
+        $this->restaurantRating_id = $restaurantRating_id;
+    }
 
 
     public function getContactInfId(): int
@@ -49,22 +64,21 @@ class RestaurantModel
     {
         $this->detail_id = $detail_id;
     }
-    private string $restaurant_pictureURL;
-    private string $restaurant_foodType;
-    private string $restaurant_rating;
 
 
-    public function getRestaurantRating(): string {
-        return $this->restaurant_rating;
+    public function getFoodTypeId(): int
+    {
+        return $this->foodType_id;
     }
 
-    public function setRestaurantRating(string $rating): void {
-        $this->restaurant_rating = $rating;
+
+    public function setFoodTypeId(int $foodType_id): void
+    {
+        $this->foodType_id = $foodType_id;
     }
 
-    public function getRestaurantFoodType(): string {
-        return $this->restaurant_foodType;
-    }
+
+
 
     public function setRestaurantFoodType(string $foodType): void {
         $this->restaurant_foodType = $foodType;
@@ -151,22 +165,22 @@ class RestaurantModel
         $this->restaurant_adultsPrice = $restaurant_adultsPrice;
     }
 
-    public function getRestaurantOpeningTime(): DateTime
+    public function getRestaurantOpeningTime()
     {
-        return $this->restaurant_OpeningTime;
+        return date('H:i', strtotime($this->restaurant_OpeningTime));
     }
 
-    public function setRestaurantOpeningTime(DateTime $restaurant_OpeningTime): void
+    public function setRestaurantOpeningTime( $restaurant_OpeningTime): void
     {
         $this->restaurant_OpeningTime = $restaurant_OpeningTime;
     }
 
-    public function getDuration(): DateTime
+    public function getDuration()
     {
-        return $this->duration;
+        return date('H:i', strtotime($this->duration));
     }
 
-    public function setDuration(DateTime $duration): void
+    public function setDuration($duration): void
     {
         $this->duration = $duration;
     }
@@ -193,25 +207,27 @@ class RestaurantModel
         $currentTime = clone $openingTime;
 
         for ($i = 0; $i < $numberOfTimeSlots; $i++) {
-            $timeSlots[] = clone $currentTime;
+            // Format the DateTime object as 'hh:mm'
+            $timeSlots[] = $currentTime->format('H:i');
             $currentTime->add($slotDuration);
         }
 
         return $timeSlots;
     }
     public function getTimeSlots(){
+
         return $this->setTimeSlots($this->numberOfTimeSlots, $this->restaurant_OpeningTime, $this->duration);
     }
 
 
-   public function displayImageBasedOnEnum($string) {
+    public function displayImageBasedOnEnum($string) {
         switch ($string) {
-             case '1':
-                 echo '<img src="media/yummyPics/1star.png" alt="1 star ">';
-                 break;
-              case '2':
-                  echo '<img src="media/yummyPics/2stars.png" alt="2 stars ">';
-                  break;
+            case '1':
+                echo '<img src="media/yummyPics/1star.png" alt="1 star ">';
+                break;
+            case '2':
+                echo '<img src="media/yummyPics/2stars.png" alt="2 stars ">';
+                break;
             case '3':
                 return  '<img src="media/yummyPics/3starsPic.png" alt="3 stars ">';
                 break;
@@ -221,8 +237,31 @@ class RestaurantModel
             case '5':
                 return '<img src="media/yummyPics/5stars.png" alt="5 stars">';
                 break;
-            }
+        }
 
+    }
+    public function getFoodTypeName(){
+        require_once __DIR__ . '/../Services/FoodTypeService.php';
+        require_once __DIR__ . '/../Models/FoodType.php';
+        $foodTypeService = new FoodTypeService();
+        $foodType = $foodTypeService->getAllFoodTypeByID($this->foodType_id);
+        return $foodType->getFoodType();
+    }
+    public function getRestaurantRating(){
+        require_once __DIR__ . '/../Services/RatingService.php';
+        require_once __DIR__ . '/../Models/RestaurantRating.php';
+        $ratingService = new RatingService();
+        $restaurantRating = $ratingService->getAllRatingById($this->restaurantRating_id);
+        return $restaurantRating->getRatingNumber();
+    }
+
+    public function getDetailPageAsYesOrNoTxt(): string
+    {
+        if ($this->havaDetailPageOrNot) {
+            return "yes";
+        } else {
+            return "no";
+        }
     }
 }
 

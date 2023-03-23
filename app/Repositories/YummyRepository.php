@@ -9,7 +9,7 @@ class YummyRepository extends Repository
         try {
             $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name, restaurant_kidsPrice,
        restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
-       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
+       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, foodType_id, restaurantRating_id, contactInf_id
 FROM restaurant");
             $statement->execute();
 
@@ -27,7 +27,7 @@ FROM restaurant");
         try {
             $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	,  restaurant_kidsPrice,
        restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
-       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
+       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, foodType_id, restaurant_rating, contactInf_id
 FROM restaurant WHERE restaurant_name = :restaurant_name");
             //TODO make sure that the name comes from a dropdown option no input from the user
             $statement->execute();
@@ -46,7 +46,7 @@ FROM restaurant WHERE restaurant_name = :restaurant_name");
         try {
             $statement = $this->connection->prepare("SELECT restaurant_id, restaurant_name	,  restaurant_kidsPrice,
        restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration,
-       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id
+       restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, foodType_id, restaurantRating_id, contactInf_id
 FROM restaurant WHERE restaurant_id = :restaurant_id");
             //TODO make sure that the name comes from a dropdown option no input from the user
             $statement->bindParam(':restaurant_id', $restaurant_id);
@@ -65,9 +65,12 @@ FROM restaurant WHERE restaurant_id = :restaurant_id");
     public function insertRestaurant($restaurant)
     {
         try {
-            $statement = $this->connection->prepare("INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_kidsPrice, restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, numberOfTimeSlots, duration, restaurant_isItAvailable, restaurant_addressId, havaDetailPageOrNot, detail_id, restaurant_pictureURL, restaurant_foodType, restaurant_rating, contactInf_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $statement = $this->connection->prepare("INSERT INTO restaurant (restaurant_name, 
+                        restaurant_kidsPrice, restaurant_adultsPrice, restaurant_OpeningTime, restaurant_numberOfAvailableSeats, 
+                        numberOfTimeSlots, duration,  havaDetailPageOrNot,
+                       restaurant_pictureURL, foodType_id, restaurantRating_id) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $statement->execute(array(
-                htmlspecialchars($restaurant->getRestaurantId()),
                 htmlspecialchars($restaurant->getRestaurantName()),
                 htmlspecialchars($restaurant->getRestaurantKidsPrice()),
                 htmlspecialchars($restaurant->getRestaurantAdultsPrice()),
@@ -75,14 +78,11 @@ FROM restaurant WHERE restaurant_id = :restaurant_id");
                 htmlspecialchars($restaurant->getRestaurantNumberOfAvailableSeats()),
                 htmlspecialchars($restaurant->getNumberOfTimeSlots()),
                 htmlspecialchars($restaurant->getDuration()),
-                htmlspecialchars($restaurant->isRestaurantIsItAvailable()),
-                htmlspecialchars($restaurant->getRestaurantAddressId()),
                 htmlspecialchars($restaurant->getHavaDetailPageOrNot()),
-                htmlspecialchars($restaurant->getDetailId()),
                 htmlspecialchars($restaurant->getRestaurantPictureURL()),
-                htmlspecialchars($restaurant->getRestaurantFoodType()),
-                htmlspecialchars($restaurant->getRestaurantRating()),
-                htmlspecialchars($restaurant->getContactInfId())
+                htmlspecialchars($restaurant->getFoodTypeId()),
+                htmlspecialchars($restaurant->getRestaurantRatingId()),
+
             ));
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -92,7 +92,12 @@ FROM restaurant WHERE restaurant_id = :restaurant_id");
     public function updateRestaurant($restaurant)
     {
         try {
-            $statement = $this->connection->prepare("UPDATE restaurant SET restaurant_name = :restaurantName, restaurant_kidsPrice = :restaurantKidsPrice, restaurant_adultsPrice = :restaurantAdultsPrice, restaurant_OpeningTime = :restaurantOpeningTime, restaurant_numberOfAvailableSeats = :restaurantNumberOfAvailableSeats, numberOfTimeSlots = :numberOfTimeSlots, duration = :duration, restaurant_isItAvailable = :restaurantIsItAvailable, restaurant_addressId = :restaurantAddressId, havaDetailPageOrNot = :havaDetailPageOrNot, detail_id = :detailId, restaurant_pictureURL = :restaurantPictureURL, restaurant_foodType = :restaurantFoodType, restaurant_rating = :restaurantRating, contactInf_id = :contactInfId WHERE restaurant_id = :restaurantId");
+            $statement = $this->connection->prepare("UPDATE restaurant SET restaurant_name = :restaurantName, restaurant_kidsPrice = :restaurantKidsPrice,
+        restaurant_adultsPrice = :restaurantAdultsPrice, restaurant_OpeningTime = :restaurantOpeningTime, restaurant_numberOfAvailableSeats = :restaurantNumberOfAvailableSeats,
+        numberOfTimeSlots = :numberOfTimeSlots, duration = :duration, restaurant_isItAvailable = :restaurantIsItAvailable, 
+        restaurant_addressId = :restaurantAddressId, havaDetailPageOrNot = :havaDetailPageOrNot, detail_id = :detailId,
+        restaurant_pictureURL = :restaurantPictureURL, restaurant_foodType = :restaurantFoodType, restaurantRating_id = :restaurantRating_id, 
+        contactInf_id = :contactInfId WHERE restaurant_id = :restaurantId");
 
             $statement->bindParam(':restaurantName', $restaurantName);
             $statement->bindParam(':restaurantKidsPrice', $restaurantKidsPrice);
@@ -107,7 +112,7 @@ FROM restaurant WHERE restaurant_id = :restaurant_id");
             $statement->bindParam(':detailId', $detailId);
             $statement->bindParam(':restaurantPictureURL', $restaurantPictureURL);
             $statement->bindParam(':restaurantFoodType', $restaurantFoodType);
-            $statement->bindParam(':restaurantRating', $restaurantRating);
+            $statement->bindParam(':restaurantRating_id', $restaurantRating_id);
             $statement->bindParam(':contactInfId', $contactInfId);
             $statement->bindParam(':restaurantId', $restaurantId);
 

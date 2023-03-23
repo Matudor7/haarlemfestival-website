@@ -8,22 +8,7 @@ class EventRepository extends Repository{
             $statement = $this -> connection -> prepare("SELECT event_id, event_name, event_description, event_startTime, event_endTime, event_urlRedirect, event_imageUrl FROM event");
             
             $statement->execute();
-            $events = [];
-            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                $event = new Event();
-
-                $event->setId($row['event_id']);
-                $event->setName($row['event_name']);
-                $event->setDescription($row['event_description']);
-                $eventStartTime_DateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['event_startTime']);
-                $event->setStartTime($eventStartTime_DateTime);
-                $eventEndTime_DateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['event_endTime']);
-                $event->setEndTime($eventEndTime_DateTime);
-                $event->setUrlRedirect($row['event_urlRedirect']);
-                $event->setImageUrl($row['event_imageUrl']);
-
-                $events[] = $event;
-            }
+            $events = $statement->fetchAll(PDO::FETCH_CLASS, 'Event');
 
             return $events;
         }catch(PDOException $e){

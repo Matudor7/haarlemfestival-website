@@ -53,7 +53,7 @@ class DanceRepository extends Repository{
     
 
     // MUSIC TYPES
-    /*public function getAllMusicTypes() {
+    public function getAllMusicTypes() {
         $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType`";
     
         try {
@@ -66,7 +66,7 @@ class DanceRepository extends Repository{
             error_log('Error retrieving all music types: ' . $e->getMessage());
             return [];
         }
-    }*/
+    }
     
     /*public function getMusicTypeById($id) {
         $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id` = ?";

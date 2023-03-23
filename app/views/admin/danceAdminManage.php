@@ -17,8 +17,9 @@
     <div class="container-fluid">
         <h1>Manage Dance <?php echo $element ?>s</h1>
 
+        <a href="/adminDance/danceAdminAdd?type=<?php echo $element ?>">
         <button class="btn btn-success my-3">Add New Dance <?php echo $element ?></button>
-
+        </a>
         <?php echo $tableHtml?>
     </div>
     <script>

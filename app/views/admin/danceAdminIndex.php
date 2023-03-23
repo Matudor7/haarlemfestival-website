@@ -17,7 +17,7 @@
 
     <div class="m-5 row">
         <div class="col">
-            <a href="/admin/danceAdminManage?type=<?php echo"Artist"?>">
+            <a href="/adminDance/danceAdminManage?type=<?php echo"Artist"?>">
                 <button type="button" class="btn btn-dark">Manage Dance!
                     Artists</button>
             </a>
@@ -25,7 +25,7 @@
     </div>
     <div class="m-5 row">
         <div class="col">
-        <a href="/admin/danceAdminManage?type=<?php echo"Location"?>">
+        <a href="/adminDance/danceAdminManage?type=<?php echo"Location"?>">
             <button type="button" class="btn btn-success">Manage Dance!
                 Venues</button>
                 </a>
@@ -33,7 +33,7 @@
     </div>
     <div class="m-5 row">
         <div class="col">
-        <a href="/admin/danceAdminManage?type=<?php echo"Event"?>">
+        <a href="/adminDance/danceAdminManage?type=<?php echo"Event"?>">
             <button type="button" class="btn btn-primary">Manage Dance!
                 Events</button>
                 </a>

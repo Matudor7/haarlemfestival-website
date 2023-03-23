@@ -22,11 +22,11 @@ class DanceService
     }
 
     //MUSIC TYPES
-    /*public function getArtistMusicTypes($artistId)
+    public function getAllMusicTypes($artistId)
     {
-        $musicTypes = $this->danceRepository->getMusicTypesByArtist($artistId);
+        $musicTypes = $this->danceRepository->getAllMusicTypes();
         return $musicTypes;
-    }*/
+    }
 
     // DANCE LOCATIONS
     public function getAllDanceLocations()

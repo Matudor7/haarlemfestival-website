@@ -100,48 +100,73 @@
         <p>We have plenty of timeslots available during the festival weekend; as well as multiple languages. make sure to reserve your spot. We can’t wait to show you the secrets Haarlem has in store!</p>
 <table id="timetable-table" class="table table-bordered border-dark">
   <thead>
-    <th scope="col" class="border border-dark border-4">date</th>
-    <th scope="col" class="border border-dark border-4">time</th>
+    <th scope="col" class="border border-dark border-4">Date</th>
+    <th scope="col" class="border border-dark border-4">Time</th>
     <?php foreach ($languages as $language) {?>
     <th scope="col" class="border border-dark border-4"><?php echo $language->getTourLanguage()?></th>
   <?php } ?>
     <th scope="col" class="border border-dark border-4">Spots</th>
   </thead>
   <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
-  <?php foreach ($timetables as $timetable) {?>
+        <?php
+        $timetableStartDate = null;
+        $timetableStartTime = null;
+        $timetablesByDate = array();
+        foreach ($timetables as $timetable) {
+            $date = $timetable->getTimetableStartDate()->format('Y-m-d');
+
+            if (!isset($timetablesByDate[$date])) {
+                $timetablesByDate[$date] = array();
+            }
+            $timetablesByDate[$date][] = $timetable;
+        }
+
+        foreach ($timetablesByDate as $date => $timetables) {
+        ?>
     <tr>
-        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $timetable->getTimetableStartDateTime()->format(' D dS / M')?></th>
+        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $timetable->getTimetableStartDate()->format(' D dS / M')?></th>
+      <?php $timetableStartDate = $timetable->getTimetableStartDate();
+      $timetablesByDate = array();
+      array_push($timetablesByDate, $timetable)
+      ?>
+
       <td class="p-0">
         <table class="table p-0 m-0">
-          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>10:00</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-            <tr><td class="border border-0"></td></tr>
-        </tr>
+            <?php
+            // Loop through the timetables for the current date
+            foreach ($timetables as $timetable) {
+                ?>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                    <td><?php echo $timetable->getTimetableStartTime()->format('H:i'); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
         </table>
       </td>
 
       <td class="p-0">
         <table class="table my-0">
           <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-            <tr><td class="border border-0">1</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+            <tr><td class="border border-0"></td></tr>
         </tr>
         </table>
 </td>
         <td class="p-0">
             <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr><td class="border border-0">1</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+                <tr><td class="border border-0"></td></tr>
             </tr>
             </table>
 </td>
 
         <td class="p-0">
             <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>0</td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr><td class="border border-0">0</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+                <tr><td class="border border-0"></td></tr>
             </tr>
             </table>
 </td>

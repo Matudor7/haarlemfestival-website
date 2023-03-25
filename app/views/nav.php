@@ -13,7 +13,7 @@
     <body>
     <nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
              <a class="navbar-brand px-0 mx-0 py-0" href="/">
-            <img src="media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
+            <img src="/media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
              </a>
                 <ul class="nav bg-dark d-flex flex-nowrap">
                     <li class="nav-item">

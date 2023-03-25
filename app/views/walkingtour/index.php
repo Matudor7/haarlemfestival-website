@@ -102,9 +102,9 @@
   <thead>
     <th scope="col" class="border border-dark border-4">date</th>
     <th scope="col" class="border border-dark border-4">time</th>
-    <th scope="col" class="border border-dark border-4">English</th>
-    <th scope="col" class="border border-dark border-4">Dutch</th>
-    <th scope="col" class="border border-dark border-4">Chinese</th>
+    <?php foreach ($languages as $language) {?>
+    <th scope="col" class="border border-dark border-4"><?php echo $language->getTourLanguage()?></th>
+  <?php } ?>
     <th scope="col" class="border border-dark border-4">Spots</th>
   </thead>
   <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
@@ -114,8 +114,8 @@
       <td class="p-0">
         <table class="table p-0 m-0">
           <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>10:00</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>13:00</td></tr>
-            <tr><td class="border border-0">16:00</td></tr>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
+            <tr><td class="border border-0"></td></tr>
         </tr>
         </table>
       </td>

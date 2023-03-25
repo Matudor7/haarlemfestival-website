@@ -11,20 +11,6 @@
         <link rel="stylesheet" href="/stylesheet.css" type="text/css">
     </head>
     <body>
-    <div class="form-popup" id="ticketForm">
-        <form action="/action_page.php" class="form-container">
-            <h1>Login</h1>
-
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
-
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeTicketForm()">Close</button>
-        </form>
-    </div>
     <nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
              <a class="navbar-brand px-0 mx-0 py-0" href="/">
             <img src="media/NavbarLogo.jpg" class="img-fluid " alt="Logo">

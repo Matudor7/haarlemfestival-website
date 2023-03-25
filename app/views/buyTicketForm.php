@@ -5,8 +5,8 @@
 <body>
 <div class="form-popup" id="ticketForm">
         <form action="/action_page.php" class="form-container">
-            <h1>Login</h1>
-            <label for="email"><b>Email</b></label>
+            <h1>Buy <?php echo $thisEvent->getName()?> Tickets</h1>
+            <label for="email"><b>separate file</b></label>
             <input type="text" placeholder="Enter Email" name="email" required>
             <label for="psw"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="psw" required>

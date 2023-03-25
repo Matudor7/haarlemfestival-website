@@ -37,6 +37,15 @@ class Product implements JsonSerializable{
         return $this;
     }
 
+    public function getStartTime(): string{
+        return $this->starting_time;
+    }
+
+    public function setStartTime(string $starting_time): self{
+        $this->starting_time = $starting_time;
+        return $this;
+    }
+
     public function getLocation(): string{
         return $this->location;
     }

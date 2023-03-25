@@ -70,7 +70,7 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill">sing me up!</button>	
+        <button class="rounded-pill" onClick="openTicketForm()">sing me up!</button>
     </div>
 </div>
 </div>
@@ -109,11 +109,8 @@
   </thead>
   <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
         <?php
-        $timetableStartDate = null;
-        $timetableStartTime = null;
-        $timetablesByDate = array();
         foreach ($timetables as $timetable) {
-            $date = $timetable->getTimetableStartDate()->format('Y-m-d');
+            $date = $timetable->getTimetableStartDate()->format(' D dS / M');
 
             if (!isset($timetablesByDate[$date])) {
                 $timetablesByDate[$date] = array();
@@ -124,11 +121,7 @@
         foreach ($timetablesByDate as $date => $timetables) {
         ?>
     <tr>
-        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $timetable->getTimetableStartDate()->format(' D dS / M')?></th>
-      <?php $timetableStartDate = $timetable->getTimetableStartDate();
-      $timetablesByDate = array();
-      array_push($timetablesByDate, $timetable)
-      ?>
+        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $date?></th>
 
       <td class="p-0">
         <table class="table p-0 m-0">

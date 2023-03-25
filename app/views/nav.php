@@ -26,14 +26,11 @@
                     <?php    
                     };
                     ?>
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onclick="openTicketForm()">Buy Tickets</button>
+                    <li class="nav-item" style="margin-top:3px">
+                        <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas" role ="button" href="#offcanvas"></a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
-                    </li>
-                    <li class="nav-item" style="margin-top:3px">
-                        <a class="btn btn-success rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas" role ="button" href="#offcanvas"></a>
                     </li>
 
                     <li>

@@ -76,7 +76,13 @@
             </div>
             <div class="offcanvas-body">
                 <!-- This is where the shopping cart loop goes !-->
-                    ...
+                    <?php foreach($products as $product)
+                    {?>
+                        <div>
+                            <h1><?php echo $product->getName()?></h1>
+                        </div>
+                    <?php
+                    }?>
             </div>
         </div>
         

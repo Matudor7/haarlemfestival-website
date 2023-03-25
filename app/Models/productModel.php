@@ -1,11 +1,11 @@
 <?php
-class ProductModel implements JsonSerializable{
+class Product implements JsonSerializable{
     private int $id = 0;
     private string $name = "";
     private string $event_type = "";
     private string $starting_time = "";
     private string $location = "";
-    private int $price="";
+    private int $price= 0;
     private string $additional_info = "";
 
     #[ReturnTypeWillChange]

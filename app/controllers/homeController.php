@@ -1,5 +1,5 @@
 <?php
-echo session_save_path();
+session_start();
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/productService.php';
@@ -11,8 +11,6 @@ class HomeController extends Controller{
 
         $productService = new ProductService();
         $products = $productService->getAll();
-
-        $_SESSION['user'] = 1;
         
         require __DIR__ . '/../views/homepage/index.php';
     }

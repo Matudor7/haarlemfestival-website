@@ -4,7 +4,7 @@ class User
 {
     private int $user_id;
     private string $username;
-    private string $userPicURL;
+    private string $userPicURL = "";
     private string $user_firstName;
     private string $user_lastName;
     private string $user_email;
@@ -32,12 +32,10 @@ class User
         $this->username = $username;
     }
 
-
     public function getUserPicURL(): string
     {
         return $this->userPicURL;
     }
-
 
     public function setUserPicURL(string $userPicURL): void
     {
@@ -53,6 +51,7 @@ class User
     {
         $this->user_firstName = $user_firstName;
     }
+
 
     public function getUserLastName(): string
     {

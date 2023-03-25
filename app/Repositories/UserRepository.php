@@ -67,4 +67,36 @@ FROM user WHERE id=$id ");
         }
 
     }
+
+    public function getUserByEmail($email)
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
+         user_email, user_password, user_userType
+FROM user WHERE user_email like :email");
+
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+            $result = $stmt->fetch();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    public function updatePassword($id, $password)
+    {
+        try {
+            $stmt = $this->connection->prepare("Update user SET user_password =:password WHERE user_id = :id");
+
+            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $result = $stmt->fetch();
+
+        }catch(Exception $e)
+        { echo $e;
+        }
+    }
 }

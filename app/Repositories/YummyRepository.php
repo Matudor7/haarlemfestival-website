@@ -123,7 +123,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     }
     public function deleteRestaurant($restaurantId) {
         try {
-            $statement = $this->connection->prepare("DELETE FROM restaurant WHERE restaurantId = :restaurantId");
+            $statement = $this->connection->prepare("DELETE FROM restaurant WHERE restaurant_id = :restaurantId");
             $statement->bindParam(':restaurantId', $restaurantId);
             $statement->execute();
         } catch(PDOException $e) {

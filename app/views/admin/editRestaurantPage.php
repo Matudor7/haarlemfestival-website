@@ -20,7 +20,7 @@ include __DIR__ . '/../nav.php';
     <form action="/admin/editRestaurant" method="post">
 
         <label for="restaurant_name">Restaurant Name:</label>
-        <input type="text" name="restaurant_name" id="restaurant_name">
+        <input type="text" name="restaurant_name" value="<?=$restaurant->getRestaurantName()?>" id="restaurant_name">
         <br><br>
         <label for="restaurant_foodType">Food Type:</label>
         <select name="restaurant_foodType" id="restaurant_foodType">

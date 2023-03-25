@@ -45,7 +45,6 @@ class PatternRouter
         $methodName = $explodedUri[1];
 
 
-
         // load the file with the controller class
         $filename = __DIR__ . '/controllers/' . $controllerName . '.php';
         if ($api) {

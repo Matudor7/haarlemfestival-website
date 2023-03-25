@@ -22,4 +22,19 @@ class UserService
         return $user;
     }
 
+    public function getUserByEmail($email)
+    {
+        $repository = new UserRepository;
+        $user = $repository->getUserByEmail($email);
+        return $user;
+    }
+
+    public function upDatePassword($id, $password)
+    {
+        $repository = new UserRepository;
+        $user = $repository->updatePassword($id, $password);
+
+    }
+
+
 }

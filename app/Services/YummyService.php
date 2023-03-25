@@ -32,4 +32,10 @@ class YummyService
         $yummyRepo->insertRestaurant($restaurant);
 
     }
+
+    public function deleteRestaurant($id)
+    {
+        $yummyRepo = new YummyRepository();
+        $yummyRepo->deleteRestaurant($id);
+    }
 }

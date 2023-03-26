@@ -34,7 +34,7 @@
             addNewMusicType();
         }
         else if ('<?php echo $element ?>' === 'Location') {
-            addNewMusicType();
+            addNewDanceLocation();
         }
     }
     function addNewMusicType() {
@@ -59,6 +59,41 @@
                     console.error('Error: ', err);
                 });
         }
+    }
+    function addNewDanceLocation(){
+        const danceLocationNameTextBox = document.getElementById('danceLocationNameTextBox').value;
+        const danceLocationStreetTextBox = document.getElementById('danceLocationStreetTextBox').value;
+        const danceLocationNumberTextBox = document.getElementById('danceLocationNumberTextBox').value;
+        const danceLocationPostcodeTextBox = document.getElementById('danceLocationPostcodeTextBox').value;
+        const danceLocationCityTextBox = document.getElementById('danceLocationCityTextBox').value;
+        const danceLocationUrlToTheirSiteTextBox = document.getElementById('danceLocationUrlToTheirSiteTextBox').value;
+        const danceLocationImageInput = document.getElementById('danceLocationImageInput');
+
+        //Display message if any input is ignored
+        if(danceLocationNameTextBox === '' || danceLocationStreetTextBox === '' || danceLocationNumberTextBox === '' ||
+        danceLocationPostcodeTextBox === '' || danceLocationCityTextBox === '' ||danceLocationUrlToTheirSiteTextBox === '' ||
+        !danceLocationImageInput ){window.confirm('Please fill in all the mandatory parts.');
+            }else{
+                const danceLocationData = 
+                {
+                    dance_location_name: danceLocationNameTextBox.trim(), 
+                    dance_location_street: danceLocationStreetTextBox.trim(),
+                    dance_location_number: danceLocationNumberTextBox.trim(),
+                    dance_location_postcode: danceLocationPostcodeTextBox.trim(),
+                    dance_location_city: danceLocationCityTextBox.trim(),
+                    dance_location_urlToTheirSite: danceLocationUrlToTheirSiteTextBox.trim(),
+                    dance_location_image: danceLocationImageInput.value
+                };
+                console.log(danceLocationData);
+
+                fetch("http://localhost/api/danceLocations",{
+                    method: 'POST',
+                    headers: {'Content-Type' : 'application/json',},
+                    body: JSON.stringify(danceLocationData),
+                })
+                .catch((err) => {console.error('Error: ', err);});
+            }
+
     }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

@@ -92,6 +92,15 @@ class DanceRepository extends Repository{
         }
     } 
 
+    public function insertNewDanceLocation($newDanceLocation){
+        try{
+            $statement = $this ->connection->prepare("INSERT INTO `dance_location`(`dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $statement->execute(array(htmlspecialchars($newDanceLocation->getName()), htmlspecialchars($newDanceLocation->getDanceLocationStreet()), $newDanceLocation->getDanceLocationNumber(), htmlspecialchars($newDanceLocation->getDanceLocationPostcode()), htmlspecialchars($newDanceLocation->getDanceLocationCity()), htmlspecialchars($newDanceLocation->getDanceLocationUrlToTheirSite()), htmlspecialchars($newDanceLocation->getDanceLocationImageUrl())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks(){

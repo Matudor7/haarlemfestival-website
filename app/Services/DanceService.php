@@ -37,6 +37,9 @@ class DanceService
         $danceLocations = $this->danceRepository->getAllDanceLocations();
         return $danceLocations;
     }
+    public function insertDanceLocation($newDanceLocation){
+        $this->danceRepository->insertNewDanceLocation($newDanceLocation);
+    }
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks()

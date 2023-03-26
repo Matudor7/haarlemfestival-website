@@ -233,47 +233,87 @@ class AdminDanceController extends Controller
                 break;
         }
 
+        /*if ($element !== "MusicType" && $element !== "Event") {
+            $this->addNewDanceElementPhotos($element);
+        }*/
+
         require __DIR__ . "/../views/admin/danceAdminAdd.php";
     }
+
+    /*public function addNewDanceElementPhotos($element){
+        if(isset($_POST['addbutton'])){
+            try{
+                $imageNameFromTextBox = "";                
+
+                switch ($element) {
+                    case "Location":
+                        $imageNameFromTextBox = 'danceLocationNameTextBox';
+                        break;
+                    default:
+                        $imageNameFromTextBox = $this->generateRandomImageName();
+                        break;
+                }
+            
+                //Get image URL from POST request, then download that image into /media/dancePics
+                $imageUrl = $_FILES['danceinput']['tmp_name'];
+                
+                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST[$imageNameFromTextBox])));;
+    
+                $downloadPath = SITE_ROOT . '/media/dancePics/' . $imageName . '.png'; // public/media/dancePics/event.png
+    
+                //Put the file from the image path to the download path
+                move_uploaded_file($imageUrl, $downloadPath);
+                }catch(Exception $e){
+                    echo $e->getMessage();
+                }
+        }
+    }
+
+    function generateRandomImageName(){
+        $currentTime = microtime(true);
+        $randomString = bin2hex(random_bytes(8)); // Generate an 8-byte random string
+        return $imageName = round($currentTime) . '_' . $randomString . '.png';
+    }*/
 
     function generateLocationAddForm()
     {
         $locationAddFormHtml = '
         <div class="mb-3" style="width: 20%">
-        <label for="danceLocationNameTextBox" class="form-label">Location Name</label>
+        <label for="danceLocationNameTextBox" class="form-label">Location Name*</label>
         <input type="text" class="form-control" id="danceLocationNameTextBox" name="danceLocationNameTextBox"
             placeholder="Location Name">
     </div>
     <div class="mb-3" style="width: 20%">
-        <label for="danceLocationStreetTextBox" class="form-label">Street</label>
+        <label for="danceLocationStreetTextBox" class="form-label">Street*</label>
         <input type="text" class="form-control" id="danceLocationStreetTextBox"
             name="danceLocationStreetTextBox" placeholder="Street">
     </div>
     <div class="mb-3" style="width: 10%">
-        <label for="danceLocationNumberTextBox" class="form-label">Number</label>
+        <label for="danceLocationNumberTextBox" class="form-label">Number*</label>
         <input type="text" class="form-control" id="danceLocationNumberTextBox"
             name="danceLocationNumberTextBox" placeholder="Number">
     </div>
     <div class="mb-3" style="width: 10%">
-        <label for="danceLocationPostcodeTextBox" class="form-label">Postcode</label>
+        <label for="danceLocationPostcodeTextBox" class="form-label">Postcode*</label>
         <input type="text" class="form-control" id="danceLocationPostcodeTextBox"
             name="danceLocationPostcodeTextBox" placeholder="Postcode">
     </div>
     <div class="mb-3" style="width: 15%">
-        <label for="danceLocationCityTextBox" class="form-label">City</label>
+        <label for="danceLocationCityTextBox" class="form-label">City*</label>
         <input type="text" class="form-control" id="danceLocationCityTextBox" name="danceLocationCityTextBox"
             placeholder="City">
     </div>
     <div class="mb-3" style="width: 50%">
-        <label for="danceLocationUrlToTheirSiteTextBox" class="form-label">URL to Their Site</label>
+        <label for="danceLocationUrlToTheirSiteTextBox" class="form-label">URL to Their Site*</label>
         <input type="text" class="form-control" id="danceLocationUrlToTheirSiteTextBox"
             name="danceLocationUrlToTheirSiteTextBox" placeholder="URL to Their Site">
     </div>
     <div class="mb-3" style="width: 15%">
-        <label for="danceLocationImageInput" class="form-label">Location Image</label>
+        <label for="danceLocationImageInput" class="form-label">Location Image*</label>
         <input type="file" class="form-control" id="danceLocationImageInput" name="danceLocationImageInput"
             accept="image/png, image/jpg">
-    </div>';
+    </div>
+    <p> * marked fields are mandatory. </p>';
 
         return $locationAddFormHtml;
     }
@@ -282,7 +322,7 @@ class AdminDanceController extends Controller
     {
         $musicTypeAddForm = '
         <div class="mb-3" style="width: 20%">
-        <label for="danceMusicTypeNameTextBox" class="form-label">New Music Type Name</label>
+        <label for="danceMusicTypeNameTextBox" class="form-label">New Music Type Name*</label>
         <input type="text" class="form-control" id="danceMusicTypeNameTextBox" name="danceMusicTypeNameTextBox"
             placeholder="Music Type Name">
     </div>';

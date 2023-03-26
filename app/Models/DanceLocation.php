@@ -1,6 +1,6 @@
 <?php
 
-class DanceLocation {
+class DanceLocation implements JsonSerializable{
     private int $dance_location_id = 0;
     private string $dance_location_name = ""; 
     private string $dance_location_street = ""; 
@@ -10,6 +10,11 @@ class DanceLocation {
     private string $dance_location_urlToTheirSite = "";
     private string $dance_location_imageUrl = ""; 
 
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
     // getters
     public function getDanceLocationId(): int {
         return $this->dance_location_id;

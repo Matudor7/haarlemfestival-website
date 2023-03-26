@@ -11,8 +11,11 @@ class ShoppingCartController{
 
     function index(){
         if($_SERVER["REQUEST_METHOD"] == "GET"){
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($this->shoppingCartService->getCartOfUser($_GET['user_id']));
+
+            if(isset($_GET['user_id'])){
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($this->shoppingCartService->getCartOfUser($_GET['user_id']));
+            }
         }
     }
 }

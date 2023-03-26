@@ -48,8 +48,8 @@ include __DIR__ . '/../nav.php';
                             <p>Adults menu: &#x20AC; <?=$restaurant->getRestaurantAdultsPrice()?><br></p>
 
                             <div class="btn-group" style="text-align: right; margin-left: 10px;">
-                                <button onclick="location.href='/admin/editRestaurantPage'"type="button" class="btn btn-warning">Edit</button>
-                                <button onclick="location.href='/admin/deleteRestaurantPage'" type="button" class="btn btn-danger">Delete</button>
+                                <button onclick="location.href='/admin/editRestaurantPage?id=<?=$restaurant->getRestaurantId()?>'"  type="button" class="btn btn-warning">Edit</button>
+                                <button onclick="location.href='/admin/deleteRestaurantPage?id=<?=$restaurant->getRestaurantId()?>'"  type="button" class="btn btn-danger">Delete</button>
                             </div>
                             <div class="scrollable" style="height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;">
                                 <button onclick="location.href='/admin/addRestaurantPage'" style="background-color:#14A44D; color:white; padding: 10px; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px; ">Add New Restaurant</button>

@@ -4,11 +4,22 @@ class User
 {
     private int $user_id;
     private string $username;
-    private string $userPicURL;
+    private string $userPicURL = "";
     private string $user_firstName;
     private string $user_lastName;
     private string $user_email;
     private string $user_password;
+    private int $userTypeId;
+
+    public function getUserTypeId(): int
+    {
+        return $this->userTypeId;
+    }
+
+    public function setUserTypeId(int $userTypeId): void
+    {
+        $this->userTypeId = $userTypeId;
+    }
 
 
     public function getUserId(): int
@@ -32,12 +43,10 @@ class User
         $this->username = $username;
     }
 
-
     public function getUserPicURL(): string
     {
         return $this->userPicURL;
     }
-
 
     public function setUserPicURL(string $userPicURL): void
     {
@@ -53,6 +62,7 @@ class User
     {
         $this->user_firstName = $user_firstName;
     }
+
 
     public function getUserLastName(): string
     {

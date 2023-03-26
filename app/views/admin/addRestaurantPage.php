@@ -17,7 +17,7 @@ include __DIR__ . '/../nav.php';
 <h1 class="text-center">Add Restaurant Page</h1><br><br>
 
 <div class="text-center">
-    <form action="/admin/addRestaurant" method="post">
+    <form action="/admin/addRestaurant" method="post" enctype="multipart/form-data">
 
         <label for="restaurant_name">Restaurant Name:</label>
         <input type="text" name="restaurant_name" id="restaurant_name">
@@ -77,11 +77,20 @@ include __DIR__ . '/../nav.php';
         <input type="number" name="num_seats" id="num_seats" min="1">
         <br><br>
 
-        <label for="restaurant_pictureURL">Picture URL:</label>
-        <input type="text" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <label for="restaurant_pictureURL" class="form-label">Add Image: </label>
+        <input type="file" class="form-control" name="restaurant_pictureURL" id="restaurant_pictureURL" accept="image/png, image/jpg">
         <br><br>
 
-        <input type="submit" name="addRestaurant"  class="btn btn-success" value="Add Restaurant">
+
+        <input type="submit" name="addRestaurant" value="Add Restaurant">
+
+
+        <!--
+                <label for="restaurant_pictureURL">Picture URL:</label>
+                <input type="text" name="restaurant_pictureURL" id="restaurant_pictureURL">
+                <br><br>
+
+        <input type="submit" name="addRestaurant"  class="btn btn-success" value="Add Restaurant">-->
     </form>
 </div>
 </body>

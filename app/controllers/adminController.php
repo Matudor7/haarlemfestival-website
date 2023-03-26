@@ -7,16 +7,18 @@ require __DIR__ . '/../Services/FoodTypeService.php';
 require __DIR__ . '/../Services/RatingService.php';
 require __DIR__ . '/../Services/YummyService.php';
 require __DIR__ . '/../Services/UserService.php';
-git
+
 
 class AdminController extends Controller{
     private $eventService;
     private $danceService;
     private $events;
+    private $yummyService;
 
     public function __construct() {
         $this->eventService = new EventService();
         $this->danceService = new DanceService();
+        $this->yummyService = new YummyService();
 
         $this->events = $this->eventService->getAll();
     }
@@ -131,29 +133,48 @@ class AdminController extends Controller{
 
     public function addRestaurant()
     {
-        $restaurant = new RestaurantModel();
-        $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
-        $restaurant->setFoodTypeId(htmlspecialchars($_POST['restaurant_foodType']));
-        $restaurant->setRestaurantRatingId(htmlspecialchars($_POST['restaurant_rating']));
-        $restaurant->setRestaurantKidsPrice(htmlspecialchars($_POST['restaurant_kidsPrice']));
-        $restaurant->setRestaurantAdultsPrice(htmlspecialchars($_POST['restaurant_adultsPrice']));
-        $restaurant->setDuration(htmlspecialchars($_POST['duration']));
-        $restaurant->setHavaDetailPageOrNot(htmlspecialchars($_POST['haveDetailPage']));
-        $restaurant->setRestaurantOpeningTime(htmlspecialchars($_POST['opening_time']));
-        $restaurant->setNumberOfTimeSlots(htmlspecialchars($_POST['numTime_slots']));
-        $restaurant->setRestaurantNumberOfAvailableSeats(htmlspecialchars($_POST['num_seats']));
-        $restaurant->setRestaurantPictureURL(htmlspecialchars($_POST['restaurant_pictureURL']));
+            if (isset($_POST['addRestaurant'])) {
+                try {
 
-        $restaurantService = new YummyService();
-        $restaurantService->insertRestaurant($restaurant);
-    }
-    public function editRestaurantPage($restaurant)
+                    //Get image URL from POST request, then download that image into /media/events
+                    $restaurant_pictureURL = $_FILES['restaurant_pictureURL']['tmp_name'];
+
+                    $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['restaurant_name'])));
+
+                    $downloadPath = '/media/yummyPics/' . $imageName . '.png'; // /media/yummyPics/restaurant.png
+
+                    //Put the file from the image path to the download path
+                    move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
+                    $restaurant = new RestaurantModel();
+                    $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
+                    $restaurant->setFoodTypeId(htmlspecialchars($_POST['restaurant_foodType']));
+                    $restaurant->setRestaurantRatingId(htmlspecialchars($_POST['restaurant_rating']));
+                    $restaurant->setRestaurantKidsPrice(htmlspecialchars($_POST['restaurant_kidsPrice']));
+                    $restaurant->setRestaurantAdultsPrice(htmlspecialchars($_POST['restaurant_adultsPrice']));
+                    $restaurant->setDuration(htmlspecialchars($_POST['duration']));
+                    $restaurant->setHavaDetailPageOrNot(htmlspecialchars($_POST['haveDetailPage']));
+                    $restaurant->setRestaurantOpeningTime(htmlspecialchars($_POST['opening_time']));
+                    $restaurant->setNumberOfTimeSlots(htmlspecialchars($_POST['numTime_slots']));
+                    $restaurant->setRestaurantNumberOfAvailableSeats(htmlspecialchars($_POST['num_seats']));
+
+                    $restaurant->setRestaurantPictureURL($downloadPath);
+                    $restaurantService = new YummyService();
+                    $restaurantService->insertRestaurant($restaurant);
+
+                } catch (Exception $e) {
+                    echo $e;
+                }
+
+
+            }}
+    public function editRestaurantPage()
     {
         $eventService = new EventService();
         $events = $eventService->getAll();
 
         $yummyService = new YummyService();
-        $yummyService->getById($restaurant);
+        $restaurant =  $yummyService->getById($_GET['id']);
+
 
         $foodTypeService = new FoodTypeService();
         $foodTypes = $foodTypeService->getAllFoodType();
@@ -186,6 +207,13 @@ class AdminController extends Controller{
              $appointmentService = new AppointmentService();
              $appointmentService->updateAppointment($appointment);
          }*/
+    }
+    public function deleteRestaurantPage(){
+        $id = $_GET['id'];
+        $this->yummyService->deleteRestaurant($id);
+
+        $this->manageRestaurants();
+
     }
 
 

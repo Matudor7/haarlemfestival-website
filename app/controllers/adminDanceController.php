@@ -26,16 +26,16 @@ class AdminDanceController extends Controller
         $danceEvents = $this->danceService->getAllDanceEvents();
         $danceMusicTypes = $this->danceService->getAllMusicTypes();
 
-        foreach ($danceEvents as $danceEvent) {
+        foreach ($danceEvents as $danceEvent) {  //organize dance events by date
             $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
             if (!isset($danceEventsByDate[$date])) {
                 $danceEventsByDate[$date] = [];
             }
         }
-
+        // Get the type of element being managed
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
-
-        switch ($element) {
+        
+        switch ($element) { // Generate HTML table based on the type of element being managed
             case "Artist":
                 $tableHtml = $this->generateArtistTable($artists);
                 break;
@@ -55,10 +55,9 @@ class AdminDanceController extends Controller
     }
 
     function generateArtistTable($artists)
-    {
-
-  $musicTypeLink = '/adminDance/danceAdminAdd?type=MusicType';
-  $musicTypeButton = '<a href="'.$musicTypeLink.'">
+    {   
+        $musicTypeLink = '/adminDance/danceAdminAdd?type=MusicType';
+        $musicTypeButton = '<a href="'.$musicTypeLink.'">
                       <button type="button" class="btn btn-info">Add New Music Type</button>
                       </a>';
 
@@ -232,47 +231,8 @@ class AdminDanceController extends Controller
                 break;
         }
 
-        /*if ($element !== "MusicType" && $element !== "Event") {
-            $this->addNewDanceElementPhotos($element);
-        }*/
-
         require __DIR__ . "/../views/admin/danceAdminAdd.php";
     }
-
-    /*public function addNewDanceElementPhotos($element){
-        if(isset($_POST['addbutton'])){
-            try{
-                $imageNameFromTextBox = "";                
-
-                switch ($element) {
-                    case "Location":
-                        $imageNameFromTextBox = 'danceLocationNameTextBox';
-                        break;
-                    default:
-                        $imageNameFromTextBox = $this->generateRandomImageName();
-                        break;
-                }
-            
-                //Get image URL from POST request, then download that image into /media/dancePics
-                $imageUrl = $_FILES['danceinput']['tmp_name'];
-                
-                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST[$imageNameFromTextBox])));;
-    
-                $downloadPath = SITE_ROOT . '/media/dancePics/' . $imageName . '.png'; // public/media/dancePics/event.png
-    
-                //Put the file from the image path to the download path
-                move_uploaded_file($imageUrl, $downloadPath);
-                }catch(Exception $e){
-                    echo $e->getMessage();
-                }
-        }
-    }
-
-    function generateRandomImageName(){
-        $currentTime = microtime(true);
-        $randomString = bin2hex(random_bytes(8)); // Generate an 8-byte random string
-        return $imageName = round($currentTime) . '_' . $randomString . '.png';
-    }*/
 
     function generateLocationAddForm()
     {
@@ -319,8 +279,7 @@ class AdminDanceController extends Controller
 
     function generateMusicTypeAddForm()
     {
-        $musicTypeAddForm = '
-        <div class="mb-3" style="width: 20%">
+        $musicTypeAddForm = '<div class="mb-3" style="width: 20%">
         <label for="danceMusicTypeNameTextBox" class="form-label">New Music Type Name*</label>
         <input type="text" class="form-control" id="danceMusicTypeNameTextBox" name="danceMusicTypeNameTextBox"
             placeholder="Music Type Name">
@@ -330,10 +289,9 @@ class AdminDanceController extends Controller
     }
 
     function deleteLocation(){
-        $danceLocation = $this->danceService->getDanceLocationById($_GET['id']);
+        $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); /// get the dance location object from the service using the ID in the URL parameter
         $this->danceService->deleteDanceLocation($danceLocation);
-
-        header('Location: /adminDance/danceAdminManage?type=Location');
+        header('Location: /adminDance/danceAdminManage?type=Location'); // redirect the user back to the location manage page after deletion.
     }
 
     

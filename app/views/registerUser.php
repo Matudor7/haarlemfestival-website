@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php //session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -15,23 +15,38 @@
 
 <body>
 <?php
-include __DIR__ . '/../nav.php';
+include __DIR__ . '/nav.php';
 ?>
 
 <div id="createUserDiv" class="text-center" style="min-height: 500px;">
     <br><br>      <br><br>
     <h2>Create new User</h2>
-    <form method="POST" action="/RegisterUsers">
+    <form method="POST" action="/user/RegisterUser">
         <input type="text" name="username" placeholder="Username"><br><br>
         <input type="password" name="password" placeholder="Password"><br><br>
 
         <input type="text" name="firstname" placeholder="First name"><br><br>
         <input type="text" name="lastname" placeholder="Last name"><br><br>
+        <input type="email" name="email" placeholder="Email"><br><br>
+        <label for="userType">User Type:</label>
+        <select name="userType" id="userType">
+            <?php foreach ($userTypes as $usertype){?>
+                <option value="<?=$usertype->getUserTypeId()?>"><?=$usertype->getUserType()?></option>
+            <?php }?>
+        </select><br><br>
+
         <input id="createUserButton" type="submit" name="Create new User" value="Create new User"><br><br>
     </form>
 </div>
 <?php
-include __DIR__ . '/../footer.php';
+if(isset($_SESSION['userCreationMessage'])){ ?>
+<p> <?php echo $_SESSION['userCreationMessage'];
+    ?> </p>
+<?php
+        unset($_SESSION['userCreationMessage']);
+    }?>
+<?php
+include __DIR__ . '/footer.php';
 ?>
 
 </body>

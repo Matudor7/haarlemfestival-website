@@ -1,16 +1,16 @@
 <?php
-require __DIR__ . '/controller.php';
-require __DIR__ . '/../Services/eventService.php';
+require_once __DIR__ . '/controller.php';
+require_once __DIR__ . '/../Services/eventService.php';
+require_once __DIR__ . '/../Services/UserService.php';
+
 class LoginController extends Controller
 {
     public function index()
     {
-
         $eventService = new EventService();
         $events = $eventService->getAll();
 
         require __DIR__ . '/../views/login.php';
-
     }
 
 
@@ -20,14 +20,14 @@ class LoginController extends Controller
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            require_once('../Controller/UserController.php');
-            $userController = new UserController();
 
-            $user = $userController->validateLogin($username, $password);
+            $userService = new UserService();
+
+            $user = $userService->validateLogin($username, $password);
 
             if ($user != null) {
                 $_SESSION['user'] = $user;
-                header("location: /manageRestaurantPage");
+               header("location: /admin/manageRestaurants");
             } else {
                 $_SESSION['LoginError'] = "Username or password incorrect!";
                 header("location: /Login");

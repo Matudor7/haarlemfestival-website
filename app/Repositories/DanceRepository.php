@@ -67,44 +67,14 @@ class DanceRepository extends Repository{
             return [];
         }
     }
-    
-    /*public function getMusicTypeById($id) {
-        $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id` = ?";
-    
-        try {
-            $statement = $this->connection->prepare($sql);
-            $statement->execute([$id]);
-    
-            $musicType = $statement->fetchObject('MusicType');
-            return $musicType;
-        } catch (PDOException $e) {
-            error_log('Error retrieving music type with id ' . $id . ': ' . $e->getMessage());
-            return null;
+    public function insertNewMusicType($newMusicType){
+        try{
+            $statement = $this ->connection->prepare("INSERT INTO dance_musicType (dance_musicType_name) VALUES (?);");
+            $statement->execute(array(htmlspecialchars($newMusicType->getMusicTypeName())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
-    }*/
-
-    /*public function getMusicTypesByArtist($artistId) {
-        $sql = "SELECT `dance_artistMusicType_musicTypeId` FROM `dance_artistMusicType` WHERE `dance_artistMusicType_artistId` = ?";
-    
-        try {
-            $statement = $this->connection->prepare($sql);
-            $statement->execute([$artistId]);
-    
-            $musicTypes = array();
-    
-            while ($row = $statement->fetch()) {
-                $musicTypeId = $row['dance_artistMusicType_musicTypeId'];
-                $musicType = $this->getMusicTypeById($musicTypeId);
-                $musicTypes[] = $musicType;
-            }
-    
-            return $musicTypes;
-        } catch (PDOException $e) {
-            error_log('Error retrieving music types for artist with id ' . $artistId . ': ' . $e->getMessage());
-            return array();
-        }
-    }   */ 
-
+    } 
 
     //DANCE LOCATIONS
     public function getAllDanceLocations(){

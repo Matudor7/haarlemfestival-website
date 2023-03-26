@@ -24,6 +24,7 @@ class AdminDanceController extends Controller
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
         $danceEvents = $this->danceService->getAllDanceEvents();
+        $danceMusicTypes = $this->danceService->getAllMusicTypes();
 
         foreach ($danceEvents as $danceEvent) {
             $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");

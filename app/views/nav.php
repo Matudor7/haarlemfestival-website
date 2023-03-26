@@ -71,11 +71,18 @@
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas right</h5>
+                <h5 class="offcanvas-title" id="offcanvasLabel">Shopping Cart</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                    ...
+                <!-- This is where the shopping cart loop goes !-->
+                    <?php foreach($products as $product)
+                    {?>
+                        <div>
+                            <h1><?php echo $product->getName()?></h1>
+                        </div>
+                    <?php
+                    }?>
             </div>
         </div>
         

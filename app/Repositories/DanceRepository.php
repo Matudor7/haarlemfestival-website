@@ -99,8 +99,34 @@ class DanceRepository extends Repository{
         }catch(PDOException $e){
             echo $e->getMessage();
         }
-    }
+    } 
 
+    public function getDanceLocationByIdFromDatabase($location_id){
+        $sql = "SELECT `dance_location_id`, `dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl` FROM `dance_location` WHERE `dance_location_id` = :location_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':location_id', $location_id, PDO::PARAM_INT);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'DanceLocation');
+            $location = $statement->fetch();
+            return $location;
+        } catch (PDOException $e) {
+            error_log('Error retrieving location with id ' . $location_id . ': ' . $e->getMessage());
+            return null;
+        }
+    }
+    public function deleteDanceLocationFromDatabase($danceLocation){
+        $sql = "DELETE FROM `dance_location` WHERE `dance_location_id` = :location_id";
+        try {
+            $locationId = $danceLocation->getDanceLocationId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':location_id', $locationId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks(){

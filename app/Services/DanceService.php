@@ -40,6 +40,12 @@ class DanceService
     public function insertDanceLocation($newDanceLocation){
         $this->danceRepository->insertNewDanceLocation($newDanceLocation);
     }
+    public function getDanceLocationById($location_id){
+        return $this->danceRepository->getDanceLocationByIdFromDatabase($location_id);   
+    }
+    public function deleteDanceLocation($danceLocation){
+        $this->danceRepository->deleteDanceLocationFromDatabase($danceLocation);
+    }
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks()

@@ -146,8 +146,7 @@ class AdminDanceController extends Controller
                 "<td>" . $location->getDanceLocationImageUrl() . "</td>";
             $tableHtml .=
                 '<td><button class="btn btn-warning">Edit</button></td>';
-            $tableHtml .=
-                '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger" onclick="deleteElement(' . $location->getDanceLocationId() . ')">Delete</button></td>';
             $tableHtml .= "</tr>";
         }
 
@@ -328,6 +327,13 @@ class AdminDanceController extends Controller
     </div>';
 
         return $musicTypeAddForm;
+    }
+
+    function deleteLocation(){
+        $danceLocation = $this->danceService->getDanceLocationById($_GET['id']);
+        $this->danceService->deleteDanceLocation($danceLocation);
+
+        header('Location: /adminDance/danceAdminManage?type=Location');
     }
 
     

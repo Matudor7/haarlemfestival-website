@@ -8,5 +8,12 @@ class ProductService{
 
         return $products;
     }
+
+    public function getById(int $id){
+        $productRepo = new ProductRepository();
+        $product = $productRepo->getById($id);
+        
+        return $product;
+    }
 }
 ?>

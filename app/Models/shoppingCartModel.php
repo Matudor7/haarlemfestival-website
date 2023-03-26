@@ -1,13 +1,7 @@
 <?php
-require __DIR__ . '/productModel.php';
-
 class ShoppingCart{
     private int $user_id = 0;
-    //NOTE: Might not need product id if I have a product array, will see.
-    private int $product_id = 0;
-
-    private Product $products = [];
-
+    private $product_ids = []; //int array
     private int $amount = 0;
 
     #[ReturnTypeWillChange]
@@ -16,12 +10,17 @@ class ShoppingCart{
         return $this->user_id;
     }
 
-    public function getProductId(): int{
-        return $this->product_id;
+    public function setUserId(int $user_id): self{
+        $this->user_id = $user_id;
+        return $this;
     }
 
-    public function getProducts(): Product{
-        return $this->products;
+    public function getProducts(){
+        return $this->product_ids;
+    }
+
+    public function addProduct(int $product_id): void{
+        array_push($this->product_ids, $product_id);
     }
 
     public function getAmount(): int{

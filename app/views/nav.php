@@ -76,7 +76,7 @@
             </div>
             <div class="offcanvas-body">
                 <!-- This is where the shopping cart loop goes !-->
-                    <?php foreach($products as $product)
+                    <?php foreach($merged_products as $product)
                     {?>
                         <div style="display: flex; justify-content: space-between; align-items: center">
                             <div>

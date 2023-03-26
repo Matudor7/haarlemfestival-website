@@ -1,10 +1,14 @@
 <?php
-class ShoppingCart{
+class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     private $product_ids = []; //int array
     private $amounts = []; //int array
 
     #[ReturnTypeWillChange]
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
     public function getUserId(): int{
         return $this->user_id;

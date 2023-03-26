@@ -138,34 +138,77 @@
         </table>
       </td>
 
-      <td class="p-0">
-        <table class="table my-0">
-          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-            <tr><td class="border border-0"></td></tr>
-        </tr>
-        </table>
-</td>
+        <!---<//**?php foreach ($languages as $language) {
+             ?>
         <td class="p-0">
             <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-                <tr><td class="border border-0"></td></tr>
-            </tr>
-            </table>
-</td>
+                <//?php
+                foreach ($timetables as $timetable){
+                    $count=0;
 
-        <td class="p-0">
-            <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td></td></tr>
-                <tr><td class="border border-0"></td></tr>
-            </tr>
+            foreach ($walkingTours as $walkingTour){
+
+                if($walkingTour->getTourLanguage() == $language){
+                    if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()){
+                        if($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()){
+                            $count++;
+                            ?>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td><//?php echo ($count > 0) ? $count : 0; ?></td></tr>
+                <//?php
+                        }
+                    }}
+                    ?>
+
+        <//?php }}?>
             </table>
-</td>
-<td>12</td>
+        <//?php } ?>
+</td>!--->
+
+        <?php foreach ($languages as $language) { ?>
+            <td class="p-0">
+                <table class="table my-0">
+                    <?php
+                    foreach ($timetables as $timetable) {
+                        $count = 0;
+                        $found_tour = false;
+
+                        foreach ($walkingTours as $walkingTour) {
+                            if ($walkingTour->getTourLanguage() == $language) {
+                                if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()) {
+                                    if ($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()) {
+                                        $count++;
+                                        $found_tour = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($found_tour) {
+                            ?>
+                            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                                <td><?php echo $count ?></td>
+                            </tr>
+                            <?php
+                        } else {
+                            ?>
+                            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                                <td>0</td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                </table>
+            </td>
+        <?php } ?>
+<td class="p-0"><table class="table p-0 m-0">
+        <?php $index=0; foreach ($timetables as $timetable){?>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+            <td><?php echo $walkingTours[$index]->getTourCapacity()?></td>
+            </tr><?php $index++; } ?>
+    </table></td>
     </tr>
-  <?php } ?>
+  <?php }?>
   </tbody>
 </table>
 

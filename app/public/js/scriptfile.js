@@ -15,3 +15,8 @@ function scrollToElement() {
         behavior: 'smooth'
     });
 }
+
+//Shopping Cart Methods
+function addAmount(productId){
+    console.log(productId);
+}

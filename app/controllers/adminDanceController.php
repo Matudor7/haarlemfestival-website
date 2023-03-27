@@ -309,8 +309,12 @@ class AdminDanceController extends Controller
         if(isset($_POST['editbutton'])){
             switch ($element) {
                 case "Location":
-                    $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
-                    $this->editLocationElement($danceLocation);
+                    if (!is_numeric($_POST['danceLocationNumberTextBox'])) {
+                        echo '<script>alert("Please enter a valid integer for the location number.");</script>';
+                        require __DIR__ . "/../views/admin/danceAdminEdit.php";
+                        return; // Stop the function execution
+                    }else{$danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                        $this->editLocationElement($danceLocation);}                    
                     break;
                 default:
                     $editFormHtml =

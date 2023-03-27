@@ -46,6 +46,9 @@ class DanceService
     public function deleteDanceLocation($danceLocation){
         $this->danceRepository->deleteDanceLocationFromDatabase($danceLocation);
     }
+    public function editDanceLocation($oldDanceLocation, $newDanceLocation){
+        $this->danceRepository->editDanceLocationInDatabase($oldDanceLocation, $newDanceLocation);
+    }
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks()

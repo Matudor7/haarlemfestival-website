@@ -59,36 +59,40 @@
             </div>
             <div class="offcanvas-body">
                 <!-- This is where the shopping cart loop goes !-->
-                    <?php foreach($merged_products as $product)
+                    <?php for($i = 0; $i < count($merged_products); $i++)
                     {?>
-                        <div style="display: flex; justify-content: space-between; align-items: center">
+                        <div id ="productdiv <?php echo $i?>" style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
                             <div>
-                            <button type="button" class="btn btn-primary" style="padding: 5px 5px">
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton" onclick="addAmount(<?php echo $i?>, 1, <?php echo $merged_products[$i]->getId()?>)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
                                 </svg>
                             </button>
-                            <h6 style="text-align: center"><?php echo $product->getId()?></h6>
-                            <button type="button" class="btn btn-primary" style="padding: 5px 5px">
+                            <h6 id="productamount <?php echo $i?>" style="text-align: center"><?php echo $amounts[$i]?></h6>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="removeButton" onclick="removeAmount(<?php echo $i?>, 1, <?php echo $merged_products[$i]->getId()?>)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
                                     <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
                                 </svg>
                             </button>
                             </div>
                             <div style="margin-left: 20px">
-                                <h2><?php echo $product->getName()?></h2>
-                                <h6><?php echo $product->getLocation()?></h6>
-                                <p><?php echo $product->getStartTime()?></p>
+                                <h2><?php echo $merged_products[$i]->getName()?></h2>
+                                <h6><?php echo $merged_products[$i]->getLocation()?></h6>
+                                <p><?php echo $merged_products[$i]->getStartTime()?></p>
+                                <p><?php echo $merged_products[$i]->getInfo()?></p>
                             </div>
                             <div>
-                                <h3><?php echo $product->getPrice()?></h3>
+                                <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
                             </div>
                         </div>
+                        <br>
                     <?php
                     }?>
+                    <div style="position: fixed; bottom:1; right:0">
+                        <h2 id="totalPrice">Total: 100</h2>
+                    </div>
             </div>
         </div>
-        
         </nav>
     <script src="/js/scriptfile.js"></script>
     </body>

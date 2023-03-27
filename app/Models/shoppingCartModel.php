@@ -1,10 +1,14 @@
 <?php
-class ShoppingCart{
+class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     private $product_ids = []; //int array
-    private int $amount = 0;
+    private $amounts = []; //int array
 
     #[ReturnTypeWillChange]
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
     public function getUserId(): int{
         return $this->user_id;
@@ -23,13 +27,12 @@ class ShoppingCart{
         array_push($this->product_ids, $product_id);
     }
 
-    public function getAmount(): int{
-        return $this->amount;
+    public function getAmount(){
+        return $this->amounts;
     }
 
-    public function setAmount(int $amount): self{
-        $this->amount = $amount;
-        return $this;
+    public function addAmount(int $amount): void{
+        array_push($this->amounts, $amount);
     }
 }
 ?>

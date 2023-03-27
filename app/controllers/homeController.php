@@ -23,6 +23,12 @@ class HomeController extends Controller{
 
         //This merges all products to be in a single-level array
         $merged_products = array_merge(...$products);
+
+        //"Amounts" will always be equal to the number of products in the array 
+        $amounts = [];
+        foreach($shoppingCart->getAmount() as $amount){
+            array_push($amounts, $amount);
+        }
         
         require __DIR__ . '/../views/homepage/index.php';
     }

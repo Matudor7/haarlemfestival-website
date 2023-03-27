@@ -15,11 +15,34 @@ class ShoppingCartRepository extends Repository{
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 $shoppingCart->setUserId($row['user_id']);
                 $shoppingCart->addProduct($row['product_id']);
-                $shoppingCart->setAmount($row['amount']);
+                $shoppingCart->addAmount($row['amount']);
             }
             return $shoppingCart;
         }catch(PDOException $e){
             echo $e->getMessage();
         }
+    }
+
+    public function addAmount(int $user_id, int $product_id){
+        $statement = $this->connection->prepare("UPDATE shopping_cart SET amount = amount + 1 WHERE user_id = :user_id AND product_id = :product_id");
+
+        $statement->bindParam(':user_id', $user_id);
+        $statement->bindParam(':product_id', $product_id);
+
+        $statement->execute();
+    }
+
+    public function removeAmount(int $user_id, int $product_id){
+        $statement = $this->connection->prepare("SET @amount = (SELECT amount FROM shopping_cart WHERE user_id = :user_id AND product_id = :product_id);
+                                                 IF @amount > 1 THEN
+                                                 UPDATE shopping_cart SET amount = amount - 1 WHERE user_id = :user_id AND product_id = :product_id;
+                                                 ELSE
+                                                 DELETE FROM shopping_cart WHERE user_id = :user_id AND product_id = :product_id;
+                                                 END IF;");
+                                                 
+        $statement->bindParam(':user_id', $user_id);
+        $statement->bindParam(':product_id', $product_id);
+
+        $statement->execute();
     }
 }

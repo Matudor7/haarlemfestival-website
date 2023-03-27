@@ -11,7 +11,7 @@
                 <option selected>Select Date</option>
 
                 <?php foreach($walkingTours as $walkingTour){?>
-                <option value="1"><?php echo $walkingTour->getTourTimetable()->getTimetableStartDate()?></option>
+                <option value="1"><?php echo $walkingTour->getTourTimetable()->getTimetableStartDate()->format('D d / M')?></option>
                 <?php }?>
                 <option value="2">Two</option>
                 <option value="3">Three</option>

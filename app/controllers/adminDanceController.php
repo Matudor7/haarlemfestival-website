@@ -287,10 +287,6 @@ class AdminDanceController extends Controller
         return $musicTypeAddForm;
     }
 
-    function deleteLocation(){
-       
-    }
-
     function deleteElement(){
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
 
@@ -307,8 +303,26 @@ class AdminDanceController extends Controller
 
     public function editelement()
     {
-        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");   
+        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8"); 
+        $editFormHtml = $this->generateEditForms($element);
 
+        if(isset($_POST['editbutton'])){
+            switch ($element) {
+                case "Location":
+                    $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                    $this->editLocationElement($danceLocation);
+                    break;
+                default:
+                    $editFormHtml =
+                        "<p>There has been an error creating the Edit Form. Please try again later.</p>";
+                    break;
+            }
+        }
+        require __DIR__ . "/../views/admin/danceAdminEdit.php";
+    }
+
+    function generateEditForms($element){
+        $editFormHtml = ''; // set a default value for the variable
         switch ($element) {
             case "Location":
                 $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
@@ -318,8 +332,22 @@ class AdminDanceController extends Controller
                 $editFormHtml =
                     "<p>There has been an error creating the Edit Form. Please try again later.</p>";
                 break;
-        }               
-        require __DIR__ . "/../views/admin/danceAdminEdit.php";
+        }
+        return $editFormHtml; // return the $editFormHtml variable
+    }    
+
+    function editLocationElement($oldLocation){
+        $newLocation = new DanceLocation();
+        $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
+        $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
+        $newLocation->setDanceLocationNumber($_POST['danceLocationNumberTextBox']);
+        $newLocation->setDanceLocationPostcode($_POST['danceLocationPostcodeTextBox']);
+        $newLocation->setDanceLocationCity($_POST['danceLocationCityTextBox']);
+        $newLocation->setDanceLocationUrlToTheirSite($_POST['danceLocationUrlToTheirSiteTextBox']);
+        $newLocation->setDanceLocationImageUrl($_POST['danceLocationImageInput']);
+       
+        $this->danceService->editDanceLocation($oldLocation, $newLocation);
+        
     }
 
     function generateLocationEditForm($location){

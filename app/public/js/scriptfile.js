@@ -17,6 +17,50 @@ function scrollToElement() {
 }
 
 //Shopping Cart Methods
-function addAmount(productId){
-    console.log(productId);
+function updateAmount(){
+
+}
+
+function addAmount(index, userId, productId){
+    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
+
+    fetch(apiUrl, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            amounts: [{index: index, increment: 1}]
+        })
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Request failed.');
+        }
+    })
+    .catch(error=> {
+        console.error(error);
+    });
+}
+
+function removeAmount(index, userId, productId){
+    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=delete';
+
+    fetch(apiUrl, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            amounts: [{index: index, decrement: 1}]
+        })
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Request failed.');
+        }
+    })
+    .catch(error=> {
+        console.error(error);
+    });
 }

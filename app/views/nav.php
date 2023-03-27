@@ -99,12 +99,15 @@
                                 <p><?php echo $merged_products[$i]->getInfo()?></p>
                             </div>
                             <div>
-                                <h3>&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
+                                <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
                             </div>
                         </div>
                         <br>
                     <?php
                     }?>
+                    <div style="position: fixed; bottom:1; right:0">
+                        <h2 id="totalPrice">Total: 100</h2>
+                    </div>
             </div>
         </div>
         </nav>

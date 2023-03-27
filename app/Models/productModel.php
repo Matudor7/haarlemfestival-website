@@ -2,7 +2,7 @@
 class Product implements JsonSerializable{
     private int $id = 0;
     private string $name = "";
-    private string $event_type = "";
+    private int $event_type = 0;
     private string $starting_time = "";
     private string $location = "";
     private int $price= 0;
@@ -28,11 +28,11 @@ class Product implements JsonSerializable{
         return $this;
     }
 
-    public function getEventType(): string{
+    public function getEventType(): int{
         return $this->event_type;
     }
 
-    public function setEventType(string $event_type): self{
+    public function setEventType(int $event_type): self{
         $this->event_type = $event_type;
         return $this;
     }

@@ -22,15 +22,13 @@ FROM user");
         }
 
     }
-
     public function verifyLogin($username, $password)
     {
         try {
-            session_start();
 
             $stmt = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
-         user_email, user_password, user_userType
-FROM user where username=:username");
+         user_email, user_password, userTypeId
+FROM user where username like :username");
             $stmt->bindParam(':username', $username);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
@@ -39,7 +37,7 @@ FROM user where username=:username");
             if ($user == null) {
                 return null;
             }
-            $isPasswordCorrect = password_verify($password, $user->password);
+            $isPasswordCorrect = password_verify($password, $user->getUserPassword());
             if($isPasswordCorrect){
                 return $user;
             } else {
@@ -72,7 +70,7 @@ FROM user WHERE id=$id ");
     {
         try {
             $stmt = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
-         user_email, user_password, user_userType
+         user_email, user_password, userTypeId
 FROM user WHERE user_email like :email");
 
             $stmt->bindParam(':email', $email);
@@ -97,6 +95,50 @@ FROM user WHERE user_email like :email");
 
         }catch(Exception $e)
         { echo $e;
+        }
+    }
+
+    public function createUser($user)
+    {
+        try {
+            $stmt = $this->connection->prepare("
+            INSERT INTO user (username, userPicURL, user_firstName, user_lastName, user_email, user_password, userTypeId)
+            SELECT :username, :userPic, :firstname, :lastname, :email, :password, :userType
+            WHERE NOT EXISTS (SELECT username FROM user WHERE username = :username or user_email = :email)
+        ");
+
+            $userPassword = htmlspecialchars($user->getUserPassword());
+            $username = htmlspecialchars($user->getUsername());
+            $userFirstName = htmlspecialchars($user->getUserFirstname());
+            $userLastname = htmlspecialchars($user->getUserLastname());
+            $userEmail = htmlspecialchars($user->getUserEmail());
+            $userType = htmlspecialchars($user->getUserTypeId());
+
+            $stmt->bindParam(':password', $userPassword);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':firstname', $userFirstName);
+            $stmt->bindParam(':lastname', $userLastname);
+            $stmt->bindParam(':email', $userEmail);
+            $stmt->bindParam(':userType', $userType);
+            $userDefaultPic = "/media/defaultPic.jpg";
+            $stmt->bindParam(':userPic', $userDefaultPic);
+
+            return  $stmt->execute();
+        } catch (Exception $e) {
+            echo $e;
+        }
+    }
+
+    public function getUserType(){
+        try{
+            $stmt = $this->connection->prepare("SELECT userTypeId, userType from userType");
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'userType');
+            $result = $stmt->fetchAll();
+            return $result;
+
+        }catch(Exception $e){
+            echo $e;
         }
     }
 }

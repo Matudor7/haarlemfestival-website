@@ -9,6 +9,17 @@ class User
     private string $user_lastName;
     private string $user_email;
     private string $user_password;
+    private int $userTypeId;
+
+    public function getUserTypeId(): int
+    {
+        return $this->userTypeId;
+    }
+
+    public function setUserTypeId(int $userTypeId): void
+    {
+        $this->userTypeId = $userTypeId;
+    }
 
 
     public function getUserId(): int

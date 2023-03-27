@@ -67,44 +67,14 @@ class DanceRepository extends Repository{
             return [];
         }
     }
-    
-    /*public function getMusicTypeById($id) {
-        $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id` = ?";
-    
-        try {
-            $statement = $this->connection->prepare($sql);
-            $statement->execute([$id]);
-    
-            $musicType = $statement->fetchObject('MusicType');
-            return $musicType;
-        } catch (PDOException $e) {
-            error_log('Error retrieving music type with id ' . $id . ': ' . $e->getMessage());
-            return null;
+    public function insertNewMusicType($newMusicType){
+        try{
+            $statement = $this ->connection->prepare("INSERT INTO dance_musicType (dance_musicType_name) VALUES (?);");
+            $statement->execute(array(htmlspecialchars($newMusicType->getMusicTypeName())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
-    }*/
-
-    /*public function getMusicTypesByArtist($artistId) {
-        $sql = "SELECT `dance_artistMusicType_musicTypeId` FROM `dance_artistMusicType` WHERE `dance_artistMusicType_artistId` = ?";
-    
-        try {
-            $statement = $this->connection->prepare($sql);
-            $statement->execute([$artistId]);
-    
-            $musicTypes = array();
-    
-            while ($row = $statement->fetch()) {
-                $musicTypeId = $row['dance_artistMusicType_musicTypeId'];
-                $musicType = $this->getMusicTypeById($musicTypeId);
-                $musicTypes[] = $musicType;
-            }
-    
-            return $musicTypes;
-        } catch (PDOException $e) {
-            error_log('Error retrieving music types for artist with id ' . $artistId . ': ' . $e->getMessage());
-            return array();
-        }
-    }   */ 
-
+    } 
 
     //DANCE LOCATIONS
     public function getAllDanceLocations(){
@@ -122,6 +92,71 @@ class DanceRepository extends Repository{
         }
     } 
 
+    public function getDanceLocationByIdFromDatabase($location_id){
+        $sql = "SELECT `dance_location_id`, `dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl` FROM `dance_location` WHERE `dance_location_id` = :location_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':location_id', $location_id, PDO::PARAM_INT);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'DanceLocation');
+            $location = $statement->fetch();
+            return $location;
+        } catch (PDOException $e) {
+            error_log('Error retrieving location with id ' . $location_id . ': ' . $e->getMessage());
+            return null;
+        }
+    }
+    public function insertNewDanceLocation($newDanceLocation){
+        try{
+            $statement = $this ->connection->prepare("INSERT INTO `dance_location`(`dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $statement->execute(array(htmlspecialchars($newDanceLocation->getDanceLocationName()), htmlspecialchars($newDanceLocation->getDanceLocationStreet()), $newDanceLocation->getDanceLocationNumber(), htmlspecialchars($newDanceLocation->getDanceLocationPostcode()), htmlspecialchars($newDanceLocation->getDanceLocationCity()), htmlspecialchars($newDanceLocation->getDanceLocationUrlToTheirSite()), htmlspecialchars($newDanceLocation->getDanceLocationImageUrl())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    } 
+
+    public function deleteDanceLocationFromDatabase($danceLocation){
+        $sql = "DELETE FROM `dance_location` WHERE `dance_location_id` = :location_id";
+        try {
+            $locationId = $danceLocation->getDanceLocationId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':location_id', $locationId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    public function editDanceLocationInDatabase($oldLocation, $newLocation){
+        $sql = "UPDATE `dance_location` SET `dance_location_name` = :dance_location_name, `dance_location_street` = :dance_location_street, `dance_location_number` = :dance_location_number, `dance_location_postcode` = :dance_location_postcode, `dance_location_city` = :dance_location_city, `dance_location_urlToTheirSite` = :dance_location_urlToTheirSite, `dance_location_imageUrl` = :dance_location_imageUrl WHERE `dance_location_id` = :dance_location_id";
+        try{
+            $statement = $this->connection->prepare($sql);
+
+            $sanitizedName = htmlspecialchars($newLocation->getDanceLocationName());
+            $sanitizedStreet = htmlspecialchars($newLocation->getDanceLocationStreet());
+            $sanitizedNumber = htmlspecialchars($newLocation->getDanceLocationNumber());
+            $sanitizedPostcode = htmlspecialchars($newLocation->getDanceLocationPostcode());
+            $sanitizedCity = htmlspecialchars($newLocation->getDanceLocationCity());
+            $sanitizedUrlToTheirSite = htmlspecialchars($newLocation->getDanceLocationUrlToTheirSite());
+            $sanitizedImageUrl = htmlspecialchars($newLocation->getDanceLocationImageUrl());
+
+            $oldLocationId = $oldLocation ->getDanceLocationId();
+    
+            $statement->bindParam(':dance_location_name', $sanitizedName);
+            $statement->bindParam(':dance_location_street', $sanitizedStreet);
+            $statement->bindParam(':dance_location_number', $sanitizedNumber);
+            $statement->bindParam(':dance_location_postcode', $sanitizedPostcode);
+            $statement->bindParam(':dance_location_city', $sanitizedCity);
+            $statement->bindParam(':dance_location_urlToTheirSite', $sanitizedUrlToTheirSite);
+            $statement->bindParam(':dance_location_imageUrl', $sanitizedImageUrl);      
+
+            $statement->bindParam(':dance_location_id', $oldLocationId);
+    
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    
 
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks(){

@@ -22,10 +22,13 @@ class DanceService
     }
 
     //MUSIC TYPES
-    public function getAllMusicTypes($artistId)
+    public function getAllMusicTypes()
     {
         $musicTypes = $this->danceRepository->getAllMusicTypes();
         return $musicTypes;
+    }
+    public function insertMusicType($newMusicType){
+        $this->danceRepository->insertNewMusicType($newMusicType);
     }
 
     // DANCE LOCATIONS
@@ -33,6 +36,18 @@ class DanceService
     {
         $danceLocations = $this->danceRepository->getAllDanceLocations();
         return $danceLocations;
+    }
+    public function insertDanceLocation($newDanceLocation){
+        $this->danceRepository->insertNewDanceLocation($newDanceLocation);
+    }
+    public function getDanceLocationById($location_id){
+        return $this->danceRepository->getDanceLocationByIdFromDatabase($location_id);   
+    }
+    public function deleteDanceLocation($danceLocation){
+        $this->danceRepository->deleteDanceLocationFromDatabase($danceLocation);
+    }
+    public function editDanceLocation($oldDanceLocation, $newDanceLocation){
+        $this->danceRepository->editDanceLocationInDatabase($oldDanceLocation, $newDanceLocation);
     }
 
     // DANCE FLASHBACKS

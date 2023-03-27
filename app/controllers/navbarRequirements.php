@@ -25,4 +25,10 @@ $amounts = [];
 foreach($shoppingCart->getAmount() as $amount){
     array_push($amounts, $amount);
 }
+
+$totalPrice = 0;
+
+for($i = 0; $i < count($merged_products); $i++){
+    $totalPrice += ($merged_products[$i]->getPrice() * $amounts[$i]); 
+}
 ?>

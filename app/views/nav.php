@@ -106,7 +106,7 @@
                     <?php
                     }?>
                     <div style="position: fixed; bottom:1; right:0">
-                        <h2 id="totalprice">Total: 100</h2>
+                        <h2 id="totalprice">Total: <?php echo $totalPrice?></h2>
                     </div>
             </div>
         </div>

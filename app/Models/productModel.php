@@ -3,7 +3,7 @@ class Product implements JsonSerializable{
     private int $id = 0;
     private string $name = "";
     private int $event_type = 0;
-    private string $starting_time = "";
+    private string $starting_date_time = "";
     private string $location = "";
     private int $price= 0;
     private string $additional_info = "";
@@ -38,11 +38,11 @@ class Product implements JsonSerializable{
     }
 
     public function getStartTime(): string{
-        return $this->starting_time;
+        return $this->starting_date_time;
     }
 
     public function setStartTime(string $starting_time): self{
-        $this->starting_time = $starting_time;
+        $this->starting_date_time = $starting_time;
         return $this;
     }
 

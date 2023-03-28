@@ -20,6 +20,12 @@ class DanceService
     {
         return $this->danceRepository->getArtistById($artist_id);    
     }
+    public function insertArtist($newDanceLocation){
+        $this->danceRepository->insertNewArtist($newDanceLocation);
+    }
+    public function insertMusicTypeForArtist($newArtist, $musicType){
+        $this->danceRepository->insertMusicTypeForNewArtist($newArtist, $musicType);
+    }
 
     //MUSIC TYPES
     public function getAllMusicTypes()

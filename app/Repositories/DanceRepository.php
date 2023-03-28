@@ -28,6 +28,20 @@ class DanceRepository extends Repository{
             return [];
         }
     }
+    public function getAllArtistsWithoutMusicTypes(){
+        $sql = "SELECT dance_artist_id, dance_artist_name, dance_artist_hasDetailPage, dance_artist_imageUrl FROM dance_artist";
+    
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+    
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'ArtistModel');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log('Error retrieving all artists: ' . $e->getMessage());
+            return [];
+        }
+    }
 
     public function getArtistById($artist_id) 
     {
@@ -51,14 +65,19 @@ class DanceRepository extends Repository{
     }
     
     public function insertNewArtist($newArtist){
-        $sql = "INSERT INTO `dance_artist`(`dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`) VALUES (?, ?, ?)";
-        try{
-            $statement = $this ->connection->prepare($sql);
-            $statement->execute(array(htmlspecialchars($newArtist->getName()), htmlspecialchars($newArtist->getHasDetailPage()), $newArtist->getArtistHomepageImageUrl()));
-        }catch(PDOException $e){
+        $sql = "INSERT INTO `dance_artist`(`dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`) VALUES (?, ?, ?)"; 
+        try {
+            $statement = $this ->connection->prepare($sql);            
+            $statement->execute(array(
+                htmlspecialchars($newArtist->getName()),
+                (int) $newArtist->getHasDetailPage(), // convert boolean to integer otherwise it doesnt send the "false" value.
+                htmlspecialchars($newArtist->getArtistHomepageImageUrl())
+            ));
+        } catch(PDOException $e) {
             echo $e->getMessage();
         }
     }
+    
     public function insertMusicTypeForNewArtist($newArtist, $musicType){
         $sql = "INSERT INTO `dance_artistMusicType`(`dance_artistMusicType_artistId`, `dance_artistMusicType_musicTypeId`) VALUES (?, ?)";
         try{
@@ -82,6 +101,20 @@ class DanceRepository extends Repository{
         } catch (PDOException $e) {
             error_log('Error retrieving all music types: ' . $e->getMessage());
             return [];
+        }
+    }
+    public function getMusicTypesById($id){
+        $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id`= :musicTypeId";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':musicTypeId', $id, PDO::PARAM_INT);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'MusicType');
+            $musicType = $statement->fetch();
+            return $musicType;
+        } catch (PDOException $e) {
+            error_log('Error retrieving musicType with id ' . $id . ': ' . $e->getMessage());
+            return null;
         }
     }
     public function insertNewMusicType($newMusicType){

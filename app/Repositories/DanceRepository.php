@@ -11,11 +11,10 @@ class DanceRepository extends Repository{
     // ARTISTS
     public function getAllArtists() 
     {
-        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
-        FROM dance_artist da
+        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl FROM dance_artist da
         JOIN dance_artistMusicType damt ON damt.dance_artistMusicType_artistId = da.dance_artist_id
         JOIN dance_musicType dmt ON dmt.dance_musicType_id = damt.dance_artistMusicType_musicTypeId
-        GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
+        GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl 
         ORDER BY da.dance_artist_hasDetailPage DESC;";
     
         try {
@@ -32,12 +31,12 @@ class DanceRepository extends Repository{
 
     public function getArtistById($artist_id) 
     {
-        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl, da.dance_artist_detailPageBanner, da.dance_artist_subHeader, da.dance_artist_longDescription, da.dance_artist_longDescriptionPicture, da.dance_artist_detailPageSchedulePicture 
+        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageBanner, da.dance_artist_subHeader, da.dance_artist_longDescription, da.dance_artist_longDescriptionPicture, da.dance_artist_detailPageSchedulePicture 
                 FROM dance_artist da 
                 JOIN dance_artistMusicType damt ON damt.dance_artistMusicType_artistId = da.dance_artist_id 
                 JOIN dance_musicType dmt ON dmt.dance_musicType_id = damt.dance_artistMusicType_musicTypeId 
                 WHERE da.dance_artist_id = :artist_id 
-                GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl";
+                GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl";
         try {
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':artist_id', $artist_id, PDO::PARAM_INT);

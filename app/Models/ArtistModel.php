@@ -6,7 +6,6 @@ class ArtistModel{
     private string $dance_artistMusicTypes = "";
     private bool $dance_artist_hasDetailPage;
     private string $dance_artist_imageUrl;
-    private string $dance_artist_detailPageUrl = "";
     private string $dance_artist_detailPageBanner = "";
     private ?string $dance_artist_subHeader = null;
     private string $dance_artist_longDescription = "";

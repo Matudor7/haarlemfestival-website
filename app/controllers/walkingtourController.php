@@ -26,6 +26,9 @@ class WalkingTourController extends Controller{
 
         $productService = new ProductService();
 
+        //get Tickets because products array is already taken
+        $tickets = $productService->getByEventType($thisEvent->getId());
+
         //This causes every object to be its own array
         $products = [];
         foreach($shoppingCart->getProducts() as $product_id){

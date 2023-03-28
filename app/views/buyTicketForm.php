@@ -10,11 +10,11 @@
             <select id="selectDateInput" class="form-select col" aria-label="Default select example">
                 <option selected>Select Date</option>
 
-                <?php foreach($walkingTours as $walkingTour){
-                        foreach ($timetables as $timetable){
+                <?php foreach($tickets as $ticket){
+
                     ?>
-                <option value="1"><?php echo $timetable->getTimetableStartDate()->format('D d / M')?></option>
-                <?php }}?>
+                <option value="1"><?php echo $ticket->getStartTime()?></option>
+                <?php }?>
                 <option value="2">Two</option>
                 <option value="3">Three</option>
             </select>

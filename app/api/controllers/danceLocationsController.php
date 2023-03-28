@@ -16,9 +16,9 @@ class DanceLocationsController{
         }
 
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            $eventJsonString = file_get_contents('php://input');
+            $danceJsonString = file_get_contents('php://input');
 
-            $danceLocationData = json_decode($eventJsonString, true);
+            $danceLocationData = json_decode($danceJsonString, true);
 
             $danceLocation = new DanceLocation();
             

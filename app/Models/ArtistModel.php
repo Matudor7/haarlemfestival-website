@@ -1,6 +1,6 @@
 <?php
 
-class ArtistModel{
+class ArtistModel implements JsonSerializable{
     private int $dance_artist_id = 0;
     private string $dance_artist_name = "";
     private string $dance_artistMusicTypes = "";
@@ -11,8 +11,14 @@ class ArtistModel{
     private string $dance_artist_longDescription = "";
     private string $dance_artist_longDescriptionPicture = "";
     private string $dance_artist_detailPageSchedulePicture = "";
-    //getters
+
     #[ReturnTypeWillChange]
+
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+     //getters
     public function getId(): int
     {
         return $this->dance_artist_id;

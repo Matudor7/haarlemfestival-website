@@ -36,6 +36,9 @@
         else if ('<?php echo $element ?>' === 'Location') {
             addNewDanceLocation();
         }
+        else if('<?php echo $element ?>' === 'Artist'){
+            addNewDanceArtist();
+        }
     }
     function addNewMusicType() {
         const danceMusicTypeNameTextBox = document.getElementById('danceMusicTypeNameTextBox').value.trim();
@@ -98,8 +101,32 @@
             .catch((err) => {
                 console.error('Error: ', err);
             });
+        }
     }
-}
+
+    function addNewDanceArtist() {
+    const danceArtistNameTextBox = document.getElementById('danceArtistNameTextBox').value;
+    const danceArtistHasDetailPageDropdown = document.getElementById('danceArtistHasDetailPageDropdown');
+    const danceArtistImageInput = document.getElementById('danceArtistImageInput');
+
+    const danceArtistData = {
+        dance_artist_name: danceArtistNameTextBox.trim(),
+        dance_artist_hasDetailPage: danceArtistHasDetailPageDropdown.value,
+        dance_artist_image: danceArtistImageInput.value
+    };
+    console.log(danceArtistData);
+
+    fetch("http://localhost/api/danceArtists", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(danceArtistData),
+        })
+        .catch((err) => {
+            console.error('Error: ', err);
+        });
+    }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">

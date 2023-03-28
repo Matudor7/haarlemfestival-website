@@ -242,14 +242,14 @@ class AdminDanceController extends Controller
                 <input type="text" class="form-control" id="danceArtistNameTextBox" name="danceArtistNameTextBox" placeholder="Artist Name" required>
             </div>
             <div class="mb-3" style="width: 20%">
-                <label for="danceArtistHasDetailPageDropdown">Does the artist have a detail page?</label>
+                <label for="danceArtistHasDetailPageDropdown">Does the artist have a detail page?* </label>
                 <select name="danceArtistHasDetailPageDropdown" id="danceArtistHasDetailPageDropdown" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>  
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>  
                 </select>
             </div>
             <div class="mb-3" style="width: 20%">
-            <p>Select the genres:</p>';    
+            <p>Select the genres:*</p>';    
         foreach ($allMusicTypes as $musicType) {
             $artistAddFormHtml .= '
                 <input type="checkbox" id="musicType' . $musicType->getId() . '" name="musicType' . $musicType->getId() . '" value="' . $musicType->getId() . '">

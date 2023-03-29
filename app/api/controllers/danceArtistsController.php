@@ -36,7 +36,6 @@ class DanceArtistsController{
                 echo $e->getMessage();
             }
 
-
             //TODO: complete the POST by filling all location variables in
             if ($danceArtistData['dance_artist_hasDetailPage'] == "Yes") {
                 $hasDetailPage = true;
@@ -47,11 +46,26 @@ class DanceArtistsController{
             $danceArtist->setName($danceArtistData['dance_artist_name']);
             $danceArtist->setHasDetailPAge($hasDetailPage);
             $danceArtist->setArtistHomepageImageUrl($downloadPath);
-            $this->danceService->insertArtist($danceArtist);
-            
-            
-        }
-                 
+            $this->danceService->insertArtist($danceArtist);  
+
+            $this->addMusicTypesForTheArtist($danceArtistData, $danceArtist);
+        }                 
     }
+
+    function addMusicTypesForTheArtist($artistData, $artist){
+        $musicTypeIds = [];
+        $musicTypeIds = $artistData['dance_artist_musicTypes'];
+        $musicTypes = [];
+
+        foreach($musicTypeIds as $musicTypeId){
+            $musicType = $this->danceService->getMusicTypeById($musicTypeId);
+            array_push($musicTypes, $musicType);
+        }
+        
+        foreach ($musicTypes as $musicType){
+            $this->danceService->insertMusicTypeForArtist($artist, $musicType);   
+        }
+    }
+
 }
 ?>

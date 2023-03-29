@@ -60,6 +60,10 @@ class ArtistModel implements JsonSerializable{
         return $this->dance_artist_detailPageSchedulePicture;
     }
     //setters
+    public function setId(int $id): void
+    {
+        $this->dance_artist_id = $id;
+    }
     public function setName(string $name): self
     {
         $this->dance_artist_name = $name;

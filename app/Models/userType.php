@@ -5,6 +5,7 @@ class userType
     private int $userTypeId;
     private string $userType;
 
+
     public function getUserTypeId(): int
     {
         return $this->userTypeId;

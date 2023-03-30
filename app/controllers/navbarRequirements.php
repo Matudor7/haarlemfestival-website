@@ -1,4 +1,5 @@
 <?php
+session_start();
 require __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/productService.php';
 require __DIR__ . '/../Services/shoppingCartService.php';
@@ -7,7 +8,7 @@ $eventService = new EventService();
 $events = $eventService->getAll();
 
 $shoppingCartService = new ShoppingCartService();
-$shoppingCart = $shoppingCartService->getCartOfUser(1);
+$shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
 
 $productService = new ProductService();
 

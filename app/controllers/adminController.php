@@ -41,9 +41,7 @@ class AdminController extends Controller{
     }
 
     public function events(){
-        //TODO: Use constructor to avoid duplicate code
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        $events = $this->eventService->getAll();
 
         require __DIR__ . '/../views/admin/events.php';
     }

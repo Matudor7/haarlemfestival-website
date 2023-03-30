@@ -65,7 +65,7 @@ function updateTotal(userId){
                 .then(response=>response.json())
                 .then(product=>{
                 totalPrice += (product[0].price * data.amounts[i]);
-                totalPriceHeader.innerHTML = '\u20AC' + totalPrice;
+                totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + totalPrice;
                 })
             }
     })

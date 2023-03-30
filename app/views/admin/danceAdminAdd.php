@@ -32,11 +32,13 @@
     function addElement() {
         if ('<?php echo $element ?>' === 'MusicType') {
             addNewMusicType();
-        }
-        else if ('<?php echo $element ?>' === 'Location') {
+        } else if ('<?php echo $element ?>' === 'Location') {
             addNewDanceLocation();
+        } else if ('<?php echo $element ?>' === 'Artist') {
+            addNewDanceArtist();
         }
     }
+
     function addNewMusicType() {
         const danceMusicTypeNameTextBox = document.getElementById('danceMusicTypeNameTextBox').value.trim();
 
@@ -60,46 +62,73 @@
                 });
         }
     }
+
     function addNewDanceLocation() {
-    const danceLocationNameTextBox = document.getElementById('danceLocationNameTextBox').value;
-    const danceLocationStreetTextBox = document.getElementById('danceLocationStreetTextBox').value;
-    const danceLocationNumberTextBox = document.getElementById('danceLocationNumberTextBox').value;
-    const danceLocationPostcodeTextBox = document.getElementById('danceLocationPostcodeTextBox').value;
-    const danceLocationCityTextBox = document.getElementById('danceLocationCityTextBox').value;
-    const danceLocationUrlToTheirSiteTextBox = document.getElementById('danceLocationUrlToTheirSiteTextBox').value;
-    const danceLocationImageInput = document.getElementById('danceLocationImageInput');
+        const danceLocationNameTextBox = document.getElementById('danceLocationNameTextBox').value;
+        const danceLocationStreetTextBox = document.getElementById('danceLocationStreetTextBox').value;
+        const danceLocationNumberTextBox = document.getElementById('danceLocationNumberTextBox').value;
+        const danceLocationPostcodeTextBox = document.getElementById('danceLocationPostcodeTextBox').value;
+        const danceLocationCityTextBox = document.getElementById('danceLocationCityTextBox').value;
+        const danceLocationUrlToTheirSiteTextBox = document.getElementById('danceLocationUrlToTheirSiteTextBox').value;
+        const danceLocationImageInput = document.getElementById('danceLocationImageInput');
 
-    //Display message if any input is ignored
-    if (danceLocationNameTextBox === '' || danceLocationStreetTextBox === '' || danceLocationNumberTextBox === '' ||
-        danceLocationPostcodeTextBox === '' || danceLocationCityTextBox === '' || danceLocationUrlToTheirSiteTextBox === '' ||
-        danceLocationImageInput.value === '') {
-        window.confirm('Please fill in all the mandatory parts.');
-    } else if (isNaN(danceLocationNumberTextBox)) {
-        window.confirm('Dance location number must be an integer.');
-    } else {
-        const danceLocationData = {
-            dance_location_name: danceLocationNameTextBox.trim(),
-            dance_location_street: danceLocationStreetTextBox.trim(),
-            dance_location_number: danceLocationNumberTextBox.trim(),
-            dance_location_postcode: danceLocationPostcodeTextBox.trim(),
-            dance_location_city: danceLocationCityTextBox.trim(),
-            dance_location_urlToTheirSite: danceLocationUrlToTheirSiteTextBox.trim(),
-            dance_location_image: danceLocationImageInput.value
+        //Display message if any input is ignored
+        if (danceLocationNameTextBox === '' || danceLocationStreetTextBox === '' || danceLocationNumberTextBox === '' ||
+            danceLocationPostcodeTextBox === '' || danceLocationCityTextBox === '' ||
+            danceLocationUrlToTheirSiteTextBox === '' ||
+            danceLocationImageInput.value === '') {
+            window.confirm('Please fill in all the mandatory parts.');
+        } else if (isNaN(danceLocationNumberTextBox)) {
+            window.confirm('Dance location number must be an integer.');
+        } else {
+            const danceLocationData = {
+                dance_location_name: danceLocationNameTextBox.trim(),
+                dance_location_street: danceLocationStreetTextBox.trim(),
+                dance_location_number: danceLocationNumberTextBox.trim(),
+                dance_location_postcode: danceLocationPostcodeTextBox.trim(),
+                dance_location_city: danceLocationCityTextBox.trim(),
+                dance_location_urlToTheirSite: danceLocationUrlToTheirSiteTextBox.trim(),
+                dance_location_image: danceLocationImageInput.value
+            };
+            console.log(danceLocationData);
+
+            fetch("http://localhost/api/danceLocations", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(danceLocationData),
+                })
+                .catch((err) => {
+                    console.error('Error: ', err);
+                });
+        }
+    }
+
+    function addNewDanceArtist() {
+        const danceArtistNameTextBox = document.getElementById('danceArtistNameTextBox').value;
+        const danceArtistHasDetailPageDropdown = document.getElementById('danceArtistHasDetailPageDropdown');
+        const danceArtistImageInput = document.getElementById('danceArtistImageInput');        
+
+        const danceArtistData = {
+            dance_artist_name: danceArtistNameTextBox.trim(),
+            dance_artist_hasDetailPage: danceArtistHasDetailPageDropdown.value,
+            dance_artist_image: danceArtistImageInput.value,
+            dance_artist_musicTypes: selectedValues
         };
-        console.log(danceLocationData);
+        console.log(danceArtistData);
 
-        fetch("http://localhost/api/danceLocations", {
+        fetch("http://localhost/api/danceArtists", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(danceLocationData),
+                body: JSON.stringify(danceArtistData),
             })
             .catch((err) => {
                 console.error('Error: ', err);
             });
     }
-}
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">

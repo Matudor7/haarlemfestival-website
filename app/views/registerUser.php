@@ -21,7 +21,7 @@ include __DIR__ . '/nav.php';
 <div id="createUserDiv" class="text-center" style="min-height: 500px;">
     <br><br>      <br><br>
     <h2>Create new User</h2>
-    <form method="POST" action="/user/RegisterUser">
+    <form method="POST" action="/admin/RegisterUser">
         <input type="text" name="username" placeholder="Username"><br><br>
         <input type="password" name="password" placeholder="Password"><br><br>
 
@@ -38,13 +38,11 @@ include __DIR__ . '/nav.php';
         <input id="createUserButton" type="submit" name="Create new User" value="Create new User"><br><br>
     </form>
 </div>
-<?php
-if(isset($_SESSION['userCreationMessage'])){ ?>
-<p> <?php echo $_SESSION['userCreationMessage'];
-    ?> </p>
-<?php
-        unset($_SESSION['userCreationMessage']);
-    }?>
+<?php if (isset($userCreationMessage)){ ?>
+    <div class="alert alert-<?= $status ?>">
+        <?= $userCreationMessage ?>
+    </div>
+<?php } ?>
 <?php
 include __DIR__ . '/footer.php';
 ?>

@@ -11,12 +11,25 @@ class DanceRepository extends Repository{
     // ARTISTS
     public function getAllArtists() 
     {
-        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
-        FROM dance_artist da
+        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl FROM dance_artist da
         JOIN dance_artistMusicType damt ON damt.dance_artistMusicType_artistId = da.dance_artist_id
         JOIN dance_musicType dmt ON dmt.dance_musicType_id = damt.dance_artistMusicType_musicTypeId
-        GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl 
+        GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl 
         ORDER BY da.dance_artist_hasDetailPage DESC;";
+    
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+    
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'ArtistModel');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log('Error retrieving all artists: ' . $e->getMessage());
+            return [];
+        }
+    }
+    public function getAllArtistsWithoutMusicTypes(){
+        $sql = "SELECT dance_artist_id, dance_artist_name, dance_artist_hasDetailPage, dance_artist_imageUrl FROM dance_artist";
     
         try {
             $statement = $this->connection->prepare($sql);
@@ -32,12 +45,12 @@ class DanceRepository extends Repository{
 
     public function getArtistById($artist_id) 
     {
-        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl, da.dance_artist_detailPageBanner, da.dance_artist_subHeader, da.dance_artist_longDescription, da.dance_artist_longDescriptionPicture, da.dance_artist_detailPageSchedulePicture 
+        $sql = "SELECT da.dance_artist_id, da.dance_artist_name, GROUP_CONCAT(DISTINCT dmt.dance_musicType_name SEPARATOR ', ') AS dance_artistMusicTypes, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageBanner, da.dance_artist_subHeader, da.dance_artist_longDescription, da.dance_artist_longDescriptionPicture, da.dance_artist_detailPageSchedulePicture 
                 FROM dance_artist da 
                 JOIN dance_artistMusicType damt ON damt.dance_artistMusicType_artistId = da.dance_artist_id 
                 JOIN dance_musicType dmt ON dmt.dance_musicType_id = damt.dance_artistMusicType_musicTypeId 
                 WHERE da.dance_artist_id = :artist_id 
-                GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl, da.dance_artist_detailPageUrl";
+                GROUP BY da.dance_artist_id, da.dance_artist_name, da.dance_artist_hasDetailPage, da.dance_artist_imageUrl";
         try {
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':artist_id', $artist_id, PDO::PARAM_INT);
@@ -51,6 +64,29 @@ class DanceRepository extends Repository{
         }
     }
     
+    public function insertNewArtist($newArtist){
+        $sql = "INSERT INTO `dance_artist`(`dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`) VALUES (?, ?, ?)"; 
+        try {
+            $statement = $this ->connection->prepare($sql);            
+            $statement->execute(array(
+                htmlspecialchars($newArtist->getName()),
+                (int) $newArtist->getHasDetailPage(), // convert boolean to integer otherwise it doesnt send the "false" value.
+                htmlspecialchars($newArtist->getArtistHomepageImageUrl())
+            ));
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public function insertMusicTypeForNewArtist($newArtist, $musicType){
+        $sql = "INSERT INTO `dance_artistMusicType`(`dance_artistMusicType_artistId`, `dance_artistMusicType_musicTypeId`) VALUES (?, ?)";
+        try{
+            $statement = $this ->connection->prepare($sql);
+            $statement->execute(array(htmlspecialchars($newArtist->getId()), htmlspecialchars($musicType->getId())));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 
     // MUSIC TYPES
     public function getAllMusicTypes() {
@@ -67,9 +103,24 @@ class DanceRepository extends Repository{
             return [];
         }
     }
+    public function getMusicTypesById($id){
+        $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` WHERE `dance_musicType_id`= :musicTypeId";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':musicTypeId', $id, PDO::PARAM_INT);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'MusicType');
+            $musicType = $statement->fetch();
+            return $musicType;
+        } catch (PDOException $e) {
+            error_log('Error retrieving musicType with id ' . $id . ': ' . $e->getMessage());
+            return null;
+        }
+    }
     public function insertNewMusicType($newMusicType){
+        $sql= "INSERT INTO dance_musicType (dance_musicType_name) VALUES (?);";
         try{
-            $statement = $this ->connection->prepare("INSERT INTO dance_musicType (dance_musicType_name) VALUES (?);");
+            $statement = $this ->connection->prepare($sql);
             $statement->execute(array(htmlspecialchars($newMusicType->getMusicTypeName())));
         }catch(PDOException $e){
             echo $e->getMessage();
@@ -79,8 +130,7 @@ class DanceRepository extends Repository{
     //DANCE LOCATIONS
     public function getAllDanceLocations(){
         $sql = "SELECT `dance_location_id`, `dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl` FROM `dance_location`";
-        
-        try {
+         try {
             $statement = $this->connection->prepare($sql);
             $statement->execute();
     
@@ -107,8 +157,9 @@ class DanceRepository extends Repository{
         }
     }
     public function insertNewDanceLocation($newDanceLocation){
+        $sql = "INSERT INTO `dance_location`(`dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try{
-            $statement = $this ->connection->prepare("INSERT INTO `dance_location`(`dance_location_name`, `dance_location_street`, `dance_location_number`, `dance_location_postcode`, `dance_location_city`, `dance_location_urlToTheirSite`, `dance_location_imageUrl`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $statement = $this ->connection->prepare($sql);
             $statement->execute(array(htmlspecialchars($newDanceLocation->getDanceLocationName()), htmlspecialchars($newDanceLocation->getDanceLocationStreet()), $newDanceLocation->getDanceLocationNumber(), htmlspecialchars($newDanceLocation->getDanceLocationPostcode()), htmlspecialchars($newDanceLocation->getDanceLocationCity()), htmlspecialchars($newDanceLocation->getDanceLocationUrlToTheirSite()), htmlspecialchars($newDanceLocation->getDanceLocationImageUrl())));
         }catch(PDOException $e){
             echo $e->getMessage();
@@ -161,7 +212,6 @@ class DanceRepository extends Repository{
     // DANCE FLASHBACKS
     public function getAllDanceFlashbacks(){
         $sql = "SELECT `dance_flashback_id`, `dance_flashback_url`, `dance_flashback_credit`, `dance_flashback_extranote` FROM `dance_flashbacks`";
-        
         try {
             $statement = $this->connection->prepare($sql);
             $statement->execute();

@@ -16,9 +16,19 @@ class DanceService
         $artists = $this->danceRepository->getAllArtists();
         return $artists;
     }
+    public function getAllArtistsWithoutMusicTypes(){
+        $artists = $this->danceRepository->getAllArtistsWithoutMusicTypes();
+        return $artists;
+    }
     public function getArtistById($artist_id)
     {
         return $this->danceRepository->getArtistById($artist_id);    
+    }
+    public function insertArtist($newArtist){
+        $this->danceRepository->insertNewArtist($newArtist);
+    }
+    public function insertMusicTypeForArtist($newArtist, $musicType){
+        $this->danceRepository->insertMusicTypeForNewArtist($newArtist, $musicType);
     }
 
     //MUSIC TYPES
@@ -26,6 +36,9 @@ class DanceService
     {
         $musicTypes = $this->danceRepository->getAllMusicTypes();
         return $musicTypes;
+    }
+    public function getMusicTypeById($id){
+        return $this->danceRepository->getMusicTypesById($id);
     }
     public function insertMusicType($newMusicType){
         $this->danceRepository->insertNewMusicType($newMusicType);

@@ -102,8 +102,8 @@ FROM user WHERE user_email like :email");
     {
         try {
             $stmt = $this->connection->prepare("
-            INSERT INTO user (username, userPicURL, user_firstName, user_lastName, user_email, user_password, userTypeId)
-            SELECT :username, :userPic, :firstname, :lastname, :email, :password, :userType
+            INSERT INTO user (username, userPicURL, user_firstName, user_lastName, user_email, user_password, userTypeId, user_registrationDate)
+            SELECT :username, :userPic, :firstname, :lastname, :email, :password, :userType, :registerDate
             WHERE NOT EXISTS (SELECT username FROM user WHERE username = :username or user_email = :email)
         ");
 
@@ -113,6 +113,8 @@ FROM user WHERE user_email like :email");
             $userLastname = htmlspecialchars($user->getUserLastname());
             $userEmail = htmlspecialchars($user->getUserEmail());
             $userType = htmlspecialchars($user->getUserTypeId());
+            $registerDate = new DateTime();
+            $registerDateFormat = $registerDate->format('Y-m-d');
 
             $stmt->bindParam(':password', $userPassword);
             $stmt->bindParam(':username', $username);
@@ -122,6 +124,7 @@ FROM user WHERE user_email like :email");
             $stmt->bindParam(':userType', $userType);
             $userDefaultPic = "/media/defaultPic.jpg";
             $stmt->bindParam(':userPic', $userDefaultPic);
+            $stmt->bindParam(':registerDate', $registerDateFormat);
 
             return  $stmt->execute();
         } catch (Exception $e) {

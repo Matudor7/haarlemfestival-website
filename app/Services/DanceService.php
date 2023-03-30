@@ -16,16 +16,32 @@ class DanceService
         $artists = $this->danceRepository->getAllArtists();
         return $artists;
     }
+    public function getAllArtistsWithoutMusicTypes(){
+        $artists = $this->danceRepository->getAllArtistsWithoutMusicTypes();
+        return $artists;
+    }
     public function getArtistById($artist_id)
     {
         return $this->danceRepository->getArtistById($artist_id);    
     }
+    public function insertArtist($newArtist){
+        $this->danceRepository->insertNewArtist($newArtist);
+    }
+    public function insertMusicTypeForArtist($newArtist, $musicType){
+        $this->danceRepository->insertMusicTypeForNewArtist($newArtist, $musicType);
+    }
 
     //MUSIC TYPES
-    public function getAllMusicTypes($artistId)
+    public function getAllMusicTypes()
     {
         $musicTypes = $this->danceRepository->getAllMusicTypes();
         return $musicTypes;
+    }
+    public function getMusicTypeById($id){
+        return $this->danceRepository->getMusicTypesById($id);
+    }
+    public function insertMusicType($newMusicType){
+        $this->danceRepository->insertNewMusicType($newMusicType);
     }
 
     // DANCE LOCATIONS
@@ -33,6 +49,18 @@ class DanceService
     {
         $danceLocations = $this->danceRepository->getAllDanceLocations();
         return $danceLocations;
+    }
+    public function insertDanceLocation($newDanceLocation){
+        $this->danceRepository->insertNewDanceLocation($newDanceLocation);
+    }
+    public function getDanceLocationById($location_id){
+        return $this->danceRepository->getDanceLocationByIdFromDatabase($location_id);   
+    }
+    public function deleteDanceLocation($danceLocation){
+        $this->danceRepository->deleteDanceLocationFromDatabase($danceLocation);
+    }
+    public function editDanceLocation($oldDanceLocation, $newDanceLocation){
+        $this->danceRepository->editDanceLocationInDatabase($oldDanceLocation, $newDanceLocation);
     }
 
     // DANCE FLASHBACKS

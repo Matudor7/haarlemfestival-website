@@ -11,23 +11,9 @@
         <link rel="stylesheet" href="/stylesheet.css" type="text/css">
     </head>
     <body>
-    <div class="form-popup" id="ticketForm">
-        <form action="/action_page.php" class="form-container">
-            <h1>Login</h1>
-
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
-
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeTicketForm()">Close</button>
-        </form>
-    </div>
     <nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
              <a class="navbar-brand px-0 mx-0 py-0" href="/">
-            <img src="media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
+            <img src="/media/NavbarLogo.jpg" class="img-fluid " alt="Logo">
              </a>
                 <ul class="nav bg-dark d-flex flex-nowrap">
                     <li class="nav-item">
@@ -40,14 +26,11 @@
                     <?php    
                     };
                     ?>
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-primary rounded-pill mx-1 px-3 mt-1" onclick="openTicketForm()">Buy Tickets</button>
+                    <li class="nav-item" style="margin-top:3px">
+                        <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas" role ="button" href="#offcanvas"></a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1" onClick="#">Login</button>
-                    </li>
-                    <li class="nav-item" style="margin-top:3px">
-                        <a class="btn btn-success rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas" role ="button" href="#offcanvas"></a>
                     </li>
 
                     <li>
@@ -76,10 +59,30 @@
             </div>
             <div class="offcanvas-body">
                 <!-- This is where the shopping cart loop goes !-->
-                    <?php foreach($products as $product)
+                    <?php foreach($merged_products as $product)
                     {?>
-                        <div>
-                            <h1><?php echo $product->getName()?></h1>
+                        <div style="display: flex; justify-content: space-between; align-items: center">
+                            <div>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                </svg>
+                            </button>
+                            <h6 style="text-align: center"><?php echo $product->getId()?></h6>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                </svg>
+                            </button>
+                            </div>
+                            <div style="margin-left: 20px">
+                                <h2><?php echo $product->getName()?></h2>
+                                <h6><?php echo $product->getLocation()?></h6>
+                                <p><?php echo $product->getStartTime()?></p>
+                            </div>
+                            <div>
+                                <h3><?php echo $product->getPrice()?></h3>
+                            </div>
                         </div>
                     <?php
                     }?>

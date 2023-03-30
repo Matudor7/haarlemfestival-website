@@ -1,9 +1,14 @@
 <?php
-class MusicType{
+class MusicType  implements JsonSerializable{
     private int $dance_musicType_id = 0;
     private string $dance_musicType_name = ""; 
 
     #[ReturnTypeWillChange]
+
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
     //getters
     public function getId(): int{
@@ -19,9 +24,5 @@ class MusicType{
         $this->dance_musicType_name = $name;
         return $this;
     }
-
-    //ctor
-    /*public function __construct($id, $name, $musicType, $hasDetailPage, $url) {
-    }*/
 }
 ?>

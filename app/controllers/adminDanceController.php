@@ -24,17 +24,18 @@ class AdminDanceController extends Controller
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
         $danceEvents = $this->danceService->getAllDanceEvents();
+        $danceMusicTypes = $this->danceService->getAllMusicTypes();
 
-        foreach ($danceEvents as $danceEvent) {
+        foreach ($danceEvents as $danceEvent) {  //organize dance events by date
             $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
             if (!isset($danceEventsByDate[$date])) {
                 $danceEventsByDate[$date] = [];
             }
         }
-
+        // Get the type of element being managed
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
-
-        switch ($element) {
+        
+        switch ($element) { // Generate HTML table based on the type of element being managed
             case "Artist":
                 $tableHtml = $this->generateArtistTable($artists);
                 break;
@@ -54,10 +55,9 @@ class AdminDanceController extends Controller
     }
 
     function generateArtistTable($artists)
-    {
-
-  $musicTypeLink = '/adminDance/danceAdminAdd?type=MusicType';
-  $musicTypeButton = '<a href="'.$musicTypeLink.'">
+    {   
+        $musicTypeLink = '/adminDance/danceAdminAdd?type=MusicType';
+        $musicTypeButton = '<a href="'.$musicTypeLink.'">
                       <button type="button" class="btn btn-info">Add New Music Type</button>
                       </a>';
 
@@ -143,10 +143,8 @@ class AdminDanceController extends Controller
                 "<td>" . $location->getDanceLocationUrlToTheirSite() . "</td>";
             $tableHtml .=
                 "<td>" . $location->getDanceLocationImageUrl() . "</td>";
-            $tableHtml .=
-                '<td><button class="btn btn-warning">Edit</button></td>';
-            $tableHtml .=
-                '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '<td><button class="btn btn-warning" onclick="editElement(' . $location->getDanceLocationId() . ')">Edit</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger" onclick="deleteElement(' . $location->getDanceLocationId() . ')">Delete</button></td>';
             $tableHtml .= "</tr>";
         }
 
@@ -214,9 +212,9 @@ class AdminDanceController extends Controller
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
 
         switch ($element) {
-            /*case 'Artist':
-                $tableHtml = $this->generateArtistTable($artists);
-                break;*/
+            case 'Artist':
+                $addFormHtml = $this->generateArtistAddForm();
+                break;
             case "MusicType":
                 $addFormHtml = $this->generateMusicTypeAddForm();
                 break;
@@ -235,59 +233,201 @@ class AdminDanceController extends Controller
         require __DIR__ . "/../views/admin/danceAdminAdd.php";
     }
 
+    function generateArtistAddForm() {
+        $allMusicTypes = $this->danceService->getAllMusicTypes();
+    
+        $artistAddFormHtml = '
+            <div class="mb-3" style="width: 20%">
+                <label for="danceArtistNameTextBox" class="form-label">Artist Name*</label>
+                <input type="text" class="form-control" id="danceArtistNameTextBox" name="danceArtistNameTextBox" placeholder="Artist Name" required>
+            </div>
+            <div class="mb-3" style="width: 20%">
+                <label for="danceArtistHasDetailPageDropdown">Does the artist have a detail page?* </label>
+                <select name="danceArtistHasDetailPageDropdown" id="danceArtistHasDetailPageDropdown" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>  
+                </select>
+            </div>
+            <div class="mb-3" style="width: 20%">
+            <p>Select the genres:*</p>';    
+        foreach ($allMusicTypes as $musicType) {
+            $artistAddFormHtml .= '
+                <input type="checkbox" id="musicType' . $musicType->getId() . '" name="musicType' . $musicType->getId() . '" value="' . $musicType->getId() . '">
+                <label for="musicType' . $musicType->getId() . '">' . $musicType->getMusicTypeName() . '</label><br>';
+        }    
+        $artistAddFormHtml .= '
+            </div>
+            <div class="mb-3" style="width: 15%">
+                <label for="danceArtistImageInput" class="form-label">Artist Image*</label>
+                <input type="file" class="form-control" id="danceArtistImageInput" name="danceArtistImageInput" accept="image/png, image/jpg" required>
+            </div>
+            <p class="fw-bold">* marked fields are mandatory.</p>';
+    
+        return $artistAddFormHtml;
+    }
+    
+
     function generateLocationAddForm()
     {
         $locationAddFormHtml = '
         <div class="mb-3" style="width: 20%">
-        <label for="danceLocationNameTextBox" class="form-label">Location Name</label>
+        <label for="danceLocationNameTextBox" class="form-label">Location Name*</label>
         <input type="text" class="form-control" id="danceLocationNameTextBox" name="danceLocationNameTextBox"
-            placeholder="Location Name">
+            placeholder="Location Name" required>
     </div>
     <div class="mb-3" style="width: 20%">
-        <label for="danceLocationStreetTextBox" class="form-label">Street</label>
+        <label for="danceLocationStreetTextBox" class="form-label">Street*</label>
         <input type="text" class="form-control" id="danceLocationStreetTextBox"
-            name="danceLocationStreetTextBox" placeholder="Street">
+            name="danceLocationStreetTextBox" placeholder="Street" required>
     </div>
     <div class="mb-3" style="width: 10%">
-        <label for="danceLocationNumberTextBox" class="form-label">Number</label>
+        <label for="danceLocationNumberTextBox" class="form-label">Number*</label>
         <input type="text" class="form-control" id="danceLocationNumberTextBox"
-            name="danceLocationNumberTextBox" placeholder="Number">
+            name="danceLocationNumberTextBox" placeholder="Number" required>
     </div>
     <div class="mb-3" style="width: 10%">
-        <label for="danceLocationPostcodeTextBox" class="form-label">Postcode</label>
+        <label for="danceLocationPostcodeTextBox" class="form-label">Postcode*</label>
         <input type="text" class="form-control" id="danceLocationPostcodeTextBox"
-            name="danceLocationPostcodeTextBox" placeholder="Postcode">
+            name="danceLocationPostcodeTextBox" placeholder="Postcode" required>
     </div>
     <div class="mb-3" style="width: 15%">
-        <label for="danceLocationCityTextBox" class="form-label">City</label>
+        <label for="danceLocationCityTextBox" class="form-label">City*</label>
         <input type="text" class="form-control" id="danceLocationCityTextBox" name="danceLocationCityTextBox"
-            placeholder="City">
+            placeholder="City" required>
     </div>
     <div class="mb-3" style="width: 50%">
-        <label for="danceLocationUrlToTheirSiteTextBox" class="form-label">URL to Their Site</label>
+        <label for="danceLocationUrlToTheirSiteTextBox" class="form-label">URL to Their Site*</label>
         <input type="text" class="form-control" id="danceLocationUrlToTheirSiteTextBox"
-            name="danceLocationUrlToTheirSiteTextBox" placeholder="URL to Their Site">
+            name="danceLocationUrlToTheirSiteTextBox" placeholder="URL to Their Site" required>
     </div>
     <div class="mb-3" style="width: 15%">
-        <label for="danceLocationImageInput" class="form-label">Location Image</label>
+        <label for="danceLocationImageInput" class="form-label">Location Image*</label>
         <input type="file" class="form-control" id="danceLocationImageInput" name="danceLocationImageInput"
-            accept="image/png, image/jpg">
-    </div>';
+            accept="image/png, image/jpg" required>
+    </div>
+    <p class="fw-bold">* marked fields are mandatory.</p>';
 
         return $locationAddFormHtml;
     }
 
     function generateMusicTypeAddForm()
     {
-        $musicTypeAddForm = '
-        <div class="mb-3" style="width: 20%">
-        <label for="danceMusicTypeNameTextBox" class="form-label">New Music Type Name</label>
+        $musicTypeAddForm = '<div class="mb-3" style="width: 20%">
+        <label for="danceMusicTypeNameTextBox" class="form-label">New Music Type Name*</label>
         <input type="text" class="form-control" id="danceMusicTypeNameTextBox" name="danceMusicTypeNameTextBox"
-            placeholder="Music Type Name">
+            placeholder="Music Type Name" required>
     </div>';
 
         return $musicTypeAddForm;
     }
 
+    function deleteElement(){
+        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
+
+        switch ($element) {
+            case "Location":
+                $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                $this->danceService->deleteDanceLocation($danceLocation); // deleting the location
+                header('Location: /adminDance/danceAdminManage?type=Location'); // redirect the user back to the location manage page after deletion.
+                break;
+            default:
+                header('Location: /adminDance'); 
+        }
+    }
+
+    public function editelement()
+    {
+        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8"); 
+        $editFormHtml = $this->generateEditForms($element);
+
+        if(isset($_POST['editbutton'])){
+            switch ($element) {
+                case "Location":
+                    if (!is_numeric($_POST['danceLocationNumberTextBox'])) {
+                        echo '<script>alert("Please enter a valid integer for the location number.");</script>';
+                        require __DIR__ . "/../views/admin/danceAdminEdit.php";
+                        return; // Stop the function execution
+                    }else{$danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                        $this->editLocationElement($danceLocation);}                    
+                    break;
+                default:
+                    $editFormHtml =
+                        "<p>There has been an error creating the Edit Form. Please try again later.</p>";
+                    break;
+            }
+        }
+        require __DIR__ . "/../views/admin/danceAdminEdit.php";
+    }
+
+    function generateEditForms($element){
+        $editFormHtml = ''; // set a default value for the variable
+        switch ($element) {
+            case "Location":
+                $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                $editFormHtml = $this->generateLocationEditForm($danceLocation);
+                break;
+            default:
+                $editFormHtml =
+                    "<p>There has been an error creating the Edit Form. Please try again later.</p>";
+                break;
+        }
+        return $editFormHtml; // return the $editFormHtml variable
+    }    
+
+    function editLocationElement($oldLocation){
+        $newLocation = new DanceLocation();
+        $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
+        $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
+        $newLocation->setDanceLocationNumber($_POST['danceLocationNumberTextBox']);
+        $newLocation->setDanceLocationPostcode($_POST['danceLocationPostcodeTextBox']);
+        $newLocation->setDanceLocationCity($_POST['danceLocationCityTextBox']);
+        $newLocation->setDanceLocationUrlToTheirSite($_POST['danceLocationUrlToTheirSiteTextBox']);
+        $newLocation->setDanceLocationImageUrl($_POST['danceLocationImageInput']);
+       
+        $this->danceService->editDanceLocation($oldLocation, $newLocation);
+        
+    }
+
+    function generateLocationEditForm($location){
+        $locationEditForm = '
+        <div class="mb-3" style="width: 20%">
+        <label for="danceLocationNameTextBox" class="form-label">Location Name*</label>
+        <input type="text" class="form-control" id="danceLocationNameTextBox" name="danceLocationNameTextBox"
+            placeholder="Location Name" value='. $location->getDanceLocationName() . ' required>
+    </div>
+    <div class="mb-3" style="width: 20%">
+        <label for="danceLocationStreetTextBox" class="form-label">Street*</label>
+        <input type="text" class="form-control" id="danceLocationStreetTextBox"
+            name="danceLocationStreetTextBox" placeholder="Street" value='. $location->getDanceLocationStreet() . ' required>
+    </div>
+    <div class="mb-3" style="width: 10%">
+        <label for="danceLocationNumberTextBox" class="form-label">Number*</label>
+        <input type="text" class="form-control" id="danceLocationNumberTextBox"
+            name="danceLocationNumberTextBox" placeholder="Number" value='. $location->getDanceLocationNumber() . ' required>
+    </div>
+    <div class="mb-3" style="width: 10%">
+        <label for="danceLocationPostcodeTextBox" class="form-label">Postcode*</label>
+        <input type="text" class="form-control" id="danceLocationPostcodeTextBox"
+            name="danceLocationPostcodeTextBox" placeholder="Postcode" value='. $location->getDanceLocationPostcode() . ' required>
+    </div>
+    <div class="mb-3" style="width: 15%">
+        <label for="danceLocationCityTextBox" class="form-label">City*</label>
+        <input type="text" class="form-control" id="danceLocationCityTextBox" name="danceLocationCityTextBox"
+            placeholder="City" value='. $location->getDanceLocationCity() . ' required>
+    </div>
+    <div class="mb-3" style="width: 50%">
+        <label for="danceLocationUrlToTheirSiteTextBox" class="form-label">URL to Their Site*</label>
+        <input type="text" class="form-control" id="danceLocationUrlToTheirSiteTextBox"
+            name="danceLocationUrlToTheirSiteTextBox" placeholder="URL to Their Site"  value='. $location->getDanceLocationUrlToTheirSite() . ' required>
+    </div>
+    <div class="mb-3" style="width: 15%">
+        <label for="danceLocationImageInput" class="form-label">Location Image*</label>
+        <input type="file" class="form-control" id="danceLocationImageInput" name="danceLocationImageInput"
+            accept="image/png, image/jpg" required>
+    </div>
+    <p> * marked fields are mandatory. </p>';
+
+        return $locationEditForm;
+    }
     
 }

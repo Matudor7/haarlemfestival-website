@@ -13,27 +13,21 @@ class LoginController extends Controller
         require __DIR__ . '/../views/login.php';
     }
 
+    public function loginValidation()
+    {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $userService = new UserService();
+        $user = $userService->validateLogin($username, $password);
 
-    public function loginValidation(){
-        if (isset($_POST['LoginButton'])) {
-
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-
-            $userService = new UserService();
-
-            $user = $userService->validateLogin($username, $password);
-
-            if ($user != null) {
-                $_SESSION['user'] = $user;
-               header("location: /admin/manageRestaurants");
-            } else {
-                $_SESSION['LoginError'] = "Username or password incorrect!";
-                header("location: /Login");
-            }
-        }}
-
+        if ($user != null) {
+            $_SESSION['user'] = $user;
+            header("location: /admin/manageRestaurants");
+        } else {
+            $_SESSION['LoginError'] = "Username or password incorrect!";
+            $this->index()();
+        }
+    }
 
     public function logOut(){
         session_start();

@@ -51,33 +51,5 @@ class UserController extends Controller
          for ($i = 0; $i < 8; $i++) { $n = rand(0, $alphaLength); $pass[] = $alphabet[$n]; } return implode($pass);
          //turn the array into a string
     }
-    public function registerUserPage(){
-        $eventService = new EventService();
-        $events = $eventService->getAll();
 
-        $userService = new UserService();
-        $userTypes = $userService->getUserType();
-
-        require_once __DIR__ .  '/../views/registerUser.php';
-    }
-    public function registerUser(){
-        $user = new User();
-        $user->setUserFirstName($_POST['firstname']);
-        $user->setUserLastName($_POST['lastname']);
-        $user->setUserPassword($_POST['password']);
-        $user->setUsername($_POST['username']);
-        $user->setUserEmail($_POST['email']);
-        $user->setUserTypeId($_POST['userType']);
-        $userService = new UserService();
-        $result = $userService->createUser($user);
-
-        if($result){
-            $_SESSION['userCreationMessage'] = "User created successfully!";
-        } else {
-            $_SESSION['userCreationMessage'] = "Username already exists, please choose a different one!";
-        }
-
-        $this->registerUserPage();
-        unset($_SESSION['userCreationMessage']);
-    }
 }

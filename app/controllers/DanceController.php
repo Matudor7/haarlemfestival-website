@@ -16,7 +16,9 @@ class DanceController extends Controller{
     }
     public int $artistId = 0;
 
-    public function index(){        
+    public function index(){
+        $thisEvent = $this->eventService->getByName("Dance");
+
         $events = $this->eventService->getAll();
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
@@ -32,6 +34,7 @@ class DanceController extends Controller{
             $danceEventsByDate[$date][] = $danceEvent;
         }
         require __DIR__ . '/../views/dance/index.php';
+        require __DIR__ .'/../views/buyTicketForm.php';
     }
 
     public function detail(){

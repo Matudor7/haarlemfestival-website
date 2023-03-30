@@ -41,6 +41,15 @@ class Product implements JsonSerializable{
         return $this->starting_date_time;
     }
 
+    public function getProductDate(){
+        $date = DateTime::createFromFormat(('Y-m-d H:i:s'),$this->starting_date_time);
+        return $date->format('Y-m-d');
+    }
+    public function getProductTime(){
+        $time = DateTime::createFromFormat('Y-m-d H:i:s', $this->starting_date_time);
+        return $time->format('H:i');
+    }
+
     public function setStartTime(string $starting_time): self{
         $this->starting_date_time = $starting_time;
         return $this;

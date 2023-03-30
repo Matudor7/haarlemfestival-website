@@ -23,7 +23,7 @@
 <p id="header-text" class="text-dark"><?php echo $event->getDescription()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()" href="#">Save me a spot</button>
+<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()">Save me a spot</button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -137,33 +137,6 @@
             ?>
         </table>
       </td>
-
-        <!---<//**?php foreach ($languages as $language) {
-             ?>
-        <td class="p-0">
-            <table class="table my-0">
-                <//?php
-                foreach ($timetables as $timetable){
-                    $count=0;
-
-            foreach ($walkingTours as $walkingTour){
-
-                if($walkingTour->getTourLanguage() == $language){
-                    if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()){
-                        if($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()){
-                            $count++;
-                            ?>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td><//?php echo ($count > 0) ? $count : 0; ?></td></tr>
-                <//?php
-                        }
-                    }}
-                    ?>
-
-        <//?php }}?>
-            </table>
-        <//?php } ?>
-</td>!--->
-
         <?php foreach ($languages as $language) { ?>
             <td class="p-0">
                 <table class="table my-0">
@@ -240,6 +213,7 @@
 <?php
         include __DIR__ . '/../footer.php';
         ?>
+
     </body>
 </html>
 <style>

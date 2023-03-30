@@ -6,28 +6,41 @@
 <div class="form-popup" id="ticketForm">
         <form action="/action_page.php" class="form-container">
             <h1>Buy <?php echo $thisEvent->getName()?> Tickets</h1>
-
+            <label id="testinglabel">000</label>
             <select id="selectDateInput" class="form-select col" aria-label="Default select example">
-                <option selected>Select Date</option>
+                <option value="Selected"selected>Select Date</option>
 
-                <?php foreach($tickets as $ticket){
+                <?php foreach($tickets as $ticket) {
+                    $date = $ticket->getProductDate();
+                    $time = $ticket->getProductTime();
 
+                    if (!isset($ticketsByDate[$date])) {
+                        $ticketsByDate[$date] = array();
+                    }
+
+                    if(!isset($ticketsByTime[$date][$time])){
+                        $ticketsByTime[$date][$time]= array();
+                    }
+
+                    $ticketsByDate[$date][] = $ticket;
+                    $ticketsByTime[$time][$date][] = $ticket;
+                }
+                    foreach($ticketsByDate as $date => $tickets){
                     ?>
-                <option value="1"><?php echo $ticket->getStartTime()?></option>
+                <option value="<?php echo $date?>"><?php echo $date?></option>
                 <?php }?>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
             </select>
-
             <select id="selectTimeInput" class="form-select col" aria-label="Default select example">
                 <option selected>Select Time</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+            <?php foreach($ticketsByTime as $date => $times){
+                foreach ($times as $time => $tickets){
+                    ?>
+                <option><?php echo $time?></option>
+                <?php } }?>
             </select>
 
             <div id="products" class="form-group">
-            <button type="button" class="btn btn-primary btn-lg">Large button</button>
+            <button id="productButton" type="button" class="btn btn-primary btn-lg"><?php $ticket->getProductDate()?></button>
             </div>
 
 
@@ -41,7 +54,7 @@
             </div>
 
 
-            <button type="submit" id="addToCartBtn" class="btn rounded-pill">Add to Cart</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="selectedDate(<?php $ticket->getProductDate()?>)">Add to Cart</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeTicketForm()">Close</button>
 
         </form>

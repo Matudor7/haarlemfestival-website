@@ -9,6 +9,15 @@ function closeTicketForm(){
     document.getElementById("main").style.filter = "none";
 }
 
+//validate date in ticket form to display times
+function selectedDate(date){
+    var dateDropdown = document.getElementById(selectDateInput);
+    if(dateDropdown.value == "Selected"){
+        document.getElementById("testinglabel").contentEditable = "red";
+    } else {
+        alert("selected date" + date);
+    }
+}
 //DANCE JS METHODS
 function scrollToElement() {
     document.querySelector('#dance-homepage-schedule').scrollIntoView({

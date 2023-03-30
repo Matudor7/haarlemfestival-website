@@ -27,7 +27,7 @@
                     <button id="dance-button-learn-more" type="button" class="btn btn-primary rounded-pill fw-bold"
                         onClick="scrollToElement()">Learn More</button>
                     <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold"
-                        onClick="location.href='/../CreateProgram'">Buy
+                            onClick="openTicketForm()">Buy
                         Tickets</button>
                 </div>
                 <div class="col-md-6">
@@ -249,10 +249,7 @@
 
     <?php include __DIR__ . "/../footerfordance.php"; ?>
 
-    
     <script src="/js/scriptfile.js"></script>
-    
-
 </body>
 
 <style>

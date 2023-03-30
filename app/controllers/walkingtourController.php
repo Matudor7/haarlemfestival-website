@@ -43,6 +43,7 @@ class WalkingTourController extends Controller{
         foreach($shoppingCart->getAmount() as $amount){
             array_push($amounts, $amount);
         }
+
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';
     }

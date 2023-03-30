@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . '/controller.php';
-
 class HomeController extends Controller{
     public function index(){
         $_SESSION['user_id'] = 0;

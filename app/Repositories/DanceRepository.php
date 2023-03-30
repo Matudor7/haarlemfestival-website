@@ -73,6 +73,8 @@ class DanceRepository extends Repository{
                 (int) $newArtist->getHasDetailPage(), // convert boolean to integer otherwise it doesnt send the "false" value.
                 htmlspecialchars($newArtist->getArtistHomepageImageUrl())
             ));
+            $id =  $this ->connection->lastInsertId();
+            return $newArtist;
         } catch(PDOException $e) {
             echo $e->getMessage();
         }

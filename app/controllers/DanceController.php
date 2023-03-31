@@ -3,6 +3,7 @@ require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/DanceService.php';
 require __DIR__ . '/../Services/DanceDetailPageService.php';
+require __DIR__ . '/../Services/productService.php';
 
 class DanceController extends Controller{
     private $eventService;
@@ -17,7 +18,10 @@ class DanceController extends Controller{
     public int $artistId = 0;
 
     public function index(){
-        $thisEvent = $this->eventService->getByName("Dance");
+        //Andy's addition
+        $productService = new ProductService();
+        $thisEvent = $this->eventService->getByName("Dance!");
+        $tickets = $productService->getByEventType($thisEvent->getId());
 
         $events = $this->eventService->getAll();
         $artists = $this->danceService->getAllArtists();

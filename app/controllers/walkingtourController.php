@@ -12,7 +12,7 @@ class WalkingTourController extends Controller{
 
         $eventService = new EventService();
         $events = $eventService->getAll();
-        $thisEvent = $eventService->getByName("Walking Tour");
+        $thisEvent = $eventService->getByName("Walking Tour!");
 
         $walkingTourService = new WalkingTourService();
         $walkingTours = $walkingTourService->getAllWalkingTours();

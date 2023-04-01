@@ -54,6 +54,11 @@ class AdminDanceController extends Controller
                 $this->danceService->deleteDanceLocation($danceLocation); // deleting the location
                 header('Location: /adminDance/danceAdminManage?type=Location'); // redirect the user back to the location manage page after deletion.
                 break;
+            case "Artist":
+                $artist = $this->danceService->getArtistById($_GET['id']); 
+                $this->danceService->deleteArtist($artist); 
+                header('Location: /adminDance/danceAdminManage?type=Artist'); 
+                break;
             default:
                 header('Location: /adminDance'); 
         }
@@ -63,10 +68,21 @@ class AdminDanceController extends Controller
     {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
         $danceLocationToEdit = new DanceLocation();  
+        $artistToEdit = new ArtistModel();
+        $allMusicTypes = $this->danceService->getAllMusicTypes();
+        $artistMusicTypeIds= [];
+
         switch ($element) {
             case "Location":
-            $danceLocationToEdit = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
-            break;
+                $danceLocationToEdit = $this->danceService->getDanceLocationById($_GET['id']); // get the dance location object from the service using the ID in the URL parameter
+                break;
+            case "Artist":
+                $artistToEdit = $this->danceService->getArtistById($_GET['id']);
+                $artistMusicTypes = $this->danceService->getMusicTypesByArtist($artistToEdit);
+                foreach ($artistMusicTypes as $musicType) {
+                    $artistMusicTypeIds[] = $musicType->getId();
+                }
+                break;
         }
 
         if(isset($_POST['editbutton'])){
@@ -74,6 +90,11 @@ class AdminDanceController extends Controller
                 case "Location":
                         $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); 
                         $this->editLocationElement($danceLocation);   
+                        header('Location: /adminDance');           
+                    break;
+                case "Artist":
+                        $artist = $this->danceService->getArtistById($_GET['id']); 
+                        $this->editArtistElements($artist, $allMusicTypes);   
                         header('Location: /adminDance');           
                     break;
                 default:
@@ -94,5 +115,26 @@ class AdminDanceController extends Controller
         $newLocation->setDanceLocationImageUrl($_POST['danceLocationImageInput']);
        
         $this->danceService->editDanceLocation($oldLocation, $newLocation);        
+    }
+
+    function editArtistElements($oldArtist, $allMusicTypes){
+        $newArtist = new Artistmodel();
+        $newArtist->setName($_POST['danceArtistNameTextBox']);
+        if ($_POST['danceArtistHasDetailPageDropdown'] === 'No') {
+            $newArtist->setHasDetailPage(false);
+        } else {
+            $newArtist->setHasDetailPage(true);
+        }
+        $newArtist->setArtistHomepageImageUrl($_POST['danceArtistImageInput']);
+        $this->danceService->editArtist($oldArtist, $newArtist);
+
+        $selectedMusicTypes = [];
+        foreach ($allMusicTypes as $musicType) {
+            if (isset($_POST['musicType'.$musicType->getId()])) {
+                $selectedMusicTypes[] = $_POST['musicType'.$musicType->getId()];
+            }
+        }
+        $this->danceService->editArtistMusicTypes($newArtist, $selectedMusicTypes);
+
     }
 }

@@ -46,7 +46,7 @@ class DanceArtistsController{
             $danceArtist->setName($danceArtistData['dance_artist_name']);
             $danceArtist->setHasDetailPAge($hasDetailPage);
             $danceArtist->setArtistHomepageImageUrl($downloadPath);
-            $this->danceService->insertArtist($danceArtist);  
+            $danceArtist = $this->danceService->insertArtist($danceArtist);  
 
             $this->addMusicTypesForTheArtist($danceArtistData, $danceArtist);
         }                 

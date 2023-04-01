@@ -46,13 +46,14 @@ class DanceArtistsController{
             $danceArtist->setName($danceArtistData['dance_artist_name']);
             $danceArtist->setHasDetailPAge($hasDetailPage);
             $danceArtist->setArtistHomepageImageUrl($downloadPath);
-            $danceArtist = $this->danceService->insertArtist($danceArtist);  
+            //$this->danceService->insertArtist($danceArtist);  
+            $danceArtistId = $this->danceService->insertArtist($danceArtist);  
 
-            $this->addMusicTypesForTheArtist($danceArtistData, $danceArtist);
+            $this->addMusicTypesForTheArtist($danceArtistData, $danceArtistId);
         }                 
     }
 
-    function addMusicTypesForTheArtist($artistData, $artist){
+    function addMusicTypesForTheArtist($artistData, $artistId){
         $musicTypeIds = [];
         $musicTypeIds = $artistData['dance_artist_musicTypes'];
         $musicTypes = [];
@@ -63,7 +64,7 @@ class DanceArtistsController{
         }
         
         foreach ($musicTypes as $musicType){
-            $this->danceService->insertMusicTypeForArtist($artist, $musicType);   
+            $this->danceService->insertMusicTypeForArtist($artistId, $musicType);   
         }
     }
 

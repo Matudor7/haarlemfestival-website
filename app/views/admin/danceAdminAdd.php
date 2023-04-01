@@ -118,6 +118,7 @@ function generateLocationAddForm()
         return $locationAddFormHtml;
     }
 ?>
+
 <body>
     <div class="container-fluid">
         <a href="/adminDance">
@@ -217,8 +218,19 @@ function generateLocationAddForm()
     function addNewDanceArtist() {
         const danceArtistNameTextBox = document.getElementById('danceArtistNameTextBox').value;
         const danceArtistHasDetailPageDropdown = document.getElementById('danceArtistHasDetailPageDropdown');
-        const danceArtistImageInput = document.getElementById('danceArtistImageInput');        
+        const danceArtistImageInput = document.getElementById('danceArtistImageInput');
+        var selectedValues = [];
+        var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="musicType"]');
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                selectedValues.push(checkbox.value);
+            }
+        });
 
+        if (selectedValues.length === 0) {
+            alert("Please select at least one music type for the artist.");
+        }
+        
         const danceArtistData = {
             dance_artist_name: danceArtistNameTextBox.trim(),
             dance_artist_hasDetailPage: danceArtistHasDetailPageDropdown.value,

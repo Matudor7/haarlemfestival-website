@@ -53,5 +53,9 @@ class UserService
         return $repository->getUserType();
     }
 
+    public function getAllUsersFromDatabase(){
+        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
+        return $repository->getAllUsersFromDatabase();
+    }
 
 }

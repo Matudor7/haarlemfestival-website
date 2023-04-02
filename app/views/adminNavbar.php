@@ -12,6 +12,6 @@
     <a class="nav-link" href="/admin/manageRestaurants">"Yummy!" Content</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="">Users</a>
+    <a class="nav-link" href="/admin/users">Users</a>
   </li>
 </ul>

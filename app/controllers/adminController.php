@@ -279,5 +279,15 @@ class AdminController extends Controller
 
         $this->registerUserPage();
         unset($_SESSION['userCreationMessage']);*/
+    
+    function users(){
+        $userService = new UserService();
+        $allUsers = $userService->getAllUsersFromDatabase(); //TODO: CREATE CTOR INSTEAD - beth 
+    
+        require __DIR__ . "/../views/admin/users.php";
+    }   
+    function editUser(){
+        require __DIR__ . "/../views/admin/editUser.php";
+    } 
 }
 ?>

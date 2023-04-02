@@ -18,4 +18,11 @@ class userTypeService
         return $userTypes;
     }
 
+    public function getUserTypeNameByUserId($userId)
+    {
+        $userTypeRepo = new UserTypeRepository(); // we need to create a constructor. this is only DUPLICATE CODE -beth
+        $userTypeName = $userTypeRepo->getUserTypeNameByUserId($userId);
+        return $userTypeName;
+    }
+    
 }

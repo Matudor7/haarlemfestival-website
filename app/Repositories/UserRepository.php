@@ -53,9 +53,7 @@ FROM user where username like :username");
     {
         try {
 
-            $stmt = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
-         user_email, user_password, user_userType
-FROM user WHERE id=$id ");
+            $stmt = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, user_email, user_password, userTypeId FROM user WHERE user_id=$id ");
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
             $result = $stmt->fetch();

@@ -8,4 +8,10 @@
   <li class="nav-item">
     <a class="nav-link" href="/adminDance">"Dance!" Content</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/manageRestaurants">"Yummy!" Content</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">Users</a>
+  </li>
 </ul>

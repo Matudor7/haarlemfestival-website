@@ -287,6 +287,12 @@ class AdminController extends Controller
         require __DIR__ . "/../views/admin/users.php";
     }   
     function editUser(){
+        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
+        $userTypeService = new UserTypeService();
+        
+        $allUserTypes = $userTypeService->getAllUserType();
+
+        $userToEdit = $userService->getByID($_GET['id']); 
         require __DIR__ . "/../views/admin/editUser.php";
     } 
 }

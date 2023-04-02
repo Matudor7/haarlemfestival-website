@@ -118,7 +118,8 @@ class User
         return $userType->getUserType();
     }
 
-    public function getUserTypeName2($userId) // this one WORKS, the one above doesnt (at least for my code it didnt work), we should delete one. -beth
+    public function getUserTypeName2($userId) // this one WORKS, the one above doesnt (at least for my code it didnt work), we should delete one. 
+    //I didnt want to touch your code that's why i didnt delete or do anything -beth
     {
         require_once __DIR__ . '/../Services/UserTypeService.php';
         require_once __DIR__ . '/../Models/userType.php';

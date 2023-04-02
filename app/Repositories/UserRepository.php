@@ -4,18 +4,32 @@ require __DIR__ . '/../Models/User.php';
 
 class UserRepository extends Repository
 {
-
     function getAllUsers()
     {
         try {
             $statement = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
-         user_email, user_password, user_userType
+         user_email, user_password, userTypeId, user_registrationDate
 FROM user");
             $statement->execute();
-
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'User');
-            $users = $statement->fetchAll();
-
+            $users = [];
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User();
+                $user->setUserId($row['user_id']);
+                $user->setUsername($row['username']);
+                $user->setUserPicURL($row['userPicURL']);
+                $user->setUserFirstName($row['user_firstName']);
+                $user->setUserLastName($row['user_lastName']);
+                $user->setUserEmail($row['user_email']);
+                $user->setUserPassword($row['user_password']);
+                $user->setUserTypeId($row['userTypeId']);
+            
+                // Convert registration date string to DateTime object
+                $registrationDate = new DateTime($row['user_registrationDate']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($registrationDate->format('Y'), $registrationDate->format('m'), $registrationDate->format('d')); //date
+                $user->setUserRegistrationDate($dateTime);
+                $users[] = $user;
+            }
             return $users;
         } catch (PDOException $e) {
             echo $e;

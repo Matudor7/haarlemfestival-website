@@ -14,11 +14,15 @@ class AdminController extends Controller{
     private $danceService;
     private $events;
     private $yummyService;
+    private $userService;
+    private $userTypeService;
 
     public function __construct() {
         $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
+        $this->userService = new UserService();
+        $this->userTypeService = new UserTypeService();
 
         $this->events = $this->eventService->getAll();
     }
@@ -230,6 +234,7 @@ class AdminController extends Controller{
     }
 
 
+<<<<<<< Updated upstream
     /*username
      userPicURL
      user_firstName
@@ -239,6 +244,19 @@ class AdminController extends Controller{
  user_userType
  */
 
+=======
+        $this->registerUserPage();
+        unset($_SESSION['userCreationMessage']);*/
+   
+    function users(){
+        $allUsers = $this->userService->getAllUsers();
+
+        require __DIR__ . "/../views/admin/users.php";
+    }   
+    function editUser(){
+        require __DIR__ . "/../views/admin/editUser.php";
+    } 
+>>>>>>> Stashed changes
 }
 
 ?>

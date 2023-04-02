@@ -17,8 +17,45 @@
     <div class="container-fluid">
         <h1>Manage Users</h1>
         <a href="/adminUsers/addUsers">
-        <button class="btn btn-success my-3">Add New User</button>
+            <button class="btn btn-success my-3">Add New User</button>
         </a>
+        <section>
+            <table class="table" id="allUsersTable">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+<th scope="col">Picture</th> 
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
+                        <th scope="col">User type</th>
+                        <th scope="col">Picture URL</th>
+                        <th scope="col">Registration</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($allUsers as $user){?>
+                    <tr>
+                        <th scope="row"><?php echo $user->getUserId()?></th>
+                        <td><img src="<?php echo $user->getUserPicURL()?>" class="img-fluid" alt="User Profile Photo"
+                                style="max-height:30px;"></td> 
+                        <td><?php echo $user->getUsername()?></td>
+                        <td><?php echo $user->getUserEmail()?></td>
+                        <td><?php echo $user->getUserFirstName()?></td>
+                        <td><?php echo $user->getUserLastName()?></td>
+                        <td><?php echo $user->getUserTypeName2($user->getUserId()) ?></td>
+                        <td><?php echo $user->getUserPicURL()?></td>
+                        <td><?php echo $user->getUserRegistrationDate()->format('Y-m-d')?></td>
+                        <td><button type="button" class="btn btn-warning">Edit</button></td>
+                        <td><button type="button" class="btn btn-danger">Delete</button></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </section>
     </div>
     <script>
     </script>

@@ -99,6 +99,7 @@ class User
 
     public function getUserUserType(): string
     {
+<<<<<<< Updated upstream
         return $this->user_userType;
     }
 
@@ -108,4 +109,21 @@ class User
     }
     private string $user_userType;
 
+=======
+        require_once __DIR__ . '/../Services/UserTypeService.php';
+        require_once __DIR__ . '/../Models/userType.php';
+        $userTypeService = new UserTypeService();
+        $userType = $userTypeService->getUserTypeByID($this->userTypeId);
+        return $userType->getUserType();
+    }
+
+    public function getUserTypeName2($userId) // this one WORKS, the one above doesnt (at least for my code it didnt work), we should delete one. -beth
+    {
+        require_once __DIR__ . '/../Services/UserTypeService.php';
+        require_once __DIR__ . '/../Models/userType.php';
+        $userTypeService = new UserTypeService();
+        $userTypeName = $userTypeService->getUserTypeNameByUserId($userId);
+        return $userTypeName;
+    }
+>>>>>>> Stashed changes
 }

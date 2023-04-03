@@ -16,12 +16,14 @@ class AdminController extends Controller
     private $danceService;
     private $events;
     private $yummyService;
+    private $userService;
 
     public function __construct()
     {
         $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
+        $this->userService = new UserService();
 
         $this->events = $this->eventService->getAll();
     }
@@ -280,35 +282,53 @@ class AdminController extends Controller
         $this->registerUserPage();
         unset($_SESSION['userCreationMessage']);*/
     
-        function users(){
-            $userService = new UserService(); //TODO ctor
-            
-            if(isset($_GET["search"]) && !empty(trim($_GET["search"]))){
-                $searchString = htmlspecialchars($_GET["search"], ENT_QUOTES, "UTF-8");
-                $allUsers = $userService->getUsersBySearch($searchString);
-            } else if(isset($_GET["sortBy"]) && $_GET["sortBy"] == 'laterRegistrationDate'){
-                $allUsers = $userService->getAllUsersByLaterRegistrationDate(); 
-            }
-            else if(isset($_GET["sortBy"]) && $_GET["sortBy"] == 'usernameAlphabetical'){
-                $allUsers = $userService->getAllUsersByUsrnameAlphabetical(); 
-            }
-            else if(isset($_GET["filter"]) && $_GET["filter"] == 'admins'){
-                $allUsers = $userService->getAllAdminUsers(); 
-            }
-            else if(isset($_GET["filter"]) && $_GET["filter"] == 'employees'){
-                $allUsers = $userService->getAllEmployeeUsers(); 
-            }
-            else if(isset($_GET["filter"]) && $_GET["filter"] == 'customers'){
-                $allUsers = $userService->getAllCustomerUsers(); 
-            }
-            else {
-                $allUsers = $userService->getAllUsersFromDatabase(); 
-            }      
-            require __DIR__ . "/../views/admin/users.php";
+    
+
+    
+    // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 
+    // done by: Betül Beril Dündar - 691136 
+    function users(){            
+        $searchString = "";
+        $sortType = "";
+        $filterType = "";
+
+        if(isset($_GET["search"]) && !empty(trim($_GET["search"]))) { 
+            $searchString = htmlspecialchars($_GET["search"], ENT_QUOTES, "UTF-8");
+        }
+        if(isset($_GET["sortBy"])) {
+            $sortType = $_GET["sortBy"];
+        }
+        if(isset($_GET["filter"])) {
+            $filterType = $_GET["filter"];
         }
 
+        switch(true) { //searching, filtering and sorting
+            case !empty($searchString): 
+                $allUsers = $this->userService->getUsersBySearch($searchString);
+                break;
+            case ($sortType == 'laterRegistrationDate'):
+                $allUsers = $this->userService->getAllUsersByLaterRegistrationDate(); 
+                break;
+            case ($sortType == 'usernameAlphabetical'):
+                $allUsers = $this->userService->getAllUsersByUsrnameAlphabetical(); 
+                break;
+            case ($filterType == 'admins'):
+                $allUsers = $this->userService->getAllAdminUsers(); 
+                break;
+            case ($filterType == 'employees'):
+                $allUsers = $this->userService->getAllEmployeeUsers(); 
+                break;
+            case ($filterType == 'customers'):
+                $allUsers = $this->userService->getAllCustomerUsers(); 
+                break;
+            default:
+                $allUsers = $this->userService->getAllUsersFromDatabase(); 
+                break;
+        }
+        require __DIR__ . "/../views/admin/users.php";
+    }
+
     function addUser(){
-        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
         $userTypeService = new UserTypeService();        
         $allUserTypes = $userTypeService->getAllUserType();   
         if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -320,7 +340,7 @@ class AdminController extends Controller
             $user->setUserEmail($_POST['userAdminEmailTextBox']);
             $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
 
-            $userService->createUser($user);
+            $this->userService->createUser($user);
             header('Location: /admin/users');
        }
 
@@ -328,7 +348,6 @@ class AdminController extends Controller
     }
 
     function createNewUser(){
-        $userService = new UserService();//TODO: CREATE CTOR INSTEAD - beth 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $this->addUser();
        } else {
@@ -340,25 +359,21 @@ class AdminController extends Controller
             $user->setUserEmail($_POST['userAdminEmailTextBox']);
             $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
 
-            $userService->createUser($user);
+            $this->userService->createUser($user);
             header('Location: /admin/users');
        }
     }
           
     function editUser(){
-        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
-        $userTypeService = new UserTypeService();
-        
+        $userTypeService = new UserTypeService();        //TODO do ctor
         $allUserTypes = $userTypeService->getAllUserType();
-
-        $userToEdit = $userService->getByID($_GET['id']); 
+        $userToEdit = $this->userService->getByID($_GET['id']); 
         require __DIR__ . "/../views/admin/editUser.php";
     } 
 
     function deleteUser(){
-        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
-        $userToDelete = $userService->getByID($_GET['id']); 
-        $userService->deleteUser($userToDelete);
+        $userToDelete = $this->userService->getByID($_GET['id']); 
+        $this->userService->deleteUser($userToDelete);
         header('Location: /admin/users');
     }
 }

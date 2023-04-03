@@ -18,7 +18,7 @@
         <h1>Manage Users</h1>
         <div class="row">
             <div class="col-1">
-                <a href="/adminUsers/addUsers">
+                <a href="/admin/addUser">
                     <button class="btn btn-success my-3">Add New User</button>
                 </a>
             </div>

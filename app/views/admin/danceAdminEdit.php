@@ -113,7 +113,7 @@ return $artistEditForm;
         </a>
         <h1>Edit <?php echo $element ?></h1>
         <div>
-            <form action="" method="POST" onsubmit="return validateInput();">
+            <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateInput();">
                 <?php $editForm = generateEditForms($element, $danceLocationToEdit, $artistToEdit, $allMusicTypes, $artistMusicTypeIds); 
         echo $editForm ?>
                 <button type="submit" class="btn btn-success mt-5" name="editbutton" onclick="editElement()">Edit

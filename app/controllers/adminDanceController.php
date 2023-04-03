@@ -88,14 +88,13 @@ class AdminDanceController extends Controller
         if(isset($_POST['editbutton'])){
             switch ($element) {
                 case "Location":
-                        $danceLocation = $this->danceService->getDanceLocationById($_GET['id']); 
-                        $this->editLocationElement($danceLocation);   
-                        header('Location: /adminDance');           
+                        $danceLocation = $this->danceService->getDanceLocationById($_GET['id']);
+                        $downloadPath = $this->addPhoto('danceLocationImageInput', $_POST['danceLocationNameTextBox']);
+                        $this->editLocationElement($danceLocation, $downloadPath);
                     break;
                 case "Artist":
                         $artist = $this->danceService->getArtistById($_GET['id']); 
-                        $this->editArtistElements($artist, $allMusicTypes);   
-                        header('Location: /adminDance');           
+                        $this->editArtistElements($artist, $allMusicTypes);            
                     break;
                 default:
                     require __DIR__ . "/../views/admin/danceAdminEdit.php";
@@ -104,7 +103,23 @@ class AdminDanceController extends Controller
         }
         require __DIR__ . "/../views/admin/danceAdminEdit.php";
     }
-    function editLocationElement($oldLocation){
+
+    function addPhoto($inputBoxName, $elementName){
+        try {
+            $imageUrl = $_FILES[$inputBoxName]['tmp_name'];
+            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $elementName)));
+            $downloadPath = SITE_ROOT . '/media/dancePics/' . $imageName . '.png'; 
+            move_uploaded_file($imageUrl, $downloadPath);
+            $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+            return $downloadPath;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return ''; // return an empty string if an exception occurs
+        }
+    }
+    
+
+    function editLocationElement($oldLocation, $downloadPath){
         $newLocation = new DanceLocation();
         $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
         $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
@@ -112,7 +127,7 @@ class AdminDanceController extends Controller
         $newLocation->setDanceLocationPostcode($_POST['danceLocationPostcodeTextBox']);
         $newLocation->setDanceLocationCity($_POST['danceLocationCityTextBox']);
         $newLocation->setDanceLocationUrlToTheirSite($_POST['danceLocationUrlToTheirSiteTextBox']);
-        $newLocation->setDanceLocationImageUrl($_POST['danceLocationImageInput']);
+        $newLocation->setDanceLocationImageUrl($downloadPath);
        
         $this->danceService->editDanceLocation($oldLocation, $newLocation);        
     }

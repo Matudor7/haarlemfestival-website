@@ -266,7 +266,7 @@ class DanceRepository extends Repository{
             $statement->bindParam(':dance_location_postcode', $sanitizedPostcode);
             $statement->bindParam(':dance_location_city', $sanitizedCity);
             $statement->bindParam(':dance_location_urlToTheirSite', $sanitizedUrlToTheirSite);
-            $statement->bindParam(':dance_location_imageUrl', $sanitizedImageUrl, PDO::PARAM_INT);      
+            $statement->bindParam(':dance_location_imageUrl', $sanitizedImageUrl);      
 
             $statement->bindParam(':dance_location_id', $oldLocationId, PDO::PARAM_INT);
     

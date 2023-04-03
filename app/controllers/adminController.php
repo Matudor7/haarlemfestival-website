@@ -280,12 +280,33 @@ class AdminController extends Controller
         $this->registerUserPage();
         unset($_SESSION['userCreationMessage']);*/
     
-    function users(){
-        $userService = new UserService();
-        $allUsers = $userService->getAllUsersFromDatabase(); //TODO: CREATE CTOR INSTEAD - beth 
-    
-        require __DIR__ . "/../views/admin/users.php";
-    }   
+        function users(){
+            $userService = new UserService(); //TODO ctor
+            
+            if(isset($_GET["search"]) && !empty(trim($_GET["search"]))){
+                $searchString = htmlspecialchars($_GET["search"], ENT_QUOTES, "UTF-8");
+                $allUsers = $userService->getUsersBySearch($searchString);
+            } else if(isset($_GET["sortBy"]) && $_GET["sortBy"] == 'laterRegistrationDate'){
+                $allUsers = $userService->getAllUsersByLaterRegistrationDate(); 
+            }
+            else if(isset($_GET["sortBy"]) && $_GET["sortBy"] == 'usernameAlphabetical'){
+                $allUsers = $userService->getAllUsersByUsrnameAlphabetical(); 
+            }
+            else if(isset($_GET["filter"]) && $_GET["filter"] == 'admins'){
+                $allUsers = $userService->getAllAdminUsers(); 
+            }
+            else if(isset($_GET["filter"]) && $_GET["filter"] == 'employees'){
+                $allUsers = $userService->getAllEmployeeUsers(); 
+            }
+            else if(isset($_GET["filter"]) && $_GET["filter"] == 'customers'){
+                $allUsers = $userService->getAllCustomerUsers(); 
+            }
+            else {
+                $allUsers = $userService->getAllUsersFromDatabase(); 
+            }      
+            require __DIR__ . "/../views/admin/users.php";
+        }
+          
     function editUser(){
         $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
         $userTypeService = new UserTypeService();

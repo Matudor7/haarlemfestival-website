@@ -62,6 +62,10 @@ class UserService
         $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
         return $repository->deleteUser($user);
     }
+    public function updateUser($oldUser, $newUser){
+        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
+        return $repository->editUserInDatabase($oldUser, $newUser);
+    }
 
     public function getUsersBySearch($string){
         $repository = new UserRepository;

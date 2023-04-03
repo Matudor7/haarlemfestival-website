@@ -175,6 +175,33 @@ FROM user");
         }
     }
 
+    public function editUserInDatabase($oldUser, $newUser){
+        $sql = "UPDATE `user` SET `username`= :username,`userPicURL`= :userPic,`user_firstName`= :firstname,`user_lastName`= :lastname,`user_email`= :email, `userTypeId`= :userTypeId WHERE `user_id` = :userId";
+        try{
+            $statement = $this->connection->prepare($sql);
+    
+            $sanitizedUsername = htmlspecialchars($newUser->getUsername());
+            $sanitizedPicURL = htmlspecialchars($newUser->getUserPicURL());
+            $sanitizedFirstName = htmlspecialchars($newUser->getUserFirstName());
+            $sanitizedLastName = htmlspecialchars($newUser->getUserLastName());
+            $sanitizedEmail = htmlspecialchars($newUser->getUserEmail());
+            $userTypeId = (int) $newUser->getUserTypeId();
+            $userId = $oldUser->getUserId();
+        
+            $statement->bindParam(':username', $sanitizedUsername);
+            $statement->bindParam(':userPic', $sanitizedPicURL); 
+            $statement->bindParam(':firstname', $sanitizedFirstName); 
+            $statement->bindParam(':lastname', $sanitizedLastName); 
+            $statement->bindParam(':email', $sanitizedEmail); 
+            $statement->bindParam(':userTypeId', $userTypeId, PDO::PARAM_INT); 
+            $statement->bindParam(':userId', $userId, PDO::PARAM_INT);
+        
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
     function deleteUser($user){
         $sql = "DELETE FROM `user` WHERE `user_id`= :user_id";
         try { 

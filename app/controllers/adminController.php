@@ -346,28 +346,33 @@ class AdminController extends Controller
 
         require __DIR__ . "/../views/admin/addUser.php";
     }
-
-    function createNewUser(){
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $this->addUser();
-       } else {
-            $user = new User();
-            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
-            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
-            $user->setUserPassword($_POST['userAdminPasswordTextBox']);
-            $user->setUsername($_POST['userAdminUsernameTextBox']);
-            $user->setUserEmail($_POST['userAdminEmailTextBox']);
-            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
-
-            $this->userService->createUser($user);
-            header('Location: /admin/users');
-       }
-    }
           
     function editUser(){
         $userTypeService = new UserTypeService();        //TODO do ctor
         $allUserTypes = $userTypeService->getAllUserType();
         $userToEdit = $this->userService->getByID($_GET['id']); 
+        $downloadPath = $userToEdit->getUserPicURL();
+
+        if (isset($_POST['editbutton'])) {
+            try {
+                $imageUrl = $_FILES['userAdminImageInput']['tmp_name'];
+                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userAdminUsernameTextBox'])));
+                $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
+                move_uploaded_file($imageUrl, $downloadPath);
+                $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        
+            $user = new User();
+            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
+            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
+            $user->setUsername($_POST['userAdminUsernameTextBox']);
+            $user->setUserEmail($_POST['userAdminEmailTextBox']);
+            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
+            $user->setUserPicURL($downloadPath);
+            $this->userService->updateUser($userToEdit, $user);   
+        }  
         require __DIR__ . "/../views/admin/editUser.php";
     } 
 

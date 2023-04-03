@@ -17,7 +17,7 @@
         </a>
         <h1>Edit User</h1>
         <div>
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-1">
                         <img src="<?php echo $userToEdit->getUserPicURL() ?>" class="img-thumbnail my-3" alt="User Profile Picture">

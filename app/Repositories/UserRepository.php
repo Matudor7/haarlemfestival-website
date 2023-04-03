@@ -186,4 +186,124 @@ FROM user");
             echo $e;
         }
     }
+
+    function getUsersBySearchFromDatabase($string){
+        $sql = "SELECT `user_id`, `username`, `userPicURL`,`user_firstName`,`user_lastName`,`user_email`,`userTypeId`,`user_registrationDate` FROM user WHERE CONCAT_WS(' ', `user_id`, `username`, `userPicURL`, `user_firstName`, `user_lastName`,`user_email`,`userTypeId`,`user_registrationDate`) LIKE CONCAT('%', :string, '%')";
+        try { 
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':string', $string);
+            $statement->execute();
+            $users = [];
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User();
+                $user->setUserId($row['user_id']);
+                $user->setUsername($row['username']);
+                $user->setUserPicURL($row['userPicURL']);
+                $user->setUserFirstName($row['user_firstName']);
+                $user->setUserLastName($row['user_lastName']);
+                $user->setUserEmail($row['user_email']);
+                $user->setUserTypeId($row['userTypeId']);
+            
+                // Convert registration date string to DateTime object
+                $registrationDate = new DateTime($row['user_registrationDate']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($registrationDate->format('Y'), $registrationDate->format('m'), $registrationDate->format('d')); //date
+                $user->setUserRegistrationDate($dateTime);
+                $users[] = $user;
+            }
+            return $users;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    function getUsersByLaterRegistrationDate(){
+        $sql = "SELECT `user_id`, `username`, `userPicURL`, `user_firstName`, `user_lastName`, `user_email`, `userTypeId`, `user_registrationDate` FROM user
+        ORDER BY `user_registrationDate` DESC";
+        try { 
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+            $users = [];
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User();
+                $user->setUserId($row['user_id']);
+                $user->setUsername($row['username']);
+                $user->setUserPicURL($row['userPicURL']);
+                $user->setUserFirstName($row['user_firstName']);
+                $user->setUserLastName($row['user_lastName']);
+                $user->setUserEmail($row['user_email']);
+                $user->setUserTypeId($row['userTypeId']);
+            
+                // Convert registration date string to DateTime object
+                $registrationDate = new DateTime($row['user_registrationDate']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($registrationDate->format('Y'), $registrationDate->format('m'), $registrationDate->format('d')); //date
+                $user->setUserRegistrationDate($dateTime);
+                $users[] = $user;
+            }
+            return $users;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    function getUsersByUsernameAlphabetical(){
+        $sql = "SELECT `user_id`, `username`, `userPicURL`, `user_firstName`, `user_lastName`, `user_email`, `userTypeId`, `user_registrationDate` FROM user 
+        ORDER BY `username` ASC";
+        try { 
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+            $users = [];
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User();
+                $user->setUserId($row['user_id']);
+                $user->setUsername($row['username']);
+                $user->setUserPicURL($row['userPicURL']);
+                $user->setUserFirstName($row['user_firstName']);
+                $user->setUserLastName($row['user_lastName']);
+                $user->setUserEmail($row['user_email']);
+                $user->setUserTypeId($row['userTypeId']);
+            
+                // Convert registration date string to DateTime object
+                $registrationDate = new DateTime($row['user_registrationDate']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($registrationDate->format('Y'), $registrationDate->format('m'), $registrationDate->format('d')); //date
+                $user->setUserRegistrationDate($dateTime);
+                $users[] = $user;
+            }
+            return $users;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    function getUsersByType($userTypeId){
+        $sql = "SELECT `user_id`,`username`,`userPicURL`,`user_firstName`,`user_lastName`,`user_email`,`userTypeId`,`user_registrationDate` FROM `user` WHERE `userTypeId` = :userTypeId";
+        try { 
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':userTypeId', $userTypeId, PDO::PARAM_INT);
+            $statement->execute();
+            $users = [];
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User();
+                $user->setUserId($row['user_id']);
+                $user->setUsername($row['username']);
+                $user->setUserPicURL($row['userPicURL']);
+                $user->setUserFirstName($row['user_firstName']);
+                $user->setUserLastName($row['user_lastName']);
+                $user->setUserEmail($row['user_email']);
+                $user->setUserTypeId($row['userTypeId']);
+            
+                // Convert registration date string to DateTime object
+                $registrationDate = new DateTime($row['user_registrationDate']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($registrationDate->format('Y'), $registrationDate->format('m'), $registrationDate->format('d')); //date
+                $user->setUserRegistrationDate($dateTime);
+                $users[] = $user;
+            }
+            return $users;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
 }

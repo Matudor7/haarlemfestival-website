@@ -63,4 +63,35 @@ class UserService
         return $repository->deleteUser($user);
     }
 
+    public function getUsersBySearch($string){
+        $repository = new UserRepository;
+        return $repository->getUsersBySearchFromDatabase($string);
+    }
+    public function getAllUsersByLaterRegistrationDate(){
+        $repository = new UserRepository;
+        return $repository->getUsersByLaterRegistrationDate();
+    }
+    public function getAllUsersByUsrnameAlphabetical(){
+        $repository = new UserRepository;
+        return $repository->getUsersByUsernameAlphabetical();
+    }
+
+    public function getAllAdminUsers(){
+        $repository = new UserRepository;
+        $intOfAdmin = 2;
+        return $repository->getUsersByType($intOfAdmin);
+    }
+
+    public function getAllEmployeeUsers(){
+        $repository = new UserRepository;
+        $intOfEmployee = 1;
+        return $repository->getUsersByType($intOfEmployee);
+    }
+
+    public function getAllCustomerUsers(){
+        $repository = new UserRepository;
+        $intOfCustomer = 3;
+        return $repository->getUsersByType($intOfCustomer);
+    }
+
 }

@@ -173,6 +173,17 @@ FROM user");
         } catch (PDOException $e) {
             echo $e;
         }
+    }
 
+    function deleteUser($user){
+        $sql = "DELETE FROM `user` WHERE `user_id`= :user_id";
+        try { 
+            $userId = $user->getUserId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':user_id', $userId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo $e;
+        }
     }
 }

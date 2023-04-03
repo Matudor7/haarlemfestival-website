@@ -306,6 +306,44 @@ class AdminController extends Controller
             }      
             require __DIR__ . "/../views/admin/users.php";
         }
+
+    function addUser(){
+        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
+        $userTypeService = new UserTypeService();        
+        $allUserTypes = $userTypeService->getAllUserType();   
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $user = new User();
+            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
+            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
+            $user->setUserPassword($_POST['userAdminPasswordTextBox']);
+            $user->setUsername($_POST['userAdminUsernameTextBox']);
+            $user->setUserEmail($_POST['userAdminEmailTextBox']);
+            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
+
+            $userService->createUser($user);
+            header('Location: /admin/users');
+       }
+
+        require __DIR__ . "/../views/admin/addUser.php";
+    }
+
+    function createNewUser(){
+        $userService = new UserService();//TODO: CREATE CTOR INSTEAD - beth 
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->addUser();
+       } else {
+            $user = new User();
+            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
+            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
+            $user->setUserPassword($_POST['userAdminPasswordTextBox']);
+            $user->setUsername($_POST['userAdminUsernameTextBox']);
+            $user->setUserEmail($_POST['userAdminEmailTextBox']);
+            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
+
+            $userService->createUser($user);
+            header('Location: /admin/users');
+       }
+    }
           
     function editUser(){
         $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 

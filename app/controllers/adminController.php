@@ -295,5 +295,12 @@ class AdminController extends Controller
         $userToEdit = $userService->getByID($_GET['id']); 
         require __DIR__ . "/../views/admin/editUser.php";
     } 
+
+    function deleteUser(){
+        $userService = new UserService(); //TODO: CREATE CTOR INSTEAD - beth 
+        $userToDelete = $userService->getByID($_GET['id']); 
+        $userService->deleteUser($userToDelete);
+        header('Location: /admin/users');
+    }
 }
 ?>

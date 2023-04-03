@@ -50,7 +50,7 @@
                         <td><?php echo $user->getUserPicURL()?></td>
                         <td><?php echo $user->getUserRegistrationDate()->format('Y-m-d')?></td>
                         <td><button onclick="location.href='/admin/editUser?id=<?=$user->getUserId()?>'" type="button" class="btn btn-warning">Edit</button></td>
-                        <td><button type="button" class="btn btn-danger">Delete</button></td>
+                        <td><button onclick="location.href='/admin/deleteUser?id=<?=$user->getUserId()?>'" type="button" class="btn btn-danger">Delete</button></td>
                     </tr>
                     <?php } ?>
                 </tbody>

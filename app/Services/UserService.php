@@ -58,4 +58,9 @@ class UserService
         return $repository->getAllUsersFromDatabase();
     }
 
+    public function deleteUser($user){
+        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
+        return $repository->deleteUser($user);
+    }
+
 }

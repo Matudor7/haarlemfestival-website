@@ -351,19 +351,22 @@ class AdminController extends Controller
         $userTypeService = new UserTypeService();        //TODO do ctor
         $allUserTypes = $userTypeService->getAllUserType();
         $userToEdit = $this->userService->getByID($_GET['id']); 
-        $downloadPath = $userToEdit->getUserPicURL();
 
         if (isset($_POST['editbutton'])) {
-            try {
-                $imageUrl = $_FILES['userAdminImageInput']['tmp_name'];
-                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userAdminUsernameTextBox'])));
-                $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
-                move_uploaded_file($imageUrl, $downloadPath);
-                $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        
+            if(isset($_POST['userAdminImageInput']) && ($_POST['userAdminImageInput'] !== null || $_POST['userAdminImageInput'] !== '')){
+                try {
+                    $imageUrl = $_FILES['userAdminImageInput']['tmp_name'];
+                    $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userAdminUsernameTextBox'])));
+                    $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
+                    move_uploaded_file($imageUrl, $downloadPath);
+                    $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }               
+            else{
+                $downloadPath = $userToEdit->getUserPicURL(); //if new photo isnt added, the old photo remains as profile picture.
+            }     
             $user = new User();
             $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
             $user->setUserLastName($_POST['userAdminLastnameTextBox']);

@@ -126,7 +126,7 @@ function generateLocationAddForm()
         </a>
         <h1>Add <?php echo $element ?></h1>
 
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateInput();">
             <div>
                 <?php $addForm = generateTheAddFormByElement($element, $allMusicTypes); 
         echo $addForm ?>
@@ -138,117 +138,28 @@ function generateLocationAddForm()
             </div>
         </form>
     </div>
+
     <script>
-    function addElement() {
-        if ('<?php echo $element ?>' === 'MusicType') {
-            addNewMusicType();
-        } else if ('<?php echo $element ?>' === 'Location') {
-            addNewDanceLocation();
-        } else if ('<?php echo $element ?>' === 'Artist') {
-            addNewDanceArtist();
-        }
-    }
-
-    function addNewMusicType() {
-        const danceMusicTypeNameTextBox = document.getElementById('danceMusicTypeNameTextBox').value.trim();
-
-        if (danceMusicTypeNameTextBox === '') {
-            window.confirm('Please fill the form correctly.');
-        } else {
-            const musicTypeData = {
-                dance_musicType_name: danceMusicTypeNameTextBox.trim()
-            };
-            console.log(musicTypeData)
-
-            fetch("http://localhost/api/musicTypes", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(musicTypeData), // stringify the data object
-                })
-                .catch((err) => {
-                    console.error('Error: ', err);
-                });
-        }
-    }
-
-    function addNewDanceLocation() {
-        const danceLocationNameTextBox = document.getElementById('danceLocationNameTextBox').value;
-        const danceLocationStreetTextBox = document.getElementById('danceLocationStreetTextBox').value;
-        const danceLocationNumberTextBox = document.getElementById('danceLocationNumberTextBox').value;
-        const danceLocationPostcodeTextBox = document.getElementById('danceLocationPostcodeTextBox').value;
-        const danceLocationCityTextBox = document.getElementById('danceLocationCityTextBox').value;
-        const danceLocationUrlToTheirSiteTextBox = document.getElementById('danceLocationUrlToTheirSiteTextBox').value;
-        const danceLocationImageInput = document.getElementById('danceLocationImageInput');
-
-        //Display message if any input is ignored
-        if (danceLocationNameTextBox === '' || danceLocationStreetTextBox === '' || danceLocationNumberTextBox === '' ||
-            danceLocationPostcodeTextBox === '' || danceLocationCityTextBox === '' ||
-            danceLocationUrlToTheirSiteTextBox === '' ||
-            danceLocationImageInput.value === '') {
-            window.confirm('Please fill in all the mandatory parts.');
-        } else if (isNaN(danceLocationNumberTextBox)) {
-            window.confirm('Dance location number must be an integer.');
-        } else {
-            const danceLocationData = {
-                dance_location_name: danceLocationNameTextBox.trim(),
-                dance_location_street: danceLocationStreetTextBox.trim(),
-                dance_location_number: danceLocationNumberTextBox.trim(),
-                dance_location_postcode: danceLocationPostcodeTextBox.trim(),
-                dance_location_city: danceLocationCityTextBox.trim(),
-                dance_location_urlToTheirSite: danceLocationUrlToTheirSiteTextBox.trim(),
-                dance_location_image: danceLocationImageInput.value
-            };
-            console.log(danceLocationData);
-
-            fetch("http://localhost/api/danceLocations", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(danceLocationData),
-                })
-                .catch((err) => {
-                    console.error('Error: ', err);
-                });
-        }
-    }
-
-    function addNewDanceArtist() {
-        const danceArtistNameTextBox = document.getElementById('danceArtistNameTextBox').value;
-        const danceArtistHasDetailPageDropdown = document.getElementById('danceArtistHasDetailPageDropdown');
-        const danceArtistImageInput = document.getElementById('danceArtistImageInput');
-        var selectedValues = [];
-        var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="musicType"]');
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                selectedValues.push(checkbox.value);
+    function validateInput() {
+        if ('<?php echo $element ?>' === 'Location') {
+            var locationNumber = document.getElementById('danceLocationNumberTextBox').value;
+            if (!Number.isInteger(Number(locationNumber))) {
+                alert("Please enter a valid NUMBER for the location number.");
+                return false;
             }
-        });
-
-        if (selectedValues.length === 0) {
-            alert("Please select at least one music type for the artist.");
-        }
-        
-        const danceArtistData = {
-            dance_artist_name: danceArtistNameTextBox.trim(),
-            dance_artist_hasDetailPage: danceArtistHasDetailPageDropdown.value,
-            dance_artist_image: danceArtistImageInput.value,
-            dance_artist_musicTypes: selectedValues
-        };
-        console.log(danceArtistData);
-
-        fetch("http://localhost/api/danceArtists", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(danceArtistData),
-            })
-            .catch((err) => {
-                console.error('Error: ', err);
+        } else if ('<?php echo $element ?>' === 'Artist') {
+            var selectedValues = [];
+            var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="musicType"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedValues.push(checkbox.value);
             });
+
+            if (selectedValues.length === 0) {
+                alert("Please select at least one music type for the artist.");
+                return false;
+            }
+        }
+        return true;
     }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

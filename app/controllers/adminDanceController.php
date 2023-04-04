@@ -42,7 +42,91 @@ class AdminDanceController extends Controller
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
         $allMusicTypes = $this->danceService->getAllMusicTypes();
 
+        if(isset($_POST['addbutton'])){
+            switch ($element) {
+                case "Location":
+                    $downloadPath = $this->addPhoto('danceLocationImageInput', $_POST['danceLocationNameTextBox']);
+                    $this->addDanceLocationElement($downloadPath); // get the dance location object from the service using the ID in the URL parameter
+                    break;   
+                case "MusicType":                    
+                    $this->addMusicTypeElement();
+                    break;   
+                case "Artist":                    
+                    $downloadPath = $this->addPhoto('danceArtistImageInput', $_POST['danceArtistNameTextBox']);
+                    $this->addDanceArtistElement($downloadPath, $allMusicTypes);
+                    break;      
+            }
+        }
+
         require __DIR__ . "/../views/admin/danceAdminAdd.php";
+    }
+
+    function addPhoto($inputBoxName, $elementName){
+        try {
+            $imageUrl = $_FILES[$inputBoxName]['tmp_name'];
+            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $elementName)));
+            $downloadPath = SITE_ROOT . '/media/dancePics/' . $imageName . '.png'; 
+            move_uploaded_file($imageUrl, $downloadPath);
+            $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+            return $downloadPath;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return ''; // return an empty string if an exception occurs
+        }
+    }
+
+    function addDanceLocationElement($downloadPath){
+        $newLocation = new DanceLocation();
+        $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
+        $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
+        $newLocation->setDanceLocationNumber($_POST['danceLocationNumberTextBox']);
+        $newLocation->setDanceLocationPostcode($_POST['danceLocationPostcodeTextBox']);
+        $newLocation->setDanceLocationCity($_POST['danceLocationCityTextBox']);
+        $newLocation->setDanceLocationUrlToTheirSite($_POST['danceLocationUrlToTheirSiteTextBox']);
+        $newLocation->setDanceLocationImageUrl($downloadPath);
+       
+        $this->danceService->insertDanceLocation($newLocation);  
+    }
+
+    function addMusicTypeElement(){
+        $musicType = new MusicType();
+        $musicType->setMusicTypeName($_POST['danceMusicTypeNameTextBox']);    
+        $this->danceService->insertMusicType($musicType);
+    }
+
+    function addDanceArtistElement($downloadPath, $allMusicTypes){
+        $newArtist = new Artistmodel();
+        if ($_POST['danceArtistHasDetailPageDropdown'] == "Yes") {
+            $hasDetailPage = true;
+        } else {
+            $hasDetailPage = false;
+        }
+        
+        $newArtist->setName($_POST['danceArtistNameTextBox']);
+        $newArtist->setHasDetailPAge($hasDetailPage);
+        $newArtist->setArtistHomepageImageUrl($downloadPath);
+        $danceArtistId = $this->danceService->insertArtist($newArtist);
+        
+        $selectedMusicTypes = [];
+        foreach ($allMusicTypes as $musicType) {
+            if (isset($_POST['musicType'.$musicType->getId()])) {
+                $selectedMusicTypes[] = $_POST['musicType'.$musicType->getId()];
+            }
+        }
+        $this->addMusicTypesForNewArtist($selectedMusicTypes, $danceArtistId);
+    }
+
+    function addMusicTypesForNewArtist($selectedMusicTypes, $artistId){
+        $musicTypes = [];
+
+        foreach($selectedMusicTypes as $musicTypeId){
+            $musicType = $this->danceService->getMusicTypeById($musicTypeId);
+            array_push($musicTypes, $musicType);
+        }
+        
+        foreach ($musicTypes as $musicType){
+            $this->danceService->insertMusicTypeForArtist($artistId, $musicType);   
+        }
     }
 
     function deleteElement(){
@@ -94,7 +178,8 @@ class AdminDanceController extends Controller
                     break;
                 case "Artist":
                         $artist = $this->danceService->getArtistById($_GET['id']); 
-                        $this->editArtistElements($artist, $allMusicTypes);            
+                        $downloadPath = $this->addPhoto('danceArtistImageInput', $_POST['danceArtistNameTextBox']);
+                        $this->editArtistElements($artist, $allMusicTypes, $downloadPath);            
                     break;
                 default:
                     require __DIR__ . "/../views/admin/danceAdminEdit.php";
@@ -102,22 +187,7 @@ class AdminDanceController extends Controller
             }
         }
         require __DIR__ . "/../views/admin/danceAdminEdit.php";
-    }
-
-    function addPhoto($inputBoxName, $elementName){
-        try {
-            $imageUrl = $_FILES[$inputBoxName]['tmp_name'];
-            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $elementName)));
-            $downloadPath = SITE_ROOT . '/media/dancePics/' . $imageName . '.png'; 
-            move_uploaded_file($imageUrl, $downloadPath);
-            $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
-            return $downloadPath;
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return ''; // return an empty string if an exception occurs
-        }
-    }
-    
+    }    
 
     function editLocationElement($oldLocation, $downloadPath){
         $newLocation = new DanceLocation();
@@ -132,7 +202,7 @@ class AdminDanceController extends Controller
         $this->danceService->editDanceLocation($oldLocation, $newLocation);        
     }
 
-    function editArtistElements($oldArtist, $allMusicTypes){
+    function editArtistElements($oldArtist, $allMusicTypes, $downloadPath){
         $newArtist = new Artistmodel();
         $newArtist->setName($_POST['danceArtistNameTextBox']);
         if ($_POST['danceArtistHasDetailPageDropdown'] === 'No') {
@@ -140,7 +210,7 @@ class AdminDanceController extends Controller
         } else {
             $newArtist->setHasDetailPage(true);
         }
-        $newArtist->setArtistHomepageImageUrl($_POST['danceArtistImageInput']);
+        $newArtist->setArtistHomepageImageUrl($downloadPath);
         $this->danceService->editArtist($oldArtist, $newArtist);
 
         $selectedMusicTypes = [];
@@ -150,6 +220,5 @@ class AdminDanceController extends Controller
             }
         }
         $this->danceService->editArtistMusicTypes($newArtist, $selectedMusicTypes);
-
     }
 }

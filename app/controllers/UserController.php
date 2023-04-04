@@ -64,6 +64,10 @@ class UserController extends Controller
 
     function userManageAccount(){
         $events = $this->eventService->getAll();
+        session_start();
+
+        $user = $_SESSION['user'];
+
         require __DIR__ . "/../views/userManageAccount.php";
     }
 

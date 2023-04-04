@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <?php include __DIR__ . "/../navfordance.php"; ?>
+    <?php include __DIR__ . "/../nav.php"; ?>
 
     <main class="container-fluid">
         <div class="row my-5">
@@ -263,7 +263,7 @@
         </div>
     </main>
 
-    <?php include __DIR__ . "/../footerfordance.php"; ?>
+    <?php include __DIR__ . "/../footer.php"; ?>
 
 
     <script src="/js/scriptfile.js"></script>

@@ -117,7 +117,6 @@
                     Credit card number is required
                   </div>
                 </div>
-    
                 <div class="col-md-3">
                   <label for="cc-expiration" class="form-label">Expiration</label>
                   <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
@@ -140,5 +139,11 @@
             <button class="w-100 btn btn-success btn-lg" type="submit">Checkout</button>
       </div>
   </div>
+
+  <script>
+    function submitData(){
+
+    }
+  </script>
 </body>
 </html>

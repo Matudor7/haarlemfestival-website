@@ -108,7 +108,7 @@
                     <div style="bottom:1; right:0; float: right">
                         <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
                     </div>
-                    <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout?user_id=' + <?php echo $_SESSION['user_id']?>">Checkout</button>
+                    <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout?user_id=' + <?php echo $_SESSION['user_id']?>">Continue to Checkout</button>
             </div>
         </div>
         </nav>

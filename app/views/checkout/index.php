@@ -142,7 +142,8 @@
 
   <script>
     function submitData(){
-
+      var firstName = document.getElementById("firstName");
+      var lastName = document.getElementById("");
     }
   </script>
 </body>

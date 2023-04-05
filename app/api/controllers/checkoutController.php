@@ -23,6 +23,8 @@ class CheckoutController{
             $payment = new Payment();
 
             $payment->setUserid($_SESSION["user_id"]);
+            $payment->setFirstName($paymentData["first_name"]);
+            $payment->setLastName($paymentData["last_name"]);
             $payment->setEmail($paymentData["email"]);
             $payment->setAddress($paymentData["address"]);
             $payment->setZip($paymentData["zip"]);

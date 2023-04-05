@@ -3,6 +3,8 @@
 class Payment implements JsonSerializable{
     private int $id = 0;
     private int $user_id = 0;
+    private string $first_name = "";
+    private string $last_name = "";
     private string $email = "";
     private string $address = "";
     private string $zip = "";
@@ -29,6 +31,22 @@ class Payment implements JsonSerializable{
 
     public function setUserid(int $user_id){
         $this->user_id = $user_id;
+    }
+
+    public function getFirstName(): string{
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name){
+        $this->first_name = $first_name;
+    }
+
+    public function getLastName(): string{
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name){
+        $this->last_name = $last_name;
     }
 
     public function getEmail(): string{

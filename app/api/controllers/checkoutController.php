@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../../Services/paymentService.php';
-require __DIR__ . '/../../Models/paymentModel.php';
+require_once __DIR__ . '/../../Models/paymentModel.php';
 
 class CheckoutController{
     private $paymentService;

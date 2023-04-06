@@ -11,9 +11,10 @@ function closeTicketForm(){
 
 //validate date in ticket form to display times
 function selectedDate(date){
-    var dateDropdown = document.getElementById(selectDateInput);
-    if(dateDropdown.value == "Selected"){
-        document.getElementById("testinglabel").contentEditable = "red";
+
+
+    if(!dateDropdown.value == "Selected"){
+        document.getElementById("testingLabel").hidden = true;
     } else {
         alert("selected date" + date);
     }

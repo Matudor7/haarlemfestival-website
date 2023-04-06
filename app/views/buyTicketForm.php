@@ -6,37 +6,33 @@
 <div class="form-popup" id="ticketForm">
         <form action="/action_page.php" class="form-container">
             <h1>Buy <?php echo $thisEvent->getName()?> Tickets</h1>
-            <label id="testinglabel">000</label>
+            <label id="testingLabel">000</label>
             <select id="selectDateInput" class="form-select col" aria-label="Default select example">
                 <option value="Selected"selected>Select Date</option>
 
-                <?php foreach($tickets as $ticket) {
+                <?php
+                $dates = array();
+                foreach($tickets as $ticket) {
                     $date = $ticket->getProductDate();
-                    $time = $ticket->getProductTime();
-
-                    if (!isset($ticketsByDate[$date])) {
-                        $ticketsByDate[$date] = array();
+                    if(!in_array($date, $dates)) {
+                        $dates[] = $date;
+                        echo "<option value=\"$date\">$date</option>";
                     }
-
-                    if(!isset($ticketsByTime[$date][$time])){
-                        $ticketsByTime[$date][$time]= array();
-                    }
-
-                    $ticketsByDate[$date][] = $ticket;
-                    $ticketsByTime[$time][$date][] = $ticket;
                 }
-                    foreach($ticketsByDate as $date => $tickets){
-                    ?>
-                <option value="<?php echo $date?>"><?php echo $date?></option>
-                <?php }?>
+                ?>
             </select>
             <select id="selectTimeInput" class="form-select col" aria-label="Default select example">
                 <option selected>Select Time</option>
-            <?php foreach($ticketsByTime as $date => $times){
-                foreach ($times as $time => $tickets){
-                    ?>
-                <option><?php echo $time?></option>
-                <?php } }?>
+                <?php
+                //$times = array();
+                //foreach($tickets as $ticket) {
+                  //  $time = $ticket->getProductTime();
+                    //if(!in_array($time, $times)) {
+                      //  $times[] = $time;
+                        //echo "<option value=\"$time\">$time</option>";
+                    //}
+                //}
+                ?>
             </select>
 
             <div id="products" class="form-group">
@@ -64,7 +60,33 @@
 </html>
 
 <script>
+    const dateDropdown = document.getElementById('selectDateInput');
+    const timeDropdown = document.getElementById('selectTimeInput');
+    const testingLabel = document.getElementById('testingLabel');
 
+    dateDropdown.addEventListener('change',(event) => {
+        const selectedDate = event.target.value;
+
+        testingLabel.innerText = selectedDate.toString();
+
+        updateTimeOptions(selectedDate);
+    })
+
+    function updateTimeOptions(selectedDate){
+        timeDropdown.innerHTML = "";
+
+        <?php foreach ($tickets as $ticket) {?>
+            var date = "<?php echo $ticket->getProductDate();?>";
+            var time = "<?php echo $ticket->getProductTime();?>";
+
+            if (date == selectedDate){
+                var option = document.createElement("option");
+                option.text = time;
+                timeDropdown.add(option);
+            }
+
+   <?php }?>
+    }
 </script>
 <style>
     .form-popup {

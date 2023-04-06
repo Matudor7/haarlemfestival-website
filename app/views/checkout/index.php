@@ -144,7 +144,7 @@
     function submitData(){
       //TODO: make variables of all input fields, then POST the data to the checkoutController
       var firstName = document.getElementById("firstName");
-      var lastName = document.getElementById("");
+      var lastName = document.getElementById("lastName");
     }
   </script>
 </body>

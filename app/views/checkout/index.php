@@ -91,8 +91,8 @@
                   <label class="form-check-label" for="credit">Credit card</label>
                 </div>
                 <div class="form-check">
-                  <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-                  <label class="form-check-label" for="debit">Debit card</label>
+                  <input id="ideal" name="paymentMethod" type="radio" class="form-check-input" required="">
+                  <label class="form-check-label" for="ideal">iDeal</label>
                 </div>
                 <div class="form-check">
                   <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
@@ -119,7 +119,7 @@
                 </div>
                 <div class="col-md-3">
                   <label for="cc-expiration" class="form-label">Expiration</label>
-                  <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+                  <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required="">
                   <div class="invalid-feedback">
                     Expiration date required
                   </div>
@@ -141,10 +141,48 @@
   </div>
 
   <script>
-    function submitData(){
-      //TODO: make variables of all input fields, then POST the data to the checkoutController
       var firstName = document.getElementById("firstName");
       var lastName = document.getElementById("lastName");
+      var email = document.getElementById("email");
+      var address = dcoument.getElementById("address");
+      var zip = document.getElementById("zip");
+      const zipRegEx = /^\d{4}[a-zA-Z]{2}$/;
+
+      var credit = document.getElementById("credit");
+      var ideal = document.getElementById("ideal");
+      var paypal = document.getElementById("paypal");
+
+      var cardName = document.getElementById("cc-name");
+      var cardNumber = document.getElementById("cc-number");
+      var cardExpiration = document.getElementById("cc-expiration");
+      var cardCvv = document.getElementById("cc-cvv");
+      var cardCvvRegEx = /^[0-9]{3,4}$/;
+
+    function submitData(){
+      //TODO: make variables of all input fields, then POST the data to the checkoutController
+      if(!invalidData()){
+        
+      }
+
+    }
+
+    function invalidData(){
+      return (firstname.value.trim() == "" && lastName.value.trim() == "" && email.value.trim() == "" && address.value.trim() == ""
+              && !zipRegEx.test(zip.value.trim()) && (!credit.checked || !ideal.checked || !paypal.checked) && cardName.value.trim() == ""
+              && !validateExpirationDate(cardExpiration.value.trim()) && !cardCvvRegEx.test(cardCvv.value.trim()));
+    }
+
+    function validateExpirationDate(cardExpirationDate){
+      const expirationDateParts = cardExpirationDate.split('/');
+      const expirationMonth = parseInt(expirationDateParts[0]);
+      const expirationYear = parseInt('20' + expirationDateParts[1]);
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1
+      const currentYear = currentDate.getFullYear();
+      if (expirationYear < currentYear || (expirationYear === currentYear && expirationMonth < currentMonth)) {
+        return false;
+      }
+      return true;
     }
   </script>
 </body>

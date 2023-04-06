@@ -44,7 +44,7 @@ function updateProduct(index, userId, action){
         amount.innerHTML = parseInt(amount.innerHTML) + 1;
     }else if(action == "delete"){
         if(parseInt(amount.innerHTML) <= 1){
-            div.remove();
+            location.reload();
         }else{
             amount.innerHTML = parseInt(amount.innerHTML) - 1;
         }

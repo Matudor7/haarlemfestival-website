@@ -32,7 +32,8 @@
             ?>
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (EUR)</span>
-              <strong>&euro; <?php echo $totalPrice?></strong>
+              <strong style="margin-left: 70%">&euro; </strong>
+              <strong id="totalPrice"><?php echo $totalPrice?></strong>
             </li>
           </ul>
         </div>
@@ -94,10 +95,6 @@
                   <input id="ideal" name="paymentMethod" type="radio" class="form-check-input" required="">
                   <label class="form-check-label" for="ideal">iDeal</label>
                 </div>
-                <div class="form-check">
-                  <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-                  <label class="form-check-label" for="paypal">PayPal</label>
-                </div>
               </div>
     
               <div class="row gy-3">
@@ -136,15 +133,19 @@
           </form>
             <hr class="my-4">
   
-            <button class="w-100 btn btn-success btn-lg" type="submit">Checkout</button>
+            <button class="w-100 btn btn-success btn-lg" type="submit" onclick="submitData()">Checkout</button>
       </div>
   </div>
 
   <script>
+      var totalPrice = document.getElementById("totalPrice");
+
+      console.log(parseInt(totalPrice.innerText));
+      
       var firstName = document.getElementById("firstName");
       var lastName = document.getElementById("lastName");
       var email = document.getElementById("email");
-      var address = dcoument.getElementById("address");
+      var address = document.getElementById("address");
       var zip = document.getElementById("zip");
       const zipRegEx = /^\d{4}[a-zA-Z]{2}$/;
 
@@ -159,17 +160,49 @@
       var cardCvvRegEx = /^[0-9]{3,4}$/;
 
     function submitData(){
-      //TODO: make variables of all input fields, then POST the data to the checkoutController
+      console.log(invalidData());
       if(!invalidData()){
-        
-      }
+        var paymentMethod;
 
+        if(credit.checked){
+          paymentMethod = "Credit Card";
+        } else{
+          paymentMethod = "iDeal";
+        }
+
+        const paymentData =
+        {
+          first_name: firstName.value.trim(),
+          last_name: lastName.value.trim(),
+          email: email.value.trim(),
+          address: address.value.trim(),
+          zip: zip.value.trim(),
+          payment_method: paymentMethod,
+          card_name: cardName.value.trim(),
+          card_number: cardNumber.value.trim(),
+          card_expiration:cardExpiration.value.trim(),
+          CVV: cardCvv.value.trim(),
+          total: parseInt(totalPrice.innerText)
+        };
+
+        console.log(paymentData);
+
+        fetch("http://localhost/api/checkout",{
+          method: 'POST',
+          headers: {'Content-Type' : 'application/json',},
+          body: JSON.stringify(paymentData),
+        })
+        .then((data)=> {console.log('Output: ', data);
+        })
+        .catch(error => {console.error('ERROR: ', error);
+        });
+      }
     }
 
     function invalidData(){
-      return (firstname.value.trim() == "" && lastName.value.trim() == "" && email.value.trim() == "" && address.value.trim() == ""
-              && !zipRegEx.test(zip.value.trim()) && (!credit.checked || !ideal.checked || !paypal.checked) && cardName.value.trim() == ""
-              && !validateExpirationDate(cardExpiration.value.trim()) && !cardCvvRegEx.test(cardCvv.value.trim()));
+      return (firstName.value.trim() == "" || lastName.value.trim() == "" || email.value.trim() == "" || address.value.trim() == ""
+              || !zipRegEx.test(zip.value.trim()) || (!credit.checked && !ideal.checked) || cardName.value.trim() == ""
+              || !validateExpirationDate(cardExpiration.value.trim()) || !cardCvvRegEx.test(cardCvv.value.trim()));
     }
 
     function validateExpirationDate(cardExpirationDate){

@@ -13,6 +13,7 @@ class Payment implements JsonSerializable{
     private string $card_number = "";
     private string $card_expiration = "";
     private string $CVV = "";
+    private int $total = 0;
 
     #[ReturnTypeWillChange]
 
@@ -111,6 +112,14 @@ class Payment implements JsonSerializable{
 
     public function setCvv(string $CVV){
         $this->CVV = $CVV;
+    }
+
+    public function getTotal(): int{
+        return $this->total;
+    }
+
+    public function setTotal(int $total){
+        $this->total = $total;
     }
 }
 ?>

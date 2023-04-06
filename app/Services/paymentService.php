@@ -9,9 +9,9 @@ class PaymentService{
         return $payments;
     }
 
-    public function insert(int $user_id, $payment){
-        $paymentRepo = new PaymentService();
-        $paymentRepo->insert($user_id, $payment);
+    public function insert($payment){
+        $paymentRepo = new PaymentRepository();
+        $paymentRepo->insert($payment);
     }
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require __DIR__ . '/../../Services/paymentService.php';
 require_once __DIR__ . '/../../Models/paymentModel.php';
 
@@ -33,6 +34,9 @@ class CheckoutController{
             $payment->setCardNumber($paymentData["card_number"]);
             $payment->setCardExpiration($paymentData["card_expiration"]);
             $payment->setCvv($paymentData["CVV"]);
+            $payment->setTotal($paymentData["total"]);
+
+            $this->paymentService->insert($payment);
         }
     }
 }

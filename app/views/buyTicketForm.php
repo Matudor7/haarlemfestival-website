@@ -26,17 +26,8 @@
 
 
             <div id="products" class="form-group m-3">
-                <div class="list-group">
-                    <?php foreach($tickets as $ticket){?>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-75 justify-content-between">
-                            <h6 class="mb-1"><?php echo $ticket->getName()?></h6>
-                            <small><?php echo "€".$ticket->getPrice()?></small>
-                        </div>
-                        <p class="mb-1"><?php echo $ticket->getProductDate()." at ".$ticket->getProductTime()?></p>
-                        <small>Location: <?php echo $ticket->getLocation()?></small>
-                    </a>
-                    <?php } ?>
+                <div id="productList" class="list-group">
+
                 </div>
             </div>
 
@@ -64,18 +55,39 @@
     const dateDropdown = document.getElementById('selectDateInput');
     const timeDropdown = document.getElementById('selectTimeInput');
     const testingLabel = document.getElementById('testingLabel');
+    const productListDiv = document.getElementById('productList');
 
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
 
         updateTimeOptions(selectedDate);
+        updateProductList(selectedDate, null);
     })
 
     timeDropdown.addEventListener('change',(event) => {
         const selectedTime = event.target.value;
     })
 
+    function updateProductList(selectedDate, selectedTime){
+        productListDiv.innerHTML = "";
 
+        <?php foreach ($tickets as $ticket) {?>
+        var date = "<?php echo $ticket->getProductDate();?>";
+        var time = "<?php echo $ticket->getProductTime();?>";
+        var product = document.createElement("p");
+
+        if (date == selectedDate && selectedTime == null){
+
+            var text = document.createTextNode("this is a product with date: " + selectedDate)
+            product.appendChild(text);
+
+        } else if (date == selectedDate && time == selectedTime){
+            var text = document.createTextNode("this is a product with date: " + selectedDate)
+            product.appendChild(text);
+        }
+        productListDiv.appendChild(product);
+        <?php }?>
+    }
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");

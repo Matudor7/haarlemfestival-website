@@ -165,9 +165,9 @@
         var paymentMethod;
 
         if(credit.checked){
-          paymentMethod = "Credit Card";
+          paymentMethod = "creditcard";
         } else{
-          paymentMethod = "iDeal";
+          paymentMethod = "ideal";
         }
 
         const paymentData =
@@ -194,6 +194,7 @@
         })
         .then((data)=> {console.log('Output: ', data);
         })
+        .then(() => {window.location.href = '/checkout/payment?total=' + paymentData.total + "&paymentmethod=" + paymentMethod;})
         .catch(error => {console.error('ERROR: ', error);
         });
       }

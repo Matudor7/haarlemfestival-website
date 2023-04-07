@@ -9,11 +9,17 @@ class CheckoutController extends Controller{
     }
 
     function payment(){
-        
+        if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
+            require __DIR__ . '/../views/checkout/payment.php';
+        }
     }
 
     function return(){
+        require __DIR__ . '/../views/checkout/return.php';
+    }
 
+    function webhook(){
+        require __DIR__ . '/../views/checkout/webhook.php';
     }
 }
 ?>

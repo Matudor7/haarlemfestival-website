@@ -7,5 +7,13 @@ class CheckoutController extends Controller{
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/checkout/index.php';
     }
+
+    function payment(){
+        
+    }
+
+    function return(){
+
+    }
 }
 ?>

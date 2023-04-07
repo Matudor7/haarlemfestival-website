@@ -22,21 +22,22 @@
                 ?>
             </select>
             <select id="selectTimeInput" class="form-select col" aria-label="Default select example">
-                <option selected>Select Time</option>
-                <?php
-                //$times = array();
-                //foreach($tickets as $ticket) {
-                  //  $time = $ticket->getProductTime();
-                    //if(!in_array($time, $times)) {
-                      //  $times[] = $time;
-                        //echo "<option value=\"$time\">$time</option>";
-                    //}
-                //}
-                ?>
             </select>
 
-            <div id="products" class="form-group">
-            <button id="productButton" type="button" class="btn btn-primary btn-lg"><?php $ticket->getProductDate()?></button>
+
+            <div id="products" class="form-group m-3">
+                <div class="list-group">
+                    <?php foreach($tickets as $ticket){?>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-75 justify-content-between">
+                            <h6 class="mb-1"><?php echo $ticket->getName()?></h6>
+                            <small><?php echo "€".$ticket->getPrice()?></small>
+                        </div>
+                        <p class="mb-1"><?php echo $ticket->getProductDate()." at ".$ticket->getProductTime()?></p>
+                        <small>Location: <?php echo $ticket->getLocation()?></small>
+                    </a>
+                    <?php } ?>
+                </div>
             </div>
 
 
@@ -67,13 +68,19 @@
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
 
-        testingLabel.innerText = selectedDate.toString();
-
         updateTimeOptions(selectedDate);
     })
 
+    timeDropdown.addEventListener('change',(event) => {
+        const selectedTime = event.target.value;
+    })
+
+
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.text = "Select Time"
+        timeDropdown.add(defaultOption);
 
         <?php foreach ($tickets as $ticket) {?>
             var date = "<?php echo $ticket->getProductDate();?>";

@@ -23,5 +23,7 @@ $payment = $mollie->payments->create([
     "redirectUrl" => "https://7623-213-10-175-251.eu.ngrok.io/checkout/return",
 ]);
 
+$paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
+
 header("Location: " . $payment->getCheckoutUrl());
 ?>

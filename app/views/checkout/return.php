@@ -4,11 +4,10 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
-$payment = $mollie->payments->get($_GET['id']);
+$payment = $mollie->payments->get($paymentObject->getPaymentId());
 
 if ($payment->isPaid()) {
-    echo "Payment Succeeded!";
-    header("Location: /");
+    header("Location: http://localhost/");
 } else {
     echo "Payment Failed...";
 }

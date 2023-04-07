@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <?php include __DIR__ . "/../navfordance.php"; ?>
+    <?php include __DIR__ . "/../nav.php"; ?>
 
     <main class="container-fluid">
         <div class="row my-5">
@@ -121,11 +121,27 @@
             <!--This is a placeholder now. if we can do, we'll put a map like 
             google maps there, if we cant, i will put a bootstrap carousel here -->
             <div class="col-md-4 order-md-2 mb-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                </h4>
-                <img src="/media/dancePics/PlaceHolderMap.png" alt="..." class="img-thumbnail">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        <?php $i = 1; foreach ($danceLocations as $danceLocation) { ?>
+                        <div class="carousel-item<?php echo $i == 1 ? ' active' : ''; ?>">
+                            <img src="<?php echo $danceLocation->getDanceLocationImageUrl(); ?>" class="d-block w-100"
+                                alt="<?php echo $danceLocation->getDanceLocationImageUrl(); ?>'s photo">
+                        </div>
+                        <?php $i++; } ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
-
             <div class="col-md-8 order-md-1">
                 <ul class="mx-4 list-group list-group-flush">
                     <!-- Locations Loop-->
@@ -247,12 +263,10 @@
         </div>
     </main>
 
-    <?php include __DIR__ . "/../footerfordance.php"; ?>
+    <?php include __DIR__ . "/../footer.php"; ?>
 
-    
+
     <script src="/js/scriptfile.js"></script>
-    
-
 </body>
 
 <style>

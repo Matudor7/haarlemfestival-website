@@ -25,26 +25,29 @@ include __DIR__ . '/../nav.php';
         <label for="restaurant_foodType">Food Type:</label>
         <select name="restaurant_foodType" id="restaurant_foodType">
             <?php foreach ($foodTypes as $foodtype){?>
-                <option value="<?=$foodtype->getFoodTypeId()?>"><?=$foodtype->getFoodType()?></option>
+                <option value="<?=$foodtype->getFoodTypeId()?>"><?=$restaurant->getFoodTypeName()?></option>
+
             <?php }?>
         </select>
         <br><br>
         <label for="restaurant_rating">Rating:</label>
         <select name="restaurant_rating" id="restaurant_rating">
             <?php foreach ($ratings as $rating){?>
-                <option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option>
+                <option value="<?=$rating->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
+                <!--<option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option> -->
             <?php }?>
         </select>
         <br><br>
         <label for="restaurant_kidsPrice">Kids Price:</label>
-        <input type="number" name="restaurant_kidsPrice" id="restaurant_kidsPrice" min="0" step="0.01">
+        <input type="number" value="<?=$restaurant-> getRestaurantKidsPrice()?>" name="restaurant_kidsPrice" id="restaurant_kidsPrice" min="0" step="0.01">
         <br><br>
 
         <label for="restaurant_adultsPrice">Adults Price:</label>
-        <input type="number" name="restaurant_adultsPrice" id="restaurant_adultsPrice" min="0" step="0.01">
+        <input type="number" value="<?=$restaurant-> getRestaurantAdultsPrice()?>" name="restaurant_adultsPrice" id="restaurant_adultsPrice" min="0" step="0.01">
         <br><br>
         <label for="duration">Duration:</label>
         <select name="duration" id="duration">
+            <option value="<?=$restaurant->getDuration()?>"><?=$restaurant->getDuration()?></option>
             <option value="01:00:00">1 hour</option>
             <option value="01:30:00">1 hour 30 minutes</option>
             <option value="02:00:00">2 hours</option>
@@ -55,29 +58,31 @@ include __DIR__ . '/../nav.php';
 
         <label for="haveDetailPage">Have Detail Page:</label>
         <select name="haveDetailPage" id="haveDetailPage">
+            <option value="<?=$restaurant->getDetailPageAsYesOrNoTxt()?>"><?=$restaurant->getDetailPageAsYesOrNoTxt()?></option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
         </select>
         <br><br>
 
         <label for="opening_time">Opening Time:</label>
-        <input type="time" name="opening_time" id="opening_time">
+        <input type="time" value="<?=$restaurant-> getRestaurantOpeningTime()?>" name="opening_time" id="opening_time">
         <br><br>
 
         <label for="time_slots">Number of Time Slots:</label>
-        <input type="number" name="numTime_slots" id="numTime_slots" min="1" max="4">
+        <input type="number" value="<?=$restaurant->  getNumberOfTimeSlots()?>" name="numTime_slots" id="numTime_slots" min="1" max="4">
         <br><br>
         <br>
 
         <label for="num_seats">Number of Seats:</label>
-        <input type="number" name="num_seats" id="num_seats" min="1">
+        <input type="number" value="<?=$restaurant->   getRestaurantNumberOfAvailableSeats()?>" name="num_seats" id="num_seats" min="1">
         <br><br>
 
+       <!-- <p><img style="width: 100%; height=350;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"</p>-->
         <label for="restaurant_pictureURL">Picture URL:</label>
-        <input type="text" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <input type="image" value="<?=$restaurant->    getRestaurantPictureURL()?>" name="restaurant_pictureURL" id="restaurant_pictureURL">
         <br><br>
 
-        <input type="submit" name="addRestaurant"  class="btn btn-success" value="Add Restaurant">
+        <input type="submit" name="updateRestaurant"  class="btn btn-success" value="Update Restaurant">
     </form>
 </div>
 </body>

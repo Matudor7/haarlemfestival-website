@@ -9,6 +9,29 @@ class User
     private string $user_lastName;
     private string $user_email;
     private string $user_password;
+    private int $userTypeId;
+    private DateTime $user_registrationDate;
+
+
+    public function getUserRegistrationDate(): DateTime
+    {
+        return $this->user_registrationDate;
+    }
+
+    public function setUserRegistrationDate(DateTime $user_registrationDate): void
+    {
+        $this->user_registrationDate = $user_registrationDate;
+    }
+
+    public function getUserTypeId(): int
+    {
+        return $this->userTypeId;
+    }
+
+    public function setUserTypeId(int $userTypeId): void
+    {
+        $this->userTypeId = $userTypeId;
+    }
 
 
     public function getUserId(): int
@@ -86,15 +109,22 @@ class User
         $this->user_password = $user_password;
     }
 
-    public function getUserUserType(): string
+    public function getUserTypeName()
     {
-        return $this->user_userType;
+        require_once __DIR__ . '/../Services/UserTypeService.php';
+        require_once __DIR__ . '/../Models/userType.php';
+        $userTypeService = new UserTypeService();
+        $userType = $userTypeService->getUserTypeByID($this->userType_id);
+        return $userType->getUserType();
     }
 
-    public function setUserUserType(string $user_userType): void
+    public function getUserTypeName2($userId) // this one WORKS, the one above doesnt (at least for my code it didnt work), we should delete one. 
+    //I didnt want to touch your code that's why i didnt delete or do anything -beth
     {
-        $this->user_userType = $user_userType;
+        require_once __DIR__ . '/../Services/UserTypeService.php';
+        require_once __DIR__ . '/../Models/userType.php';
+        $userTypeService = new UserTypeService();
+        $userTypeName = $userTypeService->getUserTypeNameByUserId($userId);
+        return $userTypeName;
     }
-    private string $user_userType;
-
 }

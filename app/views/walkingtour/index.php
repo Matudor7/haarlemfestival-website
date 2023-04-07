@@ -70,7 +70,7 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill">sing me up!</button>	
+        <button class="rounded-pill" onClick="openTicketForm()">sing me up!</button>
     </div>
 </div>
 </div>
@@ -100,54 +100,115 @@
         <p>We have plenty of timeslots available during the festival weekend; as well as multiple languages. make sure to reserve your spot. We can’t wait to show you the secrets Haarlem has in store!</p>
 <table id="timetable-table" class="table table-bordered border-dark">
   <thead>
-    <th scope="col" class="border border-dark border-4">date</th>
-    <th scope="col" class="border border-dark border-4">time</th>
-    <th scope="col" class="border border-dark border-4">English</th>
-    <th scope="col" class="border border-dark border-4">Dutch</th>
-    <th scope="col" class="border border-dark border-4">Chinese</th>
+    <th scope="col" class="border border-dark border-4">Date</th>
+    <th scope="col" class="border border-dark border-4">Time</th>
+    <?php foreach ($languages as $language) {?>
+    <th scope="col" class="border border-dark border-4"><?php echo $language->getTourLanguage()?></th>
+  <?php } ?>
     <th scope="col" class="border border-dark border-4">Spots</th>
   </thead>
   <tbody class="border border-botttom-0 border-start-0 border-4 border-dark">
-  <?php foreach ($timetables as $timetable) {?>
+        <?php
+        foreach ($timetables as $timetable) {
+            $date = $timetable->getTimetableStartDate()->format(' D dS / M');
+
+            if (!isset($timetablesByDate[$date])) {
+                $timetablesByDate[$date] = array();
+            }
+            $timetablesByDate[$date][] = $timetable;
+        }
+
+        foreach ($timetablesByDate as $date => $timetables) {
+        ?>
     <tr>
-        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $timetable->getTimetableStartDateTime()->format(' D dS / M')?></th>
+        <th scope="row" class="border border-dark border-4 border-top-0"><?php echo $date?></th>
+
       <td class="p-0">
         <table class="table p-0 m-0">
-          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>10:00</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>13:00</td></tr>
-            <tr><td class="border border-0">16:00</td></tr>
-        </tr>
+            <?php
+            // Loop through the timetables for the current date
+            foreach ($timetables as $timetable) {
+                ?>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                    <td><?php echo $timetable->getTimetableStartTime()->format('H:i'); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
         </table>
       </td>
 
-      <td class="p-0">
-        <table class="table my-0">
-          <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-            <tr><td class="border border-0">1</td></tr>
-        </tr>
-        </table>
-</td>
+        <!---<//**?php foreach ($languages as $language) {
+             ?>
         <td class="p-0">
             <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr><td class="border border-0">1</td></tr>
-            </tr>
-            </table>
-</td>
+                <//?php
+                foreach ($timetables as $timetable){
+                    $count=0;
 
-        <td class="p-0">
-            <table class="table my-0">
-            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>0</td></tr>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td>1</td></tr>
-                <tr><td class="border border-0">0</td></tr>
-            </tr>
+            foreach ($walkingTours as $walkingTour){
+
+                if($walkingTour->getTourLanguage() == $language){
+                    if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()){
+                        if($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()){
+                            $count++;
+                            ?>
+                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td><//?php echo ($count > 0) ? $count : 0; ?></td></tr>
+                <//?php
+                        }
+                    }}
+                    ?>
+
+        <//?php }}?>
             </table>
-</td>
-<td>12</td>
+        <//?php } ?>
+</td>!--->
+
+        <?php foreach ($languages as $language) { ?>
+            <td class="p-0">
+                <table class="table my-0">
+                    <?php
+                    foreach ($timetables as $timetable) {
+                        $count = 0;
+                        $found_tour = false;
+
+                        foreach ($walkingTours as $walkingTour) {
+                            if ($walkingTour->getTourLanguage() == $language) {
+                                if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()) {
+                                    if ($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()) {
+                                        $count++;
+                                        $found_tour = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($found_tour) {
+                            ?>
+                            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                                <td><?php echo $count ?></td>
+                            </tr>
+                            <?php
+                        } else {
+                            ?>
+                            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+                                <td>0</td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                </table>
+            </td>
+        <?php } ?>
+<td class="p-0"><table class="table p-0 m-0">
+        <?php $index=0; foreach ($timetables as $timetable){?>
+            <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0">
+            <td><?php echo $walkingTours[$index]->getTourCapacity()?></td>
+            </tr><?php $index++; } ?>
+    </table></td>
     </tr>
-  <?php } ?>
+  <?php }?>
   </tbody>
 </table>
 

@@ -2,6 +2,7 @@
 session_start();
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/paymentService.php';
+require_once __DIR__ . '/../Services/shoppingCartService.php';
 
 class CheckoutController extends Controller{
     function index(){
@@ -18,6 +19,7 @@ class CheckoutController extends Controller{
 
     function return(){
         $paymentService = new PaymentService();
+        $shoppingCartService = new ShoppingCartService();
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
         require __DIR__ . '/../views/checkout/return.php';

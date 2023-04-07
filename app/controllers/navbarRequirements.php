@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../Services/eventService.php';
-require __DIR__ . '/../Services/productService.php';
-require __DIR__ . '/../Services/shoppingCartService.php';
+require_once __DIR__ . '/../Services/productService.php';
+require_once __DIR__ . '/../Services/shoppingCartService.php';
 
 $eventService = new EventService();
 $events = $eventService->getAll();

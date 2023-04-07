@@ -45,4 +45,16 @@ class ShoppingCartRepository extends Repository{
 
         $statement->execute();
     }
+
+    public function removeCartFromUser($user_id){
+        try{
+            $statement = $this->connection->prepare("DELETE FROM shopping_cart WHERE user_id=:userId");
+
+            $statement->bindParam(':userId', $user_id);
+    
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

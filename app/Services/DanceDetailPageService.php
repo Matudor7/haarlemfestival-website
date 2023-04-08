@@ -9,10 +9,6 @@ class DanceDetailPageService
     public function __construct() {
         $this->danceDetailPageRepository = new DanceDetalPageRepository(); 
     }
-    public function getDanceDetailPageContentById($detail_id)
-    {
-        return 1;
-    }
 
     public function getDanceEventsByArtistId($artist_id){
         $danceEvents = $this->danceDetailPageRepository->getDanceEventsByArtistIdFromDatabase($artist_id);

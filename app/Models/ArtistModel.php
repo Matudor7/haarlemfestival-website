@@ -4,13 +4,13 @@ class ArtistModel implements JsonSerializable{
     private int $dance_artist_id = 0;
     private string $dance_artist_name = "";
     private string $dance_artistMusicTypes = "";
-    private bool $dance_artist_hasDetailPage;
+    private bool $dance_artist_hasDetailPage = false;
     private string $dance_artist_imageUrl;
-    private string $dance_artist_detailPageBanner = "";
+    private ?string $dance_artist_detailPageBanner = null;
     private ?string $dance_artist_subHeader = null;
-    private string $dance_artist_longDescription = "";
-    private string $dance_artist_longDescriptionPicture = "";
-    private string $dance_artist_detailPageSchedulePicture = "";
+    private ?string $dance_artist_longDescription = null;
+    private ?string $dance_artist_longDescriptionPicture = null;
+    private ?string $dance_artist_detailPageSchedulePicture = null;
 
     #[ReturnTypeWillChange]
 

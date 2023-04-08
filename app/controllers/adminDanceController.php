@@ -16,11 +16,14 @@ class AdminDanceController extends Controller
     }
     public function index()
     {
+        $events = $this->eventService->getAll();
+
         require __DIR__ . "/../views/admin/danceAdminIndex.php";
     }
 
     public function danceAdminManage()
     {
+        $events = $this->eventService->getAll();
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
         $danceEvents = $this->danceService->getAllDanceEvents();

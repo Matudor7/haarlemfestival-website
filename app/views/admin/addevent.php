@@ -66,7 +66,7 @@
                     headers: {'Content-Type' : 'application/json',},
                     body: JSON.stringify(eventData),
                 })
-                //.then(response => {goBack()})
+                .then(response => {goBack()})
                 .catch((err) => {console.error('Error: ', err);});
             }
         }

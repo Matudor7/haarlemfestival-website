@@ -6,7 +6,7 @@ class FestivalRepository extends Repository{
     public function getFestival()
     {
         try{
-            $statement = $this ->connection->prepare("SELECT festival.festival_id, festival.festival_startingDate, festival.festival_endingDate, festival.event_id, event.event_name FROM festival INNER JOIN event ON festival.event_id = event.event_id");
+            $statement = $this ->connection->prepare("SELECT id, festival_startingDate, festival_endingDate, event_id, event_name FROM festival");
             $statement ->execute();
 
             $statement -> setFetchMode(PDO::FETCH_CLASS, 'Festival');
@@ -18,13 +18,45 @@ class FestivalRepository extends Repository{
         }
     }
 
-    //This does not work as intended: changes all festival events at once
-    public function changeEvent(string $newEventName, string $oldEventName, int $eventId){
+    public function getById(int $id){
         try{
-            $statement = $this->connection->prepare("UPDATE festival SET event_id = :eventId, event_name = :newEventName WHERE festival_id IN (SELECT festival_id FROM festival WHERE event_name = :oldEventName)");
-            $statement->bindParam(':eventId', $eventId);
+            $statement = $this ->connection->prepare("SELECT id, festival_startingDate, festival_endingDate, event_id, event_name FROM festival WHERE id=:id");
+            $statement->bindParam(':id', $id);
+            
+            $statement ->execute();
+
+            $statement -> setFetchMode(PDO::FETCH_CLASS, 'Festival');
+            $festival = $statement->fetch();
+
+            return $festival;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getByEventName(string $eventName){
+        try{
+            $statement = $this ->connection->prepare("SELECT id, festival_startingDate, festival_endingDate, event_id, event_name FROM festival WHERE event_name=:eventName");
+            $sanitizedName = htmlspecialchars($eventName);
+            $statement->bindParam(':eventName', $sanitizedName);
+            
+            $statement ->execute();
+
+            $statement -> setFetchMode(PDO::FETCH_CLASS, 'Festival');
+            $festival = $statement->fetch();
+
+            return $festival;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    
+    public function changeEvent(int $id, string $newEventName, int $newEventId){
+        try{
+            $statement = $this->connection->prepare("UPDATE festival SET event_id = :eventId, event_name = :newEventName WHERE id=:id");
+            $statement->bindParam(':eventId', $newEventId);
             $statement->bindParam(':newEventName', $newEventName);
-            $statement->bindParam(':oldEventName', $oldEventName);
+            $statement->bindParam(':id', $id);
             $statement->execute();
 
         }catch(PDOException $e){

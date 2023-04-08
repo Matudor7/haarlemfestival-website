@@ -1,8 +1,26 @@
 
-<footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mx-0 py-0 mt-5 mb-0 border-top bg-dark">
+<?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
+    if (
+        $_SERVER["REQUEST_URI"] == "/dance" ||
+        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
+    ) {
+        echo '<footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mx-0 py-0 mt-5 mb-0 border-top" style="background-color: #141414;">';
+    } else {
+        echo '<footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mx-0 py-0 mt-5 mb-0 border-top bg-dark">';
+    } ?>
+
     <div class="col mb-3 text-center">
     <a class="navbar-brand px-0 mx-0 py-0" href="#">
-            <img src="/media/FooterLogo.jpg" class="img-fluid " alt="Logo">
+    <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
+    if (
+        $_SERVER["REQUEST_URI"] == "/dance" ||
+        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
+    ) {
+        echo '<img src="/media/FooterLogoForDance.jpg" class="img-fluid " alt="Logo">';
+    } else {
+        echo '<img src="/media/FooterLogo.jpg" class="img-fluid " alt="Logo">';
+    } ?>
+            
       </a>
     </div>
 

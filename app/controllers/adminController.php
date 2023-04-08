@@ -16,12 +16,14 @@ class AdminController extends Controller
     private $danceService;
     private $events;
     private $yummyService;
+    private $userService;
 
     public function __construct()
     {
         $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
+        $this->userService = new UserService();
 
         $this->events = $this->eventService->getAll();
     }
@@ -293,5 +295,109 @@ class AdminController extends Controller
 
         $this->registerUserPage();
         unset($_SESSION['userCreationMessage']);*/
+    
+    
+
+    
+    // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 
+    // done by: Betül Beril Dündar - 691136 
+    function users(){   
+        $events = $this->eventService->getAll();
+        $searchString = "";
+        $sortType = "";
+        $filterType = "";
+
+        if(isset($_GET["search"]) && !empty(trim($_GET["search"]))) { 
+            $searchString = htmlspecialchars($_GET["search"], ENT_QUOTES, "UTF-8");
+        }
+        if(isset($_GET["sortBy"])) {
+            $sortType = $_GET["sortBy"];
+        }
+        if(isset($_GET["filter"])) {
+            $filterType = $_GET["filter"];
+        }
+
+        switch(true) { //searching, filtering and sorting
+            case !empty($searchString): 
+                $allUsers = $this->userService->getUsersBySearch($searchString);
+                break;
+            case ($sortType == 'laterRegistrationDate'):
+                $allUsers = $this->userService->getAllUsersByLaterRegistrationDate(); 
+                break;
+            case ($sortType == 'usernameAlphabetical'):
+                $allUsers = $this->userService->getAllUsersByUsrnameAlphabetical(); 
+                break;
+            case ($filterType == 'admins'):
+                $allUsers = $this->userService->getAllAdminUsers(); 
+                break;
+            case ($filterType == 'employees'):
+                $allUsers = $this->userService->getAllEmployeeUsers(); 
+                break;
+            case ($filterType == 'customers'):
+                $allUsers = $this->userService->getAllCustomerUsers(); 
+                break;
+            default:
+                $allUsers = $this->userService->getAllUsersFromDatabase(); 
+                break;
+        }
+        require __DIR__ . "/../views/admin/users.php";
+    }
+
+    function addUser(){
+        $userTypeService = new UserTypeService();        
+        $allUserTypes = $userTypeService->getAllUserType();   
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $user = new User();
+            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
+            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
+            $user->setUserPassword($_POST['userAdminPasswordTextBox']);
+            $user->setUsername($_POST['userAdminUsernameTextBox']);
+            $user->setUserEmail($_POST['userAdminEmailTextBox']);
+            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
+
+            $this->userService->createUser($user);
+            header('Location: /admin/users');
+       }
+
+        require __DIR__ . "/../views/admin/addUser.php";
+    }
+          
+    function editUser(){
+        $userTypeService = new UserTypeService();        //TODO do ctor
+        $allUserTypes = $userTypeService->getAllUserType();
+        $userToEdit = $this->userService->getByID($_GET['id']); 
+
+        if (isset($_POST['editbutton'])) {
+            if(isset($_POST['userAdminImageInput']) && ($_POST['userAdminImageInput'] !== null || $_POST['userAdminImageInput'] !== '')){
+                try {
+                    $imageUrl = $_FILES['userAdminImageInput']['tmp_name'];
+                    $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userAdminUsernameTextBox'])));
+                    $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
+                    move_uploaded_file($imageUrl, $downloadPath);
+                    $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }               
+            else{
+                $downloadPath = $userToEdit->getUserPicURL(); //if new photo isnt added, the old photo remains as profile picture.
+            }     
+            $user = new User();
+            $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
+            $user->setUserLastName($_POST['userAdminLastnameTextBox']);
+            $user->setUsername($_POST['userAdminUsernameTextBox']);
+            $user->setUserEmail($_POST['userAdminEmailTextBox']);
+            $user->setUserTypeId($_POST['userAdminUserTypeDropdown']);
+            $user->setUserPicURL($downloadPath);
+            $this->userService->updateUser($userToEdit, $user);   
+        }  
+        require __DIR__ . "/../views/admin/editUser.php";
+    } 
+
+    function deleteUser(){
+        $userToDelete = $this->userService->getByID($_GET['id']); 
+        $this->userService->deleteUser($userToDelete);
+        header('Location: /admin/users');
+    }
 }
 ?>

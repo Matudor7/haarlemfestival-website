@@ -32,4 +32,17 @@ class userTypeRepository extends Repository
             echo $e;
         }
     }
+
+    public function getUserTypeNameByUserId($userId){ // the getTypeById method doesnt work, but this one works, i didnt want to touch Ale's code but we must discuss which one to use.
+        $sql = "SELECT ut.userType FROM userType ut JOIN user u ON ut.userTypeId = u.userTypeId WHERE u.user_id = :userId";
+        try{
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result['userType'];
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    } 
 }

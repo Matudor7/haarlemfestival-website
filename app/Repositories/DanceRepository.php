@@ -64,6 +64,7 @@ class DanceRepository extends Repository{
         }
     }
     
+    
     public function insertNewArtist($newArtist){
         $sql = "INSERT INTO `dance_artist`(`dance_artist_name`, `dance_artist_hasDetailPage`, `dance_artist_imageUrl`) VALUES (?, ?, ?)"; 
         try {
@@ -73,17 +74,68 @@ class DanceRepository extends Repository{
                 (int) $newArtist->getHasDetailPage(), // convert boolean to integer otherwise it doesnt send the "false" value.
                 htmlspecialchars($newArtist->getArtistHomepageImageUrl())
             ));
+            $id =  $this ->connection->lastInsertId(); 
+            return $id;
         } catch(PDOException $e) {
             echo $e->getMessage();
         }
     }
     
-    public function insertMusicTypeForNewArtist($newArtist, $musicType){
+    public function insertMusicTypeForNewArtist($newArtistId, $musicType){
         $sql = "INSERT INTO `dance_artistMusicType`(`dance_artistMusicType_artistId`, `dance_artistMusicType_musicTypeId`) VALUES (?, ?)";
         try{
             $statement = $this ->connection->prepare($sql);
-            $statement->execute(array(htmlspecialchars($newArtist->getId()), htmlspecialchars($musicType->getId())));
+            $statement->execute(array((int) $newArtistId, htmlspecialchars($musicType->getId())));
         }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    public function deleteArtistFromDatabase($artist){
+        $sql = "DELETE dance_artist, dance_artistMusicType FROM dance_artist LEFT JOIN dance_artistMusicType ON dance_artist.dance_artist_id = dance_artistMusicType.dance_artistMusicType_artistId
+        WHERE dance_artist.dance_artist_id = :artist_id;"; //this also deletes the artist info in the dance_artistMusicType table.
+        try {
+            $artistId = (int) $artist->getId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':artist_id', $artistId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function editArtistInDatabase($oldArtist, $newArtist){
+        $sql = "UPDATE `dance_artist` SET `dance_artist_name` = :dance_artist_name, `dance_artist_hasDetailPage` = :dance_artist_hasDetailPage,  `dance_artist_imageUrl` =  :dance_artist_imageUrl WHERE `dance_artist_id` = :dance_artist_id";
+        try{
+            $statement = $this->connection->prepare($sql);
+    
+            $sanitizedName = htmlspecialchars($newArtist->getName());
+            $sanitizedImageUrl = htmlspecialchars($newArtist->getArtistHomepageImageUrl());
+            $detailPageValue = (int) $newArtist->getHasDetailPage();
+            $oldArtistId = $oldArtist->getId();
+        
+            $statement->bindParam(':dance_artist_name', $sanitizedName);
+            $statement->bindParam(':dance_artist_imageUrl', $sanitizedImageUrl); 
+            $statement->bindParam(':dance_artist_hasDetailPage', $detailPageValue, PDO::PARAM_INT); 
+            $statement->bindParam(':dance_artist_id', $oldArtistId, PDO::PARAM_INT);
+        
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function editArtistMusicTypesInDatabase($artist, $newMusicTypeId){
+        /* // Delete all existing music type records for the artist to replace them with the new ones.
+        This approach simplifies the update process and avoids having to update individual records.
+        We don't need to preserve historical data or track changes over time, so we can safely delete the existing records without any impact on the application's functionality.*/
+        $sql = "DELETE FROM dance_artistMusicType WHERE dance_artistMusicType_artistId = :dance_artist_id; INSERT INTO dance_artistMusicType (dance_artistMusicType_artistId, dance_artistMusicType_musicTypeId) 
+        VALUES (:dance_artist_id, :musicTypeId);";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindValue(':dance_artist_id', (int) $artist->getId(), PDO::PARAM_INT);
+            $statement->bindValue(':musicTypeId', (int) $newMusicTypeId, PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
             echo $e->getMessage();
         }
     }
@@ -117,6 +169,22 @@ class DanceRepository extends Repository{
             return null;
         }
     }
+
+    public function getMusicTypesByArtistFromDatabase($artist){
+        $sql = "SELECT `dance_musicType_id`, `dance_musicType_name` FROM `dance_musicType` JOIN `dance_artistMusicType` damt ON damt.`dance_artistMusicType_musicTypeId` = `dance_musicType`.`dance_musicType_id` JOIN `dance_artist` da ON da.`dance_artist_id` = damt.`dance_artistMusicType_artistId` WHERE da.`dance_artist_id` = :artist_id;";
+        try {
+            $artistId = $artist->getId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':artist_id', $artistId, PDO::PARAM_INT);
+            $statement->execute();
+            $musicTypes = $statement->fetchAll(PDO::FETCH_CLASS, 'MusicType');
+            return $musicTypes;
+        } catch (PDOException $e) {
+            error_log("Cannot retrieve music types for artist with ID {$artist->getId()}: {$e->getMessage()}");
+            return null;
+        }
+    }    
+
     public function insertNewMusicType($newMusicType){
         $sql= "INSERT INTO dance_musicType (dance_musicType_name) VALUES (?);";
         try{
@@ -194,13 +262,13 @@ class DanceRepository extends Repository{
     
             $statement->bindParam(':dance_location_name', $sanitizedName);
             $statement->bindParam(':dance_location_street', $sanitizedStreet);
-            $statement->bindParam(':dance_location_number', $sanitizedNumber);
+            $statement->bindParam(':dance_location_number', $sanitizedNumber, PDO::PARAM_INT);
             $statement->bindParam(':dance_location_postcode', $sanitizedPostcode);
             $statement->bindParam(':dance_location_city', $sanitizedCity);
             $statement->bindParam(':dance_location_urlToTheirSite', $sanitizedUrlToTheirSite);
             $statement->bindParam(':dance_location_imageUrl', $sanitizedImageUrl);      
 
-            $statement->bindParam(':dance_location_id', $oldLocationId);
+            $statement->bindParam(':dance_location_id', $oldLocationId, PDO::PARAM_INT);
     
             $statement->execute();
         }catch(PDOException $e){

@@ -17,7 +17,7 @@ include __DIR__ . '/../nav.php';
 <h1 class="text-center">Edit Restaurant Page</h1><br><br>
 
 <div class="text-center">
-    <form action="/admin/editRestaurant" method="post">
+    <form  class="form" method="post" action="/admin/editRestaurant" enctype="multipart/form-data">
 
         <label for="restaurant_name">Restaurant Name:</label>
         <input type="text" name="restaurant_name" value="<?=$restaurant->getRestaurantName()?>" id="restaurant_name">
@@ -33,12 +33,13 @@ include __DIR__ . '/../nav.php';
         <label for="restaurant_rating">Rating:</label>
         <select name="restaurant_rating" id="restaurant_rating">
             <?php foreach ($ratings as $rating){?>
-                <option value="<?=$rating->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
+                <option  value="<?=$rating->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
                 <!--<option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option> -->
             <?php }?>
         </select>
         <br><br>
         <label for="restaurant_kidsPrice">Kids Price:</label>
+        <input type="hidden" name="restaurant_id" value="<?=$restaurant->getRestaurantId()?>">
         <input type="number" value="<?=$restaurant-> getRestaurantKidsPrice()?>" name="restaurant_kidsPrice" id="restaurant_kidsPrice" min="0" step="0.01">
         <br><br>
 
@@ -77,12 +78,16 @@ include __DIR__ . '/../nav.php';
         <input type="number" value="<?=$restaurant->   getRestaurantNumberOfAvailableSeats()?>" name="num_seats" id="num_seats" min="1">
         <br><br>
 
-       <!-- <p><img style="width: 100%; height=350;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"</p>-->
-        <label for="restaurant_pictureURL">Picture URL:</label>
-        <input type="image" value="<?=$restaurant->    getRestaurantPictureURL()?>" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <div class="text-center" >
+        <label for="restaurant_pictureURL" class="form-label">Change Image: </label>
+        <input type="file" class="form-control text-center" name="restaurant_pictureURL" id="restaurant_pictureURL" accept="image/png, image/jpg">
         <br><br>
+        </div>
 
-        <input type="submit" name="updateRestaurant"  class="btn btn-success" value="Update Restaurant">
+        <!-- <label for="restaurant_pictureURL">Picture URL:</label>
+        <input type="image" value="<?=$restaurant->    getRestaurantPictureURL()?>" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <br><br> -->
+        <input type="submit" name="updateRestaurant" class="btn btn-success" value="Update Restaurant">
     </form>
 </div>
 </body>

@@ -92,12 +92,32 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     public function updateRestaurant($restaurant)
     {
         try {
-            $statement = $this->connection->prepare("UPDATE restaurant SET restaurant_name = :restaurantName, restaurant_kidsPrice = :restaurantKidsPrice,
-        restaurant_adultsPrice = :restaurantAdultsPrice, restaurant_OpeningTime = :restaurantOpeningTime, restaurant_numberOfAvailableSeats = :restaurantNumberOfAvailableSeats,
-        numberOfTimeSlots = :numberOfTimeSlots, duration = :duration, restaurant_isItAvailable = :restaurantIsItAvailable, 
-        restaurant_addressId = :restaurantAddressId, havaDetailPageOrNot = :havaDetailPageOrNot, detail_id = :detailId,
-        restaurant_pictureURL = :restaurantPictureURL, restaurant_foodType = :restaurantFoodType, restaurantRating_id = :restaurantRating_id, 
-        contactInf_id = :contactInfId WHERE restaurant_id = :restaurantId");
+            $statement = $this->connection->prepare("UPDATE restaurant SET 
+    restaurant_name = :restaurantName, 
+    restaurant_kidsPrice = :restaurantKidsPrice,
+    restaurant_adultsPrice = :restaurantAdultsPrice, 
+    restaurant_OpeningTime = :restaurantOpeningTime, 
+    restaurant_numberOfAvailableSeats = :restaurantNumberOfAvailableSeats,
+    numberOfTimeSlots = :numberOfTimeSlots, 
+    duration = :duration, 
+    havaDetailPageOrNot = :havaDetailPageOrNot, 
+    restaurant_pictureURL = :restaurantPictureURL, 
+    foodType_id = :restaurantFoodType, 
+    restaurantRating_id = :restaurantRatingId 
+    WHERE restaurant_id = :restaurantId");
+
+            $restaurantName = $restaurant->getRestaurantName();
+            $restaurantKidsPrice = $restaurant->getRestaurantKidsPrice();
+            $restaurantAdultsPrice = $restaurant->getRestaurantAdultsPrice();
+            $restaurantOpeningTime = $restaurant->getRestaurantOpeningTime();
+            $restaurantNumberOfAvailableSeats = $restaurant->getRestaurantNumberOfAvailableSeats();
+            $numberOfTimeSlots = $restaurant->getNumberOfTimeSlots();
+            $duration = $restaurant->getDuration();
+            $havaDetailPageOrNot = $restaurant->getHavaDetailPageOrNot();
+            $restaurantPictureURL = $restaurant->getRestaurantPictureURL();
+            $restaurantFoodType = $restaurant->getFoodTypeId();
+            $restaurantRatingId = $restaurant->getRestaurantRatingId();
+            $restaurantId = $restaurant->getRestaurantId();
 
             $statement->bindParam(':restaurantName', $restaurantName);
             $statement->bindParam(':restaurantKidsPrice', $restaurantKidsPrice);
@@ -106,21 +126,19 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $statement->bindParam(':restaurantNumberOfAvailableSeats', $restaurantNumberOfAvailableSeats);
             $statement->bindParam(':numberOfTimeSlots', $numberOfTimeSlots);
             $statement->bindParam(':duration', $duration);
-            $statement->bindParam(':restaurantIsItAvailable', $restaurantIsItAvailable);
-            $statement->bindParam(':restaurantAddressId', $restaurantAddressId);
             $statement->bindParam(':havaDetailPageOrNot', $havaDetailPageOrNot);
-            $statement->bindParam(':detailId', $detailId);
             $statement->bindParam(':restaurantPictureURL', $restaurantPictureURL);
             $statement->bindParam(':restaurantFoodType', $restaurantFoodType);
-            $statement->bindParam(':restaurantRating_id', $restaurantRating_id);
-            $statement->bindParam(':contactInfId', $contactInfId);
+            $statement->bindParam(':restaurantRatingId', $restaurantRatingId);
             $statement->bindParam(':restaurantId', $restaurantId);
 
-            $statement->execute();
+            return $statement->execute();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            throw new Exception("Error updating restaurant: " . $e->getMessage());
         }
     }
+
+
     public function deleteRestaurant($restaurantId) {
         try {
             $statement = $this->connection->prepare("DELETE FROM restaurant WHERE restaurant_id = :restaurantId");

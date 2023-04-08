@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,13 +77,12 @@
         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
             onClick="location.href='/login'">Login</button>
     </li>
-
     <li>
         <?php if (isset($_SESSION["user"])) {
-            echo "<a class='nav-link' href='/admin/manageRestaurantPage'>Manage Restaurants</a>"; ?>
+            echo "<a class='nav-link' style='color: white; href='/admin/manageRestaurantPage'>Manage Restaurants</a>"; ?>
     </li>
     <li>
-        <?php echo "<a class='nav-link' href='/admin/registerUser'>Register User</a>";
+        <?php echo "<a class='nav-link' style='color: white; href='/admin/registerUser'>Register User</a>";
         } ?> </li>
     </ul>
 

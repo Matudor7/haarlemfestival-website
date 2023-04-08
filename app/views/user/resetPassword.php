@@ -18,11 +18,11 @@
 include __DIR__ . '/../nav.php';
 ?>
 
-<body class="body"><br>
-<h2> Please enter your email and we will send you a temporary Password</h2>
+<body  class="text-center col-12"><br><br><br>
+<h5> Please enter your email and we will send you a temporary Password</h5><br><br>
 <form method="post" action="/user/resetPassword">
-<input type="text" name="email" placeholder="email"><br><br>
-<input id="sendPassword" type="submit" name="sendPassword" value="Send me a new Password"><br><br>
+<input required type="email"  name="email" placeholder="Enter your email"><br><br>
+<input id="sendPassword" type="submit" class="btn btn-success" name="sendPassword" value="Send me a new Password"><br><br>
 </form>
 
 </div>

@@ -29,15 +29,14 @@ class AdminController extends Controller
     public function index()
     {
         $festivalService = new FestivalService();
-        $eventService = new EventService();
 
         $festival = $festivalService->getFestival();
-        $events = $eventService->getAll();
+        $events = $this->eventService->getAll();
 
         //This does not work as intended: changes all festival events at once
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
-            $newEvent = $eventService->getByName($_POST['events']);
+            $newEvent = $this->eventService->getByName($_POST['events']);
             $festivalService->changeEvent($newEvent->getName(), $festivalEvent->getEventName(), $newEvent->getId());
             echo "Selected event is: " . $_POST['events'];
         }
@@ -126,8 +125,7 @@ class AdminController extends Controller
 
     public function manageRestaurants()
     {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        $events = $this->eventService->getAll();
 
         $yummyService = new YummyService();
         $restaurants = $yummyService->getAllRestaurants();
@@ -185,8 +183,7 @@ class AdminController extends Controller
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        $yummyService = new YummyService();
-        $restaurant = $yummyService->getById($_GET['id']);
+        $restaurant = $this->yummyService->getById($_GET['id']);
 
 
         $foodTypeService = new FoodTypeService();
@@ -199,30 +196,49 @@ class AdminController extends Controller
         require __DIR__ . '/../views/admin/editRestaurantPage.php';
     }
 
-    public function editRestaurant($restaurant)
-    {
-        /* if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['dateOfAppointment']) && !empty($_POST['startingTime']) && !empty($_POST['employee']) && !empty($_POST['service'])) {
-             require_once("../Model/Appointment.php");
-             $appointment = new Appointment();
+    public function editRestaurant(){
+        $restaurant = new RestaurantModel();
 
-             $updatedCustomerName = htmlspecialchars($_POST["name"]);
-             $updatedEmail = htmlspecialchars($_POST["email"]);
-             $updatedDateOfAppointment = htmlspecialchars($_POST["dateOfAppointment"]);
-             $updatedStartingTime = htmlspecialchars($_POST["startingTime"]);
-             $updatedEmployeeId = htmlspecialchars($_POST['employee']);
-             $updatedProductID = htmlspecialchars($_POST['service']);
+        // Retrieve the restaurant object from the database
+        $restaurantId = $_POST['restaurant_id'];
+        $restaurantFromDB = $this->yummyService->getById($restaurantId);
 
-             $appointment->customerName = $updatedCustomerName;
-             $appointment->email = $updatedEmail;
-             $appointment->dateOfAppointment = $updatedDateOfAppointment;
-             $appointment->startingTime = $updatedStartingTime;
-             $appointment->employeeId = $updatedEmployeeId;
-             $appointment->productID = $updatedProductID;
-             $appointment->id = $_POST['id'];
-             require_once("../Service/AppointmentService.php");
-             $appointmentService = new AppointmentService();
-             $appointmentService->updateAppointment($appointment);
-         }*/
+        // Check if user uploaded a new picture URL or not
+        if (!empty($_FILES['restaurant_pictureURL']['name'])) {
+            // Upload the new picture and set the picture URL
+            $restaurant_pictureURL = $_FILES['restaurant_pictureURL']['tmp_name'];
+            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['restaurant_name'])));
+            $downloadPath = '/media/yummyPics/' . $imageName . '.png'; // /media/yummyPics/restaurant.png
+            move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
+            $restaurant->setRestaurantPictureURL($downloadPath);
+        }
+        else {
+            // User did not upload a new picture, keep the one that is saved in the database
+            $restaurant->setRestaurantPictureURL($restaurantFromDB->getRestaurantPictureURL());
+        }
+
+        // Update the existing restaurant object retrieved from the database
+        $restaurant->setRestaurantId($_POST['restaurant_id']);
+        $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
+        $restaurant->setFoodTypeId(htmlspecialchars($_POST['restaurant_foodType']));
+        $restaurant->setRestaurantRatingId(htmlspecialchars($_POST['restaurant_rating']));
+        $restaurant->setRestaurantKidsPrice(htmlspecialchars($_POST['restaurant_kidsPrice']));
+        $restaurant->setRestaurantAdultsPrice(htmlspecialchars($_POST['restaurant_adultsPrice']));
+        $restaurant->setDuration(htmlspecialchars($_POST['duration']));
+        $restaurant->setHavaDetailPageOrNot(htmlspecialchars($_POST['haveDetailPage']));
+        $restaurant->setRestaurantOpeningTime(htmlspecialchars($_POST['opening_time']));
+        $restaurant->setNumberOfTimeSlots(htmlspecialchars($_POST['numTime_slots']));
+        $restaurant->setRestaurantNumberOfAvailableSeats(htmlspecialchars($_POST['num_seats']));
+
+        try {
+            $result = $this->yummyService->updateRestaurant($restaurant);
+            if ($result){
+                header("location: /admin/manageRestaurants");
+                exit();
+            }
+        } catch (Exception $e) {
+            echo "Error updating restaurant: " . $e->getMessage();
+        }
     }
 
     public function deleteRestaurantPage()
@@ -240,7 +256,6 @@ class AdminController extends Controller
 
         $userService = new UserTypeService();
         $userTypes = $userService->getAllUserType();
-
         require_once __DIR__ . '/../views/registerUser.php';
     }
 
@@ -266,8 +281,7 @@ class AdminController extends Controller
                 $status = "danger";
             }
         }
-        require_once("../Views/registerUser.php");
-        // Pass $userCreationMessage and $status variables to the view
+        $this->registerUserPage();
         return [$userCreationMessage, $status];
     }
 

@@ -24,7 +24,21 @@ class ProductRepository extends Repository{
             $statement->execute();
             $product = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
 
-            return $product;
+            return $product[0];
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getProductNameById(int $id){
+        try{
+            $statement = $this->connection->prepare("SELECT name FROM product WHERE id=:id");
+            $statement->bindParam(':id', $id);
+
+            $statement->execute();
+            $productName = $statement->fetch();
+
+            return $productName;
         }catch(PDOException $e){
             echo $e->getMessage();
         }

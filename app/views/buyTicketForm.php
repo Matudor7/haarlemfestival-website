@@ -6,7 +6,7 @@
 <div class="form-popup" id="ticketForm">
         <form action="/action_page.php" class="form-container">
             <h1>Buy <?php echo $thisEvent->getName()?> Tickets</h1>
-            <label id="testingLabel">000</label>
+            <label id="testingLabel">0</label>
             <select id="selectDateInput" class="form-select col" aria-label="Default select example">
                 <option value="Selected"selected>Select Date</option>
 
@@ -27,7 +27,6 @@
 
             <div id="products" class="form-group m-3">
                 <div id="productList" class="list-group">
-
                 </div>
             </div>
 
@@ -42,7 +41,7 @@
             </div>
 
 
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="selectedDate(<?php $ticket->getProductDate()?>)">Add to Cart</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="">Add to Cart</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeTicketForm()">Close</button>
 
         </form>
@@ -56,6 +55,8 @@
     const timeDropdown = document.getElementById('selectTimeInput');
     const testingLabel = document.getElementById('testingLabel');
     const productListDiv = document.getElementById('productList');
+    const productAmountField = document.getElementById("productAmount")
+    const productInfoField = document.getElementById("productInfo");
 
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
@@ -66,28 +67,10 @@
 
     timeDropdown.addEventListener('change',(event) => {
         const selectedTime = event.target.value;
+
+        updateProductList(dateDropdown.value, selectedTime)
     })
 
-    function updateProductList(selectedDate, selectedTime){
-        productListDiv.innerHTML = "";
-
-        <?php foreach ($tickets as $ticket) {?>
-        var date = "<?php echo $ticket->getProductDate();?>";
-        var time = "<?php echo $ticket->getProductTime();?>";
-        var product = document.createElement("p");
-
-        if (date == selectedDate && selectedTime == null){
-
-            var text = document.createTextNode("this is a product with date: " + selectedDate)
-            product.appendChild(text);
-
-        } else if (date == selectedDate && time == selectedTime){
-            var text = document.createTextNode("this is a product with date: " + selectedDate)
-            product.appendChild(text);
-        }
-        productListDiv.appendChild(product);
-        <?php }?>
-    }
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
@@ -95,16 +78,81 @@
         timeDropdown.add(defaultOption);
 
         <?php foreach ($tickets as $ticket) {?>
-            var date = "<?php echo $ticket->getProductDate();?>";
-            var time = "<?php echo $ticket->getProductTime();?>";
+        var date = "<?php echo $ticket->getProductDate();?>";
+        var time = "<?php echo $ticket->getProductTime();?>";
 
-            if (date == selectedDate){
-                var option = document.createElement("option");
-                option.text = time;
-                timeDropdown.add(option);
-            }
+        if (date == selectedDate){
+            var option = document.createElement("option");
+            option.text = time;
+            timeDropdown.add(option);
+        }
 
-   <?php }?>
+        <?php }?>
+    }
+
+    function updateProductList(selectedDate, selectedTime){
+        productListDiv.innerHTML = "";
+
+        <?php foreach ($tickets as $ticket) {?>
+        var id = "<?php echo $ticket->getId();?>";
+        var name = "<?php echo $ticket->getName();?>";
+        var price = "<?php echo $ticket->getPrice();?>";
+        var date = "<?php echo $ticket->getProductDate();?>";
+        var time = "<?php echo $ticket->getProductTime();?>";
+        var location = "<?php echo $ticket->getLocation();?>";
+
+        if (date == selectedDate && selectedTime == null){
+
+            var product = createProduct(id, name, price, date, time, location)
+            productListDiv.appendChild(product);
+
+        } else if (date == selectedDate && time == selectedTime){
+
+            var product = createProduct(id, name, price, date, time, location)
+            productListDiv.appendChild(product);
+        }
+        <?php }?>
+    }
+
+    function createProduct(ticketId, ticketName, ticketPrice, ticketDate, ticketTime, ticketLocation){
+
+        var newProduct = document.createElement("a");
+        newProduct.setAttribute("onClick", "selectProduct("+ticketId+")");
+        newProduct.setAttribute("class", "list-group-item list-group-item-action");
+        newProduct.setAttribute("id", ticketId)
+
+        var div = document.createElement("div");
+        div.setAttribute("class", "d-flex w-75 justify-content-between");
+
+        var h6 = document.createElement("h6");
+        h6.setAttribute("class", "mb-1");
+        h6.innerHTML = ticketName;
+
+        var small = document.createElement("small");
+        small.innerHTML ="€ " + ticketPrice;
+
+        var p = document.createElement("p");
+        p.setAttribute("class", "mb-1");
+        p.innerHTML = ticketDate + " at " + ticketTime;
+
+        var location = document.createElement("small");
+        location.innerHTML = "Location: "+ ticketLocation;
+
+        // append the child elements to the parent element
+        div.appendChild(h6);
+        div.appendChild(small);
+        newProduct.appendChild(div);
+        newProduct.appendChild(p);
+        newProduct.appendChild(location);
+
+        return newProduct;
+    }
+
+    function selectProduct(productId){
+
+        <?php $id = 1; $productService = new ProductService(); ?>
+
+        productInfoField.value = "<?php echo $productService->getById($id)->getName()?>";
     }
 </script>
 <style>

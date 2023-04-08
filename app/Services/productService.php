@@ -20,5 +20,10 @@ class ProductService{
         $productRepo = new ProductRepository();
         return $productRepo->getByEventType($eventTypeId);
     }
+
+    public function getProductNameById(int $id){
+        $productRepo = new ProductRepository();
+        return $productRepo ->getProductNameById($id);
+    }
 }
 ?>

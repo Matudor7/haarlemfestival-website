@@ -287,7 +287,8 @@ class AdminController extends Controller
     
     // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 
     // done by: Betül Beril Dündar - 691136 
-    function users(){            
+    function users(){   
+        $events = $this->eventService->getAll();
         $searchString = "";
         $sortType = "";
         $filterType = "";

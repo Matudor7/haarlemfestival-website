@@ -3,6 +3,8 @@ require_once __DIR__ . '/../Services/UserService.php';
 require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ .  '/controller.php';
 require_once __DIR__ . '/../Models/userType.php';
+require_once __DIR__ . '/../Services/smtpService.php';
+require_once __DIR__ . '/../Models/User.php';
 
 class UserController extends Controller
 {
@@ -65,8 +67,16 @@ class UserController extends Controller
     function userManageAccount(){
         $events = $this->eventService->getAll();
         session_start();
-
-        $user = $_SESSION['user'];
+        $user = new User();
+        $user->setUserId($_SESSION['user_id']);
+        $user->setUsername($_SESSION['username']);
+        $user->setUserTypeId($_SESSION['user_role']);
+        $user->setUserFirstName($_SESSION['user_firstName']);
+        $user->setUserLastName($_SESSION['user_lastName']);
+        $user->setUserPicURL($_SESSION['user_imageUrl']);
+        $user->setUserEmail($_SESSION['user_email']);
+        //save the new things
+        //send the email
 
         require __DIR__ . "/../views/userManageAccount.php";
     }

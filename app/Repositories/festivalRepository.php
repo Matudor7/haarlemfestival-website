@@ -51,11 +51,18 @@ class FestivalRepository extends Repository{
         }
     }
     
-    public function changeEvent(int $id, string $newEventName, int $newEventId){
+    public function changeEvent(int $id, string $newEventName, int $newEventId, string $newEventStartTime, string $newEventEndTime){
         try{
-            $statement = $this->connection->prepare("UPDATE festival SET event_id = :eventId, event_name = :newEventName WHERE id=:id");
+            $statement = $this->connection->prepare("UPDATE festival SET event_id = :eventId, event_name = :newEventName, festival_startingDate = :newEventStartTime, festival_endingDate = :newEventEndTime WHERE id=:id");
+            
+            $sanitizedName = htmlspecialchars($newEventName);
+            $sanitizedStartTime = htmlspecialchars($newEventStartTime);
+            $sanitizedEndTime = htmlspecialchars($newEventEndTime);
+            
             $statement->bindParam(':eventId', $newEventId);
-            $statement->bindParam(':newEventName', $newEventName);
+            $statement->bindParam(':newEventName', $sanitizedName);
+            $statement->bindParam(':newEventStartTime', $sanitizedStartTime);
+            $statement->bindParam(':newEventEndTime', $sanitizedEndTime);
             $statement->bindParam(':id', $id);
             $statement->execute();
 

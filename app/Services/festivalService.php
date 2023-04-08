@@ -25,8 +25,8 @@ class FestivalService{
         return $festival;
     }
 
-    public function changeEvent(int $id, string $newEventName, int $newEventId){
-        $this->festivalRepo->changeEvent($id, $newEventName, $newEventId);
+    public function changeEvent(int $id, string $newEventName, int $newEventId, string $newEventStartTime, string $newEventEndTime){
+        $this->festivalRepo->changeEvent($id, $newEventName, $newEventId, $newEventStartTime, $newEventEndTime);
     }
 }
 ?>

@@ -30,7 +30,7 @@ class FestivalController{
                 $festival = $this->festivalService->getById($_GET['id']);
                 $newEvent = $this->eventService->getByName($festivalData['event_name']);
 
-                $this->festivalService->changeEvent($festival->getId(), $newEvent->getName(), $newEvent->getId());
+                $this->festivalService->changeEvent($festival->getId(), $newEvent->getName(), $newEvent->getId(), $newEvent->getStartTime(), $newEvent->getEndTime());
             }
         }
     }

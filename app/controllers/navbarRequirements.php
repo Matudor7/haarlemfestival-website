@@ -2,14 +2,24 @@
 require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ . '/../Services/productService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
+require_once __DIR__ . '/../Services/festivalService.php';
+require_once __DIR__ . '/../Models/festivalModel.php';
+
+$festivalService = new FestivalService();
+$festival = $festivalService->getFestival();
 
 $eventService = new EventService();
-$events = $eventService->getAll();
 
 $shoppingCartService = new ShoppingCartService();
 $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
 
 $productService = new ProductService();
+
+$events = [];
+
+foreach($festival as $f){
+    array_push($events, $eventService->getByName($f->getEventName()));
+}
 
 //This causes every object to be its own array
 $products = [];

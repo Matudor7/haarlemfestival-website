@@ -179,7 +179,6 @@ function generateArtistTable($artists)
 ?>
 
 <body>
-    <?php include __DIR__ . "/../nav.php"; ?>
     <?php
     require __DIR__ . '/../adminNavbar.php';
     ?>

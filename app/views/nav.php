@@ -73,23 +73,27 @@
         <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas"
             role="button" href="#offcanvas"></a>
     </li>
-    <li class="nav-item">
+    <li>
+        <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_role"] == 2) { //only admins should see these
+        echo "<a class='nav-link' style='color: white;' href='/admin'>Manage Website</a>";
+    } ?>
+    </li>
+    <li>
+        <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_role"] == 2) { 
+            echo "<a class='nav-link' style='color: white;' href='/admin/registerUser'>Register User</a>";  } ?>
+    </li>
+
+    <?php if (isset($_SESSION["user_id"])) { ?>
+    <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
+        STYLE="margin: 2px 30px;">Log
+        out</button>&nbsp;
+    <?php }else{ ?> <li class="nav-item">
         <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
             onClick="location.href='/login'">Login</button>
-    </li>
-    <li>
-        <?php if (isset($_SESSION["user"])) {
-            echo "<a class='nav-link' style='color: white; href='/admin/manageRestaurantPage'>Manage Restaurants</a>"; ?>
-    </li>
-    <li>
-        <?php echo "<a class='nav-link' style='color: white; href='/admin/registerUser'>Register User</a>";
-        } ?> </li>
+    </li><?php }?>
     </ul>
 
-    <?php if (isset($_SESSION["user"])) { ?>
-    <button type="button" class="btn btn-success ;" onClick="location.href='/logOut'" STYLE="margin: 2px 30px;">Log
-        out</button>&nbsp;
-    <?php } ?>
+
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
         <div class="offcanvas-header">

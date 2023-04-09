@@ -25,6 +25,7 @@ class CheckoutController extends Controller{
         $smtpService = new smtpService();
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/checkout/return.php';
     }
 

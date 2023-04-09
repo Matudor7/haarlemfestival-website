@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -16,9 +17,6 @@
 </head>
 
 <body>
-    <?php
-include __DIR__ . '/nav.php';
-?>
     <div class="container-sm">
         <h1 class="my-4"> Manage Your Account </h1>
         <div>

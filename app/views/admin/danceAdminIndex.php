@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,9 +12,6 @@
 </head>
 
 <body>
-<?php
-include __DIR__ . '/../nav.php';
-?>
     <?php
     require __DIR__ . '/../adminNavbar.php'
 ?>

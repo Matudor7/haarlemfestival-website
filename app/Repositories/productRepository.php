@@ -30,20 +30,6 @@ class ProductRepository extends Repository{
         }
     }
 
-    public function getProductNameById(int $id){
-        try{
-            $statement = $this->connection->prepare("SELECT name FROM product WHERE id=:id");
-            $statement->bindParam(':id', $id);
-
-            $statement->execute();
-            $productName = $statement->fetch();
-
-            return $productName;
-        }catch(PDOException $e){
-            echo $e->getMessage();
-        }
-    }
-
     public function getByEventType($eventTypeId){
         try{
             $statement = $this->connection->prepare("SELECT id, name, event_type, starting_date_time, location, price, additional_info FROM product WHERE event_type=:eventType");

@@ -150,9 +150,12 @@
 
     function selectProduct(productId){
 
-        <?php $id = 1; $productService = new ProductService(); ?>
+        //<//?php $id = 1; $productService = new ProductService(); ?>
+        testingLabel.innerText = productId;
 
-        productInfoField.value = "<?php echo $productService->getById($id)->getName()?>";
+        //productInfoField.value = "<//?php echo $productService->getById($id)->getName()?>";
+
+        
     }
 </script>
 <style>

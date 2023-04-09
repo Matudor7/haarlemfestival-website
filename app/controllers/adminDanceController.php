@@ -13,7 +13,6 @@ class AdminDanceController extends Controller
     }
     public function index()
     {
-        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/admin/danceAdminIndex.php";
     }
 
@@ -32,7 +31,6 @@ class AdminDanceController extends Controller
         }
         // Get the type of element being managed
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
-        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/admin/danceAdminManage.php";
     }
     public function danceAdminAdd()

@@ -1,6 +1,6 @@
 <?php
 
-class Payment implements JsonSerializable{
+class PaymentDetailsModel implements JsonSerializable{
     private int $id = 0;
     private int $user_id = 0;
     private string $first_name = "";

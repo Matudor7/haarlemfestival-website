@@ -19,13 +19,9 @@ class CheckoutController extends Controller{
     }
 
     function return(){
-        require_once __DIR__ . '/../Services/paymentService.php';
-        $paymentService = new PaymentService();
         $shoppingCartService = new ShoppingCartService();
         $smtpService = new smtpService();
-
-        $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        require __DIR__ . '/navbarRequirements.php';
+        require_once __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/checkout/return.php';
     }
 

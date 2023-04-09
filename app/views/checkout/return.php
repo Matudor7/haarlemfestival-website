@@ -1,5 +1,9 @@
 <?php
+require_once __DIR__ . '/../../Services/paymentService.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+$paymentService = new PaymentService();
+$paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
 
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');

@@ -1,7 +1,6 @@
 <?php
 session_start();
 require __DIR__ . '/controller.php';
-require_once __DIR__ . '/../Services/paymentService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 
 class CheckoutController extends Controller{
@@ -11,6 +10,7 @@ class CheckoutController extends Controller{
     }
 
     function payment(){
+        require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
             $paymentService = new PaymentService();
             require __DIR__ . '/../views/checkout/payment.php';
@@ -18,6 +18,7 @@ class CheckoutController extends Controller{
     }
 
     function return(){
+        require_once __DIR__ . '/../Services/paymentService.php';
         $paymentService = new PaymentService();
         $shoppingCartService = new ShoppingCartService();
 

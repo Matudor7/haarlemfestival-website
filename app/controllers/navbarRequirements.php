@@ -3,8 +3,8 @@ require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ . '/../Services/productService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 require_once __DIR__ . '/../Services/festivalService.php';
-require_once __DIR__ . '/../Models/festivalModel.php';
 require_once __DIR__ . '/../Services/vatService.php';
+require_once __DIR__ . '/../Models/festivalModel.php';
 require_once __DIR__ . '/../Models/vatModel.php';
 
 $festivalService = new FestivalService();

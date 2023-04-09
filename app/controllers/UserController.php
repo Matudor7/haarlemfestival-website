@@ -65,7 +65,6 @@ class UserController extends Controller
     }
 
     function userManageAccount(){
-        $events = $this->eventService->getAll();
         session_start();
         $user = new User();
         $user->setUserId($_SESSION['user_id']);
@@ -77,7 +76,8 @@ class UserController extends Controller
         $user->setUserEmail($_SESSION['user_email']);
         //save the new things
         //send the email
-
+        
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/userManageAccount.php";
     }
 

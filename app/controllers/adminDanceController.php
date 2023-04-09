@@ -1,29 +1,24 @@
 <?php
-require __DIR__ . "/controller.php";
-require __DIR__ . "/../services/festivalService.php";
-require __DIR__ . "/../services/eventService.php";
-require __DIR__ . "/../services/DanceService.php";
+session_start();
+require_once __DIR__ . "/controller.php";
+require_once __DIR__ . "/../services/DanceService.php";
 
 class AdminDanceController extends Controller
 {
-    private $eventService;
     private $danceService;
 
     public function __construct()
     {
-        $this->eventService = new EventService();
         $this->danceService = new DanceService();
     }
     public function index()
     {
-        $events = $this->eventService->getAll();
-
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/admin/danceAdminIndex.php";
     }
 
     public function danceAdminManage()
-    {
-        $events = $this->eventService->getAll();
+    {        
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
         $danceEvents = $this->danceService->getAllDanceEvents();
@@ -37,7 +32,7 @@ class AdminDanceController extends Controller
         }
         // Get the type of element being managed
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
-
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/admin/danceAdminManage.php";
     }
     public function danceAdminAdd()

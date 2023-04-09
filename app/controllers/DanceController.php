@@ -1,6 +1,7 @@
 <?php
+session_start();
 require __DIR__ . '/controller.php';
-require __DIR__ . '/../Services/eventService.php';
+require_once __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/DanceService.php';
 require __DIR__ . '/../Services/DanceDetailPageService.php';
 
@@ -31,6 +32,7 @@ class DanceController extends Controller{
             }
             $danceEventsByDate[$date][] = $danceEvent;
         }
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/dance/index.php';
     }
 

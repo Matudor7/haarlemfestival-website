@@ -36,8 +36,7 @@ class EventsController{
             }catch(Exception $e){
                 echo $e->getMessage();
             }
-
-            //TODO: complete the POST by filling all event variables in
+            
             $event->setName($eventData['event_name']);
             $event->setDescription($eventData['event_description']);
             $event->setUrlRedirect($eventData['event_urlRedirect']);

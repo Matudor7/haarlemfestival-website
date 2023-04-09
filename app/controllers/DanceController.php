@@ -53,7 +53,7 @@ class DanceController extends Controller{
                     }
                     $danceEventsByDate[$date][] = $danceEvent;
                 }
-
+                require __DIR__ . '/navbarRequirements.php';
                 require __DIR__ . '/../views/dance/danceDetailPage.php';
             } else {
                 throw new Exception("This artist does not have a detail page yet. Please check again later.");

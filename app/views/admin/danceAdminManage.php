@@ -1,4 +1,3 @@
-<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -178,7 +177,9 @@ function generateArtistTable($artists)
         return $tableHtml;
     }
 ?>
+
 <body>
+    <?php include __DIR__ . "/../nav.php"; ?>
     <?php
     require __DIR__ . '/../adminNavbar.php';
     ?>
@@ -199,10 +200,11 @@ function generateArtistTable($artists)
             window.location.href = '/adminDance/deleteElement?type=Artist&id=' + id;
         }
     }
+
     function editElement(id) {
         if ('<?php echo $element ?>' === 'Location') {
             window.location.href = '/adminDance/editElement?type=Location&id=' + id;
-        }else  if ('<?php echo $element ?>' === 'Artist') {
+        } else if ('<?php echo $element ?>' === 'Artist') {
             window.location.href = '/adminDance/editElement?type=Artist&id=' + id;
         }
     }

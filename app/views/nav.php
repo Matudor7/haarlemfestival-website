@@ -15,57 +15,19 @@
 </head>
 
 <body>
-    <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-    if (
-        $_SERVER["REQUEST_URI"] == "/dance" ||
-        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-    ) {
-        echo '<nav class="navbar bg-light d-flex flex-column mb-0 align-items-center pt-0 sticky-top">';
-    } else {
-        echo '<nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">';
-    } ?>
+<nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
     <a class="navbar-brand px-0 mx-0 py-0" href="/">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<img src="/media/NavbarLogoForDance.jpg" class="img-fluid" alt="Logo">';
-        } else {
-            echo '<img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">';
-        } ?>
+<img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">
+
     </a>
-    <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-    if (
-        $_SERVER["REQUEST_URI"] == "/dance" ||
-        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-    ) {
-        echo '<ul class="nav bg-light d-flex flex-nowrap">';
-    } else {
-        echo '<ul class="nav bg-dark d-flex flex-nowrap">';
-    } ?>
+<ul class="nav bg-dark d-flex flex-nowrap">
     <li class="nav-item">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<a class="nav-link active text-dark fw-bold" aria-current="page" href="/">Home</a>';
-        } else {
-            echo '<a class="nav-link active text-light fw-bold" aria-current="page" href="/">Home</a>';
-        } ?>
+<a class="nav-link active text-light fw-bold" aria-current="page" href="/">Home</a>
     </li>
     <?php foreach ($events as $event) { ?>
     <li class="nav-item">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<a class="nav-link text-dark fw-bold"';
-        } else {
-            echo '<a class="nav-link text-light fw-bold"';
-        } ?>
+<a class="nav-link text-light fw-bold"
+
         href="<?php echo $event->getUrlRedirect(); ?>"><?php echo $event->getName(); ?></a>
     </li>
     <?php } ?>

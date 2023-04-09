@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -16,9 +17,6 @@
 </head>
 
 <body>
-    <?php
-include __DIR__ . '/nav.php';
-?>
     <div class="container-sm">
         <h1 class="my-4"> Manage Your Account </h1>
         <div>
@@ -29,13 +27,13 @@ include __DIR__ . '/nav.php';
                             <div class="mb-3">
                                 <label for="userManageAccountEmailTextBox" class="form-label">Email address*</label>
                                 <input type="email" class="form-control" id="userManageAccountEmailTextBox"
-                                    name="userManageAccountEmailTextBox" placeholder="E-mail" required>
+                                    name="userManageAccountEmailTextBox" placeholder="E-mail" required value= <?php echo $user->getUserEmail() ?>>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-6">
                                     <label for="userManageAccountUsernameTextBox" class="form-label">Username*</label>
                                     <input type="text" class="form-control" id="userManageAccountUsernameTextBox"
-                                        name="userManageAccountUsernameTextBox" placeholder="Username" required>
+                                        name="userManageAccountUsernameTextBox" placeholder="Username" required value=  <?php echo $user->getUsername() ?>>
                                 </div>
                             </div>
                             <div class="row">
@@ -43,12 +41,12 @@ include __DIR__ . '/nav.php';
                                     <label for="userManageAccountFirstNameTextBox" class="form-label">First
                                         Name*</label>
                                     <input type="text" class="form-control" id="userManageAccountFirstNameTextBox"
-                                        name="userManageAccountFirstNameTextBox" placeholder="First Name" required>
+                                        name="userManageAccountFirstNameTextBox" placeholder="First Name" required value=  <?php echo $user->getUserFirstName() ?>>
                                 </div>
                                 <div class="mb-3 col-md-6">
                                     <label for="userManageAccountLastNameTextBox" class="form-label">Last Name*</label>
                                     <input type="text" class="form-control" id="userManageAccountLastNameTextBox"
-                                        name="userManageAccountLastNameTextBox" placeholder="Last Name" required>
+                                        name="userManageAccountLastNameTextBox" placeholder="Last Name" required  value=  <?php echo $user->getUserLastName() ?>>
                                 </div>
                             </div>
                             <div class="row">
@@ -71,7 +69,8 @@ include __DIR__ . '/nav.php';
                     <div class="col-md-5">
                         <div class="image-upload">
                             <div class="mb-3">
-                                <img src="" class="img-thumbnail my-3" alt="User Profile Picture">
+                            <img src="<?php echo $user->getUserPicURL() ?>" class="img-thumbnail my-3" alt="User Profile Picture" style="height: 200px;">
+
                             </div>
                             <div class="mb-3">
                                 <label for="userManageAccountImageInput" class="form-label">User Profile Picture</label>

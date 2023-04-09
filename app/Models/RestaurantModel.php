@@ -15,7 +15,7 @@ class RestaurantModel
     private bool $havaDetailPageOrNot;
     private int $detail_id;
     private int $contactInf_id;
-    private string $restaurant_pictureURL;
+    private string $restaurant_pictureURL = "";
     private int $foodType_id;
     private int $restaurantRating_id;
 

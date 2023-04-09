@@ -20,38 +20,32 @@ include __DIR__ . '/nav.php';
 
 <body class="body"><br>
 
-<div id="loginDiv" class="text-center col-12" style=" height: 500px;">
+<div id="loginDiv" class="text-center col-12" >
 
     <br><h2>Login</h2>
     <form class="mt-5" method="POST" action="/login/loginValidation">
         <input type="text" name="username" placeholder="Username"><br><br>
         <input type="password" name="password" placeholder="Password"><br><br>
-        <input id="loginButton" type="submit" name="LoginButton" value="Login"><br><br>
+        <input id="loginButton" class="btn btn-success" type="submit" name="LoginButton" value="Login"><br><br>
     </form>
     <form method="post" action="user/resetPasswordPage">
-        <button  id="forgotPasswordButton" type="submit" name="forgotPasswordButton">Forgot Password</button><br><br>
+        <a href="user/resetPasswordPage" class="btn btn-link">Forgot Password?</a>
     </form>
-
-
     <?php
     if(isset($_SESSION['LoginError'])){ ?>
-        <p> <?php echo $_SESSION['LoginError'];
-            ?> </p>
+        <p> <?php echo $_SESSION['LoginError']; ?> </p>
         <?php
         unset($_SESSION['LoginError']);
     }
     if(isset($_SESSION['passwordEmailMessage'])){ ?>
-        <p> <?php echo $_SESSION['passwordEmailMessage'];
-            ?> </p>
+        <p> <?php echo $_SESSION['passwordEmailMessage']; ?> </p>
         <?php
         unset($_SESSION['passwordEmailMessage']);
     }?>
-
 </div>
 <?php
 include __DIR__ . '/footer.php';
 ?>
-
 </body>
 
 </html>

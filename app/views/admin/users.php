@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,10 +52,14 @@
             <div class="col-4 p-3">
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <h5 class="px-3 pt-1"> Filter By: </h5>
-                    <button onclick="location.href='/admin/users'" type="button" class="btn btn-outline-primary">All Users</button>
-                    <button onclick="location.href='/admin/users?filter=admins'" type="button" class="btn btn-outline-primary">Admins</button>
-                    <button onclick="location.href='/admin/users?filter=employees'" type="button" class="btn btn-outline-primary">Employees</button>
-                    <button onclick="location.href='/admin/users?filter=customers'" type="button" class="btn btn-outline-primary">Customers</button>                    
+                    <button onclick="location.href='/admin/users'" type="button" class="btn btn-outline-primary">All
+                        Users</button>
+                    <button onclick="location.href='/admin/users?filter=admins'" type="button"
+                        class="btn btn-outline-primary">Admins</button>
+                    <button onclick="location.href='/admin/users?filter=employees'" type="button"
+                        class="btn btn-outline-primary">Employees</button>
+                    <button onclick="location.href='/admin/users?filter=customers'" type="button"
+                        class="btn btn-outline-primary">Customers</button>
                 </div>
 
             </div>

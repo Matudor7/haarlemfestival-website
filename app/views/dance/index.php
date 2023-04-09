@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,8 +16,6 @@
 </head>
 
 <body>
-    <?php include __DIR__ . "/../nav.php"; ?>
-
     <main class="container-fluid">
         <div class="row my-5">
             <div class="row">

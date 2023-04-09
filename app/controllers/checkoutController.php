@@ -1,7 +1,7 @@
 <?php
 session_start();
 require __DIR__ . '/controller.php';
-require __DIR__ . '/../Services/paymentService.php';
+require_once __DIR__ . '/../Services/paymentService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 
 class CheckoutController extends Controller{

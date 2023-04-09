@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../Repositories/paymentRepository.php';
+require_once __DIR__ . '/../Repositories/paymentRepository.php';
 
 class PaymentService{
     private $paymentRepo;

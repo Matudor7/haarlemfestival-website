@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/paymentModel.php';
+require_once __DIR__ . '/../Models/paymentModel.php';
 
 class PaymentRepository extends Repository{
 
@@ -9,7 +9,7 @@ class PaymentRepository extends Repository{
             $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, card_name, card_number, card_expiration, CVV, total, payment_id FROM payment_details");
 
             $statement->execute();
-            $payment_details = $statement->fetchAll(PDO::FETCH_CLASS, 'Payment');
+            $payment_details = $statement->fetchAll(PDO::FETCH_CLASS, 'PaymentDetailsModel');
 
             return $payment_details;
         }catch(PDOException $e){
@@ -24,7 +24,7 @@ class PaymentRepository extends Repository{
             $statement->bindParam(':userId', $user_id);
                         
             $statement->execute();
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'Payment');
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'PaymentDetailsModel');
 
             $payment_details = $statement->fetch();
 
@@ -49,7 +49,7 @@ class PaymentRepository extends Repository{
             $sanitizedId = htmlspecialchars($paymentId);
     
             $statement->bindParam(':userId', $user_id);
-            $statement->bindParam('paymentId', $paymentId);
+            $statement->bindParam('paymentId', $sanitizedId);
     
             $statement->execute();
         }catch(PDOException $e){

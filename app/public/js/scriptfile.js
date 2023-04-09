@@ -60,12 +60,13 @@ function updateTotal(userId){
     .then(response=> response.json())
     .then(data => {
             let totalPrice = 0;
+            const vat = 0.21;
             for (let i = 0; i < data.product_ids.length; i++) {
                 fetch("http://localhost/api/products?product_id=" + data.product_ids[i])
                 .then(response=>response.json())
                 .then(product=>{
                 totalPrice += (product[0].price * data.amounts[i]);
-                totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + totalPrice;
+                totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + (totalPrice + (totalPrice * vat));
                 })
             }
     })

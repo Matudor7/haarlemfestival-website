@@ -10,6 +10,7 @@ require __DIR__ . '/../Services/YummyDetailPageService.php';
 require_once __DIR__ . '/../Models/YummyDetailPageModel.php';
 require __DIR__ . '/../Services/ContactInfService.php';
 require_once __DIR__ .'/../Models/ContactInf.php';
+require __DIR__ . '/../Services/productService.php';
 
 
 
@@ -41,6 +42,13 @@ class YummyController extends Controller
         $yummyService = new YummyService();
         $restaurant_id = $_GET['restaurant_id'];
         $contactInfService = new ContactInfService();
+
+        //Andy's addition
+        $thisEvent = $eventService->getByName("Yummy!");
+        $productService = new ProductService();
+        $tickets = $productService->getByEventType($thisEvent->getId());
+
+        require __DIR__ .'/../views/buyTicketForm.php';
 
         try {
             $restaurant = $yummyService->getById($restaurant_id);

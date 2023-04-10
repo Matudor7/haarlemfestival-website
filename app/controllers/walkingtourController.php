@@ -32,12 +32,9 @@ class WalkingTourController extends Controller{
 
         $tickets = $this->productService->getByEventType($thisEvent->getId());
 
-
-
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';
         require __DIR__ . '/navbarRequirements.php';
-
     }
 
     public function selectTicket(){

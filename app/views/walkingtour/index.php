@@ -20,7 +20,7 @@ include __DIR__ . '/../nav.php';
 <section id="header-container" class="container mx-0 px-0">
 <img src="/media/walkingtourPics/walkingtourHeader.png" class="mx-auto" alt="Header" id="header-img">
 <div id="text-container" class="container bg-light w-50 opacity-75 text-center">
-<p id="header-text" class="text-dark"><?php echo $event->getDescription()?></p>
+<p id="header-text" class="text-dark"><?php echo $thisEvent->getDescription()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
 <button id="header-button-program" class="rounded-pill" onClick="openTicketForm()">Save me a spot</button>
@@ -31,7 +31,7 @@ include __DIR__ . '/../nav.php';
   <div class="container text-center">
     <div class="row pt-4">
   <div class="col" id="description-left">
-    <h5>From <?php echo $event->getStartTime()?> to <?php echo $event->getEndTime()?></h5>
+    <h5>From <?php echo $thisEvent->getStartTime()?> to <?php echo $thisEvent->getEndTime()?></h5>
   <p>There will be a walking tour with several departures each day, with different languages available; and overall duration of 2 and a half hours, including a 15mins break with refreshments.</p>
   <button class="rounded-pill">When?</button>
 </div>

@@ -1,3 +1,6 @@
+<?php
+include __DIR__ . '/../nav.php';
+?>
 <!DOCTYPE html>
 <html>
 <!-- old-->
@@ -12,9 +15,7 @@
     <link rel="stylesheet" href="/yummyStyle.css" type="text/css">
 </head>
 <body>
-<?php
-include __DIR__ . '/../nav.php';
-?>
+
 <div class="d-flex">
     <img id="backgroundYummy" src="media/yummyPics/background.jpg" style="width: 100%;" alt="festivalYummyPic"/>
 </div>

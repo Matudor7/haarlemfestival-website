@@ -1,5 +1,4 @@
 <?php
-session_start();
 require __DIR__ . '/controller.php';
 
 class HomeController extends Controller{

@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/../nav.php';?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,7 +12,7 @@
         
     </head>
     <body>
-    <?php include __DIR__ . '/../nav.php';?>
+
     <section id="header" class="mx-0 my-0 py-0 bg-light">
     <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner" >
     <div id="banner-text" class="row mt-5 py-lg-5 justify-content text-center">

@@ -30,8 +30,12 @@
                 </div>
             </div>
 
+            <div class="btn-group" role="group">
+                <button id="increasebtn" type="button" class="amountBtns" onClick="changeAmount(+1)">+</button>
+                <button id="decreasebtn" type="button" class="amountBtns" onClick="changeAmount(-1)">-</button>
+            </div>
 
-            <input id="productAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>
+                <input id="productAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>
             <label>X</label>
             <input id="productInfo" class="form-control" type="text" value="Product" aria-label="readonly input example" readonly>
 
@@ -56,6 +60,7 @@
     const testingLabel = document.getElementById('testingLabel');
     const productListDiv = document.getElementById('productList');
     const productAmountField = document.getElementById("productAmount")
+    let productAmount = 0;
     const productInfoField = document.getElementById("productInfo");
 
     dateDropdown.addEventListener('change',(event) => {
@@ -153,7 +158,8 @@
         //<//?php $id = 1; $productService = new ProductService(); ?>
         //testingLabel.innerText = productId;
 
-        //productInfoField.value = "<//?php echo $productService->getById($id)->getName()?>";
+         productAmount = 1;
+
 
          const data = {"productId": productId}
                 fetch('/walkingTour/selectTicket', {
@@ -163,11 +169,22 @@
                 },
                 body: JSON.stringify(data),
             })
-                    .then (console.log(JSON.stringify(data)))
                     .then(response => response.json())
-                    .then(data => console.log(data))
+                    .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
                     .catch(error => console.error(error));
+    }
 
+    function changeAmount(number){
+        if(number == "+1"){
+            productAmount+= 1;
+        } else if (number == "-1" & productAmount > 0) {
+            productAmount-= 1;
+        }
+
+        productAmountField.value = productAmount;
+    }
+
+    function addToCart(userId, productId, amount){
 
     }
 </script>
@@ -232,7 +249,12 @@
         display: inline-block;
 
     }
-
+    .form-container .amountBtns{
+        max-height: 40px;
+        max-width: 40px;
+        background-color: lightgrey;
+        margin-right: 10px;
+    }
     /* Add a red background color to the cancel button */
     .form-container #closeBtn {
         background-color: red;

@@ -20,6 +20,7 @@ class AdminController extends Controller
     private $userService;
     private $foodTypeService;
     private $ratingService;
+    private $userTypeService;
 
     public function __construct()
     {
@@ -29,6 +30,7 @@ class AdminController extends Controller
         $this->userService = new UserService();
         $this->foodTypeService = new FoodTypeService();
         $this->ratingService = new RatingService();
+        $this->userTypeService = new userTypeService();
 
       //  $this->events = $this->eventService->getAll();
     }
@@ -429,8 +431,8 @@ class AdminController extends Controller
           
     function editUser(){
         if($this->checkRole()) {
-            $userTypeService = new UserTypeService();        //TODO do ctor
-            $allUserTypes = $userTypeService->getAllUserType();
+           
+            $allUserTypes = $this->userTypeService->getAllUserType();
             $userToEdit = $this->userService->getByID($_GET['id']); 
     
             if (isset($_POST['editbutton'])) {

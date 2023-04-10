@@ -49,8 +49,6 @@ foreach($festival as $f){
             .then((response) => response.json())
             .then((data) => console.log(data))
             .catch((error) => console.error(error));
-
-            window.location.href = "/admin";
         }
     </script>
     

@@ -102,12 +102,5 @@ class UserService
         $newUser->setUserPassword($hashedPassword);
         return $this->repository->editUserProfileInDatabase($oldUser, $newUser);
     }
-    public function updateUserProfile($oldUser, $newUser){
-        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
-        $password = $newUser->getUserPassword();
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $newUser->setUserPassword($hashedPassword);
-        return $repository->editUserProfileInDatabase($oldUser, $newUser);
-    }
 
 }

@@ -45,6 +45,7 @@ class AdminDanceController extends Controller
     }
     public function danceAdminAdd()
     {
+        if($this->checkRole()) {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
         $allMusicTypes = $this->danceService->getAllMusicTypes();
         $allDanceLocations = $this->danceService->getAllDanceLocations();
@@ -72,8 +73,13 @@ class AdminDanceController extends Controller
 
         require __DIR__ . "/../views/admin/danceAdminAdd.php";
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addPhoto($inputBoxName, $elementName){
+        if($this->checkRole()) {
         try {
             $imageUrl = $_FILES[$inputBoxName]['tmp_name'];
             $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $elementName)));
@@ -86,8 +92,13 @@ class AdminDanceController extends Controller
             return ''; // return an empty string if an exception occurs
         }
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addDanceLocationElement($downloadPath){
+        if($this->checkRole()) {
         $newLocation = new DanceLocation();
         $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
         $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
@@ -99,14 +110,24 @@ class AdminDanceController extends Controller
        
         $this->danceService->insertDanceLocation($newLocation);  
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addMusicTypeElement(){
+        if($this->checkRole()) {
         $musicType = new MusicType();
         $musicType->setMusicTypeName($_POST['danceMusicTypeNameTextBox']);    
         $this->danceService->insertMusicType($musicType);
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addDanceArtistElement($downloadPath, $allMusicTypes){
+        if($this->checkRole()) {
         $newArtist = new Artistmodel();
         if ($_POST['danceArtistHasDetailPageDropdown'] == "Yes") {
             $hasDetailPage = true;
@@ -127,8 +148,13 @@ class AdminDanceController extends Controller
         }
         $this->addMusicTypesForNewArtist($selectedMusicTypes, $danceArtistId);
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addMusicTypesForNewArtist($selectedMusicTypes, $artistId){
+        if($this->checkRole()) {
         $musicTypes = [];
 
         foreach($selectedMusicTypes as $musicTypeId){
@@ -140,7 +166,12 @@ class AdminDanceController extends Controller
             $this->danceService->insertMusicTypeForArtist($artistId, $musicType);   
         }
     }
+    else{
+        header('Location: /');
+    }
+    }
     function addDanceEventElement($allArtists){
+        if($this->checkRole()) {
         $newEvent = new DanceEvent();
 
         $dateString = $_POST['danceEventDateCalendar'];
@@ -171,8 +202,13 @@ class AdminDanceController extends Controller
         }
         $this->addArtistsForNewEvent($selectedArtists, $newEventId);
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function addArtistsForNewEvent($selectedArtists, $eventId){
+        if($this->checkRole()) {
         $artists = [];
 
         foreach($selectedArtists as $artistId){
@@ -184,8 +220,13 @@ class AdminDanceController extends Controller
             $this->danceService->insertPerformingArtistsToNewEvent($eventId, $artist);   
         }
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function deleteElement(){
+        if($this->checkRole()) {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
 
         switch ($element) {
@@ -208,9 +249,14 @@ class AdminDanceController extends Controller
                 header('Location: /adminDance'); 
         }
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     public function editelement()
     {
+        if($this->checkRole()) {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
         $danceLocationToEdit = new DanceLocation();  
         $artistToEdit = new ArtistModel();
@@ -264,9 +310,14 @@ class AdminDanceController extends Controller
             }
         }
         require __DIR__ . "/../views/admin/danceAdminEdit.php";
+    }
+    else{
+        header('Location: /');
+    }
     }    
 
     function editLocationElement($oldLocation, $downloadPath){
+        if($this->checkRole()) {
         $newLocation = new DanceLocation();
         $newLocation->setDanceLocationName($_POST['danceLocationNameTextBox']);
         $newLocation->setDanceLocationStreet($_POST['danceLocationStreetTextBox']);
@@ -276,10 +327,15 @@ class AdminDanceController extends Controller
         $newLocation->setDanceLocationUrlToTheirSite($_POST['danceLocationUrlToTheirSiteTextBox']);
         $newLocation->setDanceLocationImageUrl($downloadPath);
        
-        $this->danceService->editDanceLocation($oldLocation, $newLocation);        
+        $this->danceService->editDanceLocation($oldLocation, $newLocation);      
+    }
+    else{
+        header('Location: /');
+    }  
     }
 
     function editArtistElements($oldArtist, $allMusicTypes, $downloadPath){
+        if($this->checkRole()) {
         $newArtist = new Artistmodel();
         $newArtist->setName($_POST['danceArtistNameTextBox']);
         if ($_POST['danceArtistHasDetailPageDropdown'] === 'No') {
@@ -298,8 +354,13 @@ class AdminDanceController extends Controller
         }
         $this->danceService->editArtistMusicTypes($newArtist, $selectedMusicTypes);
     }
+    else{
+        header('Location: /');
+    }
+    }
 
     function editEventElements($oldEvent, $allArtists){
+        if($this->checkRole()) {
         $newEvent = new DanceEvent();
 
         $dateString = $_POST['danceEventDateCalendar'];
@@ -326,6 +387,10 @@ class AdminDanceController extends Controller
             }
         }
         $this->danceService->editEventArtists($newEvent, $selectedArtists);
+    }
+    else{
+        header('Location: /');
+    }
     }
 
     function checkRole(){

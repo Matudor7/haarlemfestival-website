@@ -1,8 +1,6 @@
 <?php
 session_start();
 require __DIR__ . '/controller.php';
-//require_once __DIR__ . '/../services/festivalService.php';
-//require_once __DIR__ . '/../services/eventService.php';
 require __DIR__ . '/../services/DanceService.php';
 require __DIR__ . '/../Services/FoodTypeService.php';
 require __DIR__ . '/../Services/RatingService.php';
@@ -20,17 +18,16 @@ class AdminController extends Controller
     private $userService;
     private $foodTypeService;
     private $ratingService;
+    private $userTypeService;
 
     public function __construct()
     {
-       // $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
         $this->userService = new UserService();
         $this->foodTypeService = new FoodTypeService();
         $this->ratingService = new RatingService();
-
-      //  $this->events = $this->eventService->getAll();
+        $this->userTypeService = new userTypeService();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -332,10 +329,8 @@ class AdminController extends Controller
                $user->setUsername($_POST['username']);
                $user->setUserEmail($_POST['email']);
                $user->setUserTypeId($_POST['userType']);
-               $userService = new UserService();
-               // $result = $userService->createUser($user);
    
-               if ($userService->createUser($user)) {
+               if ($this->userService->createUser($user)) {
                    $userCreationMessage = "User created successfully!!!!";
                    $status = "success";
                } else {
@@ -429,8 +424,8 @@ class AdminController extends Controller
           
     function editUser(){
         if($this->checkRole()) {
-            $userTypeService = new UserTypeService();        //TODO do ctor
-            $allUserTypes = $userTypeService->getAllUserType();
+           
+            $allUserTypes = $this->userTypeService->getAllUserType();
             $userToEdit = $this->userService->getByID($_GET['id']); 
     
             if (isset($_POST['editbutton'])) {

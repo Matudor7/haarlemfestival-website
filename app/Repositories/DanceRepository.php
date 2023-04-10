@@ -435,5 +435,77 @@ class DanceRepository extends Repository{
             return null;
         }
     }
+
+    public function getArtistsByEventFromDatabase($event){
+        $sql = "SELECT `dance_artist_id`, `dance_artist_name`
+                FROM `dance_artist` 
+                JOIN `dance_performingArtist` dpa 
+                ON dpa.`dance_performingArtist_artistId` = `dance_artist`.`dance_artist_id` 
+                JOIN `dance_event` de 
+                ON de.`dance_event_id` = dpa.`dance_performingArtist_eventId` 
+                WHERE de.`dance_event_id` = :event_id"; // Use named parameter :event_id
+    
+        try {
+            $eventId = $event->getDanceEventId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+            $statement->execute();
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'ArtistModel');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log("Cannot retrieve artists for event with ID {$event->getDanceEventId()}: {$e->getMessage()}");
+            return null;
+        }
+    }
+    
+    public function editEventInDatabase($oldEvent, $newEvent){
+        $sql = "UPDATE `dance_event` SET `dance_event_locationId`= :location_id,`dance_event_sessionTypeId`= :session_id,`dance_event_date`= :date,`dance_event_time`= :time, 
+        `dance_event_duration`= :duration,`dance_event_price`= :price,`dance_event_availableTickets`= :available_tickets,`dance_event_extraNote`= :note 
+        WHERE `dance_event_id` = :event_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+
+            $newLocationId = (int) $newEvent->getDanceLocationId();
+            $newSessionId = (int) $newEvent->getDanceSessionTypeId();
+            $newDate = $newEvent->getDanceEventDate()->format('Y-m-d');
+            $newTime = $newEvent->getDanceEventTime()->format('H:i');
+            $newDuration = (int) $newEvent->getDanceEventDuration();
+            $newPrice = (double) $newEvent->getDanceEventPrice();
+            $newAvailableTickets = (int) $newEvent->getDanceEventAvailableTickets();
+            $sanitizedExtraNote = htmlspecialchars($newEvent->getDanceEventExtraNote());
+            $oldId = $oldEvent->getDanceEventId();
+
+            $statement->bindParam(':location_id', $newLocationId);
+            $statement->bindParam(':session_id', $newSessionId);
+            $statement->bindParam(':date', $newDate);
+            $statement->bindParam(':time', $newTime);
+            $statement->bindParam(':duration', $newDuration);
+            $statement->bindParam(':price', $newPrice);
+            $statement->bindParam(':available_tickets', $newAvailableTickets);
+            $statement->bindParam(':note', $sanitizedExtraNote);
+            $statement->bindParam(':event_id', $oldId);
+
+            $statement->execute();
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+
+    }
+
+    public function editEventArtistsInDatabase($event, $newArtistId){
+        /* // Delete all existing artist records for the event to replace them with the new ones.
+        This approach simplifies the update process and avoids having to update individual records.
+        We don't need to preserve historical data or track changes over time, so we can safely delete the existing records without any impact on the application's functionality.*/
+        $sql = "DELETE FROM dance_performingArtist WHERE dance_performingArtist_eventId = :dance_event_id; INSERT INTO dance_performingArtist (dance_performingArtist_eventId, dance_performingArtist_artistId) 
+        VALUES (:dance_event_id, :artist_id);";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindValue(':dance_event_id', (int) $event->getDanceEventId(), PDO::PARAM_INT);
+            $statement->bindValue(':artist_id', (int) $newArtistId, PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 ?>

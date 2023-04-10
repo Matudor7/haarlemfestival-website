@@ -105,5 +105,14 @@ class DanceService
     public function deleteEvent($event){
         $this->danceRepository->deleteEventFromDatabase($event);
     }
+    public function getArtistsByEvent($event){
+        return $this->danceRepository->getArtistsByEventFromDatabase($event);
+    }
+    public function editEvent($oldEvent, $newEvent){
+        $this->danceRepository->editEventInDatabase($oldEvent, $newEvent);
+    }
+    public function editEventArtists($event, $artist){
+        $this->danceRepository->editEventArtistsInDatabase($event, $artist);
+    }
 }
 ?>

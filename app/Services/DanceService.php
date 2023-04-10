@@ -88,6 +88,10 @@ class DanceService
         $danceEvents = $this->danceRepository->getAllDanceEvents();
         return $danceEvents;
     }
+    public function getEventById($event_id)
+    {
+        return $this->danceRepository->getEventByIdFromDatabase($event_id);    
+    }
     public function getAllDanceSessions(){
         $danceSessions = $this->danceRepository->getAllSessionsFromDatabase();
         return $danceSessions;
@@ -97,6 +101,9 @@ class DanceService
     }
     public function insertPerformingArtistsToNewEvent($newEventId, $artist){
         $this->danceRepository->insertArtistsForNewEvent($newEventId, $artist);
+    }
+    public function deleteEvent($event){
+        $this->danceRepository->deleteEventFromDatabase($event);
     }
 }
 ?>

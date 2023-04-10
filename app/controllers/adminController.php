@@ -68,7 +68,6 @@ class AdminController extends Controller
         $eventService = new EventService();
         $events = $eventService->getAll();
 
-        //require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/events.php';
     }
     //Tudor Nosca (678549)
@@ -304,7 +303,6 @@ class AdminController extends Controller
     // done by: Betül Beril Dündar - 691136 
     function users(){   
         if($this->checkRole()){
-        $events = $this->eventService->getAll();
         $searchString = "";
         $sortType = "";
         $filterType = "";

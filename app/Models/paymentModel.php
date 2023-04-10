@@ -1,5 +1,5 @@
 <?php
-//Tudor Nosca (678549)
+//Tudor Matei Nosca (678549)
 class PaymentDetailsModel implements JsonSerializable{
     private int $id = 0;
     private int $user_id = 0;

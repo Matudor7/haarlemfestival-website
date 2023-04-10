@@ -171,7 +171,7 @@ $danceEventAddFormHtml .= '
                 name="danceEventPriceTextBox" placeholder="Price" required>
         </div>
         <div class="mb-3" style="width: 40%">
-            <label for="danceEventExtraNoteTextBox" class="form-label">Extra Note About This Event*</label>
+            <label for="danceEventExtraNoteTextBox" class="form-label">Extra Note About This Event</label>
             <input type="text" class="form-control" id="danceEventExtraNoteTextBox"
                 name="danceEventExtraNoteTextBox" placeholder="Extra Note">
         </div>        

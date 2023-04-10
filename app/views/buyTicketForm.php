@@ -31,8 +31,9 @@
             </div>
 
             <div class="btn-group" role="group">
-                <button id="increasebtn" type="button" class="amountBtns" onClick="changeAmount(+1)">+</button>
                 <button id="decreasebtn" type="button" class="amountBtns" onClick="changeAmount(-1)">-</button>
+                <button id="increasebtn" type="button" class="amountBtns" onClick="changeAmount(+1)">+</button>
+
             </div>
 
                 <input id="productAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>

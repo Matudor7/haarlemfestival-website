@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/controller.php'; 
-//
+session_start();
+require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/walkingTourService.php';
 require_once __DIR__ . '/../Models/WalkingTourModel.php';
 
@@ -24,10 +24,12 @@ class WalkingTourController extends Controller{
         require __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../Services/eventService.php';
         $eventService = new EventService();
-        $thisEvent = $eventService->getByName("Walking Tour");
+        $thisEvent = $eventService->getByName("WalkingTour");
 
         require_once __DIR__ . '/../Services/productService.php';
         $productService = new ProductService();
+        $tickets = $productService->getByEventType($thisEvent->getId());
+
 
 
         $walkingTours = $this->walkingTourService->getAllWalkingTours();
@@ -37,7 +39,6 @@ class WalkingTourController extends Controller{
         $languages = $this->walkingTourService->getTourLanguages();
 
 
-        $tickets = $productService->getByEventType($thisEvent->getId());
 
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';

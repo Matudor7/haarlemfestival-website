@@ -43,7 +43,7 @@
         <h6 class="text-dark fs-5 mx-5" style="text-align: center;"><?php echo $event->getDescription()?></h6>
             <a href="<?php echo $event->getUrlRedirect()?>"><img src=<?php echo $event->getImageUrl()?> class="img-fluid py-0" alt="banner"></a>
 
-            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
+            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-5" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
         </section>    
         <?php
     };

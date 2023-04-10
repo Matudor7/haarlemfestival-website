@@ -31,7 +31,7 @@ function updateProduct(index, userId, action){
         return fetch("http://localhost/api/products?product_id=" + data.product_ids[index])
         .then(response=>response.json())
         .then(product=>{
-            price = product[0].price * data.amounts[index];
+            price = product.price * data.amounts[index];
         })
         .then(()=>{
             productPrice.innerHTML = '\u20AC' + price;
@@ -66,7 +66,7 @@ function updateTotal(userId){
                 fetch("http://localhost/api/products?product_id=" + data.product_ids[i])
                 .then(response=>response.json())
                 .then(product=>{
-                totalPrice += (product[0].price * data.amounts[i]);
+                totalPrice += (product.price * data.amounts[i]);
                 totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + (totalPrice + (totalPrice * vat));
                 })
             }

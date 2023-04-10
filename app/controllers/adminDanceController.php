@@ -13,25 +13,35 @@ class AdminDanceController extends Controller
     }
     public function index()
     {
-        require __DIR__ . "/../views/admin/danceAdminIndex.php";
+        if ($this->checkRole()) {
+            require __DIR__ . "/../views/admin/danceAdminIndex.php";
+        } else {
+            header('Location: /');
+        }
     }
 
-    public function danceAdminManage()
-    {        
-        $artists = $this->danceService->getAllArtists();
-        $danceLocations = $this->danceService->getAllDanceLocations();
-        $danceEvents = $this->danceService->getAllDanceEvents();
-        $danceMusicTypes = $this->danceService->getAllMusicTypes();
 
-        foreach ($danceEvents as $danceEvent) {  //organize dance events by date
-            $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
-            if (!isset($danceEventsByDate[$date])) {
-                $danceEventsByDate[$date] = [];
+    public function danceAdminManage()
+    {    
+        if ($this->checkRole()) {
+            $artists = $this->danceService->getAllArtists();
+            $danceLocations = $this->danceService->getAllDanceLocations();
+            $danceEvents = $this->danceService->getAllDanceEvents();
+            $danceMusicTypes = $this->danceService->getAllMusicTypes();
+    
+            foreach ($danceEvents as $danceEvent) {  //organize dance events by date
+                $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
+                if (!isset($danceEventsByDate[$date])) {
+                    $danceEventsByDate[$date] = [];
+                }
             }
-        }
-        // Get the type of element being managed
-        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
-        require __DIR__ . "/../views/admin/danceAdminManage.php";
+            // Get the type of element being managed
+            $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
+            require __DIR__ . "/../views/admin/danceAdminManage.php";
+        } else {
+            header('Location: /');
+        }         
+        
     }
     public function danceAdminAdd()
     {
@@ -316,5 +326,12 @@ class AdminDanceController extends Controller
             }
         }
         $this->danceService->editEventArtists($newEvent, $selectedArtists);
+    }
+
+    function checkRole(){
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
+            return true;
+        }
+        return false;
     }
 }

@@ -39,7 +39,7 @@ class AdminController extends Controller
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
             $newEvent = $eventService->getByName($_POST['events']);
-            $festivalService->changeEvent($newEvent->getName(), $festivalEvent->getEventName(), $newEvent->getId());
+            $festivalService->changeEvent($festivalEvent->getId(), $newEvent->getName(), $newEvent->getId(), $newEvent->getStartTime(), $newEvent->getEndTime());
             echo "Selected event is: " . $_POST['events'];
         }
 

@@ -151,20 +151,23 @@
      function selectProduct(productId){
 
         //<//?php $id = 1; $productService = new ProductService(); ?>
-        testingLabel.innerText = productId;
+        //testingLabel.innerText = productId;
 
         //productInfoField.value = "<//?php echo $productService->getById($id)->getName()?>";
 
-                fetch('walkingtour', {
+         const data = {"productId": productId}
+                fetch('/walkingTour/selectTicket', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(productId),
+                body: JSON.stringify(data),
             })
+                    .then (console.log(JSON.stringify(data)))
                     .then(response => response.json())
                     .then(data => console.log(data))
                     .catch(error => console.error(error));
+
 
     }
 </script>

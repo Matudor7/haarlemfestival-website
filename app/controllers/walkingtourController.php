@@ -31,26 +31,26 @@ class WalkingTourController extends Controller{
 
         $tickets = $this->productService->getByEventType($thisEvent->getId());
 
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            selectTicket();
-        }
+
 
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';
     }
 
     public function selectTicket(){
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            var_dump($_POST);
             if(isset($_POST['productId'])){
 
                 $productId = $_POST['productId'];
-
-                $result = $this->productService->getById($productId);
-                $result->jsonSerialize();
-
+                var_dump($productId);
+                $result = $productId;
+                var_dump($result);
                 header('Content-Type: application/json;');
                 echo json_encode($result);
-            }
-
+            }  else {echo json_encode("does not work yet");}
+        }
     }
     public function walkingTourDetailPage() {
         $eventService = new EventService();

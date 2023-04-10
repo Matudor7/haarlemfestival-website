@@ -50,7 +50,7 @@ class AdminController extends Controller
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
             $newEvent = $this->eventService->getByName($_POST['events']);
-            $festivalService->changeEvent($newEvent->getName(), $festivalEvent->getEventName(), $newEvent->getId());
+            $festivalService->changeEvent($festivalEvent->getId(), $newEvent->getName(), $newEvent->getId(), $newEvent->getStartTime(), $newEvent->getEndTime());
             echo "Selected event is: " . $_POST['events'];
         }
 
@@ -63,11 +63,12 @@ class AdminController extends Controller
     //Tudor Nosca (678549)
     public function events()
     {
-        //TODO: Use constructor to avoid duplicate code
-        //$eventService = new EventService();
-        //$events = $eventService->getAll();
+        require_once __DIR__ . '/../Services/eventService.php';
+        
+        $eventService = new EventService();
+        $events = $eventService->getAll();
 
-        require __DIR__ . '/navbarRequirements.php';
+        //require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/events.php';
     }
     //Tudor Nosca (678549)

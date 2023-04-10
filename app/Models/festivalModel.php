@@ -1,5 +1,5 @@
 <?php
-
+//Tudor Nosca (678549)
 class Festival implements JsonSerializable{
     private int $id = 0;
 

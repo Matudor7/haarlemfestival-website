@@ -1,4 +1,5 @@
 <?php
+//Tudor Nosca (678549)
 require_once __DIR__ . '/vendor/autoload.php';
 
 $webhookData = file_get_contents('php://input');
@@ -12,12 +13,10 @@ $payment = $mollie->payments->get($paymentId);
 
 
 if ($payment->isPaid()) {
-    //Invoice location
     echo "Paid Payment";
 } elseif ($payment->isOpen()) {
     echo "Open Payment";
 } else {
-    //error handling
     echo "Failed Payment";
 }
 

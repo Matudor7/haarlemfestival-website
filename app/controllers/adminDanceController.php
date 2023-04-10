@@ -37,6 +37,9 @@ class AdminDanceController extends Controller
     {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
         $allMusicTypes = $this->danceService->getAllMusicTypes();
+        $allDanceLocations = $this->danceService->getAllDanceLocations();
+        $allArtists =  $this->danceService->getAllArtists();
+        $allSessions =  $this->danceService->getAllDanceSessions();
 
         if(isset($_POST['addbutton'])){
             switch ($element) {
@@ -50,6 +53,9 @@ class AdminDanceController extends Controller
                 case "Artist":                    
                     $downloadPath = $this->addPhoto('danceArtistImageInput', $_POST['danceArtistNameTextBox']);
                     $this->addDanceArtistElement($downloadPath, $allMusicTypes);
+                    break;  
+                case "Event":  
+                    $this->addDanceEventElement($allArtists);
                     break;      
             }
         }
@@ -122,6 +128,46 @@ class AdminDanceController extends Controller
         
         foreach ($musicTypes as $musicType){
             $this->danceService->insertMusicTypeForArtist($artistId, $musicType);   
+        }
+    }
+    function addDanceEventElement($allArtists){
+        $newEvent = new DanceEvent();
+
+        $dateString = $_POST['danceEventDateCalendar'];
+        $dateObj = DateTime::createFromFormat('Y-m-d', $dateString);
+        $newEvent->setDanceEventDate($dateObj);
+        $timeString = $_POST['danceEventTime'];
+        $timeObj = DateTime::createFromFormat('H:i', $timeString);
+        $newEvent->setDanceEventTime($timeObj);
+
+        $newEvent->setDanceLocationId($_POST['danceEventLocationDropDown']);
+        $newEvent->setDanceSessionTypeId($_POST['danceEventSessionDropDown']);
+        $newEvent->setDanceEventDuration($_POST['danceEventDurationTextBox']);
+        $newEvent->setDanceEventAvailableTickets($_POST['danceEventAvailableTicketsTextBox']);
+        $newEvent->setDanceEventPrice($_POST['danceEventPriceTextBox']);
+        $newEvent->setDanceEventExtraNote($_POST['danceEventExtraNoteTextBox']);
+
+        $newEventId = $this->danceService->insertDanceEvent($newEvent);
+        
+        $selectedArtists = [];
+        foreach ($allArtists as $artist) {
+            if (isset($_POST['artist'.$artist->getId()])) {
+                $selectedArtists[] = $_POST['artist'.$artist->getId()];
+            }
+        }
+        $this->addArtistsForNewEvent($selectedArtists, $newEventId);
+    }
+
+    function addArtistsForNewEvent($selectedArtists, $eventId){
+        $artists = [];
+
+        foreach($selectedArtists as $artistId){
+            $artist = $this->danceService->getArtistById($artistId);
+            array_push($artists, $artist);
+        }
+        
+        foreach ($artists as $artist){
+            $this->danceService->insertPerformingArtistsToNewEvent($eventId, $artist);   
         }
     }
 

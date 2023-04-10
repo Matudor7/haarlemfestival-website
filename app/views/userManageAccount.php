@@ -110,4 +110,10 @@ include __DIR__ . '/footer.php';
     </script>
 </body>
 
+<style>
+body {
+  background-color: white;
+}
+ </style>
+
 </html>

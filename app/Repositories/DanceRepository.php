@@ -5,6 +5,7 @@ require __DIR__ . '/../Models/MusicType.php';
 require __DIR__ . '/../Models/DanceLocation.php';
 require __DIR__ . '/../Models/DanceFlashback.php';
 require __DIR__ . '/../Models/DanceEvent.php';
+require __DIR__ . '/../Models/DanceSession.php';
 
 class DanceRepository extends Repository{
 
@@ -294,7 +295,7 @@ class DanceRepository extends Repository{
 
     //DANCE EVENTS
     public function getAllDanceEvents(){
-        $sql = "SELECT de.dance_event_id, de.dance_event_date, de.dance_event_time, dl.dance_location_name, GROUP_CONCAT(da.dance_artist_name 
+        $sql = "SELECT de.dance_event_id, de.dance_event_date, de.dance_event_time, dl.dance_location_name, de.dance_event_locationId, de.dance_event_sessionTypeId, GROUP_CONCAT(da.dance_artist_name 
         ORDER BY da.dance_artist_name ASC SEPARATOR ', ') AS performing_artists, ds.dance_sessionType_name, de.dance_event_duration, de.dance_event_availableTickets, de.dance_event_price, de.dance_event_extraNote 
         FROM dance_event de 
         JOIN dance_location dl ON dl.dance_location_id = de.dance_event_locationId 
@@ -314,6 +315,8 @@ class DanceRepository extends Repository{
                 $danceEvent->setDanceEventId($row['dance_event_id']);
                 $danceEvent->setDanceLocationName($row['dance_location_name']);
                 $danceEvent->setPerformingArtists($row['performing_artists']);
+                $danceEvent->setDanceLocationId($row['dance_event_locationId']);
+                $danceEvent->setDanceSessionTypeId($row['dance_event_sessionTypeId']);
                 $danceEvent->setDanceSessionTypeName($row['dance_sessionType_name']);
                 $danceEvent->setDanceEventDuration($row['dance_event_duration']);
                 $danceEvent->setDanceEventAvailableTickets($row['dance_event_availableTickets']);
@@ -335,6 +338,53 @@ class DanceRepository extends Repository{
         } catch (PDOException $e) {
             error_log('Error retrieving dance events: ' . $e->getMessage());
             return [];
+        }
+    }
+
+    public function getAllSessionsFromDatabase() 
+    {
+        $sql = "SELECT `dance_sessionType_id`, `dance_sessionType_name` FROM `dance_sessionType`";    
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+    
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'DanceSession');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log('Error retrieving all sessions: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function insertNewDanceEventToTheDatabase($newDanceEvent){
+        $sql = "INSERT INTO `dance_event`(`dance_event_sessionTypeId`, `dance_event_locationId`, `dance_event_date`, `dance_event_time`, `dance_event_duration`, `dance_event_price`, `dance_event_availableTickets`, `dance_event_extraNote`)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; 
+        try {
+            $statement = $this ->connection->prepare($sql);            
+            $statement->execute(array(
+            $newDanceEvent->getDanceSessionTypeId(),
+            $newDanceEvent->getDanceLocationId(),
+            $newDanceEvent->getDanceEventDate()->format('Y-m-d'),
+            $newDanceEvent->getDanceEventTime()->format('H:i'),
+            (int) $newDanceEvent->getDanceEventDuration(),
+            (double) $newDanceEvent->getDanceEventPrice(),
+            (int) $newDanceEvent->getDanceEventAvailableTickets(),
+            htmlspecialchars($newDanceEvent->getDanceEventExtraNote())
+            ));
+            $id =  $this ->connection->lastInsertId(); 
+            return $id;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function insertArtistsForNewEvent($newEventId, $artist){
+        $sql = "INSERT INTO `dance_performingArtist`(`dance_performingArtist_eventId`, `dance_performingArtist_artistId`) VALUES (?, ?)";
+        try{
+            $statement = $this ->connection->prepare($sql);
+            $statement->execute(array((int) $newEventId, (int) $artist->getId()));
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
     }
 }

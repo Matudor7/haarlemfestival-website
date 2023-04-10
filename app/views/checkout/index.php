@@ -161,7 +161,6 @@
       var cardCvvRegEx = /^[0-9]{3,4}$/;
 
     function submitData(){
-      console.log(invalidData());
       if(!invalidData()){
         var paymentMethod;
 
@@ -198,6 +197,8 @@
         .then(() => {window.location.href = '/checkout/payment?total=' + paymentData.total + "&paymentmethod=" + paymentMethod;})
         .catch(error => {console.error('ERROR: ', error);
         });
+      }else{
+        window.alert('Invalid input. Please try again.');
       }
     }
 

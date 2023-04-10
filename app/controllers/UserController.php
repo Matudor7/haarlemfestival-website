@@ -44,7 +44,7 @@ class UserController extends Controller
         $password = $this->generateRandomPassword();
         $user = $userService->getUserByEmail($email);
         $subject = "lets reset your password";
-        $message = "Dear " . $user->getUserFirstName.  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
+        $message = "Dear " . $user->getUserFirstName() .  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
         Thank you for choosing our website and we hope you continue to enjoy our services.\nBest regards,\n'Haarlem Festival Website' team";
         $userFirstName = $user->getUserFirstName();
         $smtp = $this->smtpService->sendEmail($email, $userFirstName , $message, $subject  );
@@ -52,9 +52,10 @@ class UserController extends Controller
         $userService->upDatePassword($user->getUserId(), $password);
 
         $_SESSION['passwordEmailMessage'] = "Your email was sent successfully!";
-       require_once __DIR__ .  '/LoginController.php';
-        $loginController = new LoginController();
-        $loginController->index();
+        header('Location: /login');
+        //require_once __DIR__ .  '/LoginController.php';
+        //$loginController = new LoginController();
+        //$loginController->index();
     }
     function generateRandomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; $pass = array(); //remember to declare

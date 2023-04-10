@@ -55,7 +55,7 @@ class YummyController extends Controller
 
             if($restaurant->getHavaDetailPageOrNot()){
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
-
+                require_once __DIR__ . '/navbarRequirements.php';
                 require __DIR__ . '/../views/yummy/detailPage.php';
             }else{
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());

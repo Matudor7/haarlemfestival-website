@@ -119,6 +119,8 @@ class AdminController extends Controller
     //Tudor Nosca (678549)
     function deleteevent()
     {
+        require __DIR__ . '/../Services/eventService.php';
+        
         $eventService = new EventService();
 
         $event = $eventService->getById($_GET['id']);

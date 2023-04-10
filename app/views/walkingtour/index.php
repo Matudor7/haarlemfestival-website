@@ -1,3 +1,6 @@
+<?php
+include __DIR__ . '/../nav.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,9 +14,6 @@
 
     </head>
     <body>
-    <?php
-        include __DIR__ . '/../nav.php';
-        ?>
 
 <main id="main">
 

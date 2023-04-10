@@ -12,15 +12,16 @@ class WalkingTourController extends Controller{
     private $walkingTourService;
     private $productService;
 
+    private $shoppingCartService;
+
     function __construct(){
         $this->eventService = new EventService();
         $this->walkingTourService = new WalkingTourService();
         $this->productService = new ProductService();
 }
     public function index(){
-
         $events = $this->eventService->getAll();
-        $thisEvent = $this->eventService->getByName("Walking Tour!");
+        $thisEvent = $this->eventService->getByName("Walking Tour");
 
         $walkingTours = $this->walkingTourService->getAllWalkingTours();
         $prices = $this->walkingTourService->getTourPrices();
@@ -35,6 +36,8 @@ class WalkingTourController extends Controller{
 
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';
+        require __DIR__ . '/navbarRequirements.php';
+
     }
 
     public function selectTicket(){
@@ -46,6 +49,24 @@ class WalkingTourController extends Controller{
                 $productId = $data['productId'];
 
                 $result = $this->productService->getById($productId);
+
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+            }  else {echo json_encode("does not work yet");}
+        }
+    }
+
+    public function addToCart(){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['productId'])&isset($data['userId'])){
+                $productId = $data['productId'];
+                $userId = $data['userId'];
+                $amount = $data['amount'];
+
+                $this->shoppingCartService = new ShoppingCartService();
+                $result = $this->shoppingCartService->addProducts($userId, $productId, $amount);
 
                 header('Content-Type: application/json;');
                 echo json_encode($result);

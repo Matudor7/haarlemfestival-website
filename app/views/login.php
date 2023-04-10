@@ -1,4 +1,6 @@
-<?php //session_start(); ?>
+<?php
+include __DIR__ . '/nav.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -14,9 +16,7 @@
 </head>
 
 <body>
-<?php
-include __DIR__ . '/nav.php';
-?>
+
 
 <body class="body"><br>
 

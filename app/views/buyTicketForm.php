@@ -45,7 +45,7 @@
             </div>
 
 
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="">Add to Cart</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Add to Cart</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeTicketForm()">Close</button>
 
         </form>
@@ -61,6 +61,7 @@
     const productListDiv = document.getElementById('productList');
     const productAmountField = document.getElementById("productAmount")
     let productAmount = 0;
+    let selectedProduct;
     const productInfoField = document.getElementById("productInfo");
 
     dateDropdown.addEventListener('change',(event) => {
@@ -172,6 +173,8 @@
                     .then(response => response.json())
                     .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
                     .catch(error => console.error(error));
+
+         selectedProduct = productId;
     }
 
     function changeAmount(number){
@@ -184,8 +187,25 @@
         productAmountField.value = productAmount;
     }
 
-    function addToCart(userId, productId, amount){
+    function addToCart(){
 
+        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>
+
+        const data = {"userId": userId,
+        "amount": productAmount,
+        "productId": selectedProduct}
+        fetch('/walkingTour/addToCart', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+
+        closeTicketForm();
     }
 </script>
 <style>

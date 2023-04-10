@@ -19,5 +19,9 @@ class ShoppingCartService{
     public function removeAmount(int $user_id, int $product_id){
         $this->shoppingCartRepo->removeAmount($user_id, $product_id);
     }
+
+    public function addProducts(int $userId, int $productId, int $amount){
+        $this->shoppingCartRepo->addProducts($userId, $productId, $amount);
+    }
 }
 ?>

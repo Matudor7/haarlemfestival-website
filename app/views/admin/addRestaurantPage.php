@@ -57,7 +57,7 @@ include __DIR__ . '/../nav.php';
         <label for="haveDetailPage">Have Detail Page:</label>
         <select name="haveDetailPage" id="haveDetailPage">
             <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option selected value="no">No</option>
         </select>
         <br><br>
 

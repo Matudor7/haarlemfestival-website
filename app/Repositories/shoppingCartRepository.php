@@ -1,4 +1,5 @@
 <?php
+//Tudor Nosca (678549)
 require_once __DIR__ . '/repository.php';
 require __DIR__ . '/../Models/shoppingCartModel.php';
 
@@ -46,14 +47,15 @@ class ShoppingCartRepository extends Repository{
         $statement->execute();
     }
 
-    public function addProducts(int $userId, int $productId, int $amount){
+    public function removeCartFromUser($user_id){
         try{
-            $statement = $this->connection->prepare("INSERT INTO shopping_cart (user_id, product_id, amount)
-                                                        VALUES (?, ?, ?)");
-            $statement->execute(array($userId, $productId, $amount));
-        } catch (PDOException $e){
+            $statement = $this->connection->prepare("DELETE FROM shopping_cart WHERE user_id=:userId");
+
+            $statement->bindParam(':userId', $user_id);
+    
+            $statement->execute();
+        }catch(PDOException $e){
             echo $e->getMessage();
         }
-
     }
 }

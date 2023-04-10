@@ -17,7 +17,8 @@ function scrollToElement() {
 }
 
 //Shopping Cart Methods
-async function updateProduct(index, userId, action){
+//Tudor Nosca (678549)
+function updateProduct(index, userId, action){
     const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
     const amount = document.getElementById("productamount " + index);
     const div = document.getElementById("productdiv " + index);
@@ -34,6 +35,7 @@ async function updateProduct(index, userId, action){
         })
         .then(()=>{
             productPrice.innerHTML = '\u20AC' + price;
+            updateTotal(userId);
         })
     })
     .catch(error=> {console.error(error)
@@ -43,11 +45,34 @@ async function updateProduct(index, userId, action){
         amount.innerHTML = parseInt(amount.innerHTML) + 1;
     }else if(action == "delete"){
         if(parseInt(amount.innerHTML) <= 1){
-            div.remove();
+            location.reload();
         }else{
             amount.innerHTML = parseInt(amount.innerHTML) - 1;
         }
     }
+}
+
+function updateTotal(userId){
+    const totalPriceHeader = document.getElementById("totalprice");
+
+    const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
+
+    fetch(shoppingCartUrl)
+    .then(response=> response.json())
+    .then(data => {
+            let totalPrice = 0;
+            const vat = 0.21;
+            for (let i = 0; i < data.product_ids.length; i++) {
+                fetch("http://localhost/api/products?product_id=" + data.product_ids[i])
+                .then(response=>response.json())
+                .then(product=>{
+                totalPrice += (product[0].price * data.amounts[i]);
+                totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + (totalPrice + (totalPrice * vat));
+                })
+            }
+    })
+    .catch(error=> {console.error(error)
+    });
 }
 
 function addAmount(index, userId, productId){

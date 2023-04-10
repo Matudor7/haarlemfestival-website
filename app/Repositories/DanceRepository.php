@@ -5,6 +5,7 @@ require __DIR__ . '/../Models/MusicType.php';
 require __DIR__ . '/../Models/DanceLocation.php';
 require __DIR__ . '/../Models/DanceFlashback.php';
 require __DIR__ . '/../Models/DanceEvent.php';
+require __DIR__ . '/../Models/DanceSession.php';
 
 class DanceRepository extends Repository{
 
@@ -294,7 +295,7 @@ class DanceRepository extends Repository{
 
     //DANCE EVENTS
     public function getAllDanceEvents(){
-        $sql = "SELECT de.dance_event_id, de.dance_event_date, de.dance_event_time, dl.dance_location_name, GROUP_CONCAT(da.dance_artist_name 
+        $sql = "SELECT de.dance_event_id, de.dance_event_date, de.dance_event_time, dl.dance_location_name, de.dance_event_locationId, de.dance_event_sessionTypeId, GROUP_CONCAT(da.dance_artist_name 
         ORDER BY da.dance_artist_name ASC SEPARATOR ', ') AS performing_artists, ds.dance_sessionType_name, de.dance_event_duration, de.dance_event_availableTickets, de.dance_event_price, de.dance_event_extraNote 
         FROM dance_event de 
         JOIN dance_location dl ON dl.dance_location_id = de.dance_event_locationId 
@@ -314,6 +315,8 @@ class DanceRepository extends Repository{
                 $danceEvent->setDanceEventId($row['dance_event_id']);
                 $danceEvent->setDanceLocationName($row['dance_location_name']);
                 $danceEvent->setPerformingArtists($row['performing_artists']);
+                $danceEvent->setDanceLocationId($row['dance_event_locationId']);
+                $danceEvent->setDanceSessionTypeId($row['dance_event_sessionTypeId']);
                 $danceEvent->setDanceSessionTypeName($row['dance_sessionType_name']);
                 $danceEvent->setDanceEventDuration($row['dance_event_duration']);
                 $danceEvent->setDanceEventAvailableTickets($row['dance_event_availableTickets']);
@@ -335,6 +338,173 @@ class DanceRepository extends Repository{
         } catch (PDOException $e) {
             error_log('Error retrieving dance events: ' . $e->getMessage());
             return [];
+        }
+    }
+
+    public function getAllSessionsFromDatabase() 
+    {
+        $sql = "SELECT `dance_sessionType_id`, `dance_sessionType_name` FROM `dance_sessionType`";    
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->execute();
+    
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'DanceSession');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log('Error retrieving all sessions: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function insertNewDanceEventToTheDatabase($newDanceEvent){
+        $sql = "INSERT INTO `dance_event`(`dance_event_sessionTypeId`, `dance_event_locationId`, `dance_event_date`, `dance_event_time`, `dance_event_duration`, `dance_event_price`, `dance_event_availableTickets`, `dance_event_extraNote`)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; 
+        try {
+            $statement = $this ->connection->prepare($sql);            
+            $statement->execute(array(
+            $newDanceEvent->getDanceSessionTypeId(),
+            $newDanceEvent->getDanceLocationId(),
+            $newDanceEvent->getDanceEventDate()->format('Y-m-d'),
+            $newDanceEvent->getDanceEventTime()->format('H:i'),
+            (int) $newDanceEvent->getDanceEventDuration(),
+            (double) $newDanceEvent->getDanceEventPrice(),
+            (int) $newDanceEvent->getDanceEventAvailableTickets(),
+            htmlspecialchars($newDanceEvent->getDanceEventExtraNote())
+            ));
+            $id =  $this ->connection->lastInsertId(); 
+            return $id;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function insertArtistsForNewEvent($newEventId, $artist){
+        $sql = "INSERT INTO `dance_performingArtist`(`dance_performingArtist_eventId`, `dance_performingArtist_artistId`) VALUES (?, ?)";
+        try{
+            $statement = $this ->connection->prepare($sql);
+            $statement->execute(array((int) $newEventId, (int) $artist->getId()));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function deleteEventFromDatabase($event){
+        $sql = "DELETE dance_event, dance_performingArtist FROM dance_event LEFT JOIN dance_performingArtist ON dance_event.dance_event_id = dance_performingArtist.dance_performingArtist_eventId
+        WHERE dance_event.dance_event_id = :event_id"; //this also deletes the event info in the dance_performingArtist table.
+        try {
+            $eventId = (int) $event->getDanceEventId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':event_id', $eventId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getEventByIdFromDatabase($event_id) 
+    {
+        $sql = "SELECT `dance_event_id`, `dance_event_locationId`, `dance_event_sessionTypeId`, `dance_event_date`, `dance_event_time`, `dance_event_duration`, `dance_event_price`, `dance_event_availableTickets`, `dance_event_extraNote` 
+        FROM `dance_event` WHERE `dance_event_id`= :dance_event_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':dance_event_id', $event_id, PDO::PARAM_INT);
+            $statement->execute();
+            $danceEvent = new DanceEvent();
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $danceEvent->setDanceEventId($row['dance_event_id']);
+                $danceEvent->setDanceLocationId($row['dance_event_locationId']);
+                $danceEvent->setDanceSessionTypeId($row['dance_event_sessionTypeId']);
+                $danceEvent->setDanceEventDuration($row['dance_event_duration']);
+                $danceEvent->setDanceEventAvailableTickets($row['dance_event_availableTickets']);
+                $danceEvent->setDanceEventPrice($row['dance_event_price']);
+                $danceEvent->setDanceEventExtraNote($row['dance_event_extraNote']);
+    
+                // Convert date and time strings to DateTime object
+                $date = new DateTime($row['dance_event_date']);
+                $time = new DateTime($row['dance_event_time']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d')); //date
+                $dateTime->setTime($time->format('H'), $time->format('i'), $time->format('s')); //time
+    
+                $danceEvent->setDanceEventDateTime($dateTime);
+            }
+    
+            return $danceEvent;
+        } catch (PDOException $e) {
+            error_log('Error retrieving event with id ' . $event_id . ': ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function getArtistsByEventFromDatabase($event){
+        $sql = "SELECT `dance_artist_id`, `dance_artist_name`
+                FROM `dance_artist` 
+                JOIN `dance_performingArtist` dpa 
+                ON dpa.`dance_performingArtist_artistId` = `dance_artist`.`dance_artist_id` 
+                JOIN `dance_event` de 
+                ON de.`dance_event_id` = dpa.`dance_performingArtist_eventId` 
+                WHERE de.`dance_event_id` = :event_id"; // Use named parameter :event_id
+    
+        try {
+            $eventId = $event->getDanceEventId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+            $statement->execute();
+            $artists = $statement->fetchAll(PDO::FETCH_CLASS, 'ArtistModel');
+            return $artists;
+        } catch (PDOException $e) {
+            error_log("Cannot retrieve artists for event with ID {$event->getDanceEventId()}: {$e->getMessage()}");
+            return null;
+        }
+    }
+    
+    public function editEventInDatabase($oldEvent, $newEvent){
+        $sql = "UPDATE `dance_event` SET `dance_event_locationId`= :location_id,`dance_event_sessionTypeId`= :session_id,`dance_event_date`= :date,`dance_event_time`= :time, 
+        `dance_event_duration`= :duration,`dance_event_price`= :price,`dance_event_availableTickets`= :available_tickets,`dance_event_extraNote`= :note 
+        WHERE `dance_event_id` = :event_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+
+            $newLocationId = (int) $newEvent->getDanceLocationId();
+            $newSessionId = (int) $newEvent->getDanceSessionTypeId();
+            $newDate = $newEvent->getDanceEventDate()->format('Y-m-d');
+            $newTime = $newEvent->getDanceEventTime()->format('H:i');
+            $newDuration = (int) $newEvent->getDanceEventDuration();
+            $newPrice = (double) $newEvent->getDanceEventPrice();
+            $newAvailableTickets = (int) $newEvent->getDanceEventAvailableTickets();
+            $sanitizedExtraNote = htmlspecialchars($newEvent->getDanceEventExtraNote());
+            $oldId = $oldEvent->getDanceEventId();
+
+            $statement->bindParam(':location_id', $newLocationId);
+            $statement->bindParam(':session_id', $newSessionId);
+            $statement->bindParam(':date', $newDate);
+            $statement->bindParam(':time', $newTime);
+            $statement->bindParam(':duration', $newDuration);
+            $statement->bindParam(':price', $newPrice);
+            $statement->bindParam(':available_tickets', $newAvailableTickets);
+            $statement->bindParam(':note', $sanitizedExtraNote);
+            $statement->bindParam(':event_id', $oldId);
+
+            $statement->execute();
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+
+    }
+
+    public function editEventArtistsInDatabase($event, $newArtistId){
+        /* // Delete all existing artist records for the event to replace them with the new ones.
+        This approach simplifies the update process and avoids having to update individual records.
+        We don't need to preserve historical data or track changes over time, so we can safely delete the existing records without any impact on the application's functionality.*/
+        $sql = "DELETE FROM dance_performingArtist WHERE dance_performingArtist_eventId = :dance_event_id; INSERT INTO dance_performingArtist (dance_performingArtist_eventId, dance_performingArtist_artistId) 
+        VALUES (:dance_event_id, :artist_id);";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindValue(':dance_event_id', (int) $event->getDanceEventId(), PDO::PARAM_INT);
+            $statement->bindValue(':artist_id', (int) $newArtistId, PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
         }
     }
 }

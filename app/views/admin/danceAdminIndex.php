@@ -1,4 +1,4 @@
-<?php include __DIR__ . "/../nav.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

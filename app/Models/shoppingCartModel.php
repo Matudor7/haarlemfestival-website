@@ -1,4 +1,5 @@
 <?php
+//Tudor Nosca (678549)
 class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     private $product_ids = []; //int array

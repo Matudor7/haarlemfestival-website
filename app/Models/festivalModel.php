@@ -1,7 +1,7 @@
 <?php
-
-class Festival{
-    private int $festival_id = 0;
+//Tudor Nosca (678549)
+class Festival implements JsonSerializable{
+    private int $id = 0;
 
     private string $festival_startingDate = "";
 
@@ -14,8 +14,13 @@ class Festival{
 
     #[ReturnTypeWillChange]
 
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+
     public function getId(): int{
-        return $this->festival_id;
+        return $this->id;
     }
 
     public function getStartingDate(): string{

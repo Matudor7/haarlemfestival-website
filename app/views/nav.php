@@ -1,4 +1,3 @@
-<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,57 +15,19 @@
 </head>
 
 <body>
-    <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-    if (
-        $_SERVER["REQUEST_URI"] == "/dance" ||
-        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-    ) {
-        echo '<nav class="navbar bg-light d-flex flex-column mb-0 align-items-center pt-0 sticky-top">';
-    } else {
-        echo '<nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">';
-    } ?>
+<nav class="navbar bg-dark d-flex flex-column mb-0 align-items-center pt-0 sticky-top">
     <a class="navbar-brand px-0 mx-0 py-0" href="/">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<img src="/media/NavbarLogoForDance.jpg" class="img-fluid" alt="Logo">';
-        } else {
-            echo '<img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">';
-        } ?>
+<img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">
+
     </a>
-    <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-    if (
-        $_SERVER["REQUEST_URI"] == "/dance" ||
-        strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-    ) {
-        echo '<ul class="nav bg-light d-flex flex-nowrap">';
-    } else {
-        echo '<ul class="nav bg-dark d-flex flex-nowrap">';
-    } ?>
+<ul class="nav bg-dark d-flex flex-nowrap">
     <li class="nav-item">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<a class="nav-link active text-dark fw-bold" aria-current="page" href="/">Home</a>';
-        } else {
-            echo '<a class="nav-link active text-light fw-bold" aria-current="page" href="/">Home</a>';
-        } ?>
+<a class="nav-link active text-light fw-bold" aria-current="page" href="/">Home</a>
     </li>
     <?php foreach ($events as $event) { ?>
     <li class="nav-item">
-        <?php //if the page is dance, the logo changes to dark background and light font, if not, it is white bg and dark font
-        if (
-            $_SERVER["REQUEST_URI"] == "/dance" ||
-            strpos($_SERVER["REQUEST_URI"], "/dance/detail") === 0
-        ) {
-            echo '<a class="nav-link text-dark fw-bold"';
-        } else {
-            echo '<a class="nav-link text-light fw-bold"';
-        } ?>
+<a class="nav-link text-light fw-bold"
+
         href="<?php echo $event->getUrlRedirect(); ?>"><?php echo $event->getName(); ?></a>
     </li>
     <?php } ?>
@@ -75,16 +36,21 @@
             role="button" href="#offcanvas"></a>
     </li>
     <li>
-        <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_role"] == 2) { //only admins should see these
+        <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])&& $_SESSION["user_role"] == 2) { //only admins should see these
         echo "<a class='nav-link' style='color: white;' href='/admin'>Manage Website</a>";
     } ?>
     </li>
     <li>
-        <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_role"] == 2) { 
+        <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])&& $_SESSION["user_role"] == 2) { 
             echo "<a class='nav-link' style='color: white;' href='/admin/registerUser'>Register User</a>";  } ?>
     </li>
+    <li>
+        <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])) { 
+            echo "<a class='nav-link' style='color: white;' href='/user/userManageAccount'>Manage Account</a>";  } ?>
+    </li>
 
-    <?php if (isset($_SESSION["user_id"])) { ?>
+
+    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== 0) { ?>
     <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
         STYLE="margin: 2px 30px;">Log
         out</button>&nbsp;
@@ -97,43 +63,46 @@
 
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasLabel">Shopping Cart</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <!-- This is where the shopping cart loop goes !-->
-            <?php foreach ($merged_products as $product) { ?>
-            <div style="display: flex; justify-content: space-between; align-items: center">
-                <div>
-                    <button type="button" class="btn btn-primary" style="padding: 5px 5px">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus" viewBox="0 0 16 16">
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
-                            </path>
-                        </svg>
-                    </button>
-                    <h6 style="text-align: center"><?php echo $product->getId(); ?></h6>
-                    <button type="button" class="btn btn-primary" style="padding: 5px 5px">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-dash" viewBox="0 0 16 16">
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                        </svg>
-                    </button>
-                </div>
-                <div style="margin-left: 20px">
-                    <h2><?php echo $product->getName(); ?></h2>
-                    <h6><?php echo $product->getLocation(); ?></h6>
-                    <p><?php echo $product->getStartTime(); ?></p>
-                </div>
-                <div>
-                    <h3><?php echo $product->getPrice(); ?></h3>
-                </div>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabel">Shopping Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <?php } ?>
-        </div>
-    </div>
+            <div class="offcanvas-body">
+                <!-- This is where the shopping cart loop goes !-->
+                    <?php for($i = 0; $i < count($merged_products); $i++)
+                    {?>
+                        <div id ="productdiv <?php echo $i?>" style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
+                            <div>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton" onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                </svg>
+                            </button>
+                            <h6 id="productamount <?php echo $i?>" style="text-align: center"><?php echo $amounts[$i]?></h6>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="removeButton" onclick="removeAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                </svg>
+                            </button>
+                            </div>
+                            <div style="margin-left: 20px">
+                                <h2><?php echo $merged_products[$i]->getName()?></h2>
+                                <h6><?php echo $merged_products[$i]->getLocation()?></h6>
+                                <p><?php echo $merged_products[$i]->getStartTime()?></p>
+                                <p><?php echo $merged_products[$i]->getInfo()?></p>
+                            </div>
+                            <div>
+                                <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
+                            </div>
+                        </div>
+                        <br>
+                    <?php
+                    }?>
+                    <div style="bottom:1; right:0; float: right">
+                        <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
+                    </div>
+                    <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout'">Continue to Checkout</button>
+            </div>
 
     </nav>
     <script src="/js/scriptfile.js"></script>

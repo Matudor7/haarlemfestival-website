@@ -1,4 +1,3 @@
-<?php include __DIR__ . "/../nav.php"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -17,6 +16,7 @@
 </head>
 
 <body>
+    <?php include __DIR__ . "/../nav.php"; ?>
     <section id="dance-detail-header" class="mx-0 my-0 py-0 bg-dark"
         style="background-image: url('<?php echo $artist->getDanceArtistDetailPageBanner(); ?>');">
         <div class="mx-5 py-lg-5 justify-content text-left">

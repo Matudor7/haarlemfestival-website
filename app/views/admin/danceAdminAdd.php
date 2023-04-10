@@ -10,7 +10,7 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <?php 
-    function generateTheAddFormByElement($element, $allMusicTypes){
+    function generateTheAddFormByElement($element, $allMusicTypes, $allDanceLocations, $artists, $allSessions){
 
     switch ($element) {
         case 'Artist':
@@ -22,9 +22,9 @@
         case "Location":
             $addFormHtml = generateLocationAddForm();
             break;
-        /*case 'Event':
-            $tableHtml = $this->generateEventTable($danceEvents);
-            break;*/
+        case 'Event':
+            $addFormHtml = generateDanceEventAddForm($allDanceLocations, $artists, $allSessions);
+            break;
         default:
             $addFormHtml =
                 "<p>There has been an error creating the Add Form. Please try again later.</p>";
@@ -117,6 +117,68 @@ function generateLocationAddForm()
 
         return $locationAddFormHtml;
     }
+function generateDanceEventAddForm($danceLocations, $artists, $sessions)
+    {
+        $danceEventAddFormHtml = '
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventDateCalendar" class="form-label">Dance Event Date: * </label>
+            <input type="date" class="form-control" name="danceEventDateCalendar" id="danceEventDateCalendar" required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventTime" class="form-label">Dance Event Time: * </label>
+            <input type="time" class="form-control" name="danceEventTime" id="danceEventTime" required>
+        </div>
+        <div class="mb-3" style="width: 20%">
+            <label for="danceEventLocationDropDown">Dance Event Location* </label>
+            <select name="danceEventLocationDropDown" id="danceEventLocationDropDown" required>';
+foreach ($danceLocations as $location) {
+    $danceEventAddFormHtml .= '<option value="' . $location->getDanceLocationId() . '">' . $location->getDanceLocationName() . '</option>';
+}
+$danceEventAddFormHtml .= '
+            </select>
+        </div> 
+        <div class="mb-3" style="width: 20%">
+        <p>Select the artist(s):*</p>';    
+    foreach ($artists as $artist) {
+        $danceEventAddFormHtml .= '
+            <input type="checkbox" id="artist' . $artist->getId() . '" name="artist' . $artist->getId() . '" value="' . $artist->getId() . '">
+            <label for="artist' . $artist->getId() . '">' . $artist->getName() . '</label><br>';
+    }    
+    $danceEventAddFormHtml .= '
+        </div>    
+        <div class="mb-3" style="width: 20%">
+            <label for="danceEventSessionDropDown">Dance Event Session* </label>
+            <select name="danceEventSessionDropDown" id="danceEventSessionDropDown" required>';
+foreach ($sessions as $session) {
+    $danceEventAddFormHtml .= '<option value="' . $session->getDanceSessionId() . '">' . $session->getDanceSessionName() . '</option>';
+}
+$danceEventAddFormHtml .= '
+            </select>
+        </div>  
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventDurationTextBox" class="form-label">Duration (total mins)*</label>
+            <input type="number" min="0" class="form-control" id="danceEventDurationTextBox"
+                name="danceEventDurationTextBox" placeholder="Duration" required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventAvailableTicketsTextBox" class="form-label">Available Tickets*</label>
+            <input type="number" min="0" class="form-control" id="danceEventAvailableTicketsTextBox"
+                name="danceEventAvailableTicketsTextBox" placeholder="Available Tickets" required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventPriceTextBox" class="form-label">Price*</label>
+            <input type="number" step="00.01" min="0" class="form-control" id="danceEventPriceTextBox"
+                name="danceEventPriceTextBox" placeholder="Price" required>
+        </div>
+        <div class="mb-3" style="width: 40%">
+            <label for="danceEventExtraNoteTextBox" class="form-label">Extra Note About This Event</label>
+            <input type="text" class="form-control" id="danceEventExtraNoteTextBox"
+                name="danceEventExtraNoteTextBox" placeholder="Extra Note">
+        </div>        
+        <p class="fw-bold">* marked fields are mandatory.</p>';
+
+        return $danceEventAddFormHtml;
+}
 ?>
 
 <body>
@@ -128,7 +190,7 @@ function generateLocationAddForm()
 
         <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateInput();">
             <div>
-                <?php $addForm = generateTheAddFormByElement($element, $allMusicTypes); 
+                <?php $addForm = generateTheAddFormByElement($element, $allMusicTypes, $allDanceLocations, $allArtists, $allSessions); 
         echo $addForm ?>
                 <button type="submit" class="btn btn-success mt-5" name="addbutton" onclick="addElement()">Add
                     <?php echo $element ?></button>
@@ -152,13 +214,17 @@ function generateLocationAddForm()
             var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="musicType"]:checked');
             checkboxes.forEach(function(checkbox) {
                 selectedValues.push(checkbox.value);
-            });
-
+            })
             if (selectedValues.length === 0) {
                 alert("Please select at least one music type for the artist.");
                 return false;
             }
-        }
+        }else if ('<?php echo $element ?>' === 'Event') {
+            var selectedValues = [];
+            var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="artist"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedValues.push(checkbox.value);
+            })};
         return true;
     }
     </script>

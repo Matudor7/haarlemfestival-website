@@ -24,18 +24,22 @@ include __DIR__ . '/../nav.php';
         <br><br>
         <label for="restaurant_foodType">Food Type:</label>
         <select name="restaurant_foodType" id="restaurant_foodType">
-            <?php foreach ($foodTypes as $foodtype){?>
-                <option value="<?=$foodtype->getFoodTypeId()?>"><?=$restaurant->getFoodTypeName()?></option>
-
-            <?php }?>
+            <option value="<?=$foodTypes[0]->getFoodTypeId()?>"><?=$restaurant->getFoodTypeName()?></option>
+            <?php foreach ($foodTypes as $foodtype){
+                if ($foodtype->getFoodType() != $restaurant->getFoodTypeName()) { ?>
+                    <option value="<?=$foodtype->getFoodTypeId()?>"><?=$foodtype->getFoodType()?></option>
+                <?php }
+            }?>
         </select>
         <br><br>
         <label for="restaurant_rating">Rating:</label>
         <select name="restaurant_rating" id="restaurant_rating">
-            <?php foreach ($ratings as $rating){?>
-                <option  value="<?=$rating->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
-                <!--<option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option> -->
-            <?php }?>
+            <option value="<?=$ratings[0]->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
+            <?php foreach ($ratings as $rating) {
+                if ($rating->getRatingNumber() != $restaurant->getRestaurantRating()) { ?>
+                    <option  value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option>
+                <?php }
+            }?>
         </select>
         <br><br>
         <label for="restaurant_kidsPrice">Kids Price:</label>

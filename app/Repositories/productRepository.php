@@ -1,11 +1,12 @@
 <?php
+//Tudor Nosca (678549)
 require_once __DIR__ . '/repository.php';
 require __DIR__ . '/../Models/productModel.php';
 
 class ProductRepository extends Repository{
     public function getAll(){
         try{
-            $statement = $this->connection->prepare("SELECT id, name, event_type, starting_date_time, location, price, additional_info FROM product");
+            $statement = $this->connection->prepare("SELECT id, name, event_type, starting_time, location, price, additional_info FROM product");
 
             $statement->execute();
             $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');

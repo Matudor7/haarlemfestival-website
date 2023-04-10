@@ -14,6 +14,10 @@
     <include_path>
       <path value="$PROJECT_DIR$/app/vendor/composer" />
       <path value="$PROJECT_DIR$/app/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/app/vendor/mollie/mollie-api-php" />
+      <path value="$PROJECT_DIR$/app/vendor/bacon/bacon-qr-code" />
+      <path value="$PROJECT_DIR$/app/vendor/dasprid/enum" />
+      <path value="$PROJECT_DIR$/app/vendor/endroid/qr-code" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">

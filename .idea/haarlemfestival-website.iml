@@ -4,6 +4,10 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/phpmailer/phpmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/mollie/mollie-api-php" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/bacon/bacon-qr-code" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/dasprid/enum" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/endroid/qr-code" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

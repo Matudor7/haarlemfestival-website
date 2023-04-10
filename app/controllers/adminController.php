@@ -27,7 +27,7 @@ class AdminController extends Controller
 
         $this->events = $this->eventService->getAll();
     }
-
+    //Tudor Nosca (678549)
     public function index()
     {
         $festivalService = new FestivalService();
@@ -45,7 +45,7 @@ class AdminController extends Controller
 
         require __DIR__ . '/../views/admin/index.php';
     }
-
+    //Tudor Nosca (678549)
     public function events()
     {
         //TODO: Use constructor to avoid duplicate code
@@ -54,7 +54,7 @@ class AdminController extends Controller
 
         require __DIR__ . '/../views/admin/events.php';
     }
-
+    //Tudor Nosca (678549)
     function addevent()
     {
         if (isset($_POST['addbutton'])) {
@@ -75,7 +75,7 @@ class AdminController extends Controller
         }
         require __DIR__ . '/../views/admin/addevent.php';
     }
-
+    //Tudor Nosca (678549)
     function editevent()
     {
         $eventService = new EventService();
@@ -99,7 +99,7 @@ class AdminController extends Controller
 
         require __DIR__ . '/../views/admin/editevent.php';
     }
-
+    //Tudor Nosca (678549)
     function deleteevent()
     {
         $eventService = new EventService();

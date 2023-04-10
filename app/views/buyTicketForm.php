@@ -29,16 +29,21 @@
                 </div>
             </div>
 
+            <div id="productOutput">
             <div class="btn-group" role="group">
                 <button id="decreasebtn" type="button" class="amountBtns" onClick="changeAmount(-1)">-</button>
                 <button id="increasebtn" type="button" class="amountBtns" onClick="changeAmount(+1)">+</button>
-
             </div>
 
                 <input id="productAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>
             <label>X</label>
             <input id="productInfo" class="form-control" type="text" value="Product" aria-label="readonly input example" readonly>
+            </div>
+            <?php if($thisEvent->getId() == 2){?>
+                    <div id="kidsOutput"></div>
+                <button id="addKidsBtn" type="button" class="btn rounded-pill" onClick="addKids()">Add Kids</button>
 
+            <?php }?>
 
             <div class="m-2 ms-5 me-5">
                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Additional Notes" rows="3" style="max-height: 60px; max-width:400px "></textarea>
@@ -61,6 +66,7 @@
     const productAmountField = document.getElementById("productAmount")
     let productAmount = 0;
     let selectedProduct;
+    let kidsAmount = 0;
     const productInfoField = document.getElementById("productInfo");
 
     dateDropdown.addEventListener('change',(event) => {
@@ -154,8 +160,8 @@
     }
 
      function selectProduct(productId){
-         productAmount = 1;
-
+         selectedProduct = productId;
+        productAmount = 1;
 
          const data = {"productId": productId}
                 fetch('/walkingTour/selectTicket', {
@@ -169,7 +175,7 @@
                     .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
                     .catch(error => console.error(error));
 
-         selectedProduct = productId;
+
     }
 
     function changeAmount(number){
@@ -202,6 +208,56 @@
 
         closeTicketForm();
     }
+
+    function addKids(){
+        const div = document.getElementById('kidsOutput')
+        const addButton = document.getElementById('addKidsBtn')
+        kidsAmount += 1;
+
+        div.innerText = "";
+
+        const btnGroupDiv = document.createElement('div');
+        btnGroupDiv.setAttribute('class', 'btn-group');
+        btnGroupDiv.setAttribute('role', 'group');
+        div.appendChild(btnGroupDiv);
+        const decreaseBtn = document.createElement('button');
+        decreaseBtn.setAttribute('id', 'decreasebtn');
+        decreaseBtn.setAttribute('type', 'button');
+        decreaseBtn.setAttribute('class', 'amountBtns');
+        decreaseBtn.setAttribute('onClick', 'deleteKids()');
+        decreaseBtn.textContent = '-';
+        btnGroupDiv.appendChild(decreaseBtn);
+        const productAmountInput = document.createElement('input');
+        productAmountInput.setAttribute('id', 'productAmount');
+        productAmountInput.setAttribute('class', 'form-control');
+        productAmountInput.setAttribute('type', 'text');
+        productAmountInput.setAttribute('value', kidsAmount);
+        productAmountInput.setAttribute('aria-label', 'readonly input example');
+        productAmountInput.setAttribute('readonly', 'true');
+        div.appendChild(productAmountInput);
+
+        const label = document.createElement('label');
+        label.textContent = 'X';
+        div.appendChild(label);
+
+        const productInfoInput = document.createElement('input');
+        productInfoInput.setAttribute('id', 'productInfo');
+        productInfoInput.setAttribute('class', 'form-control');
+        productInfoInput.setAttribute('type', 'text');
+        productInfoInput.setAttribute('value', 'Kids');
+        productInfoInput.setAttribute('aria-label', 'readonly input example');
+        productInfoInput.setAttribute('readonly', 'true');
+        div.appendChild(productInfoInput);
+
+        kidsOutput.appendChild(div);
+
+    }
+
+    function deleteKids(){
+        const div = document.getElementById('kidsOutput')
+        div.innerText = "";
+        kidsAmount = 0;
+    }
 </script>
 <style>
     .form-popup {
@@ -212,15 +268,16 @@
         transform: translate(-50%, -50%);
         border: 3px solid #000000;
         z-index: 9;
+        margin-top: 50px;
     }
 
     /* Add styles to the form container */
     .form-container {
-        max-width: 500px;
+        width: 500px;
         max-height: 370px;
         padding: 10px;
         background-color: white;
-        overflow: auto;
+        overflow: scroll;
         text-align: center;
     }
 

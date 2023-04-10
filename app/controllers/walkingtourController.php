@@ -67,7 +67,7 @@ class WalkingTourController extends Controller{
 
                 header('Content-Type: application/json;');
                 echo json_encode($result);
-            }  else {echo json_encode("does not work yet");}
+            }  else {echo json_encode("Something went wrong");}
         }
     }
     public function walkingTourDetailPage() {

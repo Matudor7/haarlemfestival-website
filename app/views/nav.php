@@ -45,6 +45,7 @@
             echo "<a class='nav-link' style='color: white;' href='/admin/registerUser'>Register User</a>";  } ?>
     </li>
 
+
     <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== 0) { ?>
     <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
         STYLE="margin: 2px 30px;">Log

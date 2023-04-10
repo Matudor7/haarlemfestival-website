@@ -28,9 +28,6 @@ include __DIR__ . '/nav.php';
         <input type="password" name="password" placeholder="Password"><br><br>
         <input id="loginButton" class="btn btn-success" type="submit" name="LoginButton" value="Login"><br><br>
     </form>
-    <form method="post" action="user/resetPasswordPage">
-        <a href="user/resetPasswordPage" class="btn btn-link">Forgot Password?</a>
-    </form>
     <?php
     if(isset($_SESSION['LoginError'])){ ?>
         <p> <?php echo $_SESSION['LoginError']; ?> </p>
@@ -42,6 +39,9 @@ include __DIR__ . '/nav.php';
         <?php
         unset($_SESSION['passwordEmailMessage']);
     }?>
+    <form method="post" action="user/resetPasswordPage">
+        <a href="/user/resetPasswordPage" class="btn btn-link">Forgot Password?</a>
+    </form>
 </div>
 <?php
 include __DIR__ . '/footer.php';

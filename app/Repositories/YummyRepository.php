@@ -84,8 +84,10 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 htmlspecialchars($restaurant->getRestaurantRatingId()),
 
             ));
+            return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            return false;
         }
     }
 

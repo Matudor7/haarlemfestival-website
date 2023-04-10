@@ -1,7 +1,8 @@
 <?php
+session_start();
 require __DIR__ . '/controller.php';
-require __DIR__ . '/../services/festivalService.php';
-require __DIR__ . '/../services/eventService.php';
+//require_once __DIR__ . '/../services/festivalService.php';
+//require_once __DIR__ . '/../services/eventService.php';
 require __DIR__ . '/../services/DanceService.php';
 require __DIR__ . '/../Services/FoodTypeService.php';
 require __DIR__ . '/../Services/RatingService.php';
@@ -17,24 +18,34 @@ class AdminController extends Controller
     private $events;
     private $yummyService;
     private $userService;
+    private $foodTypeService;
+    private $ratingService;
 
     public function __construct()
     {
-        $this->eventService = new EventService();
+       // $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
         $this->userService = new UserService();
+        $this->foodTypeService = new FoodTypeService();
+        $this->ratingService = new RatingService();
 
-        $this->events = $this->eventService->getAll();
+      //  $this->events = $this->eventService->getAll();
     }
     //Tudor Nosca (678549)
     public function index()
     {
-        if($this->checkRole()){
+
+        require __DIR__ . '/../Services/eventService.php';
+        require __DIR__ . '/../Services/festivalService.php';
+
+        if($this->checkRole()) {
+
         $festivalService = new FestivalService();
+        $eventsService = new EventService();
 
         $festival = $festivalService->getFestival();
-        $events = $this->eventService->getAll();
+        $events = $eventsService->getAll();
 
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
@@ -53,9 +64,10 @@ class AdminController extends Controller
     public function events()
     {
         //TODO: Use constructor to avoid duplicate code
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
 
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/events.php';
     }
     //Tudor Nosca (678549)
@@ -82,6 +94,7 @@ class AdminController extends Controller
     //Tudor Nosca (678549)
     function editevent()
     {
+        require __DIR__ . '/../Services/eventService.php';
         $eventService = new EventService();
 
         $event = $eventService->getById($_GET['id']);
@@ -117,55 +130,50 @@ class AdminController extends Controller
 
     public function addRestaurantPage()
     {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
 
-        $foodTypeService = new FoodTypeService();
-        $foodTypes = $foodTypeService->getAllFoodType();
+        //$events = $this->eventService->getAll();
+        $foodTypes = $this->foodTypeService->getAllFoodType();
+        $ratings = $this->ratingService->getAllRating();
 
-        $ratingService = new RatingService();
-        $ratings = $ratingService->getAllRating();
-
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/addRestaurantPage.php';
     }
 
     public function manageRestaurants()
     {
-        if($this->checkRole()){
-        $events = $this->eventService->getAll();
+        if($this->checkRole()) {
+            //$events = $this->eventService->getAll();
+            $restaurants = $this->yummyService->getAllRestaurants();
+            $foodTypes = $this->foodTypeService->getAllFoodType();
+            $ratings = $this->ratingService->getAllRating();
 
-        $yummyService = new YummyService();
-        $restaurants = $yummyService->getAllRestaurants();
-
-        $foodTypeService = new FoodTypeService();
-        $foodTypes = $foodTypeService->getAllFoodType();
-
-        $ratingService = new RatingService();
-        $ratings = $ratingService->getAllRating();
-
-
-        require __DIR__ . '/../views/admin/manageRestaurants.php';
+            require __DIR__ . '/navbarRequirements.php';
+            require __DIR__ . '/../views/admin/manageRestaurants.php';
+        } else {
+            header('Location: /');
+        }
     }
-    else{
-        header('Location: /');
-    }
+
+    private function getRestaurantPictureURL($restaurant_pictureURL, $restaurant_name)
+    {
+        $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $restaurant_name)));
+        $downloadPath = '/media/yummyPics/' . $imageName . '.png';
+        move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
+        return $downloadPath;
+
     }
 
     public function addRestaurant()
     {
         if (isset($_POST['addRestaurant'])) {
             try {
-
                 //Get image URL from POST request, then download that image into /media/events
                 $restaurant_pictureURL = $_FILES['restaurant_pictureURL']['tmp_name'];
-
-                $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['restaurant_name'])));
-
-                $downloadPath = '/media/yummyPics/' . $imageName . '.png'; // /media/yummyPics/restaurant.png
-
-                //Put the file from the image path to the download path
-                move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
+                $downloadPath = $this->getRestaurantPictureURL($restaurant_pictureURL, $_POST['restaurant_name']);
                 $restaurant = new RestaurantModel();
+                $restaurant->setRestaurantPictureURL($downloadPath);
+
+
                 $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
                 $restaurant->setFoodTypeId(htmlspecialchars($_POST['restaurant_foodType']));
                 $restaurant->setRestaurantRatingId(htmlspecialchars($_POST['restaurant_rating']));
@@ -177,33 +185,30 @@ class AdminController extends Controller
                 $restaurant->setNumberOfTimeSlots(htmlspecialchars($_POST['numTime_slots']));
                 $restaurant->setRestaurantNumberOfAvailableSeats(htmlspecialchars($_POST['num_seats']));
 
-                $restaurant->setRestaurantPictureURL($downloadPath);
+                //$restaurant->setRestaurantPictureURL($downloadPath);
                 $restaurantService = new YummyService();
-                $restaurantService->insertRestaurant($restaurant);
+                $result = $restaurantService->insertRestaurant($restaurant);
+
+                if ($result){
+                    header("location: /admin/manageRestaurants");
+                    exit();
+                }
 
             } catch (Exception $e) {
-                echo $e;
+                echo "Error adding restaurant: " . $e->getMessage();
             }
-
-
         }
     }
 
     public function editRestaurantPage()
     {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
-
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
         $restaurant = $this->yummyService->getById($_GET['id']);
+        $foodTypes =  $this->foodTypeService->getAllFoodType();
+        $ratings = $this->ratingService->getAllRating();
 
-
-        $foodTypeService = new FoodTypeService();
-        $foodTypes = $foodTypeService->getAllFoodType();
-
-        $ratingService = new RatingService();
-        //$thisRestaurantRating = $ratingService->getAllRatingById($restaurant->getFoodType());
-        $ratings = $ratingService->getAllRating();
-
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/editRestaurantPage.php';
     }
 
@@ -216,18 +221,11 @@ class AdminController extends Controller
 
         // Check if user uploaded a new picture URL or not
         if (!empty($_FILES['restaurant_pictureURL']['name'])) {
-            // Upload the new picture and set the picture URL
-            $restaurant_pictureURL = $_FILES['restaurant_pictureURL']['tmp_name'];
-            $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['restaurant_name'])));
-            $downloadPath = '/media/yummyPics/' . $imageName . '.png'; // /media/yummyPics/restaurant.png
-            move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
+            $downloadPath = $this->getRestaurantPictureURL($_FILES['restaurant_pictureURL']['tmp_name'], $_POST['restaurant_name']);
             $restaurant->setRestaurantPictureURL($downloadPath);
-        }
-        else {
-            // User did not upload a new picture, keep the one that is saved in the database
+        } else {
             $restaurant->setRestaurantPictureURL($restaurantFromDB->getRestaurantPictureURL());
         }
-
         // Update the existing restaurant object retrieved from the database
         $restaurant->setRestaurantId($_POST['restaurant_id']);
         $restaurant->setRestaurantName(htmlspecialchars($_POST['restaurant_name']));
@@ -262,11 +260,11 @@ class AdminController extends Controller
 
     public function registerUserPage()
     {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        //$eventService = new EventService();
+       // $events = $eventService->getAll();
 
-        $userService = new UserTypeService();
-        $userTypes = $userService->getAllUserType();
+        $userTypes = $this->userService->getAllUserType();
+        require __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/registerUser.php';
     }
 
@@ -293,19 +291,12 @@ class AdminController extends Controller
             }
         }
         $this->registerUserPage();
-        return [$userCreationMessage, $status];
-    }
-
-      /*  if ($result) {
-            $_SESSION['userCreationMessage'] = "User created successfully!";
+        if (isset($userCreationMessage)) {
+            return [$userCreationMessage, $status];
         } else {
-            $_SESSION['userCreationMessage'] = "Username already exists, please choose a different one!";
+            return [null, null];
         }
-
-        $this->registerUserPage();
-        unset($_SESSION['userCreationMessage']);*/
-    
-    
+    }
 
     
     // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 

@@ -27,7 +27,7 @@ class YummyService
         return $yummy;
     }
     public function insertRestaurant($restaurant){
-        $this->yummyRepo->insertRestaurant($restaurant);
+        return $this->yummyRepo->insertRestaurant($restaurant);
     }
 
     public function deleteRestaurant($id)

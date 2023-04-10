@@ -1,9 +1,9 @@
 <?php
+//Tudor Nosca (678549)
 session_start();
 require __DIR__ . '/controller.php';
 class HomeController extends Controller{
     public function index(){
-        //TODO: change the user id to 0 after done testing.
         if(!isset($_SESSION['user_id'])){
             $_SESSION['user_id'] = 0;
         }

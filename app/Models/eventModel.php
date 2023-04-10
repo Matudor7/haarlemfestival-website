@@ -1,5 +1,5 @@
 <?php
-
+//Tudor Nosca (678549)
 class Event implements JsonSerializable{
     private int $event_id = 0;
     private string $event_name = "";

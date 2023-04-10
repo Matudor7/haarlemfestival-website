@@ -32,18 +32,21 @@ class AdminController extends Controller
 
       //  $this->events = $this->eventService->getAll();
     }
-
+    //Tudor Nosca (678549)
     public function index()
     {
+
         require __DIR__ . '/../Services/eventService.php';
         require __DIR__ . '/../Services/festivalService.php';
+
+        if($this->checkRole()) {
+
         $festivalService = new FestivalService();
         $eventsService = new EventService();
 
         $festival = $festivalService->getFestival();
         $events = $eventsService->getAll();
 
-        //This does not work as intended: changes all festival events at once
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
             $newEvent = $this->eventService->getByName($_POST['events']);
@@ -53,7 +56,11 @@ class AdminController extends Controller
 
         require __DIR__ . '/../views/admin/index.php';
     }
-
+    else{
+        header('Location: /');
+    }
+    }
+    //Tudor Nosca (678549)
     public function events()
     {
         //TODO: Use constructor to avoid duplicate code
@@ -63,7 +70,7 @@ class AdminController extends Controller
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/admin/events.php';
     }
-
+    //Tudor Nosca (678549)
     function addevent()
     {
         if (isset($_POST['addbutton'])) {
@@ -84,7 +91,7 @@ class AdminController extends Controller
         }
         require __DIR__ . '/../views/admin/addevent.php';
     }
-
+    //Tudor Nosca (678549)
     function editevent()
     {
         require __DIR__ . '/../Services/eventService.php';
@@ -109,7 +116,7 @@ class AdminController extends Controller
 
         require __DIR__ . '/../views/admin/editevent.php';
     }
-
+    //Tudor Nosca (678549)
     function deleteevent()
     {
         $eventService = new EventService();
@@ -134,20 +141,26 @@ class AdminController extends Controller
 
     public function manageRestaurants()
     {
-        //$events = $this->eventService->getAll();
-        $restaurants = $this->yummyService->getAllRestaurants();
-        $foodTypes = $this->foodTypeService->getAllFoodType();
-        $ratings = $this->ratingService->getAllRating();
+        if($this->checkRole()) {
+            //$events = $this->eventService->getAll();
+            $restaurants = $this->yummyService->getAllRestaurants();
+            $foodTypes = $this->foodTypeService->getAllFoodType();
+            $ratings = $this->ratingService->getAllRating();
 
-        require __DIR__ . '/navbarRequirements.php';
-        require __DIR__ . '/../views/admin/manageRestaurants.php';
+            require __DIR__ . '/navbarRequirements.php';
+            require __DIR__ . '/../views/admin/manageRestaurants.php';
+        } else {
+            header('Location: /');
+        }
     }
+
     private function getRestaurantPictureURL($restaurant_pictureURL, $restaurant_name)
     {
         $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $restaurant_name)));
         $downloadPath = '/media/yummyPics/' . $imageName . '.png';
         move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
         return $downloadPath;
+
     }
 
     public function addRestaurant()
@@ -289,6 +302,7 @@ class AdminController extends Controller
     // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 
     // done by: Betül Beril Dündar - 691136 
     function users(){   
+        if($this->checkRole()){
         $events = $this->eventService->getAll();
         $searchString = "";
         $sortType = "";
@@ -327,7 +341,10 @@ class AdminController extends Controller
                 $allUsers = $this->userService->getAllUsersFromDatabase(); 
                 break;
         }
-        require __DIR__ . "/../views/admin/users.php";
+        require __DIR__ . "/../views/admin/users.php";}
+        else{
+            header('Location: /');
+        }
     }
 
     function addUser(){
@@ -355,20 +372,17 @@ class AdminController extends Controller
         $userToEdit = $this->userService->getByID($_GET['id']); 
 
         if (isset($_POST['editbutton'])) {
-            if(isset($_POST['userAdminImageInput']) && ($_POST['userAdminImageInput'] !== null || $_POST['userAdminImageInput'] !== '')){
-                try {
+            if(isset($_FILES['userAdminImageInput']) && $_FILES['userAdminImageInput']['error'] == 0){                
                     $imageUrl = $_FILES['userAdminImageInput']['tmp_name'];
                     $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userAdminUsernameTextBox'])));
                     $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
                     move_uploaded_file($imageUrl, $downloadPath);
-                    $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                    $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath       
+                
+            }else{
+                $downloadPath = $userToEdit->getUserPicURL();
             }               
-            else{
-                $downloadPath = $userToEdit->getUserPicURL(); //if new photo isnt added, the old photo remains as profile picture.
-            }     
+            
             $user = new User();
             $user->setUserFirstName($_POST['userAdminFirstNameTextBox']);
             $user->setUserLastName($_POST['userAdminLastnameTextBox']);
@@ -385,6 +399,13 @@ class AdminController extends Controller
         $userToDelete = $this->userService->getByID($_GET['id']); 
         $this->userService->deleteUser($userToDelete);
         header('Location: /admin/users');
+    }
+
+    function checkRole(){
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
+            return true;
+        }
+        return false;
     }
 }
 ?>

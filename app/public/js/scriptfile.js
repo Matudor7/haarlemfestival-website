@@ -17,6 +17,7 @@ function scrollToElement() {
 }
 
 //Shopping Cart Methods
+//Tudor Nosca (678549)
 function updateProduct(index, userId, action){
     const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
     const amount = document.getElementById("productamount " + index);

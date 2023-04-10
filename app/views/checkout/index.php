@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Tudor Nosca (678549) -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
 <body>
+<button class="btn btn-primary" type="button" onclick="window.location.href = '/' "><- Back</button>
     <div class="row g-5">
         <div class="col-md-5 col-lg-4 order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -160,7 +162,6 @@
       var cardCvvRegEx = /^[0-9]{3,4}$/;
 
     function submitData(){
-      console.log(invalidData());
       if(!invalidData()){
         var paymentMethod;
 
@@ -197,6 +198,8 @@
         .then(() => {window.location.href = '/checkout/payment?total=' + paymentData.total + "&paymentmethod=" + paymentMethod;})
         .catch(error => {console.error('ERROR: ', error);
         });
+      }else{
+        window.alert('Invalid input. Please try again.');
       }
     }
 

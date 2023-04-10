@@ -97,5 +97,12 @@ class UserService
         $intOfCustomer = 3;
         return $repository->getUsersByType($intOfCustomer);
     }
+    public function updateUserProfile($oldUser, $newUser){
+        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
+        $password = $newUser->getUserPassword();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $newUser->setUserPassword($hashedPassword);
+        return $repository->editUserProfileInDatabase($oldUser, $newUser);
+    }
 
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Tudor Nosca (678549) -->
 <html>
     <head>
         <meta charset="utf-8">
@@ -38,25 +39,15 @@
     foreach($events as $event){
         ?>
         <section id="detail-page-1" class="mx-0 my-5 py-0 bg-light">
+        <h4 class="fw-semibold text-nowrap display-6" style="text-align: center;"><?php echo $event->getName()?></h4>
+        <h6 class="text-dark fs-5 mx-5" style="text-align: center;"><?php echo $event->getDescription()?></h6>
             <a href="<?php echo $event->getUrlRedirect()?>"><img src=<?php echo $event->getImageUrl()?> class="img-fluid py-0" alt="banner"></a>
 
-            <p id="detail-page-1-description" class="text-light text-center"><?php echo $event->getDescription()?></p>
-
-            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
+            <button type="button" class="btn btn-dark border boder-light rounded-pill mx-1 px-3 mt-5" onclick="location.href='<?php echo $event->getUrlRedirect()?>'">Go To Page</button>
         </section>    
         <?php
     };
   ?>
-<!--
-  <section id="detail-page-2" class="mx-0 my-5 py-0 bg-light">
-    <img id="detail-page-2-img" src="media\homepagemedia\detail-page-2-banner.png" class="img-fluid py-0" alt="banner" >
-    <img id="detail-page-2-logo" src="media\homepagemedia\detail-page-2-logo.png" class="img-fluid py-0" alt="banner" >
-        <h2 id="detail-page-2-title" class="fw-semibold display-6 text-center">Event Title</h2>
-        
-        <p id="detail-page-2-description" class="text-light text-center">Here will go a DESCRIPTION of the event to promote traffic to the event's detail page. It is dynamic so it should be changed through the database table.</p>
-    <button type="button" class="btn border boder-light rounded-pill mx-1 px-3 mt-1" onclick="location.href='#'">Go To Page</button>
-  </section>
--->
     <?php include __DIR__ . '/../footer.php';?>
 
 

@@ -1,47 +1,43 @@
 <?php
+//Tudor Nosca (678549)
 require __DIR__ . '/../Repositories/eventRepository.php';
 
 class EventService{
-    //TODO: Make a constructor for the repos
+
+    private $eventRepo;
+
+    public function __construct(){
+        $this->eventRepo = new EventRepository(); 
+    }
+
     public function getAll(){
-        $eventRepo = new EventRepository();
-        $events = $eventRepo->getAll();
+        $events = $this->eventRepo->getAll();
 
         return $events;
     }
 
     public function getByName(string $name){
-        $eventRepo = new EventRepository();
-
-        $event = $eventRepo->getByName($name);
+        $event = $this->eventRepo->getByName($name);
 
         return $event;
     }
 
     public function getById(int $id){
-        $eventRepo = new EventRepository();
-
-        $event = $eventRepo->getById($id);
+        $event = $this->eventRepo->getById($id);
 
         return $event;
     }
 
     public function insert($event){
-        $eventRepo = new EventRepository();
-
-        $eventRepo->insert($event);
+        $this->eventRepo->insert($event);
     }
 
     public function updateEvent(Event $oldEvent, Event $newEvent){
-        $eventRepo = new EventRepository();
-
-        $eventRepo->updateEvent($oldEvent, $newEvent);
+        $this->eventRepo->updateEvent($oldEvent, $newEvent);
     }
 
     public function deleteEvent($event){
-        $eventRepo = new EventRepository();
-
-        $eventRepo->deleteEvent($event);
+        $this->eventRepo->deleteEvent($event);
     }
 }
 ?>

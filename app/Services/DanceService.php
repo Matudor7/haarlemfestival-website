@@ -88,5 +88,31 @@ class DanceService
         $danceEvents = $this->danceRepository->getAllDanceEvents();
         return $danceEvents;
     }
+    public function getEventById($event_id)
+    {
+        return $this->danceRepository->getEventByIdFromDatabase($event_id);    
+    }
+    public function getAllDanceSessions(){
+        $danceSessions = $this->danceRepository->getAllSessionsFromDatabase();
+        return $danceSessions;
+    }
+    public function insertDanceEvent($newEvent){
+        return $eventId = $this->danceRepository->insertNewDanceEventToTheDatabase($newEvent);
+    }
+    public function insertPerformingArtistsToNewEvent($newEventId, $artist){
+        $this->danceRepository->insertArtistsForNewEvent($newEventId, $artist);
+    }
+    public function deleteEvent($event){
+        $this->danceRepository->deleteEventFromDatabase($event);
+    }
+    public function getArtistsByEvent($event){
+        return $this->danceRepository->getArtistsByEventFromDatabase($event);
+    }
+    public function editEvent($oldEvent, $newEvent){
+        $this->danceRepository->editEventInDatabase($oldEvent, $newEvent);
+    }
+    public function editEventArtists($event, $artist){
+        $this->danceRepository->editEventArtistsInDatabase($event, $artist);
+    }
 }
 ?>

@@ -13,30 +13,43 @@ class AdminDanceController extends Controller
     }
     public function index()
     {
-        require __DIR__ . "/../views/admin/danceAdminIndex.php";
+        if ($this->checkRole()) {
+            require __DIR__ . "/../views/admin/danceAdminIndex.php";
+        } else {
+            header('Location: /');
+        }
     }
 
-    public function danceAdminManage()
-    {        
-        $artists = $this->danceService->getAllArtists();
-        $danceLocations = $this->danceService->getAllDanceLocations();
-        $danceEvents = $this->danceService->getAllDanceEvents();
-        $danceMusicTypes = $this->danceService->getAllMusicTypes();
 
-        foreach ($danceEvents as $danceEvent) {  //organize dance events by date
-            $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
-            if (!isset($danceEventsByDate[$date])) {
-                $danceEventsByDate[$date] = [];
+    public function danceAdminManage()
+    {    
+        if ($this->checkRole()) {
+            $artists = $this->danceService->getAllArtists();
+            $danceLocations = $this->danceService->getAllDanceLocations();
+            $danceEvents = $this->danceService->getAllDanceEvents();
+            $danceMusicTypes = $this->danceService->getAllMusicTypes();
+    
+            foreach ($danceEvents as $danceEvent) {  //organize dance events by date
+                $date = $danceEvent->getDanceEventDateTime()->format("Y-m-d");
+                if (!isset($danceEventsByDate[$date])) {
+                    $danceEventsByDate[$date] = [];
+                }
             }
-        }
-        // Get the type of element being managed
-        $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
-        require __DIR__ . "/../views/admin/danceAdminManage.php";
+            // Get the type of element being managed
+            $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
+            require __DIR__ . "/../views/admin/danceAdminManage.php";
+        } else {
+            header('Location: /');
+        }         
+        
     }
     public function danceAdminAdd()
     {
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
         $allMusicTypes = $this->danceService->getAllMusicTypes();
+        $allDanceLocations = $this->danceService->getAllDanceLocations();
+        $allArtists =  $this->danceService->getAllArtists();
+        $allSessions =  $this->danceService->getAllDanceSessions();
 
         if(isset($_POST['addbutton'])){
             switch ($element) {
@@ -50,6 +63,9 @@ class AdminDanceController extends Controller
                 case "Artist":                    
                     $downloadPath = $this->addPhoto('danceArtistImageInput', $_POST['danceArtistNameTextBox']);
                     $this->addDanceArtistElement($downloadPath, $allMusicTypes);
+                    break;  
+                case "Event":  
+                    $this->addDanceEventElement($allArtists);
                     break;      
             }
         }
@@ -124,6 +140,50 @@ class AdminDanceController extends Controller
             $this->danceService->insertMusicTypeForArtist($artistId, $musicType);   
         }
     }
+    function addDanceEventElement($allArtists){
+        $newEvent = new DanceEvent();
+
+        $dateString = $_POST['danceEventDateCalendar'];
+        $dateObj = DateTime::createFromFormat('Y-m-d', $dateString);
+        $newEvent->setDanceEventDate($dateObj);
+        $timeString = $_POST['danceEventTime'];
+        $timeObj = DateTime::createFromFormat('H:i', $timeString);
+        $newEvent->setDanceEventTime($timeObj);
+
+        $newEvent->setDanceLocationId($_POST['danceEventLocationDropDown']);
+        $newEvent->setDanceSessionTypeId($_POST['danceEventSessionDropDown']);
+        $newEvent->setDanceEventDuration($_POST['danceEventDurationTextBox']);
+        $newEvent->setDanceEventAvailableTickets($_POST['danceEventAvailableTicketsTextBox']);
+        $newEvent->setDanceEventPrice($_POST['danceEventPriceTextBox']);
+
+        $eventNote = empty($_POST['danceEventExtraNoteTextBox']) ? '' : $_POST['danceEventExtraNoteTextBox'];
+
+        $newEvent->setDanceEventExtraNote($eventNote);
+
+
+        $newEventId = $this->danceService->insertDanceEvent($newEvent);
+        
+        $selectedArtists = [];
+        foreach ($allArtists as $artist) {
+            if (isset($_POST['artist'.$artist->getId()])) {
+                $selectedArtists[] = $_POST['artist'.$artist->getId()];
+            }
+        }
+        $this->addArtistsForNewEvent($selectedArtists, $newEventId);
+    }
+
+    function addArtistsForNewEvent($selectedArtists, $eventId){
+        $artists = [];
+
+        foreach($selectedArtists as $artistId){
+            $artist = $this->danceService->getArtistById($artistId);
+            array_push($artists, $artist);
+        }
+        
+        foreach ($artists as $artist){
+            $this->danceService->insertPerformingArtistsToNewEvent($eventId, $artist);   
+        }
+    }
 
     function deleteElement(){
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");
@@ -139,6 +199,11 @@ class AdminDanceController extends Controller
                 $this->danceService->deleteArtist($artist); 
                 header('Location: /adminDance/danceAdminManage?type=Artist'); 
                 break;
+            case "Event":
+                $event = $this->danceService->getEventById($_GET['id']); 
+                $this->danceService->deleteEvent($event); 
+                header('Location: /adminDance/danceAdminManage?type=Event'); 
+                break;
             default:
                 header('Location: /adminDance'); 
         }
@@ -149,8 +214,13 @@ class AdminDanceController extends Controller
         $element = htmlspecialchars($_GET["type"], ENT_QUOTES, "UTF-8");  
         $danceLocationToEdit = new DanceLocation();  
         $artistToEdit = new ArtistModel();
+        $eventToEdit = new DanceEvent();
         $allMusicTypes = $this->danceService->getAllMusicTypes();
+        $allArtists = $this->danceService->getAllArtists();
+        $allSessions =  $this->danceService->getAllDanceSessions();
+        $allDanceLocations = $this->danceService->getAllDanceLocations();
         $artistMusicTypeIds= [];
+        $artistIds = [];
 
         switch ($element) {
             case "Location":
@@ -161,6 +231,13 @@ class AdminDanceController extends Controller
                 $artistMusicTypes = $this->danceService->getMusicTypesByArtist($artistToEdit);
                 foreach ($artistMusicTypes as $musicType) {
                     $artistMusicTypeIds[] = $musicType->getId();
+                }
+                break;
+            case "Event":
+                $eventToEdit = $this->danceService->getEventById($_GET['id']);
+                $eventArtists = $this->danceService->getArtistsByEvent($eventToEdit);
+                foreach ($eventArtists as $artist) {
+                    $artistIds[] = $artist->getId();
                 }
                 break;
         }
@@ -176,6 +253,10 @@ class AdminDanceController extends Controller
                         $artist = $this->danceService->getArtistById($_GET['id']); 
                         $downloadPath = $this->addPhoto('danceArtistImageInput', $_POST['danceArtistNameTextBox']);
                         $this->editArtistElements($artist, $allMusicTypes, $downloadPath);            
+                    break;
+                case "Event":
+                        $event = $this->danceService->getEventById($_GET['id']);                         
+                        $this->editEventElements($event, $allArtists);            
                     break;
                 default:
                     require __DIR__ . "/../views/admin/danceAdminEdit.php";
@@ -216,5 +297,41 @@ class AdminDanceController extends Controller
             }
         }
         $this->danceService->editArtistMusicTypes($newArtist, $selectedMusicTypes);
+    }
+
+    function editEventElements($oldEvent, $allArtists){
+        $newEvent = new DanceEvent();
+
+        $dateString = $_POST['danceEventDateCalendar'];
+        $dateObj = DateTime::createFromFormat('Y-m-d', $dateString);
+        $newEvent->setDanceEventDate($dateObj);
+        $timeString = $_POST['danceEventTime'];
+        $timeObj = DateTime::createFromFormat('H:i', $timeString);
+        $newEvent->setDanceEventTime($timeObj);
+
+        $newEvent->setDanceLocationId($_POST['danceEventLocationDropDown']);
+        $newEvent->setDanceSessionTypeId($_POST['danceEventSessionDropDown']);
+        $newEvent->setDanceEventDuration($_POST['danceEventDurationTextBox']);
+        $newEvent->setDanceEventAvailableTickets($_POST['danceEventAvailableTicketsTextBox']);
+        $newEvent->setDanceEventPrice($_POST['danceEventPriceTextBox']);
+        $eventNote = empty($_POST['danceEventExtraNoteTextBox']) ? '' : $_POST['danceEventExtraNoteTextBox'];
+        $newEvent->setDanceEventExtraNote($eventNote);
+
+        $this->danceService->editEvent($oldEvent, $newEvent);
+
+        $selectedArtists = [];
+        foreach ($allArtists as $artist) {
+            if (isset($_POST['artist'.$artist->getId()])) {
+                $selectedArtists[] = $_POST['artist'.$artist->getId()];
+            }
+        }
+        $this->danceService->editEventArtists($newEvent, $selectedArtists);
+    }
+
+    function checkRole(){
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
+            return true;
+        }
+        return false;
     }
 }

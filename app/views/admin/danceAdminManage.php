@@ -166,10 +166,8 @@ function generateArtistTable($artists)
                 "€" .
                 "</td>";
             $tableHtml .= "<td>" . $event->getDanceEventExtraNote() . "</td>";
-            $tableHtml .=
-                '<td><button class="btn btn-warning">Edit</button></td>';
-            $tableHtml .=
-                '<td><button class="btn btn-danger">Delete</button></td>';
+            $tableHtml .= '<td><button class="btn btn-warning" onclick="editElement(' . $event->getDanceEventId() . ')">Edit</button></td>';
+            $tableHtml .= '<td><button class="btn btn-danger" onclick="deleteElement(' . $event->getDanceEventId() . ')">Delete</button></td>';
             $tableHtml .= "</tr>";
         }
 
@@ -197,6 +195,8 @@ function generateArtistTable($artists)
             window.location.href = '/adminDance/deleteElement?type=Location&id=' + id;
         } else if ('<?php echo $element ?>' === 'Artist') {
             window.location.href = '/adminDance/deleteElement?type=Artist&id=' + id;
+        }else if ('<?php echo $element ?>' === 'Event') {
+            window.location.href = '/adminDance/deleteElement?type=Event&id=' + id;
         }
     }
 
@@ -205,6 +205,8 @@ function generateArtistTable($artists)
             window.location.href = '/adminDance/editElement?type=Location&id=' + id;
         } else if ('<?php echo $element ?>' === 'Artist') {
             window.location.href = '/adminDance/editElement?type=Artist&id=' + id;
+        }else if ('<?php echo $element ?>' === 'Event') {
+            window.location.href = '/adminDance/editElement?type=Event&id=' + id;
         }
     }
     </script>

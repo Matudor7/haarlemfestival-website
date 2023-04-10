@@ -1,4 +1,5 @@
 <?php
+//Tudor Nosca (678549)
 class Product implements JsonSerializable{
     private int $id = 0;
     private string $name = "";

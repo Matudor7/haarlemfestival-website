@@ -333,4 +333,39 @@ FROM user");
             echo $e;
         }
     }
+
+    public function editUserProfileInDatabase($oldUser, $newUser){
+        $sql = "UPDATE `user` 
+        SET `username`= :username, 
+        `userPicURL`= :userPicURL,
+        `user_firstName`= :firstName,
+        `user_lastName`= :lastName,
+        `user_email`= :email,
+        `user_password`=:hashedPassword 
+        WHERE `user_id` = :userId
+        ";
+        try{
+            $statement = $this->connection->prepare($sql);
+    
+            $sanitizedUsername = htmlspecialchars($newUser->getUsername());
+            $sanitizedPicURL = htmlspecialchars($newUser->getUserPicURL());
+            $sanitizedFirstName = htmlspecialchars($newUser->getUserFirstName());
+            $sanitizedLastName = htmlspecialchars($newUser->getUserLastName());
+            $sanitizedEmail = htmlspecialchars($newUser->getUserEmail());
+            $sanitizedHashedPassword = htmlspecialchars($newUser->getUserPassword());
+            $userId = $oldUser->getUserId();
+        
+            $statement->bindParam(':username', $sanitizedUsername);
+            $statement->bindParam(':userPicURL', $sanitizedPicURL); 
+            $statement->bindParam(':firstName', $sanitizedFirstName); 
+            $statement->bindParam(':lastName', $sanitizedLastName); 
+            $statement->bindParam(':email', $sanitizedEmail); 
+            $statement->bindParam(':hashedPassword', $sanitizedHashedPassword); 
+            $statement->bindParam(':userId', $userId, PDO::PARAM_INT);
+        
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

@@ -46,7 +46,7 @@
     </li>
 
     <?php if (isset($_SESSION["user_id"])) { ?>
-    <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
+    <button type="button" class="btn btn-danger ;" onClick="location.href='/logOut'"
         STYLE="margin: 2px 30px;">Log
         out</button>&nbsp;
     <?php }else{ ?> <li class="nav-item">

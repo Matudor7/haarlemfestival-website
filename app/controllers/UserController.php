@@ -1,6 +1,7 @@
 <?php
+session_start();
 require_once __DIR__ . '/../Services/UserService.php';
-require_once __DIR__ . '/../Services/eventService.php';
+//require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ .  '/controller.php';
 require_once __DIR__ . '/../Models/userType.php';
 require_once __DIR__ . '/../Services/smtpService.php';
@@ -14,39 +15,39 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->eventService = new EventService();
+        //$this->eventService = new EventService();
         $this->userService = new UserService();
         $this->smtpService = new smtpService();
     }
 
     public function getAllUsers(){
-        $userService = new UserService();
-        return $userService->getAllUsers();
+        //$userService = new UserService();
+        return $this->userService->getAllUsers();
     }
 
     public function validateLogin($username, $password)
     {
-        $userService = new UserService();
-        return $userService->validateLogin($username, $password);
+        //$userService = new UserService();
+        return $this->userService->validateLogin($username, $password);
     }
     public function resetPasswordPage(){
-        $eventService = new EventService();
-        $events = $eventService->getAll();
-
+       // $eventService = new EventService();
+       // $events = $eventService->getAll();
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/user/resetPassword.php';
     }
     public function resetPassword(){
-        require __DIR__ . '/../Services/smtpService.php';
+        //require __DIR__ . '/../Services/smtpService.php';
 
-        $smtp = new smtpService();
         $userService = new UserService();
         $email = $_POST['email'];
         $password = $this->generateRandomPassword();
         $user = $userService->getUserByEmail($email);
         $subject = "lets reset your password";
-        $message = "This is your new temporary password: " .$password ." you can use this to login and create a new password for yourself or keep this one. Whatever makes you happier!";
+        $message = "Dear " . $user->getUserFirstName.  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
+        Thank you for choosing our website and we hope you continue to enjoy our services.\nBest regards,\n'Haarlem Festival Website' team";
         $userFirstName = $user->getUserFirstName();
-        $smtp->sendEmail($email, $userFirstName , $message, $subject  );
+        $smtp = $this->smtpService->sendEmail($email, $userFirstName , $message, $subject  );
 
         $userService->upDatePassword($user->getUserId(), $password);
 
@@ -54,7 +55,6 @@ class UserController extends Controller
        require_once __DIR__ .  '/LoginController.php';
         $loginController = new LoginController();
         $loginController->index();
-
     }
     function generateRandomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; $pass = array(); //remember to declare

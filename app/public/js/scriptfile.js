@@ -18,7 +18,7 @@ function scrollToElement() {
 
 //Shopping Cart Methods
 function updateProduct(index, userId, action){
-    const shoppingCartUrl = "https://localhost/api/shoppingcart?user_id=" + userId;
+    const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
     const amount = document.getElementById("productamount " + index);
     const div = document.getElementById("productdiv " + index);
     
@@ -27,7 +27,7 @@ function updateProduct(index, userId, action){
     fetch(shoppingCartUrl)
     .then(response=> response.json())
     .then(data => {
-        return fetch("https://localhost/api/products?product_id=" + data.product_ids[index])
+        return fetch("http://localhost/api/products?product_id=" + data.product_ids[index])
         .then(response=>response.json())
         .then(product=>{
             price = product[0].price * data.amounts[index];
@@ -54,7 +54,7 @@ function updateProduct(index, userId, action){
 function updateTotal(userId){
     const totalPriceHeader = document.getElementById("totalprice");
 
-    const shoppingCartUrl = "https://localhost/api/shoppingcart?user_id=" + userId;
+    const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
 
     fetch(shoppingCartUrl)
     .then(response=> response.json())
@@ -62,7 +62,7 @@ function updateTotal(userId){
             let totalPrice = 0;
             const vat = 0.21;
             for (let i = 0; i < data.product_ids.length; i++) {
-                fetch("https://localhost/api/products?product_id=" + data.product_ids[i])
+                fetch("http://localhost/api/products?product_id=" + data.product_ids[i])
                 .then(response=>response.json())
                 .then(product=>{
                 totalPrice += (product[0].price * data.amounts[i]);
@@ -75,7 +75,7 @@ function updateTotal(userId){
 }
 
 function addAmount(index, userId, productId){
-    const apiUrl = 'https://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
+    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
     fetch(apiUrl, {
         method: "PATCH",
         headers: {
@@ -99,7 +99,7 @@ function addAmount(index, userId, productId){
 }
 
 function removeAmount(index, userId, productId){
-    const apiUrl = 'https://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=delete';
+    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=delete';
 
     fetch(apiUrl, {
         method: "PATCH",

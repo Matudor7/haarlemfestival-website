@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/controller.php';
 require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ . '/../Services/UserService.php';
@@ -7,9 +8,9 @@ class LoginController extends Controller
 {
     public function index()
     {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
-
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/login.php';
     }
 
@@ -38,9 +39,10 @@ class LoginController extends Controller
     }
 
     public function logOut(){
-        session_start();
+       // session_start();
         session_destroy();
-        header('location:/');
+        header('Location: /');
+        exit;
     }
 
 

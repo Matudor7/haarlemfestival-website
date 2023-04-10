@@ -1,8 +1,6 @@
 <?php
 session_start();
 require __DIR__ . '/controller.php';
-//require_once __DIR__ . '/../services/festivalService.php';
-//require_once __DIR__ . '/../services/eventService.php';
 require __DIR__ . '/../services/DanceService.php';
 require __DIR__ . '/../Services/FoodTypeService.php';
 require __DIR__ . '/../Services/RatingService.php';
@@ -24,15 +22,12 @@ class AdminController extends Controller
 
     public function __construct()
     {
-       // $this->eventService = new EventService();
         $this->danceService = new DanceService();
         $this->yummyService = new YummyService();
         $this->userService = new UserService();
         $this->foodTypeService = new FoodTypeService();
         $this->ratingService = new RatingService();
         $this->userTypeService = new userTypeService();
-
-      //  $this->events = $this->eventService->getAll();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -334,10 +329,8 @@ class AdminController extends Controller
                $user->setUsername($_POST['username']);
                $user->setUserEmail($_POST['email']);
                $user->setUserTypeId($_POST['userType']);
-               $userService = new UserService();
-               // $result = $userService->createUser($user);
    
-               if ($userService->createUser($user)) {
+               if ($this->userService->createUser($user)) {
                    $userCreationMessage = "User created successfully!!!!";
                    $status = "success";
                } else {

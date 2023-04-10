@@ -36,7 +36,6 @@ class AdminController extends Controller
         $festival = $festivalService->getFestival();
         $events = $eventService->getAll();
 
-        //This does not work as intended: changes all festival events at once
         if (isset($_POST['events'])) {
             $festivalEvent = $festival[0];
             $newEvent = $eventService->getByName($_POST['events']);

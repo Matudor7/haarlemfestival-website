@@ -387,5 +387,53 @@ class DanceRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function deleteEventFromDatabase($event){
+        $sql = "DELETE dance_event, dance_performingArtist FROM dance_event LEFT JOIN dance_performingArtist ON dance_event.dance_event_id = dance_performingArtist.dance_performingArtist_eventId
+        WHERE dance_event.dance_event_id = :event_id"; //this also deletes the event info in the dance_performingArtist table.
+        try {
+            $eventId = (int) $event->getDanceEventId();
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':event_id', $eventId , PDO::PARAM_INT);
+            $statement->execute();
+        } catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getEventByIdFromDatabase($event_id) 
+    {
+        $sql = "SELECT `dance_event_id`, `dance_event_locationId`, `dance_event_sessionTypeId`, `dance_event_date`, `dance_event_time`, `dance_event_duration`, `dance_event_price`, `dance_event_availableTickets`, `dance_event_extraNote` 
+        FROM `dance_event` WHERE `dance_event_id`= :dance_event_id";
+        try {
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(':dance_event_id', $event_id, PDO::PARAM_INT);
+            $statement->execute();
+            $danceEvent = new DanceEvent();
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $danceEvent->setDanceEventId($row['dance_event_id']);
+                $danceEvent->setDanceLocationId($row['dance_event_locationId']);
+                $danceEvent->setDanceSessionTypeId($row['dance_event_sessionTypeId']);
+                $danceEvent->setDanceEventDuration($row['dance_event_duration']);
+                $danceEvent->setDanceEventAvailableTickets($row['dance_event_availableTickets']);
+                $danceEvent->setDanceEventPrice($row['dance_event_price']);
+                $danceEvent->setDanceEventExtraNote($row['dance_event_extraNote']);
+    
+                // Convert date and time strings to DateTime object
+                $date = new DateTime($row['dance_event_date']);
+                $time = new DateTime($row['dance_event_time']);
+                $dateTime = new DateTime();
+                $dateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d')); //date
+                $dateTime->setTime($time->format('H'), $time->format('i'), $time->format('s')); //time
+    
+                $danceEvent->setDanceEventDateTime($dateTime);
+            }
+    
+            return $danceEvent;
+        } catch (PDOException $e) {
+            error_log('Error retrieving event with id ' . $event_id . ': ' . $e->getMessage());
+            return null;
+        }
+    }
 }
 ?>

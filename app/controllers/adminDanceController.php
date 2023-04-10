@@ -185,6 +185,11 @@ class AdminDanceController extends Controller
                 $this->danceService->deleteArtist($artist); 
                 header('Location: /adminDance/danceAdminManage?type=Artist'); 
                 break;
+            case "Event":
+                $event = $this->danceService->getEventById($_GET['id']); 
+                $this->danceService->deleteEvent($event); 
+                header('Location: /adminDance/danceAdminManage?type=Event'); 
+                break;
             default:
                 header('Location: /adminDance'); 
         }

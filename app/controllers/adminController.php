@@ -30,6 +30,7 @@ class AdminController extends Controller
     //Tudor Nosca (678549)
     public function index()
     {
+        if($this->checkRole()){
         $festivalService = new FestivalService();
 
         $festival = $festivalService->getFestival();
@@ -43,6 +44,10 @@ class AdminController extends Controller
         }
 
         require __DIR__ . '/../views/admin/index.php';
+    }
+    else{
+        header('Location: /');
+    }
     }
     //Tudor Nosca (678549)
     public function events()
@@ -126,6 +131,7 @@ class AdminController extends Controller
 
     public function manageRestaurants()
     {
+        if($this->checkRole()){
         $events = $this->eventService->getAll();
 
         $yummyService = new YummyService();
@@ -139,6 +145,10 @@ class AdminController extends Controller
 
 
         require __DIR__ . '/../views/admin/manageRestaurants.php';
+    }
+    else{
+        header('Location: /');
+    }
     }
 
     public function addRestaurant()
@@ -301,6 +311,7 @@ class AdminController extends Controller
     // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 
     // done by: Betül Beril Dündar - 691136 
     function users(){   
+        if($this->checkRole()){
         $events = $this->eventService->getAll();
         $searchString = "";
         $sortType = "";
@@ -339,7 +350,10 @@ class AdminController extends Controller
                 $allUsers = $this->userService->getAllUsersFromDatabase(); 
                 break;
         }
-        require __DIR__ . "/../views/admin/users.php";
+        require __DIR__ . "/../views/admin/users.php";}
+        else{
+            header('Location: /');
+        }
     }
 
     function addUser(){
@@ -394,6 +408,13 @@ class AdminController extends Controller
         $userToDelete = $this->userService->getByID($_GET['id']); 
         $this->userService->deleteUser($userToDelete);
         header('Location: /admin/users');
+    }
+
+    function checkRole(){
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
+            return true;
+        }
+        return false;
     }
 }
 ?>

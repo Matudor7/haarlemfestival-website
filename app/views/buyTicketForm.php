@@ -6,7 +6,6 @@
 <div class="form-popup" id="ticketForm">
         <form action="/action_page.php" class="form-container">
             <h1>Buy <?php echo $thisEvent->getName()?> Tickets</h1>
-            <label id="testingLabel">0</label>
             <select id="selectDateInput" class="form-select col" aria-label="Default select example">
                 <option value="Selected"selected>Select Date</option>
 
@@ -58,7 +57,6 @@
 <script>
     const dateDropdown = document.getElementById('selectDateInput');
     const timeDropdown = document.getElementById('selectTimeInput');
-    const testingLabel = document.getElementById('testingLabel');
     const productListDiv = document.getElementById('productList');
     const productAmountField = document.getElementById("productAmount")
     let productAmount = 0;
@@ -156,10 +154,6 @@
     }
 
      function selectProduct(productId){
-
-        //<//?php $id = 1; $productService = new ProductService(); ?>
-        //testingLabel.innerText = productId;
-
          productAmount = 1;
 
 

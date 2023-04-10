@@ -1,6 +1,4 @@
-<?php
-require __DIR__ . '/../nav.php';
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +9,9 @@ require __DIR__ . '/../nav.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
+<?php
+require __DIR__ . '/../nav.php';
+?>
 <main id="main">
 <div class="mt-5 mb-5 border-top" style="background: #09B4BB; margin-left: 30%; margin-right: 30%">
     <h1 class="text-center py-3" style="color: black"><?=$restaurant->getRestaurantName()?></h1>

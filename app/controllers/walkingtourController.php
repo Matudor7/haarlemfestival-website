@@ -85,9 +85,10 @@ class WalkingTourController extends Controller{
         }
     }
     public function walkingTourDetailPage() {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
 
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/walkingtour/walkingTourDetailPage.php';
     }
 }

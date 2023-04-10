@@ -22,7 +22,7 @@ class LoginController extends Controller
         $user = $userService->validateLogin($username, $password);
 
         if ($user != null) { 
-            session_start();
+            //session_start();
             $_SESSION['user_id'] = $user->getUserId();
             $_SESSION['user_role'] = $user->getUserTypeId(); // 1 = employee, 2 = admin, 3 = costumer
             header("location: /");

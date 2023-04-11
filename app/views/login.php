@@ -24,8 +24,8 @@ include __DIR__ . '/nav.php';
 
     <br><h2>Login</h2>
     <form class="mt-5" method="POST" action="/login/loginValidation">
-        <input type="text" name="username" placeholder="Username"><br><br>
-        <input type="password" name="password" placeholder="Password"><br><br>
+        <input required type="text" name="username" placeholder="Username"><br><br>
+        <input required type="password" name="password" placeholder="Password"><br><br>
         <input id="loginButton" class="btn btn-success" type="submit" name="LoginButton" value="Login"><br><br>
     </form>
     <?php

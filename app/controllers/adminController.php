@@ -315,6 +315,7 @@ class AdminController extends Controller
         else{
             header('Location: /');
         }
+
     }
 
     public function registerUser(){

@@ -16,6 +16,7 @@ class LoginController extends Controller
 
     public function loginValidation()
     {
+        if (!empty($_POST['username']) && !empty($_POST['password'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $userService = new UserService();
@@ -26,9 +27,13 @@ class LoginController extends Controller
             $_SESSION['user_id'] = $user->getUserId();
             $_SESSION['user_role'] = $user->getUserTypeId(); // 1 = employee, 2 = admin, 3 = costumer
             header("location: /");
-        } else {
+         }else {
             $_SESSION['LoginError'] = "Username or password incorrect!";
-            $this->index()();
+            $this->index();
+        }
+        } else{
+            $_SESSION['LoginError'] = "Username and password are required!";
+            $this->index();
         }
     }
 

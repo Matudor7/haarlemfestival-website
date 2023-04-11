@@ -60,8 +60,6 @@
     </li><?php }?>
     </ul>
 
-
-
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasLabel">Shopping Cart</h5>

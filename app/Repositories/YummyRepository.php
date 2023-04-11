@@ -78,7 +78,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 htmlspecialchars($restaurant->getRestaurantNumberOfAvailableSeats()),
                 htmlspecialchars($restaurant->getNumberOfTimeSlots()),
                 htmlspecialchars($restaurant->getDuration()),
-                htmlspecialchars($restaurant->getHavaDetailPageOrNot()),
+                htmlspecialchars($restaurant->getHavaDetailPageOrNotAsInt()),
                 htmlspecialchars($restaurant->getRestaurantPictureURL()),
                 htmlspecialchars($restaurant->getFoodTypeId()),
                 htmlspecialchars($restaurant->getRestaurantRatingId()),
@@ -115,7 +115,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $restaurantNumberOfAvailableSeats = $restaurant->getRestaurantNumberOfAvailableSeats();
             $numberOfTimeSlots = $restaurant->getNumberOfTimeSlots();
             $duration = $restaurant->getDuration();
-            $havaDetailPageOrNot = $restaurant->getHavaDetailPageOrNot();
+            //$havaDetailPageOrNot = $restaurant->getHavaDetailPageOrNot();
+            $havaDetailPageOrNot = $restaurant->getHavaDetailPageOrNotAsInt();
             $restaurantPictureURL = $restaurant->getRestaurantPictureURL();
             $restaurantFoodType = $restaurant->getFoodTypeId();
             $restaurantRatingId = $restaurant->getRestaurantRatingId();
@@ -128,7 +129,9 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $statement->bindParam(':restaurantNumberOfAvailableSeats', $restaurantNumberOfAvailableSeats);
             $statement->bindParam(':numberOfTimeSlots', $numberOfTimeSlots);
             $statement->bindParam(':duration', $duration);
-            $statement->bindParam(':havaDetailPageOrNot', $havaDetailPageOrNot);
+            //$statement->bindParam(':havaDetailPageOrNot', $havaDetailPageOrNot);
+            $statement->bindValue(':havaDetailPageOrNot', $havaDetailPageOrNot, PDO::PARAM_INT);
+
             $statement->bindParam(':restaurantPictureURL', $restaurantPictureURL);
             $statement->bindParam(':restaurantFoodType', $restaurantFoodType);
             $statement->bindParam(':restaurantRatingId', $restaurantRatingId);

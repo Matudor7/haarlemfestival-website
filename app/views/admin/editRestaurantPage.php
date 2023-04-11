@@ -63,9 +63,11 @@ include __DIR__ . '/../nav.php';
 
         <label for="haveDetailPage">Have Detail Page:</label>
         <select name="haveDetailPage" id="haveDetailPage">
-            <option value="<?=$restaurant->getDetailPageAsYesOrNoTxt()?>"><?=$restaurant->getDetailPageAsYesOrNoTxt()?></option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <?php $selectedValue = $restaurant->getHavaDetailPageOrNot() ? 'yes' : 'no'; ?>
+            <option value="yes" <?php if($selectedValue == 'yes') echo 'selected'; ?>>Yes</option>
+            <option value="no" <?php if($selectedValue == 'no') echo 'selected'; ?>>No</option>
+         <!--  <option value="yes">Yes</option>
+            <option value="no">No</option>*/ -->
         </select>
         <br><br>
 

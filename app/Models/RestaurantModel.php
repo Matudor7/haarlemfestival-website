@@ -44,7 +44,7 @@ class RestaurantModel
     }
 
 
-    public function getHavaDetailPageOrNot(): bool
+  /*  public function getHavaDetailPageOrNot(): bool
     {
         return $this->havaDetailPageOrNot;
     }
@@ -53,7 +53,7 @@ class RestaurantModel
     public function setHavaDetailPageOrNot(bool $havaDetailPageOrNot): void
     {
         $this->havaDetailPageOrNot = $havaDetailPageOrNot;
-    }
+    }*/
 
     public function getDetailId(): int
     {
@@ -219,7 +219,6 @@ class RestaurantModel
         return $this->setTimeSlots($this->numberOfTimeSlots, $this->restaurant_OpeningTime, $this->duration);
     }
 
-
     public function displayImageBasedOnEnum($string) {
         switch ($string) {
             case '1':
@@ -255,13 +254,36 @@ class RestaurantModel
         return $restaurantRating->getRatingNumber();
     }
 
-    public function getDetailPageAsYesOrNoTxt(): string
+   /* public function getDetailPageAsYesOrNoTxt(): string
     {
         if ($this->havaDetailPageOrNot) {
             return "yes";
         } else {
             return "no";
         }
+    }*/
+    public function getHavaDetailPageOrNot(): bool
+    {
+        return ($this->havaDetailPageOrNot);
+    }
+
+    public function setHavaDetailPageOrNot($havaDetailPageOrNot): void
+    {
+        $this->havaDetailPageOrNot = $havaDetailPageOrNot === 'yes';
+    }
+
+    public function getDetailPageAsYesOrNoTxt(): string
+    {
+        return ($this->havaDetailPageOrNot) ? 'yes' : 'no';
+    }
+    public function getHavaDetailPageOrNotAsInt(): int
+    {
+        return ($this->havaDetailPageOrNot) ? 1 : 0;
+    }
+
+    public function setHavaDetailPageOrNotAsInt(int $havaDetailPageOrNot): void
+    {
+        $this->havaDetailPageOrNot = ($havaDetailPageOrNot === 1) ? 'yes' : 'no';
     }
 }
 

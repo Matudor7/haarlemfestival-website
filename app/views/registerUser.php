@@ -22,14 +22,14 @@ include __DIR__ . '/nav.php';
     <br><br>
     <h2>Create new User</h2><br>
     <form method="POST" action="/admin/RegisterUser">
-        <input type="text" name="username" placeholder="Username"><br><br>
-        <input type="password" name="password" placeholder="Password"><br><br>
+        <input required type="text" name="username" placeholder="Username"><br><br>
+        <input required type="password" name="password" placeholder="Password"><br><br>
 
-        <input type="text" name="firstname" placeholder="First name"><br><br>
-        <input type="text" name="lastname" placeholder="Last name"><br><br>
-        <input type="email" name="email" placeholder="Email"><br><br>
+        <input required type="text" name="firstname" placeholder="First name"><br><br>
+        <input required type="text" name="lastname" placeholder="Last name"><br><br>
+        <input required type="email" name="email" placeholder="Email"><br><br>
         <label for="userType">User Type:</label>
-        <select name="userType" id="userType">
+        <select required name="userType" id="userType">
             <?php foreach ($userTypes as $usertype){?>
                 <option value="<?=$usertype->getUserTypeId()?>"><?=$usertype->getUserType()?></option>
             <?php }?>

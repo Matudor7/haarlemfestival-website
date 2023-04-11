@@ -260,9 +260,6 @@ class AdminController extends Controller
 
     public function registerUserPage()
     {
-        //$eventService = new EventService();
-       // $events = $eventService->getAll();
-
         $userTypes = $this->userService->getAllUserType();
         require __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/registerUser.php';

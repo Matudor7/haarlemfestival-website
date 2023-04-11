@@ -21,7 +21,7 @@ class CheckoutController{
 
             $paymentData = json_decode($paymentJsonString, true);
 
-            $payment = new Payment();
+            $payment = new PaymentDetailsModel();
 
             $payment->setUserid($_SESSION["user_id"]);
             $payment->setFirstName($paymentData["first_name"]);

@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Services/UserService.php';
-//require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ .  '/controller.php';
 require_once __DIR__ . '/../Models/userType.php';
 require_once __DIR__ . '/../Services/smtpService.php';
@@ -15,46 +14,37 @@ class UserController extends Controller
 
     public function __construct()
     {
-        //$this->eventService = new EventService();
         $this->userService = new UserService();
         $this->smtpService = new smtpService();
     }
 
     public function getAllUsers(){
-        //$userService = new UserService();
         return $this->userService->getAllUsers();
     }
 
     public function validateLogin($username, $password)
     {
-        //$userService = new UserService();
         return $this->userService->validateLogin($username, $password);
     }
     public function resetPasswordPage(){
-       // $eventService = new EventService();
-       // $events = $eventService->getAll();
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/user/resetPassword.php';
     }
     public function resetPassword(){
-        //require __DIR__ . '/../Services/smtpService.php';
 
-        $userService = new UserService();
         $email = $_POST['email'];
         $password = $this->generateRandomPassword();
-        $user = $userService->getUserByEmail($email);
+        $user = $this->userService->getUserByEmail($email);
         $subject = "lets reset your password";
-        $message = "Dear " . $user->getUserFirstName.  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
+        $message = "Dear " . $user->getUserFirstName() .  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
         Thank you for choosing our website and we hope you continue to enjoy our services.\nBest regards,\n'Haarlem Festival Website' team";
         $userFirstName = $user->getUserFirstName();
         $smtp = $this->smtpService->sendEmail($email, $userFirstName , $message, $subject  );
 
-        $userService->upDatePassword($user->getUserId(), $password);
+        $this->userService->upDatePassword($user->getUserId(), $password);
 
         $_SESSION['passwordEmailMessage'] = "Your email was sent successfully!";
-       require_once __DIR__ .  '/LoginController.php';
-        $loginController = new LoginController();
-        $loginController->index();
+        header('Location: /login');
     }
     function generateRandomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; $pass = array(); //remember to declare

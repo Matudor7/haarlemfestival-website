@@ -25,6 +25,20 @@ class ProductRepository extends Repository{
             $statement->execute();
             $product = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
 
+            return $product[0];
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getByEventType($eventTypeId){
+        try{
+            $statement = $this->connection->prepare("SELECT id, name, event_type, starting_time, location, price, additional_info FROM product WHERE event_type=:eventType");
+            $statement->bindParam(':eventType', $eventTypeId);
+
+            $statement->execute();
+            $product = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+
             return $product;
         }catch(PDOException $e){
             echo $e->getMessage();

@@ -18,7 +18,7 @@ foreach($festival as $f){
 <form action="" method="POST">
 <label for="events">Event: </label>
 <select name="events" id="<?php echo "events " . $f->getId()?>" onchange="updateField(<?php echo $f->getId()?>)">
-    <?php foreach($this->events as $e){
+    <?php foreach($events as $e){
     ?>
         <option value=<?php echo $e->getName()?> <?php if($e->getName() == $f->getEventName()) echo 'selected'?>><?php echo $e->getName()?></option>
     <?php
@@ -49,8 +49,6 @@ foreach($festival as $f){
             .then((response) => response.json())
             .then((data) => console.log(data))
             .catch((error) => console.error(error));
-
-            window.location.href = "/admin";
         }
     </script>
     

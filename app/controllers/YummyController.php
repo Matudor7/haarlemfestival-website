@@ -45,6 +45,15 @@ class YummyController extends Controller
         $contactInfService = new ContactInfService();
         $yummyDetailPageService = new YummyDetailPageService();
 
+        //Andy's addition
+        require_once __DIR__ . '/../Services/productService.php';
+        require_once __DIR__ . '/../Services/eventService.php';
+        $productService = new ProductService();
+        $eventService = new EventService();
+        $thisEvent = $eventService->getByName("Yummy!");
+        $tickets = $productService->getByEventType($thisEvent->getId());
+
+
         try {
             $restaurant = $this->yummyService->getById($restaurant_id);
 
@@ -55,7 +64,7 @@ class YummyController extends Controller
 
             if($restaurant->getHavaDetailPageOrNot()){
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
-
+                require_once __DIR__ . '/navbarRequirements.php';
                 require __DIR__ . '/../views/yummy/detailPage.php';
             }else{
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
@@ -66,6 +75,8 @@ class YummyController extends Controller
                 require __DIR__ . '/../views/yummy/detailPage.php';
             }
         } catch (Exception $e) {echo $e;}
+
+        require __DIR__ .'/../views/buyTicketForm.php';
     }
 
 }

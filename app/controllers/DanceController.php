@@ -4,6 +4,7 @@ require __DIR__ . '/controller.php';
 require_once __DIR__ . '/../Services/eventService.php';
 require __DIR__ . '/../Services/DanceService.php';
 require __DIR__ . '/../Services/DanceDetailPageService.php';
+require __DIR__ . '/../Services/productService.php';
 
 class DanceController extends Controller{
     private $eventService;
@@ -17,7 +18,12 @@ class DanceController extends Controller{
     }
     public int $artistId = 0;
 
-    public function index(){        
+    public function index(){
+        //Andy's addition
+        $productService = new ProductService();
+        $thisEvent = $this->eventService->getByName("Dance!");
+        $tickets = $productService->getByEventType($thisEvent->getId());
+
         $events = $this->eventService->getAll();
         $artists = $this->danceService->getAllArtists();
         $danceLocations = $this->danceService->getAllDanceLocations();
@@ -34,6 +40,7 @@ class DanceController extends Controller{
         }
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/dance/index.php';
+        require __DIR__ .'/../views/buyTicketForm.php';
     }
 
     public function detail(){

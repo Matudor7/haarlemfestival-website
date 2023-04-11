@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
 <?php
 require __DIR__ . '/../nav.php';
 ?>
+<main id="main">
 <div class="mt-5 mb-5 border-top" style="background: #09B4BB; margin-left: 30%; margin-right: 30%">
     <h1 class="text-center py-3" style="color: black"><?=$restaurant->getRestaurantName()?></h1>
 </div><br>
@@ -40,7 +42,7 @@ require __DIR__ . '/../nav.php';
 
 
     <div class="scrollable" style="height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;">
-        <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px;">Make a Reservation</button>
+        <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px;" onClick="openTicketForm()">Make a Reservation</button>
     </div>
 </div><br><br>
 <div>
@@ -90,7 +92,7 @@ require __DIR__ . '/../nav.php';
                     </div>
                 </div>
                 <div style="text-align:center; padding-bottom: 10px;">
-                    <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; margin: 0 auto;">Make a Reservation</button>
+                    <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; margin: 0 auto;" onClick="openTicketForm()">Make a Reservation</button>
                 </div>
             </div>
         </div>
@@ -117,7 +119,8 @@ require __DIR__ . '/../nav.php';
 <?php
 require __DIR__ . '/../footer.php';
 ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="/js/scriptfile.js"></script>
+</main>
 </body>
 </html>

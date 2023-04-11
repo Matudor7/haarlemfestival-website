@@ -3,6 +3,13 @@ require __DIR__ . '/../Repositories/UserTypeRepository.php';
 require_once __DIR__ . '/../Models/userType.php';
 class userTypeService
 {
+    private $userTypeRepository; 
+
+    //ctor
+    public function __construct() {
+        $this->userTypeRepository = new UserTypeRepository(); 
+    }
+
     public function getUserTypeByID($userType_id)
     {
         $userTypeRepo = new UserTypeRepository();
@@ -20,8 +27,7 @@ class userTypeService
 
     public function getUserTypeNameByUserId($userId)
     {
-        $userTypeRepo = new UserTypeRepository(); // we need to create a constructor. this is only DUPLICATE CODE -beth
-        $userTypeName = $userTypeRepo->getUserTypeNameByUserId($userId);
+        $userTypeName = $this->userTypeRepository->getUserTypeNameByUserId($userId);
         return $userTypeName;
     }
     

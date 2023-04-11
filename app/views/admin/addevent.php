@@ -62,7 +62,7 @@
                 };
                 console.log(eventData);
 
-                fetch("http://localhost/api/events",{
+                fetch("https://it2bg05haarlemfestival.000webhostapp.com/api/events",{
                     method: 'POST',
                     headers: {'Content-Type' : 'application/json',},
                     body: JSON.stringify(eventData),

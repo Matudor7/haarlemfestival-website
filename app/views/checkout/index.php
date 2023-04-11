@@ -188,7 +188,7 @@
 
         console.log(paymentData);
 
-        fetch("http://localhost/api/checkout",{
+        fetch("https://it2bg05haarlemfestival.000webhostapp.com/api/checkout",{
           method: 'POST',
           headers: {'Content-Type' : 'application/json',},
           body: JSON.stringify(paymentData),

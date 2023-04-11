@@ -35,7 +35,7 @@ if ($payment->isPaid()) {
     $smtpService->sendEmail($email, $lastName, $message, $subject);
 
     $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-    header("Location: http://localhost/");
+    header("Location: https://it2bg05haarlemfestival.000webhostapp.com/");
 } else {
     echo "Payment Failed...";
 }

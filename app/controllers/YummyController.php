@@ -39,30 +39,33 @@ class YummyController extends Controller
     }
     // echo $_SERVER['REQUEST_METHOD'];
 
-    public function detail(){
-        //$events = $this->eventService->getAll();
-        $restaurant_id = $_GET['restaurant_id'];
-        $contactInfService = new ContactInfService();
-        $yummyDetailPageService = new YummyDetailPageService();
-
-        //Andy's addition
+    private function getProducts(){
         require_once __DIR__ . '/../Services/productService.php';
         require_once __DIR__ . '/../Services/eventService.php';
         $productService = new ProductService();
         $eventService = new EventService();
         $thisEvent = $eventService->getByName("Yummy!");
         $tickets = $productService->getByEventType($thisEvent->getId());
+        //Ale added a return here to be able to call it from the detail method
+        return array('thisEvent' => $thisEvent, 'tickets' => $tickets);
+    }
 
+    public function detail(){
+        $restaurant_id = $_GET['restaurant_id'];
+        $contactInfService = new ContactInfService();
+        $yummyDetailPageService = new YummyDetailPageService();
+
+        //Andy's addition
+        list('thisEvent' => $thisEvent, 'tickets' => $tickets) = $this->getProducts();
 
         try {
             $restaurant = $this->yummyService->getById($restaurant_id);
 
-            $address_id = $restaurant->getRestaurantAddressId();
-            $addressService = new AddressService();
-            $address = $addressService->getById($address_id);
-            $contact = $contactInfService->getById($restaurant->getContactInfId());
-
             if($restaurant->getHavaDetailPageOrNot()){
+                $address_id = $restaurant->getRestaurantAddressId();
+                $addressService = new AddressService();
+                $address = $addressService->getById($address_id);
+                $contact = $contactInfService->getById($restaurant->getContactInfId());
                 $html =  $yummyDetailPageService->getContentById($restaurant->getDetailId());
                 require_once __DIR__ . '/navbarRequirements.php';
                 require __DIR__ . '/../views/yummy/detailPage.php';
@@ -78,6 +81,5 @@ class YummyController extends Controller
 
         require __DIR__ .'/../views/buyTicketForm.php';
     }
-
 }
 ?>

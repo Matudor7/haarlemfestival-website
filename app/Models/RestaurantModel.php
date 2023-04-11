@@ -147,6 +147,21 @@ class RestaurantModel
     {
         return $this->restaurant_adultsPrice;
     }
+    public function getFoodTypeName(){
+        require_once __DIR__ . '/../Services/FoodTypeService.php';
+        require_once __DIR__ . '/../Models/FoodType.php';
+        $foodTypeService = new FoodTypeService();
+        $foodType = $foodTypeService->getAllFoodTypeByID($this->foodType_id);
+        return $foodType->getFoodType();
+    }
+    public function getRestaurantRating(){
+        require_once __DIR__ . '/../Services/RatingService.php';
+        require_once __DIR__ . '/../Models/RestaurantRating.php';
+        $ratingService = new RatingService();
+        $restaurantRating = $ratingService->getAllRatingById($this->restaurantRating_id);
+        return $restaurantRating->getRatingNumber();
+    }
+
 
     public function setRestaurantAdultsPrice(float $restaurant_adultsPrice): void
     {
@@ -226,20 +241,6 @@ class RestaurantModel
                 break;
         }
 
-    }
-    public function getFoodTypeName(){
-        require_once __DIR__ . '/../Services/FoodTypeService.php';
-        require_once __DIR__ . '/../Models/FoodType.php';
-        $foodTypeService = new FoodTypeService();
-        $foodType = $foodTypeService->getAllFoodTypeByID($this->foodType_id);
-        return $foodType->getFoodType();
-    }
-    public function getRestaurantRating(){
-        require_once __DIR__ . '/../Services/RatingService.php';
-        require_once __DIR__ . '/../Models/RestaurantRating.php';
-        $ratingService = new RatingService();
-        $restaurantRating = $ratingService->getAllRatingById($this->restaurantRating_id);
-        return $restaurantRating->getRatingNumber();
     }
 
     public function getHavaDetailPageOrNot(): bool

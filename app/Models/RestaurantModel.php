@@ -43,18 +43,6 @@ class RestaurantModel
         $this->contactInf_id = $contactInf_id;
     }
 
-
-  /*  public function getHavaDetailPageOrNot(): bool
-    {
-        return $this->havaDetailPageOrNot;
-    }
-
-
-    public function setHavaDetailPageOrNot(bool $havaDetailPageOrNot): void
-    {
-        $this->havaDetailPageOrNot = $havaDetailPageOrNot;
-    }*/
-
     public function getDetailId(): int
     {
         return $this->detail_id;
@@ -254,14 +242,6 @@ class RestaurantModel
         return $restaurantRating->getRatingNumber();
     }
 
-   /* public function getDetailPageAsYesOrNoTxt(): string
-    {
-        if ($this->havaDetailPageOrNot) {
-            return "yes";
-        } else {
-            return "no";
-        }
-    }*/
     public function getHavaDetailPageOrNot(): bool
     {
         return ($this->havaDetailPageOrNot);

@@ -24,21 +24,35 @@ include __DIR__ . '/../nav.php';
         <br><br>
         <label for="restaurant_foodType">Food Type:</label>
         <select name="restaurant_foodType" id="restaurant_foodType">
-            <option value="<?=$foodTypes[0]->getFoodTypeId()?>"><?=$restaurant->getFoodTypeName()?></option>
-            <?php foreach ($foodTypes as $foodtype){
-                if ($foodtype->getFoodType() != $restaurant->getFoodTypeName()) { ?>
+            <?php foreach ($foodTypes as $foodtype) {
+                if ($foodtype->getFoodType() == $restaurant->getFoodTypeName()) {
+                    // if the current food type matches the restaurant's food type, add the 'selected' attribute
+                    ?>
+                    <option value="<?=$foodtype->getFoodTypeId()?>" selected><?=$foodtype->getFoodType()?></option>
+                    <?php
+                } else {
+                    // otherwise, add a normal option element
+                    ?>
                     <option value="<?=$foodtype->getFoodTypeId()?>"><?=$foodtype->getFoodType()?></option>
-                <?php }
+                    <?php
+                }
             }?>
         </select>
         <br><br>
         <label for="restaurant_rating">Rating:</label>
         <select name="restaurant_rating" id="restaurant_rating">
-            <option value="<?=$ratings[0]->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
             <?php foreach ($ratings as $rating) {
-                if ($rating->getRatingNumber() != $restaurant->getRestaurantRating()) { ?>
-                    <option  value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option>
-                <?php }
+                if ($rating->getRatingNumber() == $restaurant->getRestaurantRating()) {
+                    // if the current rating matches the restaurant's rating, add the 'selected' attribute
+                    ?>
+                    <option value="<?=$rating->getRestaurantRatingId()?>" selected><?=$rating->getRatingNumber()?></option>
+                    <?php
+                } else {
+                    // otherwise, add a normal option element
+                    ?>
+                    <option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option>
+                    <?php
+                }
             }?>
         </select>
         <br><br>

@@ -39,7 +39,7 @@ foreach($festival as $f){
                 "event_name": eventField.value
             };
 
-            fetch("https://it2bg05haarlemfestival.000webhostapp.com/api/festival?id=" + festivalId,{
+            fetch("http://localhost/api/festival?id=" + festivalId,{
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",

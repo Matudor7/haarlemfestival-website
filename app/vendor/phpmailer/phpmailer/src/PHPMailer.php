@@ -280,7 +280,7 @@ class PHPMailer
      *
      * @var string
      */
-    public $Host = 'https://it2bg05haarlemfestival.000webhostapp.com';
+    public $Host = 'localhost';
 
     /**
      * The default SMTP server port.

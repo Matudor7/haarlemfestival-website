@@ -16,5 +16,15 @@ class ProductService{
         
         return $product;
     }
+
+    public function getByEventType($eventTypeId){
+        $productRepo = new ProductRepository();
+        return $productRepo->getByEventType($eventTypeId);
+    }
+
+    public function getProductNameById(int $id){
+        $productRepo = new ProductRepository();
+        return $productRepo ->getProductNameById($id);
+    }
 }
 ?>

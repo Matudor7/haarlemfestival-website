@@ -3,6 +3,12 @@ require __DIR__ . '/../Repositories/UserRepository.php';
 require_once __DIR__ . '/../Models/User.php';
 class UserService
 {
+    private $repository; 
+
+    //ctor
+    public function __construct() {
+        $this->repository = new UserRepository(); 
+    }
     public function getAllUsers()
     {
         $repository = new UserRepository;
@@ -49,53 +55,52 @@ class UserService
 
     }
     public function getUserType(){
-        $repository = new UserRepository;
-        return $repository->getUserType();
+        return $this->repository->getUserType();
     }
 
     public function getAllUsersFromDatabase(){
-        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
-        return $repository->getAllUsersFromDatabase();
+        
+        return $this->repository->getAllUsersFromDatabase();
     }
 
     public function deleteUser($user){
-        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
-        return $repository->deleteUser($user);
+        
+        return $this->repository->deleteUser($user);
     }
     public function updateUser($oldUser, $newUser){
-        $repository = new UserRepository; //TODO create ctor this is duplicate code -beth
-        return $repository->editUserInDatabase($oldUser, $newUser);
+        
+        return $this->repository->editUserInDatabase($oldUser, $newUser);
     }
 
     public function getUsersBySearch($string){
-        $repository = new UserRepository;
-        return $repository->getUsersBySearchFromDatabase($string);
+        return $this->repository->getUsersBySearchFromDatabase($string);
     }
     public function getAllUsersByLaterRegistrationDate(){
-        $repository = new UserRepository;
-        return $repository->getUsersByLaterRegistrationDate();
+        return $this->repository->getUsersByLaterRegistrationDate();
     }
     public function getAllUsersByUsrnameAlphabetical(){
-        $repository = new UserRepository;
-        return $repository->getUsersByUsernameAlphabetical();
+        return $this->repository->getUsersByUsernameAlphabetical();
     }
 
     public function getAllAdminUsers(){
-        $repository = new UserRepository;
         $intOfAdmin = 2;
-        return $repository->getUsersByType($intOfAdmin);
+        return $this->repository->getUsersByType($intOfAdmin);
     }
 
     public function getAllEmployeeUsers(){
-        $repository = new UserRepository;
         $intOfEmployee = 1;
-        return $repository->getUsersByType($intOfEmployee);
+        return $this->repository->getUsersByType($intOfEmployee);
     }
 
     public function getAllCustomerUsers(){
-        $repository = new UserRepository;
         $intOfCustomer = 3;
-        return $repository->getUsersByType($intOfCustomer);
+        return $this->repository->getUsersByType($intOfCustomer);
+    }
+    public function updateUserProfile($oldUser, $newUser){
+        $password = $newUser->getUserPassword();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $newUser->setUserPassword($hashedPassword);
+        return $this->repository->editUserProfileInDatabase($oldUser, $newUser);
     }
 
 }

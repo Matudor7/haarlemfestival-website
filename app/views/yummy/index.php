@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <!-- old-->
@@ -35,7 +36,7 @@ include __DIR__ . '/../nav.php';
                 ?>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>" > <img style="width: 100%;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"
+                        <a href="Yummy/detail?restaurant_id=<?=$restaurant->getRestaurantId()?>" > <img style="width: 100%; transform-origin: center; transition: transform 0.2s ease-in-out; cursor: pointer;" onmouseover="this.style.transform='scale(0.9)';" onmouseout="this.style.transform='scale(1)';"" src="<?php echo$restaurant->getRestaurantPictureURL()?>"
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="350" xmlns="http://www.w3.org/2000/svg"
                                  role="img" aria-label="Placeholder: Hair cut" preserveAspectRatio=" xMidYMid slice" focusable="false">
                         </a>

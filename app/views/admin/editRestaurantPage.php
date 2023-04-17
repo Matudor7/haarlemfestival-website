@@ -17,28 +17,47 @@ include __DIR__ . '/../nav.php';
 <h1 class="text-center">Edit Restaurant Page</h1><br><br>
 
 <div class="text-center">
-    <form action="/admin/editRestaurant" method="post">
+    <form  class="form" method="post" action="/admin/editRestaurant" enctype="multipart/form-data">
 
         <label for="restaurant_name">Restaurant Name:</label>
         <input type="text" name="restaurant_name" value="<?=$restaurant->getRestaurantName()?>" id="restaurant_name">
         <br><br>
         <label for="restaurant_foodType">Food Type:</label>
         <select name="restaurant_foodType" id="restaurant_foodType">
-            <?php foreach ($foodTypes as $foodtype){?>
-                <option value="<?=$foodtype->getFoodTypeId()?>"><?=$restaurant->getFoodTypeName()?></option>
-
-            <?php }?>
+            <?php foreach ($foodTypes as $foodtype) {
+                if ($foodtype->getFoodType() == $restaurant->getFoodTypeName()) {
+                    // if the current food type matches the restaurant's food type, add the 'selected' attribute
+                    ?>
+                    <option value="<?=$foodtype->getFoodTypeId()?>" selected><?=$foodtype->getFoodType()?></option>
+                    <?php
+                } else {
+                    // otherwise, add a normal option element
+                    ?>
+                    <option value="<?=$foodtype->getFoodTypeId()?>"><?=$foodtype->getFoodType()?></option>
+                    <?php
+                }
+            }?>
         </select>
         <br><br>
         <label for="restaurant_rating">Rating:</label>
         <select name="restaurant_rating" id="restaurant_rating">
-            <?php foreach ($ratings as $rating){?>
-                <option value="<?=$rating->getRestaurantRatingId()?>"><?=$restaurant->getRestaurantRating()?></option>
-                <!--<option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option> -->
-            <?php }?>
+            <?php foreach ($ratings as $rating) {
+                if ($rating->getRatingNumber() == $restaurant->getRestaurantRating()) {
+                    // if the current rating matches the restaurant's rating, add the 'selected' attribute
+                    ?>
+                    <option value="<?=$rating->getRestaurantRatingId()?>" selected><?=$rating->getRatingNumber()?></option>
+                    <?php
+                } else {
+                    // otherwise, add a normal option element
+                    ?>
+                    <option value="<?=$rating->getRestaurantRatingId()?>"><?=$rating->getRatingNumber()?></option>
+                    <?php
+                }
+            }?>
         </select>
         <br><br>
         <label for="restaurant_kidsPrice">Kids Price:</label>
+        <input type="hidden" name="restaurant_id" value="<?=$restaurant->getRestaurantId()?>">
         <input type="number" value="<?=$restaurant-> getRestaurantKidsPrice()?>" name="restaurant_kidsPrice" id="restaurant_kidsPrice" min="0" step="0.01">
         <br><br>
 
@@ -58,9 +77,11 @@ include __DIR__ . '/../nav.php';
 
         <label for="haveDetailPage">Have Detail Page:</label>
         <select name="haveDetailPage" id="haveDetailPage">
-            <option value="<?=$restaurant->getDetailPageAsYesOrNoTxt()?>"><?=$restaurant->getDetailPageAsYesOrNoTxt()?></option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <?php $selectedValue = $restaurant->getHavaDetailPageOrNot() ? 'yes' : 'no'; ?>
+            <option value="yes" <?php if($selectedValue == 'yes') echo 'selected'; ?>>Yes</option>
+            <option value="no" <?php if($selectedValue == 'no') echo 'selected'; ?>>No</option>
+         <!--  <option value="yes">Yes</option>
+            <option value="no">No</option>*/ -->
         </select>
         <br><br>
 
@@ -77,12 +98,16 @@ include __DIR__ . '/../nav.php';
         <input type="number" value="<?=$restaurant->   getRestaurantNumberOfAvailableSeats()?>" name="num_seats" id="num_seats" min="1">
         <br><br>
 
-       <!-- <p><img style="width: 100%; height=350;" src="<?php echo$restaurant->getRestaurantPictureURL()?>"</p>-->
-        <label for="restaurant_pictureURL">Picture URL:</label>
-        <input type="image" value="<?=$restaurant->    getRestaurantPictureURL()?>" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <div class="text-center" >
+        <label for="restaurant_pictureURL" class="form-label">Change Image: </label>
+        <input type="file" class="form-control text-center" name="restaurant_pictureURL" id="restaurant_pictureURL" accept="image/png, image/jpg">
         <br><br>
+        </div>
 
-        <input type="submit" name="updateRestaurant"  class="btn btn-success" value="Update Restaurant">
+        <!-- <label for="restaurant_pictureURL">Picture URL:</label>
+        <input type="image" value="<?=$restaurant->    getRestaurantPictureURL()?>" name="restaurant_pictureURL" id="restaurant_pictureURL">
+        <br><br> -->
+        <input type="submit" name="updateRestaurant" class="btn btn-success" value="Update Restaurant">
     </form>
 </div>
 </body>

@@ -12,9 +12,6 @@
 
 <body>
     <?php
-include __DIR__ . '/../nav.php';
-?>
-    <?php
     require __DIR__ . '/../adminNavbar.php';
     ?>
     <div class="container-fluid">

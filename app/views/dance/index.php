@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -15,9 +16,8 @@
 </head>
 
 <body>
-    <?php include __DIR__ . "/../nav.php"; ?>
-
-    <main class="container-fluid">
+<?php include __DIR__ . "/../nav.php"; ?>
+    <main class="container-fluid" id="main">
         <div class="row my-5">
             <div class="row">
                 <div class="col-md-6 mt-auto p-5">
@@ -27,7 +27,7 @@
                     <button id="dance-button-learn-more" type="button" class="btn btn-primary rounded-pill fw-bold"
                         onClick="scrollToElement()">Learn More</button>
                     <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold"
-                        onClick="location.href='/../CreateProgram'">Buy
+                        onClick="openTicketForm()">Buy
                         Tickets</button>
                 </div>
                 <div class="col-md-6">

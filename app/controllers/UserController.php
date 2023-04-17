@@ -1,6 +1,6 @@
 <?php
+session_start();
 require_once __DIR__ . '/../Services/UserService.php';
-require_once __DIR__ . '/../Services/eventService.php';
 require_once __DIR__ .  '/controller.php';
 require_once __DIR__ . '/../Models/userType.php';
 require_once __DIR__ . '/../Services/smtpService.php';
@@ -14,47 +14,37 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->eventService = new EventService();
         $this->userService = new UserService();
         $this->smtpService = new smtpService();
     }
 
     public function getAllUsers(){
-        $userService = new UserService();
-        return $userService->getAllUsers();
+        return $this->userService->getAllUsers();
     }
 
     public function validateLogin($username, $password)
     {
-        $userService = new UserService();
-        return $userService->validateLogin($username, $password);
+        return $this->userService->validateLogin($username, $password);
     }
     public function resetPasswordPage(){
-        $eventService = new EventService();
-        $events = $eventService->getAll();
-
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/user/resetPassword.php';
     }
     public function resetPassword(){
-        require __DIR__ . '/../Services/smtpService.php';
 
-        $smtp = new smtpService();
-        $userService = new UserService();
         $email = $_POST['email'];
         $password = $this->generateRandomPassword();
-        $user = $userService->getUserByEmail($email);
+        $user = $this->userService->getUserByEmail($email);
         $subject = "lets reset your password";
-        $message = "This is your new temporary password: " .$password ." you can use this to login and create a new password for yourself or keep this one. Whatever makes you happier!";
+        $message = "Dear " . $user->getUserFirstName() .  ", This is your new temporary password: " .$password ." \nYou can use this to login and create a new password for yourself or keep this one. Whatever makes you happy! \n
+        Thank you for choosing our website and we hope you continue to enjoy our services.\nBest regards,\n'Haarlem Festival Website' team";
         $userFirstName = $user->getUserFirstName();
-        $smtp->sendEmail($email, $userFirstName , $message, $subject  );
+        $smtp = $this->smtpService->sendEmail($email, $userFirstName , $message, $subject  );
 
-        $userService->upDatePassword($user->getUserId(), $password);
+        $this->userService->upDatePassword($user->getUserId(), $password);
 
         $_SESSION['passwordEmailMessage'] = "Your email was sent successfully!";
-       require_once __DIR__ .  '/LoginController.php';
-        $loginController = new LoginController();
-        $loginController->index();
-
+        header('Location: /login');
     }
     function generateRandomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; $pass = array(); //remember to declare
@@ -65,29 +55,51 @@ class UserController extends Controller
     }
 
     function userManageAccount(){
-        $events = $this->eventService->getAll();
-        session_start();
         $user = new User();
-        $user->setUserId($_SESSION['user_id']);
-        $user->setUsername($_SESSION['username']);
-        $user->setUserTypeId($_SESSION['user_role']);
-        $user->setUserFirstName($_SESSION['user_firstName']);
-        $user->setUserLastName($_SESSION['user_lastName']);
-        $user->setUserPicURL($_SESSION['user_imageUrl']);
-        $user->setUserEmail($_SESSION['user_email']);
-        //save the new things
-        //send the email
+        $user = $this->userService->getByID($_SESSION['user_id']);
 
+        //save the new profile
+        if (isset($_POST['editbutton'])) {
+            if(isset($_FILES['userManageAccountImageInput']) && $_FILES['userManageAccountImageInput']['error'] == 0){
+                try {
+                    $imageUrl = $_FILES['userManageAccountImageInput']['tmp_name'];
+                    $imageName = strtolower(htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/s', '', $_POST['userManageAccountUsernameTextBox'])));
+                    $downloadPath = SITE_ROOT . '/media/userProfilePictures/' . $imageName . '.png'; 
+                    move_uploaded_file($imageUrl, $downloadPath);
+                    $downloadPath = str_replace(SITE_ROOT, '', $downloadPath); // remove SITE_ROOT from $downloadPath
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }               
+            else{
+                $downloadPath = $user->getUserPicURL(); //if new photo isnt added, the old photo remains as profile picture.
+            }     
+            $newUserProfile = new User();
+            $newUserProfile->setUserFirstName($_POST['userManageAccountFirstNameTextBox']);
+            $newUserProfile->setUserLastName($_POST['userManageAccountLastNameTextBox']);
+            $newUserProfile->setUsername($_POST['userManageAccountUsernameTextBox']);
+            $newUserProfile->setUserEmail($_POST['userManageAccountEmailTextBox']);
+            $newUserProfile->setUserPassword($_POST['userManageAccountPassword1TextBox']);
+            $newUserProfile->setUserPicURL($downloadPath);
+            $this->userService->updateUserProfile($user, $newUserProfile);  
+            $this->sendEditConfirmationMail($newUserProfile);
+            header('Location: /user/userManageAccount'); 
+        }  
+        
+        
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . "/../views/userManageAccount.php";
     }
-
-    function sendEditConfirmationMail($user, $userEmailAddress){
-        require __DIR__ . '/../Services/smtpService.php';
+    function sendEditConfirmationMail($user){
+        require_once __DIR__ . '/../Services/smtpService.php';
 
         $subject = "Account Details Changed";
-        $message = "Dear " . $user->getUserFirstName.  ", \nWe wanted to confirm that the changes you made to your account information have been successfully updated in our system. \n
-        Thank you for choosing our website and we hope you continue to enjoy our services.\nBest regards,\n'Haarlem Festival Website' team";
-        $this->smtpService->sendEmail($userEmailAddress, $user->getUserFirstName , $message, $subject);
+        $message = "Dear " . $user->getUserFirstName().  ", <br><br>
+        We wanted to confirm that the changes you made to your account information have been successfully updated in our system. <br><br>
+        Thank you for choosing our website and we hope you continue to enjoy our services. <br><br>
+        Best regards, <br>
+        'Haarlem Festival Website' team";
+        $this->smtpService->sendEmail($user->getUserEmail(), $user->getUserFirstName() , $message, $subject);
     }
 
 }

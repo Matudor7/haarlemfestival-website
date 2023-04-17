@@ -57,7 +57,7 @@ include __DIR__ . '/../nav.php';
         <label for="haveDetailPage">Have Detail Page:</label>
         <select name="haveDetailPage" id="haveDetailPage">
             <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option selected value="no">No</option>
         </select>
         <br><br>
 
@@ -80,17 +80,7 @@ include __DIR__ . '/../nav.php';
         <label for="restaurant_pictureURL" class="form-label">Add Image: </label>
         <input type="file" class="form-control" name="restaurant_pictureURL" id="restaurant_pictureURL" accept="image/png, image/jpg">
         <br><br>
-
-
-        <input type="submit" name="addRestaurant" value="Add Restaurant">
-
-
-        <!--
-                <label for="restaurant_pictureURL">Picture URL:</label>
-                <input type="text" name="restaurant_pictureURL" id="restaurant_pictureURL">
-                <br><br>
-
-        <input type="submit" name="addRestaurant"  class="btn btn-success" value="Add Restaurant">-->
+        <input type="submit" class="btn btn-success" name="addRestaurant" value="Add Restaurant">
     </form>
 </div>
 </body>

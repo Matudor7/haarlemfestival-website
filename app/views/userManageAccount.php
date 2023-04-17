@@ -16,9 +16,7 @@
 </head>
 
 <body>
-    <?php
-include __DIR__ . '/nav.php';
-?>
+<?php include __DIR__ . "/nav.php"; ?>
     <div class="container-sm">
         <h1 class="my-4"> Manage Your Account </h1>
         <div>
@@ -111,5 +109,11 @@ include __DIR__ . '/footer.php';
     }
     </script>
 </body>
+
+<style>
+body {
+  background-color: white;
+}
+ </style>
 
 </html>

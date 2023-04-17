@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,18 +13,18 @@
     </head>
     <body>
     <?php
-        include __DIR__ . '/../nav.php';
-        ?>
+    include __DIR__ . '/../nav.php';
+    ?>
 
 <main id="main">
 
 <section id="header-container" class="container mx-0 px-0">
 <img src="/media/walkingtourPics/walkingtourHeader.png" class="mx-auto" alt="Header" id="header-img">
 <div id="text-container" class="container bg-light w-50 opacity-75 text-center">
-<p id="header-text" class="text-dark"><?php echo $event->getDescription()?></p>
+<p id="header-text" class="text-dark"><?php echo $thisEvent->getDescription()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()" href="#">Save me a spot</button>
+<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()">Save me a spot</button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -31,7 +32,7 @@
   <div class="container text-center">
     <div class="row pt-4">
   <div class="col" id="description-left">
-    <h5>From <?php echo $event->getStartTime()?> to <?php echo $event->getEndTime()?></h5>
+    <h5>From <?php echo $thisEvent->getStartTime()?> to <?php echo $thisEvent->getEndTime()?></h5>
   <p>There will be a walking tour with several departures each day, with different languages available; and overall duration of 2 and a half hours, including a 15mins break with refreshments.</p>
   <button class="rounded-pill">When?</button>
 </div>
@@ -137,33 +138,6 @@
             ?>
         </table>
       </td>
-
-        <!---<//**?php foreach ($languages as $language) {
-             ?>
-        <td class="p-0">
-            <table class="table my-0">
-                <//?php
-                foreach ($timetables as $timetable){
-                    $count=0;
-
-            foreach ($walkingTours as $walkingTour){
-
-                if($walkingTour->getTourLanguage() == $language){
-                    if ($walkingTour->getTourTimetable()->getTimetableStartDate() == $timetable->getTimetableStartDate()){
-                        if($walkingTour->getTourTimetable()->getTimetableStartTime() == $timetable->getTimetableStartTime()){
-                            $count++;
-                            ?>
-                <tr class="border border-2 border-dark border-top-0 border-start-0 border-end-0"><td><//?php echo ($count > 0) ? $count : 0; ?></td></tr>
-                <//?php
-                        }
-                    }}
-                    ?>
-
-        <//?php }}?>
-            </table>
-        <//?php } ?>
-</td>!--->
-
         <?php foreach ($languages as $language) { ?>
             <td class="p-0">
                 <table class="table my-0">
@@ -240,6 +214,7 @@
 <?php
         include __DIR__ . '/../footer.php';
         ?>
+
     </body>
 </html>
 <style>

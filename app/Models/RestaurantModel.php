@@ -15,7 +15,7 @@ class RestaurantModel
     private bool $havaDetailPageOrNot;
     private int $detail_id;
     private int $contactInf_id;
-    private string $restaurant_pictureURL;
+    private string $restaurant_pictureURL = "";
     private int $foodType_id;
     private int $restaurantRating_id;
 
@@ -41,18 +41,6 @@ class RestaurantModel
     public function setContactInfId(int $contactInf_id): void
     {
         $this->contactInf_id = $contactInf_id;
-    }
-
-
-    public function getHavaDetailPageOrNot(): bool
-    {
-        return $this->havaDetailPageOrNot;
-    }
-
-
-    public function setHavaDetailPageOrNot(bool $havaDetailPageOrNot): void
-    {
-        $this->havaDetailPageOrNot = $havaDetailPageOrNot;
     }
 
     public function getDetailId(): int
@@ -159,6 +147,21 @@ class RestaurantModel
     {
         return $this->restaurant_adultsPrice;
     }
+    public function getFoodTypeName(){
+        require_once __DIR__ . '/../Services/FoodTypeService.php';
+        require_once __DIR__ . '/../Models/FoodType.php';
+        $foodTypeService = new FoodTypeService();
+        $foodType = $foodTypeService->getAllFoodTypeByID($this->foodType_id);
+        return $foodType->getFoodType();
+    }
+    public function getRestaurantRating(){
+        require_once __DIR__ . '/../Services/RatingService.php';
+        require_once __DIR__ . '/../Models/RestaurantRating.php';
+        $ratingService = new RatingService();
+        $restaurantRating = $ratingService->getAllRatingById($this->restaurantRating_id);
+        return $restaurantRating->getRatingNumber();
+    }
+
 
     public function setRestaurantAdultsPrice(float $restaurant_adultsPrice): void
     {
@@ -219,7 +222,6 @@ class RestaurantModel
         return $this->setTimeSlots($this->numberOfTimeSlots, $this->restaurant_OpeningTime, $this->duration);
     }
 
-
     public function displayImageBasedOnEnum($string) {
         switch ($string) {
             case '1':
@@ -240,28 +242,29 @@ class RestaurantModel
         }
 
     }
-    public function getFoodTypeName(){
-        require_once __DIR__ . '/../Services/FoodTypeService.php';
-        require_once __DIR__ . '/../Models/FoodType.php';
-        $foodTypeService = new FoodTypeService();
-        $foodType = $foodTypeService->getAllFoodTypeByID($this->foodType_id);
-        return $foodType->getFoodType();
+
+    public function getHavaDetailPageOrNot(): bool
+    {
+        return ($this->havaDetailPageOrNot);
     }
-    public function getRestaurantRating(){
-        require_once __DIR__ . '/../Services/RatingService.php';
-        require_once __DIR__ . '/../Models/RestaurantRating.php';
-        $ratingService = new RatingService();
-        $restaurantRating = $ratingService->getAllRatingById($this->restaurantRating_id);
-        return $restaurantRating->getRatingNumber();
+
+    public function setHavaDetailPageOrNot($havaDetailPageOrNot): void
+    {
+        $this->havaDetailPageOrNot = $havaDetailPageOrNot === 'yes';
     }
 
     public function getDetailPageAsYesOrNoTxt(): string
     {
-        if ($this->havaDetailPageOrNot) {
-            return "yes";
-        } else {
-            return "no";
-        }
+        return ($this->havaDetailPageOrNot) ? 'yes' : 'no';
+    }
+    public function getHavaDetailPageOrNotAsInt(): int
+    {
+        return ($this->havaDetailPageOrNot) ? 1 : 0;
+    }
+
+    public function setHavaDetailPageOrNotAsInt(int $havaDetailPageOrNot): void
+    {
+        $this->havaDetailPageOrNot = ($havaDetailPageOrNot === 1) ? 'yes' : 'no';
     }
 }
 

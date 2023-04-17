@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- Tudor Nosca (678549) -->
 <html>
@@ -18,9 +19,6 @@
     <div id="banner-text" class="row mt-5 py-lg-5 justify-content text-center">
         <h1 class="fw-semibold display-2 text-nowrap">The Festival Haarlem</h1>
         <p class=" text-light fs-2">Haarlem's main event opens up again</p>
-
-        <div id="date-container" class="container bg-light w-50 opacity-75">
-        <h2 id="dateText" class="text-dark">Start Date - End Date Year</h2>
         </div>
     </div>
   </section>

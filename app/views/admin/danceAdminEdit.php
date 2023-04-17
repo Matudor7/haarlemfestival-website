@@ -10,7 +10,7 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <?php 
-    function generateEditForms($element, $danceLocation, $artist, $allMusicTypes, $artistMusicTypeIds){
+    function generateEditForms($element, $danceLocation, $artist, $allMusicTypes, $artistMusicTypeIds, $danceLocations, $artists, $sessions, $event, $artistIds){
         $editFormHtml = ''; // set a default value for the variable
         switch ($element) {
             case "Location":                
@@ -18,6 +18,9 @@
                 break;
             case "Artist":                
                 $editFormHtml = generateArtsitEditForm($artist, $allMusicTypes, $artistMusicTypeIds);
+                break;
+            case "Event":                
+                $editFormHtml = generateEventEditForm($danceLocations, $artists, $sessions, $event, $artistIds);
                 break;
             default:
                 $editFormHtml =
@@ -104,6 +107,84 @@ $artistEditForm .= '
 
 return $artistEditForm;
 }
+
+function generateEventEditForm($danceLocations, $artists, $sessions, $event, $artistIds){
+
+    $danceEventEditFormHtml = '
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventDateCalendar" class="form-label">Dance Event Date: * </label>
+            <input type="date" class="form-control" name="danceEventDateCalendar" id="danceEventDateCalendar"  required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventTime" class="form-label">Dance Event Time: * </label>
+            <input type="time" class="form-control" name="danceEventTime" id="danceEventTime" required>
+        </div>
+<div class="mb-3" style="width: 20%">
+            <label for="danceEventLocationDropDown">Dance Event Location* </label>
+            <select name="danceEventLocationDropDown" id="danceEventLocationDropDown" required>';
+foreach ($danceLocations as $location) {
+    $selected = '';
+    if ($location->getDanceLocationId() == $event->getDanceLocationId()) {
+        $selected = 'selected';
+    }
+    $danceEventEditFormHtml .= '<option value="' . $location->getDanceLocationId() . '" ' . $selected . '>' . $location->getDanceLocationName() . '</option>';
+}
+$danceEventEditFormHtml .= '
+            </select>
+        </div>
+        <div class="mb-3" style="width: 20%">
+        <p>Select the artists:*</p>
+    </div>';
+    foreach ($artists as $artist) {
+        $checked = '';
+        if (in_array($artist->getId(), $artistIds)) {
+            $checked = 'checked';
+        }
+        $danceEventEditFormHtml .= '
+            <div>
+                <input type="checkbox" id="artist' . $artist->getId() . '" name="artist' . $artist->getId() . '" value="' . $artist->getId() . '" ' . $checked . '>
+                <label for="artist' . $artist->getId() . '">' . $artist->getName() . '</label>
+            </div>';
+    }               
+$danceEventEditFormHtml .= '
+<div class="mb-3" style="width: 20%">
+            <label for="danceEventSessionDropDown">Dance Event Session* </label>
+            <select name="danceEventSessionDropDown" id="danceEventSessionDropDown" required>';
+foreach ($sessions as $session) {
+    $selected = '';
+    if ($session->getDanceSessionId() == $event->getDanceSessionTypeId()) {
+        $selected = 'selected';
+    }
+    $danceEventEditFormHtml .= '<option value="' . $session->getDanceSessionId() . '" ' . $selected . '>' . $session->getDanceSessionName() . '</option>';
+}
+$danceEventEditFormHtml .= '
+            </select>
+        </div>
+
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventDurationTextBox" class="form-label">Duration (total mins)*</label>
+            <input type="number" min="0" class="form-control" id="danceEventDurationTextBox"
+                name="danceEventDurationTextBox" placeholder="Duration" value="'. $event->getDanceEventDuration() . '" required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventAvailableTicketsTextBox" class="form-label">Available Tickets*</label>
+            <input type="number" min="0" class="form-control" id="danceEventAvailableTicketsTextBox"
+                name="danceEventAvailableTicketsTextBox" placeholder="Available Tickets"  value="'. $event->getDanceEventAvailableTickets() . '" required>
+        </div>
+        <div class="mb-3" style="width: 10%">
+            <label for="danceEventPriceTextBox" class="form-label">Price*</label>
+            <input type="number" step="00.01" min="0" class="form-control" id="danceEventPriceTextBox"
+                name="danceEventPriceTextBox" placeholder="Price"  value="'. $event->getDanceEventPrice() . '" required>
+        </div>
+        <div class="mb-3" style="width: 40%">
+            <label for="danceEventExtraNoteTextBox" class="form-label">Extra Note About This Event</label>
+            <input type="text" class="form-control" id="danceEventExtraNoteTextBox"
+                name="danceEventExtraNoteTextBox" placeholder="Extra Note"  value="'. $event->getDanceEventExtraNote() . '" >
+        </div>        
+        <p class="fw-bold">* marked fields are mandatory.</p>';
+
+        return $danceEventEditFormHtml;
+}
     ?>
 
 <body>
@@ -114,7 +195,7 @@ return $artistEditForm;
         <h1>Edit <?php echo $element ?></h1>
         <div>
             <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateInput();">
-                <?php $editForm = generateEditForms($element, $danceLocationToEdit, $artistToEdit, $allMusicTypes, $artistMusicTypeIds); 
+                <?php $editForm = generateEditForms($element, $danceLocationToEdit, $artistToEdit, $allMusicTypes, $artistMusicTypeIds, $allDanceLocations, $allArtists, $allSessions, $eventToEdit, $artistIds); 
         echo $editForm ?>
                 <button type="submit" class="btn btn-success mt-5" name="editbutton" onclick="editElement()">Edit
                     <?php echo $element ?></button>

@@ -1,53 +1,94 @@
 <?php
-require __DIR__ . '/controller.php'; 
-require __DIR__ . '/../Services/eventService.php';
+session_start();
+require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/walkingTourService.php';
 require_once __DIR__ . '/../Models/WalkingTourModel.php';
-require __DIR__ . '/../Services/productService.php';
-require __DIR__ . '/../Services/shoppingCartService.php';
+
+
 
 class WalkingTourController extends Controller{
-    
+
+    //private $eventService;
+    private $walkingTourService;
+    //private $productService;
+
+    private $shoppingCartService;
+
+    function __construct(){
+        //$this->eventService = new EventService();
+        $this->walkingTourService = new WalkingTourService();
+        //$this->productService = new ProductService();
+}
     public function index(){
-
+        //$events = $this->eventService->getAll();
+        require __DIR__ . '/navbarRequirements.php';
+        require_once __DIR__ . '/../Services/eventService.php';
         $eventService = new EventService();
-        $events = $eventService->getAll();
-        $thisEvent = $eventService->getByName("Walking Tour");
+        $thisEvent = $eventService->getByName("WalkingTour");
 
-        $walkingTourService = new WalkingTourService();
-        $walkingTours = $walkingTourService->getAllWalkingTours();
-        $prices = $walkingTourService->getTourPrices();
-        $locations = $walkingTourService->getTourLocations();
-        $timetables = $walkingTourService->getTourTimetable();
-        $languages = $walkingTourService->getTourLanguages();
-
-        $shoppingCartService = new ShoppingCartService();
-        $shoppingCart = $shoppingCartService->getCartOfUser(1);
-
+        require_once __DIR__ . '/../Services/productService.php';
         $productService = new ProductService();
+        $tickets = $productService->getByEventType($thisEvent->getId());
 
-        //This causes every object to be its own array
-        $products = [];
-        foreach($shoppingCart->getProducts() as $product_id){
-            array_push($products, $productService->getById($product_id));
-        }
 
-        //This merges all products to be in a single-level array
-        $merged_products = array_merge(...$products);
 
-        //"Amounts" will always be equal to the number of products in the array 
-        $amounts = [];
-        foreach($shoppingCart->getAmount() as $amount){
-            array_push($amounts, $amount);
-        }
+        $walkingTours = $this->walkingTourService->getAllWalkingTours();
+        $prices = $this->walkingTourService->getTourPrices();
+        $locations = $this->walkingTourService->getTourLocations();
+        $timetables = $this->walkingTourService->getTourTimetable();
+        $languages = $this->walkingTourService->getTourLanguages();
+
+
+
         require __DIR__ . '/../views/walkingtour/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';
+
     }
 
-    public function walkingTourDetailPage() {
-        $eventService = new EventService();
-        $events = $eventService->getAll();
+    public function selectTicket(){
 
+        require_once __DIR__ . '/../Services/productService.php';
+        $productService = new ProductService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['productId'])){
+                $productId = $data['productId'];
+
+                $result = $productService->getById($productId);
+
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+            }  else {echo json_encode("does not work yet");}
+        }
+    }
+
+    public function addToCart(){
+
+        require __DIR__ . '/../Services/shoppingCartService.php';
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['productId'])&isset($data['userId'])){
+                $productId = $data['productId'];
+                $userId = $data['userId'];
+                $amount = $data['amount'];
+
+                $shoppingCartService = new ShoppingCartService();
+                $result = $shoppingCartService->addProducts($userId, $productId, $amount);
+
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+            }  else {echo json_encode("Something went wrong");}
+        }
+    }
+    public function walkingTourDetailPage() {
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
+
+        require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/walkingtour/walkingTourDetailPage.php';
     }
 }

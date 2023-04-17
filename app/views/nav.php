@@ -50,7 +50,7 @@
     </li>
 
 
-    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== 0) { ?>
+    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
     <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
         STYLE="margin: 2px 30px;">Log
         out</button>&nbsp;

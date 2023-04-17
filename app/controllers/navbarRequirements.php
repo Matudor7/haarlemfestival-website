@@ -52,4 +52,6 @@ $additionalVat = $totalPrice * ($vat->getAmount() / 100);
 
 $totalPrice += $additionalVat;
 
+$hashedUserId = password_hash($_SESSION['user_id'], PASSWORD_DEFAULT);
+
 ?>

@@ -18,6 +18,14 @@ function scrollToElement() {
 
 //Shopping Cart Methods
 //Tudor Nosca (678549)
+function copyCartLink(userId){
+    var text = "http://localhost/shareCart?user_id=" + userId;
+
+    navigator.clipboard.writeText(text);
+
+    alert("Copied link (" + text + ")");
+}
+
 function updateProduct(index, userId, action){
     const shoppingCartUrl = "http://localhost/api/shoppingcart?user_id=" + userId;
     const amount = document.getElementById("productamount " + index);
@@ -28,10 +36,10 @@ function updateProduct(index, userId, action){
     fetch(shoppingCartUrl)
     .then(response=> response.json())
     .then(data => {
-        return fetch("http://localhost/api/products?product_id=" + data.product_ids[index])
+        return fetch("http://localhost/api/products?product_id=" + data.product_id[index])
         .then(response=>response.json())
         .then(product=>{
-            price = product.price * data.amounts[index];
+            price = product.price * data.amount[index];
         })
         .then(()=>{
             productPrice.innerHTML = '\u20AC' + price;
@@ -62,11 +70,11 @@ function updateTotal(userId){
     .then(data => {
             let totalPrice = 0;
             const vat = 0.21;
-            for (let i = 0; i < data.product_ids.length; i++) {
-                fetch("http://localhost/api/products?product_id=" + data.product_ids[i])
+            for (let i = 0; i < data.product_id.length; i++) {
+                fetch("http://localhost/api/products?product_id=" + data.product_id[i])
                 .then(response=>response.json())
                 .then(product=>{
-                totalPrice += (product.price * data.amounts[i]);
+                totalPrice += (product.price * data.amount[i]);
                 totalPriceHeader.innerHTML = 'Total: ' + '\u20AC' + (totalPrice + (totalPrice * vat));
                 })
             }
@@ -108,7 +116,7 @@ function removeAmount(index, userId, productId){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            amounts: [{index: index, decrement: 1}]
+            amount: [{index: index, decrement: 1}]
         })
     })
     .then(response => {

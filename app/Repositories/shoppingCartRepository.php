@@ -5,6 +5,18 @@ require __DIR__ . '/../Models/shoppingCartModel.php';
 
 class ShoppingCartRepository extends Repository{
 
+    public function getAll(){
+        try{
+            $statement = $this->connection->prepare("SELECT `user_id`, `product_id`, `amount` FROM `shopping_cart`");
+            
+            $statement->execute();
+            $carts = $statement->fetchAll(PDO::FETCH_CLASS, 'ShoppingCart');
+
+            return $carts;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
     public function getCartOfUser(int $user_id){
         try{
             $statement = $this->connection->prepare("SELECT user_id, product_id, amount FROM shopping_cart WHERE user_id = :user_id");

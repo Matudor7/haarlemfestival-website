@@ -100,6 +100,7 @@
                         <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
                     </div>
                     <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout'">Continue to Checkout</button>
+                    <button class="mt-5 w-50 btn btn-primary" type="button" onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
             </div>
 
     </nav>

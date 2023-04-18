@@ -4,5 +4,4 @@ $username = "root";
 $password = "secret123";
 $databasename = "festivaldb";
 
-
 ?>

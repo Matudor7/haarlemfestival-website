@@ -184,7 +184,6 @@ class AdminController extends Controller
         $downloadPath = '/media/yummyPics/' . $imageName . '.png';
         move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
         return $downloadPath;
-
     }
 
     public function addRestaurant()

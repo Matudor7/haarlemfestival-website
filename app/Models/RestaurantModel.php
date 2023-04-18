@@ -208,7 +208,7 @@ class RestaurantModel
 
         // Use the opening time as the starting time for the time slots
         $currentTime = clone $openingTime;
-
+        //TODO foreach
         for ($i = 0; $i < $numberOfTimeSlots; $i++) {
             // Format the DateTime object as 'hh:mm'
             $timeSlots[] = $currentTime->format('H:i');
@@ -221,7 +221,7 @@ class RestaurantModel
 
         return $this->setTimeSlots($this->numberOfTimeSlots, $this->restaurant_OpeningTime, $this->duration);
     }
-
+    //TODO ENUMS INSTEAD
     public function displayImageBasedOnEnum($string) {
         switch ($string) {
             case '1':

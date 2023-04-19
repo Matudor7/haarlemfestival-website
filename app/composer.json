@@ -2,6 +2,7 @@
   "require": {
     "phpmailer/phpmailer": "^6.8.0",
     "endroid/qr-code": "^4.8",
-    "mollie/mollie-api-php": "^2.0"
+    "mollie/mollie-api-php": "^2.0",
+    "dompdf/dompdf": "^2.0"
   }
 }

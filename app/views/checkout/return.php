@@ -12,6 +12,16 @@ $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 $payment = $mollie->payments->get($paymentObject->getPaymentId());
 
 if ($payment->isPaid()) {
+    //order = new order
+    //  order.Invoice_date datetime.now()
+    //order--> Invoice_number--> a method to autogenerate it
+    //if(shoppingCart.productId is of type dance){
+    //
+    //  order-->music_product_list = shoppingCart.productId; + ","  + the next product from this type; }
+    //else if(shoppingCart.productId is of type restaurant){
+    // order-->restaurant_product_list = shoppingCart.productId; + ","  + the next product from this type restaurant_product_list_id}
+    
+    //add to the order to the order table
     $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
 
     $email = $paymentObject->getEmail();
@@ -25,7 +35,6 @@ if ($payment->isPaid()) {
         $message .= nl2br("Time: " . $merged_products[$i]->getStartTime() . "\n");
         $message .= nl2br("Location: " . $merged_products[$i]->getLocation() . "\n");
         $message .= nl2br("\n");
-
     }
 
     $message .= nl2br("\n");

@@ -3,8 +3,7 @@ session_start();
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../Services/walkingTourService.php';
 require_once __DIR__ . '/../Models/WalkingTourModel.php';
-
-
+require_once __DIR__ . '/../Models/WalkingTourContentModel.php';
 
 class WalkingTourController extends Controller{
 
@@ -84,21 +83,8 @@ class WalkingTourController extends Controller{
             }  else {echo json_encode("Something went wrong");}
         }
     }
-
-    public function getContent(string $elementId, string $type){
-
-        $result = '404 no content found';
-
-        if($type == 'text'){
-            $result = $this->walkingTourService->getContentTextByElement($elementId);
-        } else if ($type == 'title'){
-            $result = $this->walkingTourService->getContentTitleByElement($elementId);
-        } else if ($type == 'button'){
-            $result = $this->walkingTourService->getContentButtonTextByElement($elementId);
-        }
-
-        return $result;
-
+    public function getContent(string $elementId){
+        return $this->walkingTourService->getContentByElement($elementId);
     }
 
     public function walkingTourDetailPage() {

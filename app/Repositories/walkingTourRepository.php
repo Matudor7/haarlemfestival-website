@@ -5,6 +5,7 @@ require __DIR__ . '/../Models/TourPrice.php';
 require __DIR__ . '/../Models/TourTimetable.php';
 require __DIR__ . '/../Models/TourLocation.php';
 require __DIR__ . '/../Models/TourLanguage.php';
+require __DIR__.'/../Models/WalkingTourContentModel.php';
 
 class walkingTourRepository extends Repository{
 
@@ -25,6 +26,7 @@ class walkingTourRepository extends Repository{
             $walkingTour = $statement->fetch();
 
             return $walkingTour;
+
         }catch(PDOException $e){echo $e;}
     }
 
@@ -217,43 +219,41 @@ public function getTourTimetableById(int $id){
         } catch(PDOException $e){echo $e;}
     }
 
-    public function getContentTextByElement(string $elementId){
-        $query = "SELECT text FROM walkingTour_content WHERE element_Id = :elementId";
+    public function getContentByElement(string $elementId){
+        $query = "SELECT Id, element_Id, title, text, button_text
+            FROM walkingTour_content WHERE element_Id = :elementId";
 
         try{
             $statement = $this->connection->prepare($query);
             $statement->bindParam(':elementId', $elementId);
             $statement->execute();
 
-            $text = $statement->fetchColumn();
-            return $text;
-        }
-        catch(PDOException $e){echo $e;}
-    }
-    public function getContentTitleByElement(string $elementId){
-        $query = "SELECT title FROM walkingTour_content WHERE element_Id = :elementId";
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
-        try{
-            $statement = $this->connection->prepare($query);
-            $statement->bindParam(':elementId', $elementId);
-            $statement->execute();
+                $walkingTourContent = new WalkingTourContentModel();
+                $walkingTourContent->setId($row['Id']);
+                $walkingTourContent->setElementName($row['element_Id']);
 
-            $title = $statement->fetchColumn();
-            return $title;
-        }
-        catch(PDOException $e){echo $e;}
-    }
-    public function getContentButtonTextByElement(string $elementId){
-        $query = "SELECT button_text FROM walkingTour_content WHERE element_Id = :elementId";
+                if(is_null($row['text'])){
+                    $walkingTourContent->setText('none');
+                } else {
+                    $walkingTourContent->setText($row['text']);
+                }
 
-        try{
-            $statement = $this->connection->prepare($query);
-            $statement->bindParam(':elementId', $elementId);
-            $statement->execute();
+                if(is_null($row['title'])){
+                    $walkingTourContent->setTitle('none');
+                } else {
+                    $walkingTourContent->setTitle($row['title']);
+                }
 
-            $bText = $statement->fetchColumn();
-            return $bText;
-        }
+                if(is_null($row['button_text'])){
+                    $walkingTourContent->setButtonText('none');
+                } else {
+                    $walkingTourContent->setButtonText($row['button_text']);
+                }
+
+                return $walkingTourContent;
+        }}
         catch(PDOException $e){echo $e;}
     }
 }

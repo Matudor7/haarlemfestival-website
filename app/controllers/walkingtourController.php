@@ -84,6 +84,23 @@ class WalkingTourController extends Controller{
             }  else {echo json_encode("Something went wrong");}
         }
     }
+
+    public function getContent(string $elementId, string $type){
+
+        $result = '404 no content found';
+
+        if($type == 'text'){
+            $result = $this->walkingTourService->getContentTextByElement($elementId);
+        } else if ($type == 'title'){
+            $result = $this->walkingTourService->getContentTitleByElement($elementId);
+        } else if ($type == 'button'){
+            $result = $this->walkingTourService->getContentButtonTextByElement($elementId);
+        }
+
+        return $result;
+
+    }
+
     public function walkingTourDetailPage() {
         //$eventService = new EventService();
         //$events = $eventService->getAll();

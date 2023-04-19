@@ -216,5 +216,45 @@ public function getTourTimetableById(int $id){
 
         } catch(PDOException $e){echo $e;}
     }
+
+    public function getContentTextByElement(string $elementId){
+        $query = "SELECT text FROM walkingTour_content WHERE element_Id = :elementId";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':elementId', $elementId);
+            $statement->execute();
+
+            $text = $statement->fetchColumn();
+            return $text;
+        }
+        catch(PDOException $e){echo $e;}
+    }
+    public function getContentTitleByElement(string $elementId){
+        $query = "SELECT title FROM walkingTour_content WHERE element_Id = :elementId";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':elementId', $elementId);
+            $statement->execute();
+
+            $title = $statement->fetchColumn();
+            return $title;
+        }
+        catch(PDOException $e){echo $e;}
+    }
+    public function getContentButtonTextByElement(string $elementId){
+        $query = "SELECT button_text FROM walkingTour_content WHERE element_Id = :elementId";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':elementId', $elementId);
+            $statement->execute();
+
+            $bText = $statement->fetchColumn();
+            return $bText;
+        }
+        catch(PDOException $e){echo $e;}
+    }
 }
 ?>

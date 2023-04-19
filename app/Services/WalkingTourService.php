@@ -56,5 +56,15 @@ class WalkingTourService {
     public function getTourLanguageById(int $id){
         return $this->walkingTourRepository->getTourLanguageById($id);
     }
+    public function getContentTextByElement(string $elementId){
+        return $this->walkingTourRepository->getContentTextByElement($elementId);
+    }
+    public function getContentTitleByElement(string $elementId){
+        return $this->walkingTourRepository->getContentTitleByElement($elementId);
+    }
+
+    public function getContentButtonTextByElement(string $elementId){
+        return $this->walkingTourRepository->getContentButtonTextByElement($elementId);
+    }
 }
 ?>

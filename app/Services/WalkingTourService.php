@@ -23,12 +23,6 @@ class WalkingTourService {
         return $walkingTour;
     }
 
-    public function getWalkingTourByLanguage(int $languageId) {
-
-        $walkingTour = $this->walkingTourRepository->getWalkingTourByLanguage($languageId);
-
-        return $walkingTour;
-    }
 
     public function getTourPrices(){
         $prices = $this->walkingTourRepository->getTourPrices();

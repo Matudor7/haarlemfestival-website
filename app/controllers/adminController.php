@@ -7,6 +7,7 @@ require __DIR__ . '/../Services/RatingService.php';
 require __DIR__ . '/../Services/YummyService.php';
 require __DIR__ . '/../Services/UserService.php';
 require __DIR__ . '/../Services/UserTypeService.php';
+require __DIR__.'/../Services/WalkingTourService.php';
 
 
 class AdminController extends Controller
@@ -19,6 +20,7 @@ class AdminController extends Controller
     private $foodTypeService;
     private $ratingService;
     private $userTypeService;
+    private $walkingTourService;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class AdminController extends Controller
         $this->foodTypeService = new FoodTypeService();
         $this->ratingService = new RatingService();
         $this->userTypeService = new userTypeService();
+        $this->walkingTourService = new WalkingTourService();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -467,6 +470,13 @@ class AdminController extends Controller
         }
     }
 
+    function manageWalkingTourContent(){
+        if ($this->checkRole()){
+            require __DIR__ . '/../views/admin/walkingTourAdmin.php';
+        } else {
+            header('Location: /');
+        }
+    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

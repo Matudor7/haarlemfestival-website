@@ -11,9 +11,20 @@
 </head>
 <body>
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
-
+<div id="headerContentForm" class="m-4">
+    <h4>Header Content</h4>
+    <label for="exampleFormControlTextarea1" class="form-label">Header Description</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+</div>
 </body>
 </html>
 <style>
+    #headerContentForm{
+        display: grid;
+        place-items: center;
 
+    }
+    #exampleFormControlTextarea1{
+        max-width: 500px;
+    }
 </style>

@@ -34,7 +34,7 @@
         <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="">Delete Section</button>
         <div id="buttonGroup"">
             <button id="cancelButton" type="button" class="btn btn-danger" onclick="displayForm('close')">Cancel</button>
-            <button id="updateButton" type="button" class="btn btn-success">Save Changes</button>
+            <button id="updateButton" type="button" class="btn btn-success" onclick="updateSection()">Save Changes</button>
     </div>
     </div>
     </div>
@@ -48,9 +48,12 @@ const textInputField = document.getElementById('textInput');
 const buttonTextInputField = document.getElementById('buttonTextInput');
 const sectionNameLabel = document.getElementById('sectionName');
 const sectionInputField = document.getElementById('sectionInput');
+let selectedSection = '';
 
 const placeHolderDiv = document.getElementById('placeholder');
 const formDiv = document.getElementById('formGroup');
+
+
 
 function selectSection(sectionName){
     emptyInputFields();
@@ -74,7 +77,19 @@ function selectSection(sectionName){
 }
 
 function updateSection(){
+    const data = {"oldSectionName": selectedSection, "newSectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value}
+    fetch('/admin/updateContent', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
 
+    displayForm('close');
 }
 
 function emptyInputFields(){

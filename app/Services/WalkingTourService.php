@@ -57,5 +57,9 @@ class WalkingTourService {
     public function getAllWalkingTourContent(){
         return $this->walkingTourRepository->getAllWalkingTourContent();
     }
+
+    public function updateContent(string $oldSectionName, string $elementName, string $title, string $text, string $buttonText){
+        return $this->walkingTourRepository->UpdateContent($oldSectionName, $elementName, $title, $text, $buttonText);
+    }
 }
 ?>

@@ -252,8 +252,11 @@ class walkingTourRepository extends Repository{
         } catch(PDOException $e){echo $e;}
     }
 
-    public function UpdateContent(string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput, int $id){
-        $query = "UPDATE `walkingTour_content` SET section_name = :sectionName, title = :title, text = :text, button_text = :buttonText WHERE Id = :id";
+    public function UpdateContent(string $oldSectionName, string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput){
+
+        $content = $this->getContentByElement($oldSectionName);
+
+        $query = "UPDATE walkingTour_content SET section_name = :sectionName, title = :title, text = :text, button_text = :buttonText WHERE Id = :id";
 
         try{
             $statement = $this->connection->prepare($query);
@@ -262,6 +265,7 @@ class walkingTourRepository extends Repository{
             $title = htmlspecialchars($titleInput);
             $text = htmlspecialchars($textInput);
             $buttonText = htmlspecialchars($buttonTextInput);
+            $id = $content->getId();
 
             $statement->bindParam(':sectionName', $sectionName);
             $statement->bindParam(':title', $title);

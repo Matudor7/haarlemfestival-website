@@ -251,5 +251,9 @@ class walkingTourRepository extends Repository{
 
         } catch(PDOException $e){echo $e;}
     }
+
+    public function UpdateContent(){
+
+    }
 }
 ?>

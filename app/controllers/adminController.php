@@ -480,6 +480,24 @@ class AdminController extends Controller
             header('Location: /');
         }
     }
+
+    function selectContent(){
+
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['section'])){
+                $elementName = $data['section'];
+                $result = $walkingTourService->getContentByElement($data['section']);
+
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+            }  else {echo json_encode("does not work yet");}
+        }
+    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

@@ -1,11 +1,16 @@
 <?php
-class WalkingTourContentModel{
+class WalkingTourContentModel implements JsonSerializable{
     private int $Id;
     private string $section_name;
     private string $title;
     private string $text;
     private string $button_text;
 
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
     public function setId(int $id){
         $this->Id = $id;
     }

@@ -13,6 +13,7 @@
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
 <div id="bodyDiv">
 <div id="SectionButtons">
+    <button id="createSection" type="button" class="btn btn-success m-4" onClick="">Create Section</button>
     <?php foreach($allContent as $content){?>
     <button id="<?php echo $content->getId()?>" type="button" class="btn btn-primary m-4" onClick="selectSection('<?php echo $content->getSection()?>')"><?php echo $content->getSection()?></button>
     <?php } ?>
@@ -28,6 +29,7 @@
             <label for="buttonTextInput" class="form-label mt-3 mb-2"><strong>Button Text:</strong></label>
             <input id="buttonTextInput" class="form-control" type="text" placeholder="Here goes this section's Button Text">
 
+        <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="">Delete Section</button>
         <div id="buttonGroup"">
             <button id="cancelButton" type="button" class="btn btn-danger" onclick="displayForm('close')">Cancel</button>
             <button id="updateButton" type="button" class="btn btn-success">Save Changes</button>
@@ -39,7 +41,7 @@
 </body>
 </html>
 <script>
-const titleTextInputField = document.getElementById('titleInput');
+const titleInputField = document.getElementById('titleInput');
 const textInputField = document.getElementById('textInput');
 const buttonTextInputField = document.getElementById('buttonTextInput');
 const sectionNameLabel = document.getElementById('sectionName');
@@ -48,13 +50,31 @@ const placeHolderDiv = document.getElementById('placeholder');
 const formDiv = document.getElementById('formGroup');
 
 function selectSection(sectionName){
-
+    emptyInputFields();
     displayForm('open');
 
     selectedSection = sectionName;
     sectionNameLabel.innerHTML = sectionName;
+
+    const data = {"section": sectionName}
+    fetch('/admin/selectContent', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => { titleInputField.value = data.title; textInputField.innerText = data.text; buttonTextInputField.value = data.button_text;})
+        .catch(error => console.error(error));
+
 }
 
+function emptyInputFields(){
+    titleInputField.innerText = '';
+    textInputField.innerText = '';
+    buttonTextInputField.innerText = '';
+}
 function displayForm(action){
 
     switch (action){

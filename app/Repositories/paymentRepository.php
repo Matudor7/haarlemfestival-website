@@ -34,6 +34,23 @@ class PaymentRepository extends Repository{
             echo $e->getMessage();
         }
     }
+    //Ale get by paymentID
+    public function getByPaymentId($id){
+        try{
+            $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, card_name, card_number, card_expiration, CVV, total, payment_id FROM payment_details WHERE user_id=:userId");
+
+            $statement->bindParam(':id', $id);
+
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'PaymentDetailsModel');
+
+            $payment_details = $statement->fetch();
+
+            return $payment_details;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 
     public function insert($payment){
         try{

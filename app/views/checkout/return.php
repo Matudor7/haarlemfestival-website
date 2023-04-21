@@ -1,9 +1,8 @@
 <?php
-//Tudor Nosca (678549)
 require_once __DIR__ . '/../../Services/paymentService.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__. '/../../Models/Order.php';
-require_once __DIR__ . '/../../Services/pdfGenerater.php';
+require_once __DIR__ . '/../../Services/pdfGenerator.php';
 
 
 $paymentService = new PaymentService();
@@ -15,12 +14,12 @@ $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 $payment = $mollie->payments->get($paymentObject->getPaymentId());
 
 if ($payment->isPaid()) {
-
+    //TODO move the logic to the controller
      $order = new order();
-     $smtpService = new smtpService();
+     //$smtpService = new smtpService();
 
-    $order->setInvoiceDate(date("Y-m-d H:i:s"));
-    $order->setInvoiceNumber(1); //a method to autogenerate it
+    $order->setInvoiceDate();
+    $order->setInvoiceNumber();
     $order->setListDanceProductId("1,2,3");
     $order->setListRestaurantProductId("1,2,3");
     $order->setListTourProductId("1,2,3");
@@ -33,7 +32,7 @@ if ($payment->isPaid()) {
     // order-->restaurant_product_list = shoppingCart.productId; + ","  + the next product from this type restaurant_product_list_id}
     
     //add to the order to the order table
-    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+    //$shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
 
     $email = $paymentObject->getEmail();
     $lastName = $paymentObject->getLastName();
@@ -42,7 +41,7 @@ if ($payment->isPaid()) {
    // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
     //$message .= nl2br("Here your order invoice: \n");
 
-        $message = "Here is your invoice, thanks for buying it!!!";
+        $message = "Here is your invoice, thanks for buying your ticket with us!!!";
         $pdfService = new PDFGenerator();
         $html = "<html>
 <head>
@@ -87,15 +86,15 @@ if ($payment->isPaid()) {
 				<td>$25</td>
 			</tr>
 			<tr>
-				<td colspan="3">Subtotal</td>
+				<td colspan='3'>Subtotal</td>
 				<td>$45</td>
 			</tr>
 			<tr>
-				<td colspan="3">Tax</td>
+				<td colspan='3'>Tax</td>
 				<td>$4.50</td>
 			</tr>
 			<tr>
-				<td colspan="3">Total</td>
+				<td colspan='3'>Total</td>
 				<td>$49.50</td>
 			</tr>
 		</tbody>
@@ -117,7 +116,7 @@ if ($payment->isPaid()) {
     
     $smtpService->sendEmail($email, $lastName, $message, $subject, $invoicePdf);
 
-    $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+    //$shoppingCartService->removeCartFromUser($_SESSION['user_id']);
     header("Location: http://localhost/");
 } else {
     echo "Payment Failed...";

@@ -6,10 +6,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Dompdf\Dompdf;
 class PDFGenerator
 {
-    public function createPDF($order_id, $user_id)
+    public function createPDF($order_id, $user_id, $html)
     {
         $dompdf = new Dompdf();
-        $html = ""; //goes the content of the pdf so u can use css, make irt general to reuse it
+
         $qr = "";
 
 // Load HTML content

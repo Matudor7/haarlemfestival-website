@@ -184,19 +184,16 @@
 </div>
 </div>
 
-<div class="row pt-4">
-    <div id="extra-text-container" class="container text-center">
-        <h3><?php echo $this->getContent('Extra-Container')->getTitle()?></h3>
-                <p><?php echo $this->getContent('Extra-Container')->getText()?></p>
-                <br>
-            <button class="rounded-pill" onClick="location.href='/WalkingTour/walkingTourDetailPage'"><?php echo $this->getContent('Extra-Container')->getButtonText()?></button>
-
-    </div>
-</div>
-
-      <div class="container">
+      <?php foreach ($allContent as $content){
+          if ($content->getIsCreated()){?>
+      <div id="<?php echo $content->getSection()?> "class="container text-center newSectionContainer">
+          <h3><?php echo $content->getTitle()?></h3>
+          <p><?php echo $content->getText()?></p>
+          <br>
+          <button class="rounded-pill" href="#"><?php echo $content->getButtonText()?></button>
 
       </div>
+      <?php }} ?>
 
 </div>
 </div>
@@ -342,6 +339,14 @@ table{
     padding: 20px;
     border-radius: 60px;
     max-width: 1000px;
+}
+.newSectionContainer{
+    border: 4px solid #8564CC;
+    padding: 20px;
+    border-radius: 60px;
+    max-width: 1000px;
+    margin-left: 50px;
+    margin-top: 20px;
 }
 </style>
 

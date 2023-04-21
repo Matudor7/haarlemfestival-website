@@ -36,7 +36,7 @@ class WalkingTourController extends Controller{
         $locations = $this->walkingTourService->getTourLocations();
         $timetables = $this->walkingTourService->getTourTimetable();
         $languages = $this->walkingTourService->getTourLanguages();
-
+        $allContent = $this->getAllContent();
 
 
         require __DIR__ . '/../views/walkingtour/index.php';
@@ -85,6 +85,10 @@ class WalkingTourController extends Controller{
     }
     public function getContent(string $sectionName){
         return $this->walkingTourService->getContentByElement($sectionName);
+    }
+
+    public function getAllContent(){
+        return $this->walkingTourService->getAllWalkingTourContent();
     }
 
     public function walkingTourDetailPage() {

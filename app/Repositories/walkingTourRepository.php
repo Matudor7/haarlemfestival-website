@@ -199,7 +199,7 @@ class walkingTourRepository extends Repository{
 }
 
     public function getContentByElement(string $sectionName){
-        $query = "SELECT Id, section_name, title, text, button_text
+        $query = "SELECT Id, section_name, title, text, button_text, isCreated
             FROM walkingTour_content WHERE section_name = :sectionName";
 
         try{
@@ -212,6 +212,7 @@ class walkingTourRepository extends Repository{
                 $walkingTourContent = new WalkingTourContentModel();
                 $walkingTourContent->setId($row['Id']);
                 $walkingTourContent->setSection($row['section_name']);
+                $walkingTourContent->setIsCreated($row['isCreated']);
 
                 if(is_null($row['text'])){
                     $walkingTourContent->setText('none');

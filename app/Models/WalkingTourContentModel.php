@@ -5,6 +5,7 @@ class WalkingTourContentModel implements JsonSerializable{
     private string $title;
     private string $text;
     private string $button_text;
+    private bool $isCreated;
 
     #[ReturnTypeWillChange]
     public function jsonSerialize(){
@@ -26,6 +27,9 @@ class WalkingTourContentModel implements JsonSerializable{
     public function setButtonText(string $text){
         $this->button_text = $text;
     }
+    public function setIsCreated(bool $isCreated){
+        $this->isCreated = $isCreated;
+    }
 
     public function getId(): int{
         return $this->Id;
@@ -41,5 +45,8 @@ class WalkingTourContentModel implements JsonSerializable{
     }
     public function getButtonText() : string{
         return $this->button_text;
+    }
+    public function getIsCreated(){
+        return $this->isCreated;
     }
 }

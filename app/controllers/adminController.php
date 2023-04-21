@@ -472,7 +472,10 @@ class AdminController extends Controller
 
     function manageWalkingTourContent(){
         if ($this->checkRole()){
+            $allContent = $this->walkingTourService->getAllWalkingTourContent();
+
             require __DIR__ . '/../views/admin/walkingTourAdmin.php';
+
         } else {
             header('Location: /');
         }

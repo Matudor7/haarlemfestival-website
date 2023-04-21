@@ -1,7 +1,7 @@
 <?php
 class WalkingTourContentModel{
     private int $Id;
-    private string $element_name;
+    private string $section_name;
     private string $title;
     private string $text;
     private string $button_text;
@@ -9,8 +9,8 @@ class WalkingTourContentModel{
     public function setId(int $id){
         $this->Id = $id;
     }
-    public function setElementName(string $name){
-        $this->element_name = $name;
+    public function setSection(string $section){
+        $this->section_name = $section;
     }
     public function setTitle(string $title){
             $this->title = $title;
@@ -25,8 +25,8 @@ class WalkingTourContentModel{
     public function getId(): int{
         return $this->Id;
     }
-    public function getElementName(): string{
-        return $this->element_name;
+    public function getSection(): string{
+        return $this->section_name;
     }
     public function getTitle(): string{
         return $this->title;

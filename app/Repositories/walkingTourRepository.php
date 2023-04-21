@@ -198,20 +198,20 @@ class walkingTourRepository extends Repository{
     } catch (PDOException $e) {echo $e;}
 }
 
-    public function getContentByElement(string $elementId){
-        $query = "SELECT Id, element_Id, title, text, button_text
-            FROM walkingTour_content WHERE element_Id = :elementId";
+    public function getContentByElement(string $sectionName){
+        $query = "SELECT Id, section_name, title, text, button_text
+            FROM walkingTour_content WHERE section_name = :sectionName";
 
         try{
             $statement = $this->connection->prepare($query);
-            $statement->bindParam(':elementId', $elementId);
+            $statement->bindParam(':sectionName', $sectionName);
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
                 $walkingTourContent = new WalkingTourContentModel();
                 $walkingTourContent->setId($row['Id']);
-                $walkingTourContent->setElementName($row['element_Id']);
+                $walkingTourContent->setSection($row['section_name']);
 
                 if(is_null($row['text'])){
                     $walkingTourContent->setText('none');
@@ -237,12 +237,17 @@ class walkingTourRepository extends Repository{
     }
 
     public function getAllWalkingTourContent(){
-        $query = "SELECT Id, element_Id, title, text, button_text
-            FROM walkingTour_content";
+        $query = "SELECT section_name FROM walkingTour_content";
 
         try{
             $statement = $this->connection->prepare($query);
             $statement->execute();
+
+            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                $contentSection = $this->getContentByElement($row['section_name']);
+                $allContent[] = $contentSection;
+            }
+            return $allContent;
 
         } catch(PDOException $e){echo $e;}
     }

@@ -21,10 +21,10 @@
 <section id="header-container" class="container mx-0 px-0">
 <img src="/media/walkingtourPics/walkingtourHeader.png" class="img-fluid" alt="Header" id="header-img">
 <div id="text-container" class="container bg-light w-50 opacity-75 text-center">
-<p id="header-text" class="text-dark"><?php echo $this->getContent('header-text')->getText()?></p>
+<p id="header-text" class="text-dark"><?php echo $this->getContent('Header')->getText()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('header-text')->getButtonText()?></button>
+<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('Header')->getButtonText()?></button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -32,26 +32,26 @@
   <div class="container text-center">
     <div class="row pt-4">
   <div class="col" id="description-left">
-    <h5><?php echo $this->getContent('description-left')->getTitle()?></h5>
-  <p><?php echo $this->getContent('description-left')->getText()?></p>
+    <h5><?php echo $this->getContent('Description-Left')->getTitle()?></h5>
+  <p><?php echo $this->getContent('Description-Left')->getText()?></p>
   <button class="rounded-pill"><?php echo $this->getContent('description-left')->getButtonText()?></button>
 </div>
   <div id="map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
   </div>
   <div class="col" id="description-right">
-  <p><?php echo $this->getContent('description-right')->getText()?></p>
-  <button class="rounded-pill"><?php echo $this->getContent('description-right')->getButtonText()?></button>
+  <p><?php echo $this->getContent('Description-Right')->getText()?></p>
+  <button class="rounded-pill"><?php echo $this->getContent('Description-Right')->getButtonText()?></button>
 </div>
 </div>
 <div class="row pt-4">
   <div class="col" id="text-container-left">
-    <h5><?php echo $this->getContent('text-container-left')->getTitle()?></h5>
-  <ul><?php echo $this->getContent('text-container-left')->getText()?></ul>
+    <h5><?php echo $this->getContent('Container-Left')->getTitle()?></h5>
+  <ul><?php echo $this->getContent('Container-Left')->getText()?></ul>
 </div>
 <div class="col" id="text-container-right">
-    <h5><?php echo $this->getContent('text-container-right')->getTitle()?></h5>
-    <p><?php echo $this->getContent('text-container-right')->getText()?></p>
+    <h5><?php echo $this->getContent('Container-Right')->getTitle()?></h5>
+    <p><?php echo $this->getContent('Container-Right')->getText()?></p>
     <br>
 
     <div class="container text-center">
@@ -65,20 +65,20 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('text-container-right')->getButtonText()?></button>
+        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('Container-Right')->getButtonText()?></button>
     </div>
 </div>
 </div>
 
 <div class="row pt-4">
     <div id="locations-text-container" class="container text-center">
-        <h3><?php echo $this->getContent('locations-text-container')->getTitle()?></h3>
+        <h3><?php echo $this->getContent('Locations-Container')->getTitle()?></h3>
         <div class="row">
         <div id="locations-map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
         </div>
             <div class="col">
-                <p><?php echo $this->getContent('locations-text-container')->getText()?></p>
+                <p><?php echo $this->getContent('Locations-Container')->getText()?></p>
                 <br>
                 <ol>
                     <?php foreach ($locations as $location) { ?>
@@ -91,8 +91,8 @@
 
 <div class="row pt-4">
     <div id="timetable-text-container" class="container text-center">
-        <h3><?php echo $this->getContent('timetable-text-container')->getTitle()?></h3>
-        <p><?php echo $this->getContent('timetable-text-container')->getText()?></p>
+        <h3><?php echo $this->getContent('Timetables-Container')->getTitle()?></h3>
+        <p><?php echo $this->getContent('Timetables-Container')->getText()?></p>
 <table id="timetable-table" class="table table-bordered border-dark">
   <thead>
     <th scope="col" class="border border-dark border-4">Date</th>
@@ -186,10 +186,10 @@
 
 <div class="row pt-4">
     <div id="extra-text-container" class="container text-center">
-        <h3><?php echo $this->getContent('extra-text-container')->getTitle()?></h3>
-                <p><?php echo $this->getContent('extra-text-container')->getText()?></p>
+        <h3><?php echo $this->getContent('Extra-Container')->getTitle()?></h3>
+                <p><?php echo $this->getContent('Extra-Container')->getText()?></p>
                 <br>
-            <button class="rounded-pill" onClick="location.href='/WalkingTour/walkingTourDetailPage'"><?php echo $this->getContent('extra-text-container')->getButtonText()?></button>
+            <button class="rounded-pill" onClick="location.href='/WalkingTour/walkingTourDetailPage'"><?php echo $this->getContent('Extra-Container')->getButtonText()?></button>
 
     </div>
 </div>

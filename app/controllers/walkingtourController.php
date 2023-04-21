@@ -83,8 +83,8 @@ class WalkingTourController extends Controller{
             }  else {echo json_encode("Something went wrong");}
         }
     }
-    public function getContent(string $elementId){
-        return $this->walkingTourService->getContentByElement($elementId);
+    public function getContent(string $sectionName){
+        return $this->walkingTourService->getContentByElement($sectionName);
     }
 
     public function walkingTourDetailPage() {

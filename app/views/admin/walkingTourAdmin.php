@@ -22,11 +22,13 @@
         <div id="placeholder"><h1>Select Section</h1></div>
     <div id="formGroup">
             <h4 id="sectionName">Section</h4>
-            <label for="titleInput" class="form-label mt-3 mb-2"><strong>Title:</strong></label>
+            <label for="sectionInput" class="form-label mb-2"><strong>Section Name:</strong></label>
+            <input id="sectionInput" class="form-control" type="text" placeholder="Here goes this section's name">
+            <label for="titleInput" class="form-label mt-2 mb-2"><strong>Title:</strong></label>
             <input id="titleInput" class="form-control" type="text" placeholder="Here goes this section's Title">
-            <label for="textInput" class="form-label mt-3 mb-2"><strong>Text:</strong></label>
-            <textarea class="form-control" id="textInput" rows="5" placeholder="Here goes this section's Text"></textarea>
-            <label for="buttonTextInput" class="form-label mt-3 mb-2"><strong>Button Text:</strong></label>
+            <label for="textInput" class="form-label mt-2 mb-2"><strong>Text:</strong></label>
+            <textarea class="form-control" id="textInput" rows="4" placeholder="Here goes this section's Text"></textarea>
+            <label for="buttonTextInput" class="form-label mt-2 mb-2"><strong>Button Text:</strong></label>
             <input id="buttonTextInput" class="form-control" type="text" placeholder="Here goes this section's Button Text">
 
         <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="">Delete Section</button>
@@ -45,6 +47,7 @@ const titleInputField = document.getElementById('titleInput');
 const textInputField = document.getElementById('textInput');
 const buttonTextInputField = document.getElementById('buttonTextInput');
 const sectionNameLabel = document.getElementById('sectionName');
+const sectionInputField = document.getElementById('sectionInput');
 
 const placeHolderDiv = document.getElementById('placeholder');
 const formDiv = document.getElementById('formGroup');
@@ -65,8 +68,12 @@ function selectSection(sectionName){
         body: JSON.stringify(data),
     })
         .then(response => response.json())
-        .then(data => { titleInputField.value = data.title; textInputField.innerText = data.text; buttonTextInputField.value = data.button_text;})
+        .then(data => { sectionInputField.value = data.section_name;titleInputField.value = data.title; textInputField.innerText = data.text; buttonTextInputField.value = data.button_text;})
         .catch(error => console.error(error));
+
+}
+
+function updateSection(){
 
 }
 
@@ -110,7 +117,7 @@ function displayForm(action){
     #formGroup{
         display: none;
         margin-left: 30px;
-        margin-top: 15px;
+        margin-top: 10px;
         margin-right: 30px;
     }
 #placeholder{

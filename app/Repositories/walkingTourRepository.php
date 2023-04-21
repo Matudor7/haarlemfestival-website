@@ -252,8 +252,28 @@ class walkingTourRepository extends Repository{
         } catch(PDOException $e){echo $e;}
     }
 
-    public function UpdateContent(){
+    public function UpdateContent(string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput, int $id){
+        $query = "UPDATE `walkingTour_content` SET section_name = :sectionName, title = :title, text = :text, button_text = :buttonText WHERE Id = :id";
 
+        try{
+            $statement = $this->connection->prepare($query);
+
+            $sectionName = htmlspecialchars($sectionNameInput);
+            $title = htmlspecialchars($titleInput);
+            $text = htmlspecialchars($textInput);
+            $buttonText = htmlspecialchars($buttonTextInput);
+
+            $statement->bindParam(':sectionName', $sectionName);
+            $statement->bindParam(':title', $title);
+            $statement->bindParam(':text', $text);
+            $statement->bindParam(':buttonText', $buttonText);
+            $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+            $statement->execute();
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 }
 ?>

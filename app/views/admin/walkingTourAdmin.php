@@ -14,13 +14,13 @@
 <div id="bodyDiv">
 <div id="SectionButtons">
     <?php foreach($allContent as $content){?>
-    <button type="button" class="btn btn-primary m-4"><?php echo $content->getSection()?></button>
+    <button id="<?php echo $content->getId()?>" type="button" class="btn btn-primary m-4" onClick="selectSection('<?php echo $content->getSection()?>')"><?php echo $content->getSection()?></button>
     <?php } ?>
 </div>
     <div id="rightSide">
         <div id="placeholder"><h1>Select Section</h1></div>
     <div id="formGroup">
-            <h4>Section</h4>
+            <h4 id="sectionName">Section</h4>
             <label for="titleInput" class="form-label mt-3 mb-2"><strong>Title:</strong></label>
             <input id="titleInput" class="form-control" type="text" placeholder="Here goes this section's Title">
             <label for="textInput" class="form-label mt-3 mb-2"><strong>Text:</strong></label>
@@ -29,7 +29,7 @@
             <input id="buttonTextInput" class="form-control" type="text" placeholder="Here goes this section's Button Text">
 
         <div id="buttonGroup"">
-            <button id="cancelButton" type="button" class="btn btn-danger">Cancel</button>
+            <button id="cancelButton" type="button" class="btn btn-danger" onclick="displayForm('close')">Cancel</button>
             <button id="updateButton" type="button" class="btn btn-success">Save Changes</button>
     </div>
     </div>
@@ -38,6 +38,39 @@
 
 </body>
 </html>
+<script>
+const titleTextInputField = document.getElementById('titleInput');
+const textInputField = document.getElementById('textInput');
+const buttonTextInputField = document.getElementById('buttonTextInput');
+const sectionNameLabel = document.getElementById('sectionName');
+
+const placeHolderDiv = document.getElementById('placeholder');
+const formDiv = document.getElementById('formGroup');
+
+function selectSection(sectionName){
+
+    displayForm('open');
+
+    selectedSection = sectionName;
+    sectionNameLabel.innerHTML = sectionName;
+}
+
+function displayForm(action){
+
+    switch (action){
+        case 'open':
+            placeHolderDiv.style.display = "none";
+            formDiv.style.display = "block";
+            break;
+        case 'close':
+            placeHolderDiv.style.display = "block";
+            formDiv.style.display = "none";
+            break;
+        default:
+            console.log("no action selected");
+    }
+}
+</script>
 <style>
     #bodyDiv{
         display: flex;
@@ -55,13 +88,13 @@
     position: relative;
 }
     #formGroup{
-
+        display: none;
         margin-left: 30px;
         margin-top: 15px;
         margin-right: 30px;
     }
 #placeholder{
-    display: none;
+
     position: absolute;
     top: 40%;
     left: 35%;

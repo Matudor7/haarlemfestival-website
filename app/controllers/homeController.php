@@ -8,7 +8,16 @@ class HomeController extends Controller{
             $_SESSION['user_id'] = 0;
         }
         require __DIR__ . '/navbarRequirements.php';
+        //require __DIR__ . '/../views/checkout/testingPDFTicket.php';
+        //require __DIR__ . '/../views/checkout/testingPDFDesign.php';
         require __DIR__ . '/../views/homepage/index.php';
+    }
+    public function test()
+    {
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
+        require __DIR__ . '/navbarRequirements.php';
+        require __DIR__ . '/../views/checkout/testingPDFDesign.php';
     }
 }
 ?>

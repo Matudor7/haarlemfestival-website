@@ -18,10 +18,10 @@
       <path value="$PROJECT_DIR$/app/vendor/bacon/bacon-qr-code" />
       <path value="$PROJECT_DIR$/app/vendor/dasprid/enum" />
       <path value="$PROJECT_DIR$/app/vendor/endroid/qr-code" />
+      <path value="$PROJECT_DIR$/app/vendor/phenx/php-svg-lib" />
+      <path value="$PROJECT_DIR$/app/vendor/phenx/php-font-lib" />
       <path value="$PROJECT_DIR$/app/vendor/sabberworm/php-css-parser" />
       <path value="$PROJECT_DIR$/app/vendor/masterminds/html5" />
-      <path value="$PROJECT_DIR$/app/vendor/phenx/php-font-lib" />
-      <path value="$PROJECT_DIR$/app/vendor/phenx/php-svg-lib" />
       <path value="$PROJECT_DIR$/app/vendor/dompdf/dompdf" />
     </include_path>
   </component>

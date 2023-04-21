@@ -14,6 +14,13 @@ class PaymentService{
 
         return $payments;
     }
+    //Ale
+    public function getByPaymentId($id)
+    {
+        $payment = $this->paymentRepo->getByPaymentId($id);
+
+        return $payment;
+    }
 
     public function getByUserId($user_id){
         $payment = $this->paymentRepo->getByUserId($user_id);

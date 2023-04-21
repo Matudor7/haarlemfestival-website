@@ -130,5 +130,9 @@ class PaymentDetailsModel implements JsonSerializable{
     public function setPaymentId(string $payment_id){
         $this->payment_id = $payment_id;
     }
+    //ale
+    public function getFullName(): string{
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 }
 ?>

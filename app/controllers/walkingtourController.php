@@ -23,7 +23,7 @@ class WalkingTourController extends Controller{
         require __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../Services/eventService.php';
         $eventService = new EventService();
-        $thisEvent = $eventService->getByName("WalkingTour");
+        $thisEvent = $eventService->getByName("WalkingTour!");
 
         require_once __DIR__ . '/../Services/productService.php';
         $productService = new ProductService();

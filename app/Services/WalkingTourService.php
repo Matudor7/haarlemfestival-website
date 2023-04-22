@@ -64,5 +64,8 @@ class WalkingTourService {
     public function createContent(string $sectionName, string $title, string $text, string $buttonText){
         $this->walkingTourRepository->createContent($sectionName, $title, $text, $buttonText);
     }
+    public function deleteContent(string $sectionName){
+        $this->walkingTourRepository->deleteContent($sectionName);
+    }
 }
 ?>

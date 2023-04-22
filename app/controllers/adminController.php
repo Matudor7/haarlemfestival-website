@@ -495,7 +495,7 @@ class AdminController extends Controller
 
                 header('Content-Type: application/json;');
                 echo json_encode($result);
-            }  else {echo json_encode("does not work yet");}
+            }  else {echo json_encode("There was an Issue");}
         }
     }
 
@@ -517,7 +517,7 @@ class AdminController extends Controller
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully updated in the Database");
-            }  else {echo json_encode("does not work yet");}
+            }  else {echo json_encode("There was an Issue");}
         }
     }
     function createContent(){
@@ -537,7 +537,24 @@ class AdminController extends Controller
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully added to the Database");
-            }  else {echo json_encode("does not work yet");}
+            }  else {echo json_encode("There was an Issue");}
+        }
+    }
+
+    function deleteContent(){
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['sectionName'])){
+                $sectionName = $data['sectionName'];
+                $walkingTourService->deleteContent($sectionName);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully deleted from the Database");
+            }  else {echo json_encode("There was an Issue");}
         }
     }
     function checkRole(){

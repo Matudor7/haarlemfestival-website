@@ -31,7 +31,7 @@
             <label for="buttonTextInput" class="form-label mt-2 mb-2"><strong>Button Text:</strong></label>
             <input id="buttonTextInput" class="form-control" type="text" placeholder="Here goes this section's Button Text">
 
-        <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="">Delete Section</button>
+        <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="deleteSection()">Delete Section</button>
         <div id="buttonGroup"">
             <button id="cancelButton" type="button" class="btn btn-danger" onclick="displayForm('close')">Cancel</button>
             <button id="updateButton" type="button" class="btn btn-success"></button>
@@ -105,6 +105,22 @@ function createSection(){
 
     const data = {"SectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value}
     fetch('/admin/createContent', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
+
+    displayForm('close');
+}
+
+function deleteSection(){
+    const data = {"sectionName": selectedSection.toString()}
+    fetch('/admin/deleteContent', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

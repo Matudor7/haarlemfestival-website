@@ -298,5 +298,21 @@ class walkingTourRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function deleteContent(string $sectionName){
+        $content = $this->getContentByElement($sectionName);
+        $query = "DELETE FROM walkingTour_content WHERE Id = :Id";
+
+        try{
+            $contentId = $content->getId();
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':Id', $contentId, PDO::PARAM_INT);
+
+            $statement->execute();
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 ?>

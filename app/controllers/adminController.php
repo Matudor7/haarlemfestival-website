@@ -516,6 +516,26 @@ class AdminController extends Controller
                 $walkingTourService->updateContent($oldSectionName, $inputSectionName, $inputTitle, $inputText, $inputButtonText);
 
                 header('Content-Type: application/json;');
+                echo json_encode("Successfully updated in the Database");
+            }  else {echo json_encode("does not work yet");}
+        }
+    }
+    function createContent(){
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['SectionName'])){
+                $inputSectionName = $data['SectionName'];
+                $inputTitle = $data['title'];
+                $inputText = $data['text'];
+                $inputButtonText = $data['buttonText'];
+
+                $walkingTourService->createContent($inputSectionName, $inputTitle, $inputText, $inputButtonText);
+
+                header('Content-Type: application/json;');
                 echo json_encode("Successfully added to the Database");
             }  else {echo json_encode("does not work yet");}
         }

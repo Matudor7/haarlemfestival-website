@@ -280,5 +280,23 @@ class walkingTourRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function createContent(string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput){
+        $query = "INSERT INTO walkingTour_content (section_name, title, text, button_text, isCreated) 
+                    VALUES (?,?,?,?,?)";
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute(array(
+                htmlspecialchars($sectionNameInput),
+                htmlspecialchars($titleInput),
+                htmlspecialchars($textInput),
+                htmlspecialchars($buttonTextInput),
+                1,
+            ));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
 ?>

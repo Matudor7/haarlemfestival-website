@@ -13,7 +13,7 @@
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
 <div id="bodyDiv">
 <div id="SectionButtons">
-    <button id="createSection" type="button" class="btn btn-success m-4" onClick="">Create Section</button>
+    <button id="createSectionbtn" type="button" class="btn btn-success m-4" onClick="">Create Section</button>
     <?php foreach($allContent as $content){?>
     <button id="<?php echo $content->getId()?>" type="button" class="btn btn-primary m-4" onClick="selectSection('<?php echo $content->getSection()?>')"><?php echo $content->getSection()?></button>
     <?php } ?>
@@ -34,7 +34,7 @@
         <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="">Delete Section</button>
         <div id="buttonGroup"">
             <button id="cancelButton" type="button" class="btn btn-danger" onclick="displayForm('close')">Cancel</button>
-            <button id="updateButton" type="button" class="btn btn-success" onclick="updateSection()">Save Changes</button>
+            <button id="updateButton" type="button" class="btn btn-success"></button>
     </div>
     </div>
     </div>
@@ -52,11 +52,13 @@ let selectedSection = '';
 
 const placeHolderDiv = document.getElementById('placeholder');
 const formDiv = document.getElementById('formGroup');
-
+const createSectionBtn = document.getElementById('createSectionbtn')
+const updateSectionBtn = document.getElementById('updateButton')
 
 
 function selectSection(sectionName){
     emptyInputFields();
+    updateButton('update')
     displayForm('open');
 
     selectedSection = sectionName;
@@ -92,10 +94,46 @@ function updateSection(){
     displayForm('close');
 }
 
+createSectionBtn.addEventListener('click',(event) => {
+    emptyInputFields();
+    sectionNameLabel.innerText = 'New Section';
+    displayForm('open');
+    updateButton('create')
+})
+
+function createSection(){
+
+    const data = {"SectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value}
+    fetch('/admin/createContent', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
+
+    displayForm('close');
+}
+
 function emptyInputFields(){
-    titleInputField.innerText = '';
+    titleInputField.value = '';
     textInputField.innerText = '';
-    buttonTextInputField.innerText = '';
+    buttonTextInputField.value = '';
+    sectionInputField.value = '';
+}
+function updateButton(action){
+    if(action == 'create'){
+        updateSectionBtn.innerText = "Add Section";
+        updateSectionBtn.setAttribute("onClick", "createSection()");
+    } else{
+        updateSectionBtn.innerText = "Save Changes";
+        updateSectionBtn.setAttribute("onClick", "updateSection()");
+
+    }
+
 }
 function displayForm(action){
 

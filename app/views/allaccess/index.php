@@ -15,10 +15,24 @@
 include __DIR__ . '/../nav.php';
 ?>
 <main>
-    <h1>All Access Page</h1>
+<h1>All-Access Passes</h1>
+    <h3>You can have it all!</h3>
+
+    <img src="/media/allaccessPics/allaccessTickets.png">
+    <div id="text-background">
+        <p>Forget about planning and reservations! with an All-Access Pass you just have to worry about showing up and enjoy what The Festival has to offer!<br><br>
+            Are you also excited?</p>
+    </div>
+    <button id="dayPassBtn" class="rounded-pill">Get Day Pass</button>
+    <button id="unlimitedPassBtn" class="rounded-pill">Get Unlimited Pass</button>
 </main>
 <?php
 include __DIR__ . '/../footer.php';
 ?>
 </body>
 </html>
+<style>
+    body{
+        background-color: #B9CFE2;
+    }
+</style>

@@ -334,12 +334,7 @@ table{
     margin: auto;
 }
 
-#extra-text-container{
-    border: 4px solid #8564CC;
-    padding: 20px;
-    border-radius: 60px;
-    max-width: 1000px;
-}
+
 .newSectionContainer{
     border: 4px solid #8564CC;
     padding: 20px;

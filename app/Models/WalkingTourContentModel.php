@@ -1,10 +1,7 @@
 <?php
 class WalkingTourContentModel implements JsonSerializable{
     private int $Id;
-    private string $section_name;
-    private string $title;
-    private string $text;
-    private string $button_text;
+    private string $section_name, $title, $text, $button_text;
     private bool $isCreated;
 
     #[ReturnTypeWillChange]

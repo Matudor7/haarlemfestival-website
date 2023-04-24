@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Walking Tour</title>
+    <title>All-Access Passes</title>
 
     <link rel="stylesheet" href="/stylesheet.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -16,20 +16,18 @@ include __DIR__ . '/../nav.php';
 ?>
 <main>
     <div id="titleSection" class="text-center">
-        <h1>All-Access Passes</h1>
-        <h3>You can have it all!</h3>
+        <h1 id="title"><?php echo $this->getAllAccessContent('title')?></h1>
+        <h3 id="subtitle"><?php echo $this->getAllAccessContent('subtitle')?></h3>
     </div>
 
 
-    <img id="mainPageImage" src="/media/allaccessPics/allaccessTickets.png">
+    <img id="mainPageImage" src="<?php echo $this->getAllAccessContent('mainPageImage')?>">
     <div id="text-container" class="container bg-light opacity-75 text-center">
-        <p class="text-center mt-1">Forget about planning and reservations! with an All-Access Pass you just have to worry about showing up and enjoy what The Festival has to offer!<br><br>
-            Are you also excited?</p>
+        <p id="generalDescription" class="mt-1"><?php echo $this->getAllAccessContent('generalDescription')?></p>
+
+        <p id="typesDescription"><?php echo $this->getAllAccessContent('typesDescription')?></p>
     </div>
-    <div id="buttongroup">
-    <button id="dayPassBtn" class="rounded-pill">Get Day Pass</button>
-    <button id="unlimitedPassBtn" class="rounded-pill">Get Unlimited Pass</button>
-    </div>
+    <button id="buyTicketBtn" class="rounded-pill"><?php echo $this->getAllAccessContent('buyTicketBtn')?></button>
 </main>
 <?php
 include __DIR__ . '/../footer.php';
@@ -51,7 +49,7 @@ include __DIR__ . '/../footer.php';
     }
     #mainPageImage{
         position: absolute;
-        top: 17%;
+        top: 15%;
         left: 12%;
         max-width: 450px;
         max-height: 380px;
@@ -59,23 +57,20 @@ include __DIR__ . '/../footer.php';
     }
     #text-container{
         position: absolute;
-        top: 33%;
+        top: 25%;
         left: 50%;
         z-index: 2;
         max-width: 450px;
     }
-    button{
+    main button{
+        position: absolute;
+        top: 68%;
+        left: 62%;
+        z-index: 2;
         padding: 10px;
         font-weight: bold;
-        margin-left: 15px;
     }
-    #buttongroup{
-        position: absolute;
-        top: 66%;
-        left: 56%;
-        z-index: 2;
-    }
-    button:hover{
+    main button:hover{
         background-color: white;
         border-color: #8564CC;
         color: #8564CC;

@@ -14,6 +14,9 @@ class allAccessController extends Controller{
         $productService = new ProductService();
         $tickets = $productService->getByEventType($thisEvent->getId());
 
+        require_once __DIR__ . '/../Services/AllAccessService.php';
+        $allAccessService = new AllAccessService();
+        $allPasses = $allAccessService->getAllPasses();
 
         require __DIR__ . '/../views/allaccess/index.php';
         require __DIR__ .'/../views/buyTicketForm.php';

@@ -17,4 +17,53 @@ class AllAccessRepository extends Repository
             }
         catch(PDOException $e){echo $e;}
     }
+
+    public function getPassById(int $id){
+        $query ="SELECT Id, type, price, location, starting_date, ending_date, availability
+       walkingTour_Price_amoutofPeople FROM allAccess_passes WHERE Id = :id";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':Id', $id);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+                $allAccessPass = new AllAccessModel();
+                $allAccessPass->setId($row['Id']);
+                $allAccessPass->setType($row['type']);
+                $allAccessPass->setPrice($row['price']);
+                $allAccessPass->setLocation($row['location']);
+                $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['starting_date']);
+                $allAccessPass->setStartDate($startDateTime);
+                $endDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $row['ending_date']);
+                $allAccessPass->setEndDate($endDateTime);
+                $allAccessPass->setAvailability($row['availability']);
+
+            }
+
+            return $allAccessPass;
+
+        } catch (PDOException $e){echo $e;}
+    }
+    public function getAllPasses(){
+        $query ="SELECT Id FROM allAccess_passes";
+
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $id = (int)($row['Id']);
+                $pass = $this->getPassById($id);
+                $allPasses[] = $pass;
+            }
+
+            return $allPasses;
+
+        } catch(PDOException $e){echo $e;}
+
+
+}
 }

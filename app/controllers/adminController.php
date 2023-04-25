@@ -563,5 +563,17 @@ class AdminController extends Controller
         }
         return false;
     }
+
+    function editHomepageContent(){   
+        if($this->checkRole()){
+            if(!isset($_SESSION['user_id'])){
+                $_SESSION['user_id'] = 0;
+            }
+            require __DIR__ . '/navbarRequirements.php';
+        require __DIR__ . "/../views/admin/editHomepageContent.php";}
+        else{
+            header('Location: /');
+        }
+    }
 }
 ?>

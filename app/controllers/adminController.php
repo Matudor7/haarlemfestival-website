@@ -8,6 +8,7 @@ require __DIR__ . '/../Services/YummyService.php';
 require __DIR__ . '/../Services/UserService.php';
 require __DIR__ . '/../Services/UserTypeService.php';
 require __DIR__.'/../Services/WalkingTourService.php';
+require __DIR__ . '/../Services/ContentService.php';
 
 
 class AdminController extends Controller
@@ -21,6 +22,7 @@ class AdminController extends Controller
     private $ratingService;
     private $userTypeService;
     private $walkingTourService;
+    private $contentService;
 
     public function __construct()
     {
@@ -31,6 +33,7 @@ class AdminController extends Controller
         $this->ratingService = new RatingService();
         $this->userTypeService = new userTypeService();
         $this->walkingTourService = new WalkingTourService();
+        $this->contentService = new ContentService();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -569,8 +572,9 @@ class AdminController extends Controller
             if(!isset($_SESSION['user_id'])){
                 $_SESSION['user_id'] = 0;
             }
+            $contents= $this->contentService->getAllContent();
             require __DIR__ . '/navbarRequirements.php';
-        require __DIR__ . "/../views/admin/editHomepageContent.php";}
+            require __DIR__ . "/../views/admin/editHomepageContent.php";}
         else{
             header('Location: /');
         }

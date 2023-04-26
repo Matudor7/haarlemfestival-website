@@ -164,7 +164,7 @@
         productAmount = 1;
 
          const data = {"productId": productId}
-                fetch('/walkingTour/selectTicket', {
+                fetch('/api/buyticketform/selectTicket', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -195,7 +195,7 @@
         const data = {"userId": userId,
         "amount": productAmount,
         "productId": selectedProduct}
-        fetch('/walkingTour/addToCart', {
+        fetch('/api/buyticketform/addToCart', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

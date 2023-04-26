@@ -46,12 +46,12 @@
 </div>
 <div class="row pt-4">
   <div class="col" id="text-container-left">
-    <h5><?php echo $this->getContent('Container-Left')->getTitle()?></h5>
-  <ul><?php echo $this->getContent('Container-Left')->getText()?></ul>
+    <h5><?php echo $this->getContent('worthKnowing-section')->getTitle()?></h5>
+  <ul><?php echo $this->getContent('worthKnowing-section')->getText()?></ul>
 </div>
 <div class="col" id="text-container-right">
-    <h5><?php echo $this->getContent('Container-Right')->getTitle()?></h5>
-    <p><?php echo $this->getContent('Container-Right')->getText()?></p>
+    <h5><?php echo $this->getContent('prices-section')->getTitle()?></h5>
+    <p><?php echo $this->getContent('prices-section')->getText()?></p>
     <br>
 
     <div class="container text-center">
@@ -65,7 +65,7 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('Container-Right')->getButtonText()?></button>
+        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('prices-section')->getButtonText()?></button>
     </div>
 </div>
 </div>

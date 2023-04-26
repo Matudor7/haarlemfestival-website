@@ -19,12 +19,11 @@ class AllAccessRepository extends Repository
     }
 
     public function getPassById(int $id){
-        $query ="SELECT Id, type, price, location, starting_date, ending_date, availability
-       walkingTour_Price_amoutofPeople FROM allAccess_passes WHERE Id = :id";
+        $query ="SELECT Id, type, price, location, starting_date, ending_date, availability FROM allAccess_passes WHERE Id = :id";
 
         try{
             $statement = $this->connection->prepare($query);
-            $statement->bindParam(':Id', $id);
+            $statement->bindParam(':id', $id);
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
@@ -54,8 +53,10 @@ class AllAccessRepository extends Repository
             $statement = $this->connection->prepare($query);
             $statement->execute();
 
+            $allPasses = array();
+
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-                $id = (int)($row['Id']);
+                $id = (int)$row['Id'];
                 $pass = $this->getPassById($id);
                 $allPasses[] = $pass;
             }

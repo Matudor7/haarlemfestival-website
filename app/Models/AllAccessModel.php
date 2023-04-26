@@ -6,7 +6,7 @@ private string $type, $location;
 private float $price;
 private DateTime $starting_date, $ending_date;
 
-public function getId(){
+public function getId(): int{
     return $this->Id;
 }
 public function getAvailability(){

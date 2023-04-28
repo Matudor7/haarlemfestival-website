@@ -168,7 +168,6 @@
         window.alert('Invalid input. Please try again.');
       }
     }
-
     function invalidData(){
       return (firstName.value.trim() == "" || lastName.value.trim() == "" || email.value.trim() == "" || address.value.trim() == ""
               || !zipRegEx.test(zip.value.trim()) || !phoneNumberRegEx.test(phoneNumber.value.trim()) || (!credit.checked && !ideal.checked));

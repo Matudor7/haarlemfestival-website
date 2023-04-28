@@ -25,7 +25,7 @@
                   <br>
                   <small class="text-body-secondary"><?php echo $merged_products[$i]->getStartTime()?></small>
                   <br>
-                  <small class="text-body-secondary" style="white-space: pre-line"><?php echo $merged_products[$i]->getInfo()?></small>
+                  <small class="text-body-secondary" style="white-space: pre-line"><?php echo $information[$i]?></small>
                 </div>
                 <span class="text-body-secondary">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></span>
               </li>
@@ -98,40 +98,6 @@
                   <label class="form-check-label" for="ideal">iDeal</label>
                 </div>
               </div>
-    
-              <div class="row gy-3">
-                <div class="col-md-6">
-                  <label for="cc-name" class="form-label">Name on card</label>
-                  <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                  <small class="text-body-secondary">Full name as displayed on card</small>
-                  <div class="invalid-feedback">
-                    Name on card is required
-                  </div>
-                </div>
-    
-                <div class="col-md-6">
-                  <label for="cc-number" class="form-label">Credit card number</label>
-                  <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                  <div class="invalid-feedback">
-                    Credit card number is required
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <label for="cc-expiration" class="form-label">Expiration</label>
-                  <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required="">
-                  <div class="invalid-feedback">
-                    Expiration date required
-                  </div>
-                </div>
-    
-                <div class="col-md-3">
-                  <label for="cc-cvv" class="form-label">CVV</label>
-                  <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                  <div class="invalid-feedback">
-                    Security code required
-                  </div>
-                </div>
-              </div>
           </form>
             <hr class="my-4">
   
@@ -153,13 +119,6 @@
 
       var credit = document.getElementById("credit");
       var ideal = document.getElementById("ideal");
-      var paypal = document.getElementById("paypal");
-
-      var cardName = document.getElementById("cc-name");
-      var cardNumber = document.getElementById("cc-number");
-      var cardExpiration = document.getElementById("cc-expiration");
-      var cardCvv = document.getElementById("cc-cvv");
-      var cardCvvRegEx = /^[0-9]{3,4}$/;
 
     function submitData(){
       if(!invalidData()){
@@ -179,10 +138,6 @@
           address: address.value.trim(),
           zip: zip.value.trim(),
           payment_method: paymentMethod,
-          card_name: cardName.value.trim(),
-          card_number: cardNumber.value.trim(),
-          card_expiration:cardExpiration.value.trim(),
-          CVV: cardCvv.value.trim(),
           total: parseInt(totalPrice.innerText)
         };
 
@@ -205,21 +160,7 @@
 
     function invalidData(){
       return (firstName.value.trim() == "" || lastName.value.trim() == "" || email.value.trim() == "" || address.value.trim() == ""
-              || !zipRegEx.test(zip.value.trim()) || (!credit.checked && !ideal.checked) || cardName.value.trim() == ""
-              || !validateExpirationDate(cardExpiration.value.trim()) || !cardCvvRegEx.test(cardCvv.value.trim()));
-    }
-
-    function validateExpirationDate(cardExpirationDate){
-      const expirationDateParts = cardExpirationDate.split('/');
-      const expirationMonth = parseInt(expirationDateParts[0]);
-      const expirationYear = parseInt('20' + expirationDateParts[1]);
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth() + 1
-      const currentYear = currentDate.getFullYear();
-      if (expirationYear < currentYear || (expirationYear === currentYear && expirationMonth < currentMonth)) {
-        return false;
-      }
-      return true;
+              || !zipRegEx.test(zip.value.trim()) || (!credit.checked && !ideal.checked));
     }
   </script>
 </body>

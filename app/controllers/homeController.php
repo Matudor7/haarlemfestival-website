@@ -5,8 +5,9 @@ require __DIR__ . '/controller.php';
 class HomeController extends Controller{
     public function index(){
         if(!isset($_SESSION['user_id'])){
-            $_SESSION['user_id'] = 0;
+            $_SESSION['user_id'] = rand(999999, 2000000);
         }
+
         require __DIR__ . '/navbarRequirements.php';
         //require __DIR__ . '/../views/checkout/testingPDFTicket.php';
         //require __DIR__ . '/../views/checkout/testingPDFDesign.php';

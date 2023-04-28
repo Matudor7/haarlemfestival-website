@@ -36,6 +36,12 @@ foreach($shoppingCart->getProducts() as $product_id){
 //This merges all products to be in a single-level array
 $merged_products = array_merge($products);
 
+//"Information" will always be equal to the number of products in the array
+$information = [];
+foreach($shoppingCart->getInfo() as $info){
+    array_push($information, $info);
+}
+
 //"Amounts" will always be equal to the number of products in the array 
 $amounts = [];
 foreach($shoppingCart->getAmount() as $amount){
@@ -51,5 +57,7 @@ for($i = 0; $i < count($merged_products); $i++){
 $additionalVat = $totalPrice * ($vat->getAmount() / 100);
 
 $totalPrice += $additionalVat;
+
+$hashedUserId = password_hash($_SESSION['user_id'], PASSWORD_DEFAULT);
 
 ?>

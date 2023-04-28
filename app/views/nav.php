@@ -50,7 +50,7 @@
     </li>
 
 
-    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== 0) { ?>
+    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
     <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
         STYLE="margin: 2px 30px;">Log
         out</button>&nbsp;
@@ -87,7 +87,7 @@
                                 <h2><?php echo $merged_products[$i]->getName()?></h2>
                                 <h6><?php echo $merged_products[$i]->getLocation()?></h6>
                                 <p><?php echo $merged_products[$i]->getStartTime()?></p>
-                                <p><?php echo $merged_products[$i]->getInfo()?></p>
+                                <p><?php echo $information[$i]?></p>
                             </div>
                             <div>
                                 <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
@@ -100,6 +100,7 @@
                         <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
                     </div>
                     <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout'">Continue to Checkout</button>
+                    <button class="mt-5 w-50 btn btn-primary" type="button" onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
             </div>
 
     </nav>

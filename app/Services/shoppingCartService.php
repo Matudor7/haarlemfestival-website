@@ -8,6 +8,12 @@ class ShoppingCartService{
     function __construct(){
         $this->shoppingCartRepo = new ShoppingCartRepository();
     }
+
+    function getAll(){
+        $carts = $this->shoppingCartRepo->getAll();
+        return $carts;
+    }
+
     public function getCartOfUser(int $user_id){
         $shoppingCart = $this->shoppingCartRepo->getCartOfUser($user_id);
         return $shoppingCart;

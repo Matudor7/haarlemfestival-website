@@ -1,5 +1,5 @@
 <?php
-//Tudor Nosca (678549)
+//Tudor Matei Nosca (678549)
 class PaymentDetailsModel implements JsonSerializable{
     private int $id = 0;
     private int $user_id = 0;
@@ -9,10 +9,6 @@ class PaymentDetailsModel implements JsonSerializable{
     private string $address = "";
     private string $zip = "";
     private string $payment_method = "";
-    private string $card_name = "";
-    private string $card_number = "";
-    private string $card_expiration = "";
-    private string $CVV = "";
     private int $total = 0;
     private string $payment_id = "";
 

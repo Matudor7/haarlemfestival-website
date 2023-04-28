@@ -7,7 +7,7 @@ class PaymentRepository extends Repository{
 
     public function getAll(){
         try{
-            $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, card_name, card_number, card_expiration, CVV, total, payment_id FROM payment_details");
+            $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, total, payment_id FROM payment_details");
 
             $statement->execute();
             $payment_details = $statement->fetchAll(PDO::FETCH_CLASS, 'PaymentDetailsModel');
@@ -20,7 +20,7 @@ class PaymentRepository extends Repository{
 
     public function getByUserId($user_id){
         try{
-            $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, card_name, card_number, card_expiration, CVV, total, payment_id FROM payment_details WHERE user_id=:userId");
+            $statement = $this->connection->prepare("SELECT id, user_id, first_name, last_name, email, address, zip, payment_method, total, payment_id FROM payment_details WHERE user_id=:userId");
 
             $statement->bindParam(':userId', $user_id);
                         

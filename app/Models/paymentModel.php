@@ -8,6 +8,17 @@ class PaymentDetailsModel implements JsonSerializable{
     private string $email = "";
     private string $address = "";
     private string $zip = "";
+    private string $phone_number = "";
+
+    public function getPhoneNumber(): string
+    {
+        return $this->phone_number;
+    }
+
+    public function setPhoneNumber(string $phone_number): void
+    {
+        $this->phone_number = $phone_number;
+    }
     private string $payment_method = "";
     private int $total = 0;
     private string $payment_id = "";

@@ -41,23 +41,23 @@
 <table id="productTable">
     <thead>
     <tr>
-        <th>Quantity</th>
         <th>Product</th>
+        <th>Quantity</th>
         <th>Price</th>
         <th >Total</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>Product 1</td>
-        <td>2</td>
+        <td>Product->getName</td>
+        <td>shoppingCart->getQuantity?</td>
         <td>$10</td>
         <td>$20</td>
     </tr>
     <tr>
-        <td>Product 2</td>
+        <td>Product-getNAme</td>
         <td>1</td>
-        <td>$25</td>
+        <td>- Product->getPrice() $25</td>
         <td>$25</td>
     </tr>
     <tr>

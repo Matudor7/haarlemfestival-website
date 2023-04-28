@@ -87,7 +87,7 @@
                                 <h2><?php echo $merged_products[$i]->getName()?></h2>
                                 <h6><?php echo $merged_products[$i]->getLocation()?></h6>
                                 <p><?php echo $merged_products[$i]->getStartTime()?></p>
-                                <p><?php echo $merged_products[$i]->getInfo()?></p>
+                                <p><?php echo $information[$i]?></p>
                             </div>
                             <div>
                                 <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>

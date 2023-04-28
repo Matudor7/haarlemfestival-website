@@ -8,15 +8,15 @@ require_once __DIR__ . '/../Services/smtpService.php';
 
 class CheckoutController extends Controller{
     function index(){
-        require __DIR__ . '/navbarRequirements.php';
-        require __DIR__ . '/../views/checkout/index.php';
+        require_once __DIR__ . '/navbarRequirements.php';
+        require_once __DIR__ . '/../views/checkout/index.php';
     }
 
     function payment(){
         require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
             $paymentService = new PaymentService();
-            require __DIR__ . '/../views/checkout/payment.php';
+            require_once __DIR__ . '/../views/checkout/payment.php';
         }
     }
 

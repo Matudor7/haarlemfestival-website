@@ -6,7 +6,7 @@ require __DIR__ . '/../Models/productModel.php';
 class ProductRepository extends Repository{
     public function getAll(){
         try{
-            $statement = $this->connection->prepare("SELECT id, name, event_type, starting_time, location, price, available_seats, additional_info FROM product");
+            $statement = $this->connection->prepare("SELECT id, name, event_type, starting_time, location, price, available_seats FROM product");
 
             $statement->execute();
             $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');

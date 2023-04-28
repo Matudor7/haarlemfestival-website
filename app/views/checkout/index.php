@@ -25,7 +25,7 @@
                   <br>
                   <small class="text-body-secondary"><?php echo $merged_products[$i]->getStartTime()?></small>
                   <br>
-                  <small class="text-body-secondary" style="white-space: pre-line"><?php echo $merged_products[$i]->getInfo()?></small>
+                  <small class="text-body-secondary" style="white-space: pre-line"><?php echo $information[$i]?></small>
                 </div>
                 <span class="text-body-secondary">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></span>
               </li>

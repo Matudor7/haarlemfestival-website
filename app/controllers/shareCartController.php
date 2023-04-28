@@ -33,7 +33,12 @@ class ShareCartController extends Controller{
         }
 
         $merged_products = array_merge($products);
- 
+        
+        $information = [];
+        foreach($cart->getInfo() as $info){
+            array_push($information, $info);
+        }
+
         $amounts = [];
         foreach($cart->getAmount() as $amount){
             array_push($amounts, $amount);

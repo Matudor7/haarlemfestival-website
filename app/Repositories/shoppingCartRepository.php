@@ -7,7 +7,7 @@ class ShoppingCartRepository extends Repository{
 
     public function getAll(){
         try{
-            $statement = $this->connection->prepare("SELECT `user_id`, `product_id`, `amount` FROM `shopping_cart`");
+            $statement = $this->connection->prepare("SELECT `user_id`, `product_id`, `amount`, `additional_info` FROM `shopping_cart`");
             
             $statement->execute();
             $carts = $statement->fetchAll(PDO::FETCH_CLASS, 'ShoppingCart');
@@ -19,7 +19,7 @@ class ShoppingCartRepository extends Repository{
     }
     public function getCartOfUser(int $user_id){
         try{
-            $statement = $this->connection->prepare("SELECT user_id, product_id, amount FROM shopping_cart WHERE user_id = :user_id");
+            $statement = $this->connection->prepare("SELECT user_id, product_id, amount, additional_info FROM shopping_cart WHERE user_id = :user_id");
 
             $statement->bindParam(':user_id', $user_id);
             $statement->execute();
@@ -29,6 +29,7 @@ class ShoppingCartRepository extends Repository{
                 $shoppingCart->setUserId($row['user_id']);
                 $shoppingCart->addProduct($row['product_id']);
                 $shoppingCart->addAmount($row['amount']);
+                $shoppingCart->addInfo($row['additional_info']);
             }
             return $shoppingCart;
         }catch(PDOException $e){

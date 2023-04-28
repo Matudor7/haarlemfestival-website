@@ -8,7 +8,6 @@ class Product implements JsonSerializable{
     private string $location = "";
     private int $price= 0;
     private int $available_seats = 0;
-    private string $additional_info = "";
 
     #[ReturnTypeWillChange]
 
@@ -79,15 +78,6 @@ class Product implements JsonSerializable{
 
     public function setAvailableSeats(int $available_seats): self{
         $this->available_seats = $available_seats;
-        return $this;
-    }
-
-    public function getInfo(): string{
-        return $this->additional_info;
-    }
-
-    public function setInfo(string $additional_info): self{
-        $this->additional_info = $additional_info;
         return $this;
     }
 }

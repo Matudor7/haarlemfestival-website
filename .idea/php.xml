@@ -15,4 +15,5 @@
       <path value="$PROJECT_DIR$/app/vendor/dompdf/dompdf" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
 </project>

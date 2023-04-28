@@ -82,6 +82,14 @@
                     Zip code required.
                   </div>
                 </div>
+
+                  <div class="col-md-3">
+                      <label for="phoneNumber" class="form-label">Phone number</label>
+                      <input type="text" class="form-control" id="phoneNumber" placeholder="+31 6 20 87 45 18" required="">
+                      <div class="invalid-feedback">
+                          Phone number required.
+                      </div>
+                  </div>
               </div>
 
               <hr class="my-4">
@@ -116,6 +124,8 @@
       var address = document.getElementById("address");
       var zip = document.getElementById("zip");
       const zipRegEx = /^\d{4}[a-zA-Z]{2}$/;
+      var phoneNumber = document.getElementById("phoneNumber");
+      const phoneNumberRegEx = /^(\\+31|0)[1-9]{1}[0-9]{8}$/; // valid phone number format for the Netherlands
 
       var credit = document.getElementById("credit");
       var ideal = document.getElementById("ideal");
@@ -137,6 +147,7 @@
           email: email.value.trim(),
           address: address.value.trim(),
           zip: zip.value.trim(),
+          phone_number: phoneNumber.value.trim(),
           payment_method: paymentMethod,
           total: parseInt(totalPrice.innerText)
         };
@@ -160,7 +171,7 @@
 
     function invalidData(){
       return (firstName.value.trim() == "" || lastName.value.trim() == "" || email.value.trim() == "" || address.value.trim() == ""
-              || !zipRegEx.test(zip.value.trim()) || (!credit.checked && !ideal.checked));
+              || !zipRegEx.test(zip.value.trim()) || !phoneNumberRegEx.test(phoneNumber.value.trim()) || (!credit.checked && !ideal.checked));
     }
   </script>
 </body>

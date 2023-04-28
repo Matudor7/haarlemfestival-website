@@ -6,9 +6,17 @@ class Order
     private int $payment_id;
     private string $invoice_date;
     private string $invoice_number;
-    private string $List_Restaurant_Product_id;
-    private string $List_dance_Product_id;
-    private string $List_Tour_Product_id;
+    private string $List_Product_id;
+
+
+    public function getListProductId(): array{
+        return explode(",", $this->List_Product_id);
+    }
+    public function setListProductId($List_Product_id)
+    {
+        $this->List_Product_id = $List_Product_id;
+    }
+
 
     public function getOrderId(): int
     {
@@ -52,45 +60,6 @@ class Order
         $this->invoice_number = generateInvoiceNumber();
     }
 
-    public function getListRestaurantProductId(): string
-    {
-        return $this->List_Restaurant_Product_id;
-    }
-
-
-    public function setListRestaurantProductId(string $List_Restaurant_Product_id): void
-    {
-        $this->List_Restaurant_Product_id = $List_Restaurant_Product_id;
-    }
-
-    public function getListDanceProductId(): string
-    {
-        return $this->List_dance_Product_id;
-    }
-
-    public function setListDanceProductId(string $List_dance_Product_id): void
-    {
-        $this->List_dance_Product_id = $List_dance_Product_id;
-    }
-
-    public function getListTourProductId(): string
-    {
-        return $this->List_Tour_Product_id;
-    }
-
-    public function setListTourProductId(string $List_Tour_Product_id): void
-    {
-        $this->List_Tour_Product_id = $List_Tour_Product_id;
-    }
-    public function getListTourProductIdAsArray(): array{
-        return explode(",", $this->List_Tour_Product_id);
-    }
-    public function getListDanceProductIdAsArray(): array{
-        return explode(",", $this->List_dance_Product_id);
-    }
-    public function getListRestaurantProductIdAsArray(): array{
-        return explode(",", $this->List_Restaurant_Product_id);
-    }
     private function generateInvoiceNumber() {
         // Get the current year in two digits
         $year = date("y");

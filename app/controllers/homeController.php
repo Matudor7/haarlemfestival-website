@@ -9,7 +9,16 @@ class HomeController extends Controller{
         }
 
         require __DIR__ . '/navbarRequirements.php';
+        //require __DIR__ . '/../views/checkout/testingPDFTicket.php';
+        //require __DIR__ . '/../views/checkout/testingPDFDesign.php';
         require __DIR__ . '/../views/homepage/index.php';
+    }
+    public function test()
+    {
+        //$eventService = new EventService();
+        //$events = $eventService->getAll();
+        require __DIR__ . '/navbarRequirements.php';
+        require __DIR__ . '/../views/checkout/testingPDFDesign.php';
     }
 }
 ?>

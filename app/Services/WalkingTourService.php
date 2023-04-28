@@ -23,12 +23,6 @@ class WalkingTourService {
         return $walkingTour;
     }
 
-    public function getWalkingTourByLanguage(int $languageId) {
-
-        $walkingTour = $this->walkingTourRepository->getWalkingTourByLanguage($languageId);
-
-        return $walkingTour;
-    }
 
     public function getTourPrices(){
         $prices = $this->walkingTourRepository->getTourPrices();
@@ -55,6 +49,23 @@ class WalkingTourService {
     }
     public function getTourLanguageById(int $id){
         return $this->walkingTourRepository->getTourLanguageById($id);
+    }
+    public function getContentByElement(string $sectionName){
+        return $this->walkingTourRepository->getContentByElement($sectionName);
+    }
+
+    public function getAllWalkingTourContent(){
+        return $this->walkingTourRepository->getAllWalkingTourContent();
+    }
+
+    public function updateContent(string $oldSectionName, string $newSectionName, string $title, string $text, string $buttonText){
+        $this->walkingTourRepository->UpdateContent($oldSectionName, $newSectionName, $title, $text, $buttonText);
+    }
+    public function createContent(string $sectionName, string $title, string $text, string $buttonText){
+        $this->walkingTourRepository->createContent($sectionName, $title, $text, $buttonText);
+    }
+    public function deleteContent(string $sectionName){
+        $this->walkingTourRepository->deleteContent($sectionName);
     }
 }
 ?>

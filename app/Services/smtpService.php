@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 class smtpService
 {
-    public function sendEmail($destinationEmail, $receiverName, $message, $subject){
+    public function sendEmail($destinationEmail, $receiverName, $message, $subject, $pdf=null){
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../config/smtpconfig.php';
     try{
@@ -25,6 +25,9 @@ class smtpService
         $client->Subject = $subject;
         $content = $message;
         $client->msgHTML($content);
+         if($pdf != null){
+            $client->AddAttachment($pdf);
+         }
         $client->send();
 
     }catch(Exception $e){

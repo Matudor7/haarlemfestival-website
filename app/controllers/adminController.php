@@ -7,6 +7,8 @@ require __DIR__ . '/../Services/RatingService.php';
 require __DIR__ . '/../Services/YummyService.php';
 require __DIR__ . '/../Services/UserService.php';
 require __DIR__ . '/../Services/UserTypeService.php';
+require __DIR__.'/../Services/WalkingTourService.php';
+require __DIR__ . '/../Services/ContentService.php';
 
 
 class AdminController extends Controller
@@ -19,6 +21,8 @@ class AdminController extends Controller
     private $foodTypeService;
     private $ratingService;
     private $userTypeService;
+    private $walkingTourService;
+    private $contentService;
 
     public function __construct()
     {
@@ -28,6 +32,8 @@ class AdminController extends Controller
         $this->foodTypeService = new FoodTypeService();
         $this->ratingService = new RatingService();
         $this->userTypeService = new userTypeService();
+        $this->walkingTourService = new WalkingTourService();
+        $this->contentService = new ContentService();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -184,7 +190,6 @@ class AdminController extends Controller
         $downloadPath = '/media/yummyPics/' . $imageName . '.png';
         move_uploaded_file($restaurant_pictureURL, SITE_ROOT . $downloadPath);
         return $downloadPath;
-
     }
 
     public function addRestaurant()
@@ -468,11 +473,111 @@ class AdminController extends Controller
         }
     }
 
+    function manageWalkingTourContent(){
+        if ($this->checkRole()){
+            $allContent = $this->walkingTourService->getAllWalkingTourContent();
+
+            require __DIR__ . '/../views/admin/walkingTourAdmin.php';
+
+        } else {
+            header('Location: /');
+        }
+    }
+
+    function selectContent(){
+
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['section'])){
+                    $elementName = $data['section'];
+                $result = $walkingTourService->getContentByElement($elementName);
+
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+            }  else {echo json_encode("There was an Issue");}
+        }
+    }
+
+    function updateContent(){
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['oldSectionName'])){
+                $oldSectionName = $data['oldSectionName'];
+                $inputSectionName = $data['newSectionName'];
+                $inputTitle = $data['title'];
+                $inputText = $data['text'];
+                $inputButtonText = $data['buttonText'];
+
+                $walkingTourService->updateContent($oldSectionName, $inputSectionName, $inputTitle, $inputText, $inputButtonText);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully updated in the Database");
+            }  else {echo json_encode("There was an Issue");}
+        }
+    }
+    function createContent(){
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['SectionName'])){
+                $inputSectionName = $data['SectionName'];
+                $inputTitle = $data['title'];
+                $inputText = $data['text'];
+                $inputButtonText = $data['buttonText'];
+
+                $walkingTourService->createContent($inputSectionName, $inputTitle, $inputText, $inputButtonText);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully added to the Database");
+            }  else {echo json_encode("There was an Issue");}
+        }
+    }
+
+    function deleteContent(){
+        require_once __DIR__.'/../Services/WalkingTourService.php';
+        $walkingTourService = new WalkingTourService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['sectionName'])){
+                $sectionName = $data['sectionName'];
+                $walkingTourService->deleteContent($sectionName);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully deleted from the Database");
+            }  else {echo json_encode("There was an Issue");}
+        }
+    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;
         }
         return false;
+    }
+
+    function editHomepageContent(){   
+        if($this->checkRole()){
+            if(!isset($_SESSION['user_id'])){
+                $_SESSION['user_id'] = 0;
+            }
+            $contents= $this->contentService->getAllContent();
+            require __DIR__ . '/navbarRequirements.php';
+            require __DIR__ . "/../views/admin/editHomepageContent.php";}
+        else{
+            header('Location: /');
+        }
     }
 }
 ?>

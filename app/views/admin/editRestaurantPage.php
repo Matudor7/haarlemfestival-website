@@ -11,9 +11,8 @@
     <link rel="stylesheet" href="/yummyStyle.css" type="text/css">
 </head>
 <body>
-<?php
-include __DIR__ . '/../nav.php';
-?><br><br><br>
+<?php require __DIR__ . '/../adminNavbar.php'; ?>
+<br><br><br>
 <h1 class="text-center">Edit Restaurant Page</h1><br><br>
 
 <div class="text-center">
@@ -111,9 +110,4 @@ include __DIR__ . '/../nav.php';
     </form>
 </div>
 </body>
-
-
-<?php
-include __DIR__ . '/../footer.php';
-?>
 </html>

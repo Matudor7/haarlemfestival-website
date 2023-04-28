@@ -16,15 +16,15 @@
     include __DIR__ . '/../nav.php';
     ?>
 
-<main id="main">
 
+    <main id="main">
 <section id="header-container" class="container mx-0 px-0">
-<img src="/media/walkingtourPics/walkingtourHeader.png" class="mx-auto" alt="Header" id="header-img">
+<img src="/media/walkingtourPics/walkingtourHeader.png" class="img-fluid" alt="Header" id="header-img">
 <div id="text-container" class="container bg-light w-50 opacity-75 text-center">
-<p id="header-text" class="text-dark"><?php echo $thisEvent->getDescription()?></p>
+<p id="header-text" class="text-dark"><?php echo $this->getContent('Header')->getText()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()">Save me a spot</button>
+<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('Header')->getButtonText()?></button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -32,32 +32,26 @@
   <div class="container text-center">
     <div class="row pt-4">
   <div class="col" id="description-left">
-    <h5>From <?php echo $thisEvent->getStartTime()?> to <?php echo $thisEvent->getEndTime()?></h5>
-  <p>There will be a walking tour with several departures each day, with different languages available; and overall duration of 2 and a half hours, including a 15mins break with refreshments.</p>
-  <button class="rounded-pill">When?</button>
+    <h5><?php echo $this->getContent('Description-Left')->getTitle()?></h5>
+  <p><?php echo $this->getContent('Description-Left')->getText()?></p>
+  <button class="rounded-pill"><?php echo $this->getContent('description-left')->getButtonText()?></button>
 </div>
   <div id="map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
   </div>
   <div class="col" id="description-right">
-  <p>With 9 landmarks to visit and multiple streets to walk through, you will have plenty memorable moments, starting from the Saint Bavo Church, your guide will submerge you on Haalem’s History.</p>
-  <button class="rounded-pill">Where?</button>
+  <p><?php echo $this->getContent('Description-Right')->getText()?></p>
+  <button class="rounded-pill"><?php echo $this->getContent('Description-Right')->getButtonText()?></button>
 </div>
 </div>
 <div class="row pt-4">
   <div class="col" id="text-container-left">
-    <h5>worth knowing</h5>
-  <ul>
-    <li>The walking tour has a minimum age requirement of 12 years old.</li>
-    <li>Time slots must be reserved in advance through our website.</li>
-    <li>There are 12 people in each group for the tour, if you are bringing someone with you please reserve together.</li>
-    <li>The tour is guided live in Dutch, English and Chinese, don’t forget to select your preferred language.</li>
-    <li>All tours start from the  St. Bavo Cathedral.</li>
-</ul>
+    <h5><?php echo $this->getContent('worthKnowing-section')->getTitle()?></h5>
+  <ul><?php echo $this->getContent('worthKnowing-section')->getText()?></ul>
 </div>
 <div class="col" id="text-container-right">
-    <h5>Prices</h5>
-    <p>In order to accomodate everyone, we are offering two different prices for our walking tour! the prices include one drink for each person and of course, an enjoyable experience.</p>
+    <h5><?php echo $this->getContent('prices-section')->getTitle()?></h5>
+    <p><?php echo $this->getContent('prices-section')->getText()?></p>
     <br>
 
     <div class="container text-center">
@@ -71,20 +65,20 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill" onClick="openTicketForm()">sing me up!</button>
+        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('prices-section')->getButtonText()?></button>
     </div>
 </div>
 </div>
 
 <div class="row pt-4">
     <div id="locations-text-container" class="container text-center">
-        <h3>Sites to See</h3>
+        <h3><?php echo $this->getContent('Locations-Container')->getTitle()?></h3>
         <div class="row">
         <div id="locations-map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
         </div>
             <div class="col">
-                <p>The guide will bring you to these 9 majestic Haarlem landmarks; starting with the Bavo Cathedraal</p>
+                <p><?php echo $this->getContent('Locations-Container')->getText()?></p>
                 <br>
                 <ol>
                     <?php foreach ($locations as $location) { ?>
@@ -97,8 +91,8 @@
 
 <div class="row pt-4">
     <div id="timetable-text-container" class="container text-center">
-        <h3>Timetables</h3>
-        <p>We have plenty of timeslots available during the festival weekend; as well as multiple languages. make sure to reserve your spot. We can’t wait to show you the secrets Haarlem has in store!</p>
+        <h3><?php echo $this->getContent('Timetables-Container')->getTitle()?></h3>
+        <p><?php echo $this->getContent('Timetables-Container')->getText()?></p>
 <table id="timetable-table" class="table table-bordered border-dark">
   <thead>
     <th scope="col" class="border border-dark border-4">Date</th>
@@ -190,20 +184,16 @@
 </div>
 </div>
 
-<div class="row pt-4">
-    <div id="extra-text-container" class="container text-center">
-        <h3>Let's revisit</h3>
-                <p>Have you already joined us in our tour? Don’t worry! we also see how fascinating Haarlem’s history can be, and that’s why we prepared a special something for you!</p>
-                <p>We curated quite some more details about this beautiful city, accompanied by a photo gallery and an audio guide for you to enjoy further.</p>
-                <br>
-            <button class="rounded-pill" onClick="location.href='/WalkingTour/walkingTourDetailPage'">I wanna learn more</button>
-
-    </div>
-</div>
-
-      <div class="container">
+      <?php foreach ($allContent as $content){
+          if ($content->getIsCreated()){?>
+      <div id="<?php echo $content->getSection()?> "class="container text-center newSectionContainer">
+          <h3><?php echo $content->getTitle()?></h3>
+          <p><?php echo $content->getText()?></p>
+          <br>
+          <button class="rounded-pill" href="#"><?php echo $content->getButtonText()?></button>
 
       </div>
+      <?php }} ?>
 
 </div>
 </div>
@@ -244,8 +234,8 @@ button:hover{
 }
 #header-img{
     position: relative;
+    max-width: 1205px;
     z-index: 1;
-    max-width: 1193px;
     height: 100%;
 }
 
@@ -344,11 +334,14 @@ table{
     margin: auto;
 }
 
-#extra-text-container{
+
+.newSectionContainer{
     border: 4px solid #8564CC;
     padding: 20px;
     border-radius: 60px;
     max-width: 1000px;
+    margin-left: 50px;
+    margin-top: 20px;
 }
 </style>
 

@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="/yummyStyle.css" type="text/css">
 </head>
 <body>
-<?php
-include __DIR__ . '/../nav.php';
-?>
+<?php require __DIR__ . '/../adminNavbar.php'; ?>
 <br><br>
 <h2 style="text-align: center;"> Manage Restaurants</h2>
 </div>
@@ -63,8 +61,5 @@ include __DIR__ . '/../nav.php';
         </div>
     </div>
 </div>
-<?php
-include __DIR__ . '/../footer.php';
-?>
 </body>
 </html>

@@ -6,8 +6,9 @@ class Product implements JsonSerializable{
     private int $event_type = 0;
     private string $starting_time = "";
     private string $location = "";
-    private int $price= 0;
+    private float $price= 0;
     private int $available_seats = 0;
+    private const VAT = 0.21;
 
     #[ReturnTypeWillChange]
 
@@ -79,6 +80,16 @@ class Product implements JsonSerializable{
     public function setAvailableSeats(int $available_seats): self{
         $this->available_seats = $available_seats;
         return $this;
+    }
+    //Ale
+    public function calculateTotalPriceForProduct($amount,$price): float{
+        return $this->price * $amount;
+    }
+    public function calculateVat($subtotal){
+        return $subtotal * VAT;
+    }
+    public function calculateTotal($subtotal, $tax): float{
+        return $this->$subtotal + $tax;
     }
 }
 ?>

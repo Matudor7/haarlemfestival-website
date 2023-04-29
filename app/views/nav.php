@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,65 +47,90 @@
 
     <li>
         <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])) { 
+
             echo "<a class='nav-link' style='color: white;' href='/user/userManageAccount'>Manage Account</a>";  } ?>
-    </li>
+            </li>
 
 
-    <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
-    <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
-        STYLE="margin: 2px 30px;">Log
-        out</button>&nbsp;
-    <?php }else{ ?> <li class="nav-item">
-        <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
-            onClick="location.href='/login'">Login</button>
-    </li><?php }?>
-    </ul>
+            <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
+            <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
+                STYLE="margin: 2px 30px;">Log
+                out</button>&nbsp;
+            <?php }else{ ?> <li class="nav-item">
+                <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
+                    onClick="location.href='/login'">Login</button>
+            </li><?php }?>
+        </ul>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasLabel">Shopping Cart</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <!-- This is where the shopping cart loop goes !-->
-                    <?php for($i = 0; $i < count($merged_products); $i++)
+                <?php for($i = 0; $i < count($merged_products); $i++)
                     {?>
-                        <div id ="productdiv <?php echo $i?>" style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
-                            <div>
-                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton" onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                                </svg>
-                            </button>
-                            <h6 id="productamount <?php echo $i?>" style="text-align: center"><?php echo $amounts[$i]?></h6>
-                            <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="removeButton" onclick="removeAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
-                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                                </svg>
-                            </button>
-                            </div>
-                            <div style="margin-left: 20px">
-                                <h2><?php echo $merged_products[$i]->getName()?></h2>
-                                <h6><?php echo $merged_products[$i]->getLocation()?></h6>
-                                <p><?php echo $merged_products[$i]->getStartTime()?></p>
-                                <p><?php echo $information[$i]?></p>
-                            </div>
-                            <div>
-                                <h3 id="productprice <?php echo $i?>">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
-                            </div>
-                        </div>
-                        <br>
-                    <?php
-                    }?>
-                    <div style="bottom:1; right:0; float: right">
-                        <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
+                <div id="productdiv <?php echo $i?>"
+                    style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
+                    <div>
+                        <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton"
+                            onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+                                </path>
+                            </svg>
+                        </button>
+                        <h6 id="productamount <?php echo $i?>" style="text-align: center"><?php echo $amounts[$i]?></h6>
+                        <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="removeButton"
+                            onclick="removeAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-dash" viewBox="0 0 16 16">
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                            </svg>
+                        </button>
                     </div>
-                    <button class="w-100 btn btn-success btn-lg" type="submit" onclick="window.location.href = '/checkout'">Continue to Checkout</button>
-                    <button class="mt-5 w-50 btn btn-primary" type="button" onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
+                    <div style="margin-left: 20px">
+                        <h2><?php echo $merged_products[$i]->getName()?></h2>
+                        <h6><?php echo $merged_products[$i]->getLocation()?></h6>
+                        <p><?php echo $merged_products[$i]->getStartTime()?></p>
+                        <p><?php echo $information[$i]?></p>
+                    </div>
+                    <div>
+                        <h3 id="productprice <?php echo $i?>">
+                            &euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></h3>
+                    </div>
+                </div>
+                <br>
+                <?php
+                    }?>
+                <div style="bottom:1; right:0; float: right">
+                    <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
+                </div>
+                <button class="w-100 btn btn-success btn-lg" type="submit"
+                    onclick="window.location.href = '/checkout'">Continue to Checkout</button>
+                <button class="mt-5 w-50 btn btn-primary" type="button"
+                    onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
             </div>
 
     </nav>
     <script src="/js/scriptfile.js"></script>
+    <script>
+    document.getElementById('twitter-button').addEventListener('click', function() {
+        var url = encodeURIComponent(window.location.href);
+        var text = encodeURIComponent(document.title);
+        var shareUrl = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text;
+        window.open(shareUrl, '_blank');
+    });
+
+    document.getElementById('facebook-button').addEventListener('click', function() {
+        var url = encodeURIComponent(window.location.href);
+        var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+        window.open(shareUrl, '_blank');
+    });
+    </script>
 </body>
 
 </html>
@@ -170,5 +196,25 @@
 .form-container .btn:hover,
 .open-button:hover {
     opacity: 1;
+}
+
+.navbar-brand {
+    position: relative;
+    display: inline-block;
+}
+
+.share {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#facebook-button {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 </style>

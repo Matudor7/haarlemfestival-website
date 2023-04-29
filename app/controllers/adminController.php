@@ -307,54 +307,6 @@ class AdminController extends Controller
         }
     }
 
-    public function registerUserPage()
-    {
-        if($this->checkRole()) {
-            //$eventService = new EventService();
-            // $events = $eventService->getAll();
-
-            $userTypes = $this->userService->getUserType();
-            require __DIR__ . '/navbarRequirements.php';
-            require_once __DIR__ . '/../views/registerUser.php';
-        }
-        else{
-            header('Location: /');
-        }
-
-    }
-
-    public function registerUser(){
-        if($this->checkRole()) {
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $this->registerUserPage();
-           } else {
-               $user = new User();
-               $user->setUserFirstName($_POST['firstname']);
-               $user->setUserLastName($_POST['lastname']);
-               $user->setUserPassword($_POST['password']);
-               $user->setUsername($_POST['username']);
-               $user->setUserEmail($_POST['email']);
-               $user->setUserTypeId($_POST['userType']);
-   
-               if ($this->userService->createUser($user)) {
-                   $userCreationMessage = "User created successfully!!!!";
-                   $status = "success";
-               } else {
-                   $userCreationMessage = "User was not created, please try again!";
-                   $status = "danger";
-               }
-           }
-           $this->registerUserPage();
-           if (isset($userCreationMessage)) {
-               return [$userCreationMessage, $status];
-           } else {
-               return [null, null];
-           }
-        }
-        else{
-            header('Location: /');
-        }
-    }
 
     
     // Administrator - Manage users - User CRUD. Includes search/filter and sorting. Must display registration date. 

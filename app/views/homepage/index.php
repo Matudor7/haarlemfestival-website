@@ -15,10 +15,24 @@
     <body>
     <?php include __DIR__ . '/../nav.php';?>
     <section id="header" class="mx-0 my-0 py-0 bg-light">
+    <?php 
+    //WYSIWYG content:
+    $contentById = [];
+    try{
+        foreach ($contents as $content) {
+            $contentById[$content->getContentId()] = $content->getContentText();
+        }
+        if (empty($contentById)){
+            echo '<p style="color: red; font-weight: bold;">No data in content table in database</p>';
+        }
+    } catch (PDOException $e) {
+        echo $e;
+    }
+    ?>
     <img src="media\homepagemedia\Banner.png" class="img-fluid py-0" alt="banner" >
     <div id="banner-text" class="row mt-5 py-lg-5 justify-content text-center">
-        <h1 class="fw-semibold display-2 text-nowrap">The Festival Haarlem</h1>
-        <p class=" text-light fs-2">Haarlem's main event opens up again</p>
+        <?php echo html_entity_decode($contentById[1]); ?>
+        <?php echo html_entity_decode($contentById[2]); ?>
         </div>
     </div>
   </section>
@@ -26,8 +40,8 @@
         
   <section class="mx-0 my-5 py-0 bg-light">
     <div class="py-lg-5 justify-content text-center">
-        <h4 class="fw-semibold text-nowrap display-6">What's there to do?</h4>
-        <p class="text-dark fs-5 mx-5">From partying to fulfilling your gastronomic needs to strolling through historical landmarks, The Festival covers many of your possible desires.</p>
+        <?php echo html_entity_decode($contentById[3]); ?>
+        <?php echo html_entity_decode($contentById[4]); ?>
 
 
     </div>

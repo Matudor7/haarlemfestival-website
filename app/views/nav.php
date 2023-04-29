@@ -31,6 +31,9 @@
         href="<?php echo $event->getUrlRedirect(); ?>"><?php echo $event->getName(); ?></a>
     </li>
     <?php } ?>
+    <li>
+        <a class='nav-link text-light fw-bold' style='color: white;' href='/user/registerUser'>Register User</a>;
+    </li>
     <li class="nav-item" style="margin-top:3px">
         <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas"
             role="button" href="#offcanvas"></a>
@@ -40,10 +43,7 @@
         echo "<a class='nav-link' style='color: white;' href='/admin'>Manage Website</a>";
     } ?>
     </li>
-    <li>
-        <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])&& $_SESSION["user_role"] == 2) { 
-            echo "<a class='nav-link' style='color: white;' href='/admin/registerUser'>Register User</a>";  } ?>
-    </li>
+
     <li>
         <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"])) { 
             echo "<a class='nav-link' style='color: white;' href='/user/userManageAccount'>Manage Account</a>";  } ?>

@@ -9,6 +9,8 @@ require_once __DIR__ . '/../../Services/shoppingCartService.php';
 
 $paymentService = new PaymentService();
 $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+$shoppingCartService = new ShoppingCartService();
+$smtpService = new smtpService();
 
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
@@ -29,7 +31,8 @@ if ($payment->isPaid()) {
     $order->setPaymentId(1);
 
 
-    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);
+
 
     $email = $paymentObject->getEmail();
     $fullName = $paymentObject->getFullName();

@@ -15,25 +15,20 @@
 
 <body>
 <?php
-include __DIR__ . '/nav.php';
+include __DIR__ . '/../nav.php';
 ?>
 
 <div id="createUserDiv" class="text-center" style="min-height: 500px;">
     <br><br>
     <h2>Create new User</h2><br>
-    <form method="POST" action="/admin/RegisterUser">
+    <form method="POST" action="/User/RegisterUser">
         <input required type="text" name="username" placeholder="Username"><br><br>
         <input required type="password" name="password" placeholder="Password"><br><br>
 
         <input required type="text" name="firstname" placeholder="First name"><br><br>
         <input required type="text" name="lastname" placeholder="Last name"><br><br>
         <input required type="email" name="email" placeholder="Email"><br><br>
-        <label for="userType">User Type:</label>
-        <select required name="userType" id="userType">
-            <?php foreach ($userTypes as $usertype){?>
-                <option value="<?=$usertype->getUserTypeId()?>"><?=$usertype->getUserType()?></option>
-            <?php }?>
-        </select><br><br>
+     <br><br>
 
         <input id="createUserButton" class="btn btn-success" type="submit" name="Create new User" value="Create new User"><br><br>
     </form>
@@ -44,7 +39,7 @@ include __DIR__ . '/nav.php';
     </div>
 <?php } ?>
 <?php
-include __DIR__ . '/footer.php';
+include __DIR__ . '/../footer.php';
 ?>
 
 </body>

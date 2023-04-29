@@ -171,7 +171,7 @@ if ($payment->isPaid()) {
     }
 </style>";
         $invoicePdf = $pdfService->createPDF($order->getOrderId(), $_SESSION['user_id'], $html);
-        
+
 
         /*$message .= nl2br("Product: ". $amounts[$i] . "x" . $merged_products[$i]->getName() . "(€". $merged_products[$i]->getPrice() . ")\n");
         $message .= nl2br("Time: " . $merged_products[$i]->getStartTime() . "\n");

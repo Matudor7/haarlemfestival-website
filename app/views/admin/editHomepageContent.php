@@ -44,7 +44,7 @@
             <button id="save" class="btn btn-primary" onclick="save(0)" type="button"
                 style="width: 100px;">Save</button>
             <div class="click2edit">
-                <h1 class="fw-semibold display-2 text-nowrap"><?php echo html_entity_decode($contentById[1]); ?></h1>
+               <?php echo html_entity_decode($contentById[1]); ?>
             </div>
 
             <button id="edit" class="btn btn-primary" onclick="edit(1)" type="button"
@@ -53,7 +53,7 @@
                 style="width: 100px;">Save</button>
 
             <div class="click2edit">
-                <p class=" text-light fs-2"><?php echo html_entity_decode($contentById[2]); ?></p>
+                <?php echo html_entity_decode($contentById[2]); ?>
             </div>
         </div>
         </div>
@@ -67,14 +67,14 @@
             <button id="save" class="btn btn-primary" onclick="save(2)" type="button"
                 style="width: 100px;">Save</button>
             <div class="click2edit">
-                <h4 class="fw-semibold text-nowrap display-6"><?php echo html_entity_decode($contentById[3]); ?></h4>
+               <?php echo html_entity_decode($contentById[3]); ?>
             </div>
             <button id="edit" class="btn btn-primary" onclick="edit(3)" type="button"
                 style="width: 100px;">Edit</button>
             <button id="save" class="btn btn-primary" onclick="save(3)" type="button"
                 style="width: 100px;">Save</button>
             <div class="click2edit">
-                <p class="text-dark fs-5 mx-5"><?php echo html_entity_decode($contentById[4]); ?></p>
+                <?php echo html_entity_decode($contentById[4]); ?>
             </div>
 
 

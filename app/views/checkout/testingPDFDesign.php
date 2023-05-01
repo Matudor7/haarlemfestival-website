@@ -27,10 +27,10 @@
             <td style="border: none;">order->getInvoiceDate()</td>
         </tr>
         <tr>
-            <td style="border: none;" >$payment->getAddress();</td>
+            <td style="border: none;" >$payment->getAddress()</td>
             <td style="border: none;">$payment->getPhoneNumber()</td>
             <td style="color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;">PAYMENT DATE</td>
-            <td style="border: none;">order-->getInvoiceDate()</td>
+            <td style="border: none;">order->getInvoiceDate()</td>
         </tr>
         <tr>
             <td style="border: none;" >$payment->getZip();</td>

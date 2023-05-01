@@ -9,7 +9,7 @@ class User
     private string $user_lastName;
     private string $user_email;
     private string $user_password;
-    private int $userTypeId;
+    private int $userTypeId = 3;
     private DateTime $user_registrationDate;
 
 

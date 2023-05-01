@@ -2,48 +2,99 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ticket Example</title>
+    <title>Haarlem Festival Ticket</title>
     <style>
         body {
+            background-image: url('path/to/background/image.jpg');
+            background-size: cover;
+            background-position: center;
             font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-        .ticket {
-            border: 2px solid black;
-            padding: 20px;
-            width: 500px;
+
+        .container {
+            width: 100%;
+            max-width: 397px; /* Half of A4 width in pixels */
             margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+            opacity: 0.9;
+            border: 10px solid #FF6600FF; /* default border color */
+        }
+
+        .container.purple {
+            border-color: #8564CC; /* blue border color for blue event type */
+        }
+
+        .container.blue {
+            border-color: #0d47a1;
+        <!--border-color: #3366CFFF;--> /* green border color for green event type */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .qr-code {
+            float: right;
+            margin-left: 30px;
+            width: 75px;
+            height: 75px;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #333;
+            border-radius: 3px;
             text-align: center;
         }
-        .ticket h1 {
-            font-size: 32px;
-            margin-top: 0;
+
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
         }
-        .ticket p {
-            font-size: 18px;
-            margin-bottom: 5px;
+
+        .info {
+            margin-top: 25px;
+            font-size: 14px;
         }
-        .ticket .qr-code {
-            margin: 20px auto;
-            width: 200px;
-            height: 200px;
-            background-color: white;
-            border: 1px solid black;
-            padding: 10px;
-            box-sizing: border-box;
+
+        .label {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 70px;
         }
     </style>
 </head>
 <body>
-<div class="ticket">
-    <h1>Event Name</h1>
-    <p>Date: May 1st, 2023</p>
-    <p>Time: 7:00 PM</p>
-    <p>Location: Example Venue</p>
-    <p>Ticket ID: 123456789</p>
-    <div class="qr-code">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=123456789" alt="Ticket QR Code">
+<div class="container">
+    <div class="header">
+        <h1>Haarlem Festival Ticket</h1>
+        <h2><?php echo $event_type; ?></h2>
     </div>
-    <p>Present this ticket at the door for admission</p>
+    <div class="qr-code">
+        <img src="<?php echo $qr_code_url; ?>" alt="QR code">
+    </div>
+    <div class="info">
+        <p><span class="label">Name:</span> <?php echo $client_name; ?></p>
+        <p><span class="label">Event:</span> <?php echo $event_name; ?></p>
+        <p><span class="label">Date:</span> <?php echo $event_date; ?></p>
+        <p><span class="label">Time:</span> <?php echo $event_time; ?></p>
+    </div>
 </div>
 </body>
 </html>

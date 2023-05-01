@@ -42,6 +42,10 @@ class buyticketformController{
             }  else {echo json_encode("does not work yet");}
         }
     }
+    public function getDate(){
+
+        return $_GET['selectedDate'];
+    }
 
     public function addToCart(){
 
@@ -52,8 +56,10 @@ class buyticketformController{
                 $productId = $data['productId'];
                 $userId = $data['userId'];
                 $amount = $data['amount'];
+                $eventType = $data['eventType'];
+                $note = $data['note'];
 
-                $result = $this->shoppingCartService->addProducts($userId, $productId, $amount);
+                $result = $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);
 
                 header('Content-Type: application/json;');
                 echo json_encode($result);

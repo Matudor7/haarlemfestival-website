@@ -81,26 +81,29 @@
 
         updateProductList(dateDropdown.value, selectedTime)
     })
-
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
         defaultOption.text = "Select Time"
         timeDropdown.add(defaultOption);
 
-        <?php foreach ($tickets as $ticket) {?>
+        <?php
+        $times = array();
+        foreach($tickets as $ticket) {
+            $time = $ticket->getProductTime();?>
+
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
 
-        if (date == selectedDate){
+        <?php if(!in_array($time, $times)) {?>
             var option = document.createElement("option");
             option.text = time;
+            //option.value = time;
             timeDropdown.add(option);
-        }
+                <?php } ?>
 
-        <?php }?>
+        <?php } ?>
     }
-
     function updateProductList(selectedDate, selectedTime){
         productListDiv.innerHTML = "";
 
@@ -190,11 +193,14 @@
 
     function addToCart(){
 
-        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>
+        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
+        var eventType = <?php echo $thisEvent->getId()?>;
 
         const data = {"userId": userId,
         "amount": productAmount,
-        "productId": selectedProduct}
+        "productId": selectedProduct,
+        "eventType": eventType,
+        "note": "trying things out"}
         fetch('/api/buyticketform/addToCart', {
             method: "POST",
             headers: {

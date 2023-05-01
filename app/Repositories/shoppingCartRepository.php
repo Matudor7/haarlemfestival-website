@@ -72,11 +72,11 @@ class ShoppingCartRepository extends Repository{
         }
     }
 
-    public function addProducts(int $userId, int $productId, int $amount){
+    public function addProducts(int $userId, int $productId, int $amount, int $eventType, string $note){
         try{
-            $statement = $this->connection->prepare("INSERT INTO shopping_cart (user_id, product_id, amount)
-                                                        VALUES (?, ?, ?)");
-            $statement->execute(array($userId, $productId, $amount));
+            $statement = $this->connection->prepare("INSERT INTO shopping_cart (user_id, product_id, amount, event_type, additional_info)
+                                                        VALUES (?, ?, ?, ?, ?)");
+            $statement->execute(array($userId, $productId, $amount, $eventType, $note));
         } catch (PDOException $e){
             echo $e->getMessage();
         }

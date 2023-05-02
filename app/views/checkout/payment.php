@@ -20,8 +20,10 @@ $payment = $mollie->payments->create([
     ],
     "description" => "Haarlem Festival Payment",
     "method" => $paymentMethod,
-    "webhookUrl"  => " https://5c6e-31-151-76-20.ngrok-free.app/checkout/webhook",
-    "redirectUrl" => " https://5c6e-31-151-76-20.ngrok-free.app/checkout/return",
+    "webhookUrl"  => "     https://3be4-31-151-76-20.ngrok-free.app/checkout/webhook",
+    //"redirectUrl" => "     https://3be4-31-151-76-20.ngrok-free.app/checkout/return",
+    "redirectUrl" => "     http://localhost/checkout/return?payment_id=" . $paymentId->id,
+    //pass the id the references the payment, we want to be able tyo access it from other pages and access the order from it
 ]);
 
 $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);

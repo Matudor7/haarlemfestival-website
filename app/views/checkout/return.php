@@ -21,14 +21,7 @@ $payment->isPaid() == true;
 
 if ($payment->isPaid()) {
     //TODO move the logic to the controller
-     $order = new order();
-     //$smtpService = new smtpService();
 
-    $order->setInvoiceDate();
-    $order->setInvoiceNumber();
-    $order->setListProductId("1,2,3");
-    $order->setOrderId(1);
-    $order->setPaymentId(1);
 
 
     $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);

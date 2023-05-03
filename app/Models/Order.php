@@ -2,16 +2,18 @@
 
 class Order
 {
-    private int $order_id;
+    private int $order_id = 0;
     private int $payment_id;
     private string $invoice_date;
     private string $invoice_number;
-    private string $List_Product_id;
+    private string $List_Product_id = "";
 
-
-    public function getListProductId(): array{
-        return explode(",", $this->List_Product_id);
+    public function getListProductId():string {
+        return $this->List_Product_id;
     }
+   /* public function getListProductId(): array{
+        return explode(",", $this->List_Product_id);
+    }*/
     public function setListProductId($List_Product_id)
     {
         $this->List_Product_id = $List_Product_id;
@@ -57,7 +59,7 @@ class Order
 
     public function setInvoiceNumber(): void
     {
-        $this->invoice_number = generateInvoiceNumber();
+        $this->invoice_number = $this->generateInvoiceNumber();
     }
 
     private function generateInvoiceNumber() {

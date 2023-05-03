@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
-require_once __DIR__ . '/../../vendor/autoload.php';
-
+//require_once __DIR__ . '/../../vendor/autoload.php';
+/*
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
@@ -20,13 +20,13 @@ $payment = $mollie->payments->create([
     ],
     "description" => "Haarlem Festival Payment",
     "method" => $paymentMethod,
-    "webhookUrl"  => "     https://3be4-31-151-76-20.ngrok-free.app/checkout/webhook",
-    //"redirectUrl" => "     https://3be4-31-151-76-20.ngrok-free.app/checkout/return",
-    "redirectUrl" => "     http://localhost/checkout/return?payment_id=" . $paymentId->id,
-    //pass the id the references the payment, we want to be able tyo access it from other pages and access the order from it
+
+    "webhookUrl"  => "https://f656-145-81-195-167.ngrok-free.app/checkout/webhook",
+    "redirectUrl" => "https://f656-145-81-195-167.ngrok-free.app/checkout/return",
+
 ]);
 
 $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
-header("Location: " . $payment->getCheckoutUrl());
+header("Location: " . $payment->getCheckoutUrl());*/
 ?>

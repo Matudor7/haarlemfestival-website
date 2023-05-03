@@ -20,8 +20,8 @@ $payment = $mollie->payments->create([
     ],
     "description" => "Haarlem Festival Payment",
     "method" => $paymentMethod,
-    "webhookUrl"  => " https://5c6e-31-151-76-20.ngrok-free.app/checkout/webhook",
-    "redirectUrl" => " https://5c6e-31-151-76-20.ngrok-free.app/checkout/return",
+    "webhookUrl"  => "https://f656-145-81-195-167.ngrok-free.app/checkout/webhook",
+    "redirectUrl" => "https://f656-145-81-195-167.ngrok-free.app/checkout/return",
 ]);
 
 $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);

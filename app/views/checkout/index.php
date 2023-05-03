@@ -131,7 +131,7 @@
       var ideal = document.getElementById("ideal");
 
     function submitData(){
-      if(!invalidData()){
+      if(invalidData()){
         var paymentMethod;
 
         if(credit.checked){

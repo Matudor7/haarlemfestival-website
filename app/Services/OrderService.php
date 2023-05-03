@@ -15,4 +15,9 @@ class OrderService
         $order = $orderRepo->getById($id);
         return $order;
     }
+    public function insertOrder($order){
+        $orderRepo = new OrderRepository();
+        $order = $orderRepo->insertOrder($order);
+        return $order;
+    }
 }

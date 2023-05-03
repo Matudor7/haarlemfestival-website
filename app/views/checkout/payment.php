@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
-require_once __DIR__ . '/../../vendor/autoload.php';
-
+//require_once __DIR__ . '/../../vendor/autoload.php';
+/*
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
@@ -26,5 +26,5 @@ $payment = $mollie->payments->create([
 
 $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
-header("Location: " . $payment->getCheckoutUrl());
+header("Location: " . $payment->getCheckoutUrl());*/
 ?>

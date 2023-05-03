@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Models/Order.php';
 class OrderRepository extends Repository{
     public function getAll(){
         try{
-            $statement = $this->connection->prepare("SELECT order_id, payment_id, invoice_date, invoice_number, list_Product_id FROM order");
+            $statement = $this->connection->prepare("SELECT order_id, payment_id, invoice_date, invoice_number, list_Product_id FROM `order`");
 
             $statement->execute();
             $orders = $statement->fetchAll(PDO::FETCH_CLASS, 'Order');
@@ -18,7 +18,7 @@ class OrderRepository extends Repository{
     public function getById(int $id)
     {
         try {
-            $statement = $this->connection->prepare("SELECT order_id, payment_id, invoice_date, invoice_number, list_Product_id FROM order WHERE id=:id");
+            $statement = $this->connection->prepare("SELECT order_id, payment_id, invoice_date, invoice_number, list_Product_id FROM `order` WHERE order_id=:id");
             $statement->bindParam(':id', $id);
 
             $statement->execute();
@@ -29,4 +29,26 @@ class OrderRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function insertOrder($order)
+    {
+        try {
+            $statement = $this->connection->prepare("INSERT INTO `order` ( payment_id, invoice_date, invoice_number, list_Product_id) VALUES ( :payment_id, :invoice_date, :invoice_number, :list_Product_id)");
+           $paymentId = $order->getPaymentId();
+           $invoiceDate = $order->getInvoiceDate();
+           $invoiceNumber = $order->getInvoiceNumber();
+           $listProductId = $order->getListProductId();
+           $statement->bindParam(':payment_id',$paymentId );
+           $statement->bindParam(':invoice_date', $invoiceDate);
+            $statement->bindParam(':invoice_number', $invoiceNumber);
+            $statement->bindParam(':list_Product_id', $listProductId);
+
+            $statement->execute();
+
+            return $this->getById($this->connection->lastInsertId());
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
 }

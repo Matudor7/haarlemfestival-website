@@ -46,7 +46,12 @@
                         <td><?php echo $order->getInvoiceNumber()?></td>
                         <td><?php echo $order->getInvoiceDate()?></td>
                         <td><?php echo $order->getListProductId()?></td>
-                        <td><?php echo $order->getPaymentStatus()?></td>
+                        <td><select name="paymentStatuses" id="paymentStatuses" onchange="updateField(<?php echo $order->getOrderId()?>)">
+                                <option value="Paid" <?php if($order->getPaymentStatus() == "Paid") echo 'selected'?>>Paid</option>
+                                <option value="Pending" <?php if($order->getPaymentStatus() == "Pending") echo 'selected'?>>Pending</option>
+                                <option value="Cancelled" <?php if($order->getPaymentStatus() == "Cancelled") echo 'selected'?>>Cancelled</option>
+                            </select>
+                        </td>
                     </tr>
                     <?php } ?>
                 </tbody>

@@ -82,22 +82,22 @@
         updateProductList(dateDropdown.value, selectedTime)
     })
 
-    function updateTimeOptions(selectedDate){
+    /*function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
         defaultOption.text = "Select Time"
         timeDropdown.add(defaultOption);
 
-        <?php
+        <//?php
         $times = array();
         foreach($tickets as $ticket) {
             $time = $ticket->getProductTime();?>
 
-        var date = "<?php echo $ticket->getProductDate();?>";
-        var time = "<?php echo $ticket->getProductTime();?>";
+        var date = "<//?php echo $ticket->getProductDate();?>";
+        var time = "<//?php echo $ticket->getProductTime();?>";
 
         if (date == selectedDate) {
-            <?php if (!in_array($time, $times)) { continue; }
+            <//?php if (!in_array($time, $times)) { continue; }
             $times[] = $time;
             ?>
 
@@ -106,9 +106,29 @@
             option.value = time;
             timeDropdown.add(option);
         }
-                <?php } ?>
+                <//?php } ?>
 
+    }*/
+
+    function updateTimeOptions(selectedDate){
+        timeDropdown.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.text = "Select Time"
+        timeDropdown.add(defaultOption);
+
+        <?php foreach ($tickets as $ticket) {?>
+        var date = "<?php echo $ticket->getProductDate();?>";
+        var time = "<?php echo $ticket->getProductTime();?>";
+
+        if (date == selectedDate){
+            var option = document.createElement("option");
+            option.text = time;
+            timeDropdown.add(option);
+        }
+
+        <?php }?>
     }
+    
     function updateProductList(selectedDate, selectedTime){
         productListDiv.innerHTML = "";
 

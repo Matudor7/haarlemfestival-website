@@ -81,6 +81,7 @@
 
         updateProductList(dateDropdown.value, selectedTime)
     })
+
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
@@ -96,9 +97,7 @@
         var time = "<?php echo $ticket->getProductTime();?>";
 
         if (date == selectedDate) {
-            <?php if (!in_array($time, $times)) {
-            continue;
-        }
+            <?php if (!in_array($time, $times)) { continue; }
             $times[] = $time;
             ?>
 

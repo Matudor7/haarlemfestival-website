@@ -14,6 +14,7 @@
     ?>
     <div class="container-fluid">
         <h1>Manage Orders</h1>
+        <button class="btn btn-primary" type="button" style="float: right" onclick="window.location.href = '/admin/generateApiKey' ">Generate Key</button>
         <section>
             <table class="table" id="ordersTable">
                 <thead>
@@ -46,7 +47,7 @@
                         <td><?php echo $order->getInvoiceNumber()?></td>
                         <td><?php echo $order->getInvoiceDate()?></td>
                         <td><?php echo $order->getListProductId()?></td>
-                        <td><select name="paymentStatuses" id="paymentStatuses" onchange="updateField(<?php echo $order->getOrderId()?>)">
+                        <td><select name="paymentStatuses" id="<?php echo "paymentStatus " . $order->getOrderId()?>" onchange="updateField(<?php echo $order->getOrderId()?>)">
                                 <option value="Paid" <?php if($order->getPaymentStatus() == "Paid") echo 'selected'?>>Paid</option>
                                 <option value="Pending" <?php if($order->getPaymentStatus() == "Pending") echo 'selected'?>>Pending</option>
                                 <option value="Cancelled" <?php if($order->getPaymentStatus() == "Cancelled") echo 'selected'?>>Cancelled</option>
@@ -58,6 +59,26 @@
             </table>
         </section>
     </div>
+    <script>
+        function updateField(id){
+            const paymentSelect = document.getElementById("paymentStatus " + id);
+
+            const orderPaymentData = {
+                "payment_status": paymentSelect.value
+            };
+
+            fetch("http://localhost/api/orders?id=" + id,{
+                method: 'PATCH',
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderPaymentData),
+            })
+            .then((response) => response.json())
+            .then((data)=> console.log(data))
+            .catch((error)=> console.error(error));
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>

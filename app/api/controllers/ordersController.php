@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../Models/Order.php';
 
 class OrdersController{
     private $orderService;
-    private $eventService;
 
     function __construct(){
         $this->orderService = new OrderService();
@@ -13,8 +12,12 @@ class OrdersController{
 
     function index(){
         if($_SERVER["REQUEST_METHOD"] == "GET"){
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($this->orderService->getAll());
+            if(isset($_GET['api_key']) && isset($_SESSION['external_api_key'])){
+                if($_GET['api_key'] == $_SESSION['external_api_key']){
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode($this->orderService->getAll());
+                }
+            }
         }
 
         if($_SERVER["REQUEST_METHOD"] == "PATCH"){

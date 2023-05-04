@@ -1,5 +1,6 @@
 <?php
 session_start();
+use Ramsey\Uuid\Uuid;
 require __DIR__ . '/controller.php';
 require __DIR__ . '/../services/DanceService.php';
 require __DIR__ . '/../Services/FoodTypeService.php';
@@ -433,6 +434,14 @@ class AdminController extends Controller
         $orders = $orderService->getAll();
 
         require __DIR__ . '/../views/admin/orders.php';
+    }
+
+    function generateApiKey(){
+        require_once __DIR__ . '/../vendor/autoload.php';
+
+        $_SESSION['external_api_key'] = Uuid::uuid4()->toString();
+
+        require __DIR__ . '/../views/admin/generateApiKey.php';
     }
 
     function manageWalkingTourContent(){

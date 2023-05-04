@@ -95,14 +95,20 @@
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
 
-        <?php if(!in_array($time, $times)) {?>
+        if (date == selectedDate) {
+            <?php if (!in_array($time, $times)) {
+            continue;
+        }
+            $times[] = $time;
+            ?>
+
             var option = document.createElement("option");
             option.text = time;
-            //option.value = time;
+            option.value = time;
             timeDropdown.add(option);
+        }
                 <?php } ?>
 
-        <?php } ?>
     }
     function updateProductList(selectedDate, selectedTime){
         productListDiv.innerHTML = "";

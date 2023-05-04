@@ -50,8 +50,6 @@ class CheckoutController extends Controller{
             }
             $order->setInvoiceDate();
             $order->setInvoiceNumber();
-            //$order->setListProductId("1,2,3");
-            //$order->setOrderId(1);
             $order->setPaymentId(1);
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
@@ -88,6 +86,7 @@ class CheckoutController extends Controller{
             "metadata" => [
                 "order_id" => $orderId,
                 "ticket" => $ticket,
+               // "payment_id" => "1", //TODO: change to payment id
                 "userId" => $_SESSION['user_id'],
             ],
         ]);

@@ -10,7 +10,7 @@
 </head>
 <body>
     <button class="btn btn-primary" type="button" onclick="window.location.href = '/' "><- Homepage</button>
-    <h1>Shared Cart</h1>
+    <h1>Shared Cart of <?php echo (is_null($sharedCartUser)) ? "Visitor" : $sharedCartUser->getUserFirstName()?></h1>
     <?php for($i = 0; $i < count($merged_products); $i++)
         {?>
             <div id ="productdiv <?php echo $i?>" style="display: flex; justify-content: space-between; align-items: center; margin-right: 50%">

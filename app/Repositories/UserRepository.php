@@ -9,7 +9,7 @@ class UserRepository extends Repository
     {
         try {
             $statement = $this->connection->prepare("SELECT   user_id, username, userPicURL, user_firstName, user_lastName, 
-         user_email, user_password, user_userType
+         user_email, user_password, userTypeId
 FROM user");
             $statement->execute();
 

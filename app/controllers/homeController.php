@@ -9,6 +9,8 @@ class HomeController extends Controller{
             $_SESSION['user_id'] = rand(999999, 2000000);
         }
 
+        echo $_SESSION['user_id'];
+
         $contentService = new ContentService;
         $contents= $contentService->getAllContent();
 

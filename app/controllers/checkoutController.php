@@ -1,5 +1,4 @@
 <?php
-use Ramsey\Uuid\Uuid;
 //Tudor Nosca (678549)
 session_start();
 require __DIR__ . '/controller.php';

@@ -94,7 +94,6 @@ class CheckoutController extends Controller{
         header("Location: " . $payment->getCheckoutUrl());
     }
 
-
     function return(){
         $shoppingCartService = new ShoppingCartService();
 
@@ -104,8 +103,18 @@ class CheckoutController extends Controller{
         //$paymentDetails = $paymentService->getByPaymentId();
 
         $smtpService = new smtpService();
+        $this->getMolliePayment();
+        
         require_once __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/checkout/return.php';
+    }
+
+    private function getMolliePayment(){
+        require_once __DIR__ . '/../vendor/autoload.php';
+        $mollie = new Mollie\Api\MollieApiClient();
+        $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
+
+        $payment = $mollie->payments->get($paymentObject->getPaymentId());
     }
 
     function webhook(){

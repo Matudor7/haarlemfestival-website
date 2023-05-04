@@ -6,16 +6,13 @@ require_once __DIR__ . '/../../Services/pdfGenerator.php';
 require_once __DIR__ . '/../../Services/smtpService.php';
 require_once __DIR__ . '/../../Services/shoppingCartService.php';
 
-
-$paymentService = new PaymentService();
 $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
 $shoppingCartService = new ShoppingCartService();
-$smtpService = new smtpService();
 
-$mollie = new Mollie\Api\MollieApiClient();
+/* $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
-$payment = $mollie->payments->get($paymentObject->getPaymentId());
+$payment = $mollie->payments->get($paymentObject->getPaymentId()); */
 
 $payment->isPaid() == true;
 

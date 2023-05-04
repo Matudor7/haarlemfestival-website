@@ -28,7 +28,7 @@ class ShoppingCartRepository extends Repository{
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 $shoppingCart->setUserId($row['user_id']);
                 $shoppingCart->addProduct($row['product_id']);
-                $shoppingCart->addProduct($row['event_type']);
+                $shoppingCart->setEventType($row['event_type']);
                 $shoppingCart->addAmount($row['amount']);
                 $shoppingCart->addInfo($row['additional_info']);
             }

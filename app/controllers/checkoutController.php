@@ -49,6 +49,7 @@ class CheckoutController extends Controller{
             //$order->setListProductId("1,2,3");
             //$order->setOrderId(1);
             $order->setPaymentId(1);
+            $order->setPaymentStatus("Paid");
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);

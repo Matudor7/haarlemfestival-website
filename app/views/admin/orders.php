@@ -41,13 +41,12 @@
                 <tbody>
                     <?php foreach ($orders as $order){?>
                     <tr>
-                        <th scope="row"><?php echo $user->getUserId()?></th>
-                        <td><img src="<?php echo $user->getUserPicURL()?>" class="img-fluid" alt="User Profile Photo"
-                                style="max-height:30px;"></td>
-                        <td><?php echo $user->getUsername()?></td>
-                        <td><?php echo $user->getUserEmail()?></td>
-                        <td><?php echo $user->getUserFirstName()?></td>
-                        <td><?php echo $user->getUserLastName()?></td>
+                        <th scope="row"><?php echo $order->getOrderId()?></th>
+                        <td><?php echo $order->getPaymentId()?></td>
+                        <td><?php echo $order->getInvoiceNumber()?></td>
+                        <td><?php echo $order->getInvoiceDate()?></td>
+                        <td><?php echo $order->getListProductId()?></td>
+                        <td><?php echo $order->getPaymentStatus()?></td>
                     </tr>
                     <?php } ?>
                 </tbody>

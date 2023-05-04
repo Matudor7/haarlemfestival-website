@@ -6,17 +6,19 @@ class Order
     private int $payment_id;
     private string $invoice_date;
     private string $invoice_number;
-    private string $List_Product_id = "";
+    private string $list_Product_id = "";
+
+    private string $payment_status = "";
 
     public function getListProductId():string {
-        return $this->List_Product_id;
+        return $this->list_Product_id;
     }
    /* public function getListProductId(): array{
         return explode(",", $this->List_Product_id);
     }*/
-    public function setListProductId($List_Product_id)
+    public function setListProductId($list_Product_id)
     {
-        $this->List_Product_id = $List_Product_id;
+        $this->list_Product_id = $list_Product_id;
     }
 
 
@@ -76,5 +78,13 @@ class Order
         $invoice_number = "INV-" . $year . "-" . $month . "-" . $random;
 
         return $invoice_number;
+    }
+
+    public function getPaymentStatus(){
+        return $this->payment_status;
+    }
+
+    public function setPaymentStatus(string $payment_status){
+        $this->payment_status = $payment_status;
     }
 }

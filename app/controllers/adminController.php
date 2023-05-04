@@ -429,6 +429,9 @@ class AdminController extends Controller
         require __DIR__ . '/../Services/OrderService.php';
 
         $orderService = new OrderService();
+
+        $orders = $orderService->getAll();
+
         require __DIR__ . '/../views/admin/orders.php';
     }
 

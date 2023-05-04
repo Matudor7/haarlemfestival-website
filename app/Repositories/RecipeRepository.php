@@ -7,7 +7,7 @@ class RecipeRepository extends Repository
     public function getAllRecipes()
     {
         try {
-            $statement = $this->connection->prepare("SELECT id, name, tittle, pictureURL,
+            $statement = $this->connection->prepare("SELECT id, name, title, pictureURL,
        duration, type, content FROM recipes");
             $statement->execute();
 
@@ -23,7 +23,7 @@ class RecipeRepository extends Repository
     public function getByName(string $name)
     {
         try {
-            $statement = $this->connection->prepare("SELECT id, name	, tittle, pictureURL,
+            $statement = $this->connection->prepare("SELECT id, name	, title, pictureURL,
        duration, type, content FROM recipes WHERE name = :name");
             //TODO make sure that the name comes from a dropdown option no input from the user
             $statement->execute();

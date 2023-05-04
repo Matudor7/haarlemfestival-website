@@ -4,14 +4,24 @@ session_start();
 require __DIR__ . '/controller.php';
 require_once __DIR__ . '/../Services/productService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
+require_once __DIR__ . '/../Services/UserService.php';
 require_once __DIR__ . '/../Models/vatModel.php';
 require_once __DIR__ . '/../Services/vatService.php';
 class ShareCartController extends Controller{
     public function index(){
-        
+        $userService = new UserService();
         $shoppingCartService = new ShoppingCartService();
         $shoppingCarts = $shoppingCartService->getAll();
+        $users = $userService->getAllUsers();
         $sharedCart = null;
+        $sharedCartUser = null;
+
+        foreach($users as $user){
+            if(password_verify($user->getUserId(), $_GET['user_id'])){
+                $sharedCartUser = $userService->getByID($user->getUserId());
+                break;
+            }
+        }
 
         foreach($shoppingCarts as $shoppingCart){
             if(password_verify($shoppingCart->getUserId(), $_GET['user_id'])){
@@ -19,10 +29,11 @@ class ShareCartController extends Controller{
                 break;
             }
         }
-        $this->displayCart($sharedCart);
+        $this->displayCart($sharedCart, $sharedCartUser);
     }
 
-    private function displayCart($cart){
+    private function displayCart($cart, $sharedCartUser){
+
         $productService = new ProductService();
         $vatService = new VatService();
         $vat = $vatService->getVat();

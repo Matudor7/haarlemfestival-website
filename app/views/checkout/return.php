@@ -19,8 +19,6 @@ $payment->isPaid() == true;
 if ($payment->isPaid()) {
     //TODO move the logic to the controller
 
-
-
     $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);
 
 

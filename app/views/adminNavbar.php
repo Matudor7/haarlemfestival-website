@@ -21,6 +21,9 @@
     <a class="nav-link" href="/admin/users">Users</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="/admin/orders">Orders</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="/admin/editHomepageContent">Edit Homepage</a>
   </li>
 </ul>

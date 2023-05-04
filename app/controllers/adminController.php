@@ -425,6 +425,13 @@ class AdminController extends Controller
         }
     }
 
+    function orders(){
+        require __DIR__ . '/../Services/OrderService.php';
+
+        $orderService = new OrderService();
+        require __DIR__ . '/../views/admin/orders.php';
+    }
+
     function manageWalkingTourContent(){
         if ($this->checkRole()){
             $allContent = $this->walkingTourService->getAllWalkingTourContent();

@@ -19,7 +19,7 @@ class ShoppingCartRepository extends Repository{
     }
     public function getCartOfUser(int $user_id){
         try{
-            $statement = $this->connection->prepare("SELECT user_id, product_id, amount, additional_info FROM shopping_cart WHERE user_id = :user_id");
+            $statement = $this->connection->prepare("SELECT user_id, product_id, event_type, amount, additional_info FROM shopping_cart WHERE user_id = :user_id");
 
             $statement->bindParam(':user_id', $user_id);
             $statement->execute();
@@ -28,6 +28,7 @@ class ShoppingCartRepository extends Repository{
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 $shoppingCart->setUserId($row['user_id']);
                 $shoppingCart->addProduct($row['product_id']);
+                $shoppingCart->addProduct($row['event_type']);
                 $shoppingCart->addAmount($row['amount']);
                 $shoppingCart->addInfo($row['additional_info']);
             }

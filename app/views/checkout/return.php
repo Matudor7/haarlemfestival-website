@@ -6,29 +6,19 @@ require_once __DIR__ . '/../../Services/pdfGenerator.php';
 require_once __DIR__ . '/../../Services/smtpService.php';
 require_once __DIR__ . '/../../Services/shoppingCartService.php';
 
-
-$paymentService = new PaymentService();
 $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
 $shoppingCartService = new ShoppingCartService();
-$smtpService = new smtpService();
 
-$mollie = new Mollie\Api\MollieApiClient();
+/* $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
-$payment = $mollie->payments->get($paymentObject->getPaymentId());
+$payment = $mollie->payments->get($paymentObject->getPaymentId()); */
 
 $payment->isPaid() == true;
 
 if ($payment->isPaid()) {
     //TODO move the logic to the controller
-     $order = new order();
-     //$smtpService = new smtpService();
 
-    $order->setInvoiceDate();
-    $order->setInvoiceNumber();
-    $order->setListProductId("1,2,3");
-    $order->setOrderId(1);
-    $order->setPaymentId(1);
 
 
     $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);

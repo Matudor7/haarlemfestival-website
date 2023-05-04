@@ -4,7 +4,23 @@ class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     private $product_id = []; //int array
     private $amount = []; //int array
+    private int $event_type;
 
+    /**
+     * @return int
+     */
+    public function getEventType(): int
+    {
+        return $this->event_type;
+    }
+
+    /**
+     * @param int $event_type
+     */
+    public function setEventType(int $event_type): void
+    {
+        $this->event_type = $event_type;
+    }
     private $additional_info = []; //string array
 
     #[ReturnTypeWillChange]

@@ -12,9 +12,6 @@ require_once __DIR__ . '/../Models/Order.php';
 
 class CheckoutController extends Controller{
     function index(){
-        //require_once __DIR__ . '/../vendor/autoload.php';
-        echo Uuid::uuid4();
-
         require_once __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/checkout/index.php';
     }

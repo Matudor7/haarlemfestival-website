@@ -43,7 +43,7 @@ class OrderRepository extends Repository{
            $statement->bindParam(':invoice_date', $invoiceDate);
             $statement->bindParam(':invoice_number', $invoiceNumber);
             $statement->bindParam(':list_Product_id', $listProductId);
-            $statement->bindParam('::payment_status', $paymentStatus);
+            $statement->bindParam(':payment_status', $paymentStatus);
 
             $statement->execute();
 

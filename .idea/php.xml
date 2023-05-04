@@ -13,6 +13,9 @@
       <path value="$PROJECT_DIR$/app/vendor/sabberworm/php-css-parser" />
       <path value="$PROJECT_DIR$/app/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/app/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/app/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/app/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/app/vendor/brick/math" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

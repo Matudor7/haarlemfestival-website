@@ -1,6 +1,6 @@
 <?php
 
-class Order
+class Order implements JsonSerializable
 {
     private int $order_id = 0;
     private int $payment_id;
@@ -10,6 +10,11 @@ class Order
 
     private string $payment_status = "";
 
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+        return $vars;
+    }
     public function getListProductId():string {
         return $this->list_Product_id;
     }

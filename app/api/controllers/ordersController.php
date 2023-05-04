@@ -20,14 +20,14 @@ class OrdersController{
         if($_SERVER["REQUEST_METHOD"] == "PATCH"){
             if(isset($_GET['id'])){
 
-                $festivalJsonString = file_get_contents('php://input');
+                $orderJsonString = file_get_contents('php://input');
 
-                $festivalData = json_decode($festivalJsonString, true);
+                $orderData = json_decode($orderJsonString, true);
     
-                $festival = $this->festivalService->getById($_GET['id']);
-                $newEvent = $this->eventService->getByName($festivalData['event_name']);
-
-                $this->festivalService->changeEvent($festival->getId(), $newEvent->getName(), $newEvent->getId(), $newEvent->getStartTime(), $newEvent->getEndTime());
+                if(!is_null($this->orderService->getOrderByID($_GET['id']))){
+                    $id = $_GET['id'];
+                    $this->orderService->changePaymentStatus($id, $orderData['payment_status']);
+                }
             }
         }
     }

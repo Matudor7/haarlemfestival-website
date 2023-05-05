@@ -60,8 +60,14 @@ class buyticketformController{
                 $note = $data['note'];
                 $product = $this->productService->getById($productId);
 
+
                 if ($this->checkAvailability($amount, $productId)) {
-                    $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);
+                    if($this->checkExistingCart($userId, $productId)) {
+                        $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
+                        $this->shoppingCartService->updateProductAmount($shoppingCartId, $amount);}
+                    else{
+                        $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);}
+
                     $result = "Great! we have added ".$amount." tickets for ".$product->getName()." to the shopping cart";
                 } else{
                     $availability = $product->getAvailableSeats();
@@ -77,6 +83,16 @@ class buyticketformController{
     public function checkAvailability(int $amount, int $productId){
         $product = $this->productService->getById($productId);
         if ($amount <= $product->getAvailableSeats()){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function checkExistingCart(int $userId, int $productId){
+
+        $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
+        if ($shoppingCartId != NULL){
             return true;
         }
 

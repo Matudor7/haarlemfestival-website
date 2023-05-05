@@ -34,5 +34,13 @@ class ShoppingCartService{
     public function addProducts(int $userId, int $productId, int $amount, int $eventType, string $note){
         $this->shoppingCartRepo->addProducts($userId, $productId, $amount, $eventType, $note);
     }
+
+    public function updateProductAmount(int $id, int $amount){
+        $this->shoppingCartRepo->updateProductAmount($id, $amount);
+    }
+
+    public function existingCart(int $userId, int $productId){
+        return $this->shoppingCartRepo->existingCart($userId, $productId);
+    }
 }
 ?>

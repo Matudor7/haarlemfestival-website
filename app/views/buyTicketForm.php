@@ -151,9 +151,8 @@
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
         } else if (date == selectedDate && time == selectedTime && availability <= 0){
-            name = "No Tickets Available at";
-            location = "none";
-            var product = createProduct(0, name, 0, selectedDate, selectedTime, location)
+            price = "No Tickets Available";
+            var product = createProduct(0, name, price, selectedDate, selectedTime, location)
             productListDiv.appendChild(product);
         }
         <?php }?>
@@ -194,22 +193,27 @@
     }
 
      function selectProduct(productId){
-         selectedProduct = productId;
-        productAmount = 1;
 
-         const data = {"productId": productId}
-                fetch('/api/buyticketform/selectTicket', {
+        if(productId == 0){
+             productInfoField.value = "Sold Out"
+             productAmount.value = "X";
+         } else {
+            selectedProduct = productId;
+            productAmount = 1;
+
+            const data = {"productId": productId}
+            fetch('/api/buyticketform/selectTicket', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
             })
-                    .then(response => response.json())
-                    .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
-                    .catch(error => console.error(error));
+                .then(response => response.json())
+                .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
+                .catch(error => console.error(error));
 
-
+        }
     }
 
     function changeAmount(number){
@@ -243,8 +247,7 @@
             .then(data => alert(data))
             .catch(error => console.error(error));
 
-        location.reload();
-        closeTicketForm();
+            closeTicketForm();
     }
 
     function addKids(){

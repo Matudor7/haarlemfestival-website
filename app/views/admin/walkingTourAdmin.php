@@ -116,6 +116,7 @@ function createSection(){
         .catch(error => console.error(error));
 
     displayForm('close');
+    location.reload();
 }
 
 function deleteSection(){
@@ -132,6 +133,7 @@ function deleteSection(){
         .catch(error => console.error(error));
 
     displayForm('close');
+    location.reload()
 }
 
 function emptyInputFields(){

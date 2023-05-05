@@ -5,6 +5,7 @@ function openTicketForm(){
 }
 
 function closeTicketForm(){
+    location.reload();
     document.getElementById("ticketForm").style.display = "none";
     document.getElementById("main").style.filter = "none";
 }

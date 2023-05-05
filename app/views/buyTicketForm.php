@@ -150,6 +150,11 @@
 
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
+        } else if (date == selectedDate && time == selectedTime && availability <= 0){
+            name = "No Tickets Available at";
+            location = "none";
+            var product = createProduct(0, name, 0, selectedDate, selectedTime, location)
+            productListDiv.appendChild(product);
         }
         <?php }?>
     }
@@ -226,7 +231,7 @@
         "amount": productAmount,
         "productId": selectedProduct,
         "eventType": eventType,
-        "note": "trying things out"}
+        "note": "trial shopping cart orders"}
         fetch('/api/buyticketform/addToCart', {
             method: "POST",
             headers: {
@@ -235,9 +240,10 @@
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => alert(data))
             .catch(error => console.error(error));
 
+        location.reload();
         closeTicketForm();
     }
 
@@ -289,6 +295,9 @@
         const div = document.getElementById('kidsOutput')
         div.innerText = "";
         kidsAmount = 0;
+    }
+    function messageBox(){
+
     }
 </script>
 <style>

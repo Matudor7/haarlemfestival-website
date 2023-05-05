@@ -11,22 +11,6 @@ class buyticketformController{
         $this->productService = new ProductService();
         $this->shoppingCartService = new ShoppingCartService();
     }
-    public function index(){
-        /**$eventService = new EventService();
-        $events = $eventService->getAll();
-        $thisEvent = $eventService->getByName("Walking Tour!");
-
-        $shoppingCartService = new ShoppingCartService();
-        $shoppingCart = $shoppingCartService->getCartOfUser(1);
-
-        $productService = new ProductService();
-
-        //get Tickets because products array is already taken
-        $tickets = $productService->getByEventType($thisEvent->getId());
-
-        require __DIR__ .'/../views/buyTicketForm.php';**/
-    }
-
     public function selectTicket(){
 
         if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -41,10 +25,6 @@ class buyticketformController{
                 echo json_encode($result);
             }  else {echo json_encode("does not work yet");}
         }
-    }
-    public function getDate(){
-
-        return $_GET['selectedDate'];
     }
 
     public function addToCart(){
@@ -84,7 +64,6 @@ class buyticketformController{
         if ($amount <= $product->getAvailableSeats()){
             return true;
         }
-
         return false;
     }
 

@@ -52,10 +52,10 @@ class ProductRepository extends Repository{
         try{
             $availability = $this->getById($productId)->getAvailableSeats();
 
-            if ($availability <= 0) {
-                $availableSeats = 0;
-            } else {
+            if ($availability > 0) {
                 $availableSeats = $availability - $amount;
+            } else {
+                $availableSeats = 0;
             }
 
             $statement = $this->connection->prepare($query);

@@ -102,6 +102,9 @@ class CheckoutController extends Controller{
         $itemsFromShoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         //$paymentDetails = $paymentService->getByPaymentId();
 
+        //Andy
+        $this->updateAvailability($itemsFromShoppingCart);
+
         $smtpService = new smtpService();
         $this->getMolliePayment();
         

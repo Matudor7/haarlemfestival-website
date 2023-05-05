@@ -58,11 +58,11 @@ class WalkingTourService {
         return $this->walkingTourRepository->getAllWalkingTourContent();
     }
 
-    public function updateContent(string $oldSectionName, string $newSectionName, string $title, string $text, string $buttonText){
-        $this->walkingTourRepository->UpdateContent($oldSectionName, $newSectionName, $title, $text, $buttonText);
+    public function updateContent(string $oldSectionName, string $newSectionName, string $title, string $text, string $buttonText, string $buttonUrl){
+        $this->walkingTourRepository->UpdateContent($oldSectionName, $newSectionName, $title, $text, $buttonText, $buttonUrl);
     }
-    public function createContent(string $sectionName, string $title, string $text, string $buttonText){
-        $this->walkingTourRepository->createContent($sectionName, $title, $text, $buttonText);
+    public function createContent(string $sectionName, string $title, string $text, string $buttonText, string $buttonUrl){
+        $this->walkingTourRepository->createContent($sectionName, $title, $text, $buttonText, $buttonUrl);
     }
     public function deleteContent(string $sectionName){
         $this->walkingTourRepository->deleteContent($sectionName);

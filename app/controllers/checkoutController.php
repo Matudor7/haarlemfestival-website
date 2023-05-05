@@ -95,6 +95,7 @@ class CheckoutController extends Controller{
     }
 
     function return(){
+        require_once __DIR__ . '/../Services/paymentService.php';
         $shoppingCartService = new ShoppingCartService();
 
         //Ale

@@ -82,7 +82,7 @@
                 <br>
                 <ol>
                     <?php foreach ($locations as $location) { ?>
-                        <li><a href="#"><?php echo $location->getLocationName()?></a></li><?php } ?>
+                        <li><a href="<?php echo $location->getLocationUrl(); ?>"><?php echo $location->getLocationName()?></a></li><?php } ?>
                 </ol>
             </div>
         </div>

@@ -41,6 +41,7 @@ include __DIR__ . '/nav.php';
     }?>
     <form method="post" action="user/resetPasswordPage">
         <a href="/user/resetPasswordPage" class="btn btn-link">Forgot Password?</a>
+        <a href="/user/registerUserPage" class="btn btn-link">Register Here!</a>
     </form>
 </div>
 <?php

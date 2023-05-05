@@ -3,6 +3,7 @@ class TourLocation {
     private int $walkingTour_Locations_id = 0;
     private string $walkingTour_Locations_venueName = "";
     private int $walkingTour_Locations_addresId = 0;
+    private string $walkingTour_Location_url = "";
 
     //getters
     public function getLocationId(): int{
@@ -13,6 +14,9 @@ class TourLocation {
     }
     public function getLocationAddress(): int{
         return $this->walkingTour_Locations_addresId;
+    }
+    public function getLocationUrl(): string{
+        return $this->walkingTour_Location_url;
     }
 
     //setters
@@ -28,6 +32,9 @@ class TourLocation {
     public function setLocationAddresss(int $address): self{
         $this->walkingTour_Locations_addresId = $address;
         return $this;
+    }
+    public function setLocationUrl(string $url){
+        $this->walkingTour_Location_url = $url;
     }
 }
 ?>

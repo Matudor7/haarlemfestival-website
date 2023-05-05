@@ -304,7 +304,7 @@
     .form-popup {
         display: none;
         position: fixed;
-        top: 63%;
+        top: 53%;
         left: 50%;
         transform: translate(-50%, -50%);
         border: 3px solid #000000;

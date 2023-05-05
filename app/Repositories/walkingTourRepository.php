@@ -123,7 +123,7 @@ class walkingTourRepository extends Repository{
     }
 
     public function getTourLocationById(int $id){
-        $query = "SELECT walkingTour_Locations_id, walkingTour_Locations_venueName, walkingTour_Locations_addresId
+        $query = "SELECT walkingTour_Locations_id, walkingTour_Locations_venueName, walkingTour_Locations_addresId, walkingTour_Location_url
             FROM walkingTour_Locations WHERE walkingTour_Locations_id = :id";
 
         try{

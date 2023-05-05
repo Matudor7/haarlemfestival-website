@@ -135,7 +135,7 @@
         <?php foreach ($tickets as $ticket) {?>
         var id = "<?php echo $ticket->getId();?>";
         var name = "<?php echo $ticket->getName();?>";
-        var price = "<?php echo $ticket->getPrice();?>";
+        var price = "<?php echo '€ '.$ticket->getPrice();?>";
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
         var location = "<?php echo $ticket->getLocation();?>";
@@ -173,7 +173,7 @@
         h6.innerHTML = ticketName;
 
         var small = document.createElement("small");
-        small.innerHTML ="€ " + ticketPrice;
+        small.innerHTML = ticketPrice;
 
         var p = document.createElement("p");
         p.setAttribute("class", "mb-1");

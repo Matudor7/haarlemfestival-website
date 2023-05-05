@@ -68,7 +68,7 @@ class buyticketformController{
                     else{
                         $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);}
 
-                    $result = "Great! we have added ".$amount." tickets for ".$product->getName()." to the shopping cart";
+                    $result = "Great! we have added ".$amount." ticket(s) for ".$product->getName()." to the shopping cart";
                 } else{
                     $availability = $product->getAvailableSeats();
                     $result = "Oh No! we only have ".$availability." tickets for ".$product->getName()." available";

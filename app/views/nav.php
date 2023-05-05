@@ -148,6 +148,7 @@
 
 </html>
 <script>
+    //this is only for testing I'll delete later on
     function update(){
 
         var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;

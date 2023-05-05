@@ -30,6 +30,7 @@ class ShoppingCartController{
     }
 
     function updateAvailability(){
+        //this is only for testing, I'll delete later on
         require_once __DIR__ . '/../../Services/productService.php';
         $productSer = new ProductService();
 

@@ -60,7 +60,6 @@ class buyticketformController{
                 $note = $data['note'];
                 $product = $this->productService->getById($productId);
 
-
                 if ($this->checkAvailability($amount, $productId)) {
                     if($this->checkExistingCart($userId, $productId)) {
                         $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
@@ -80,7 +79,7 @@ class buyticketformController{
         }
     }
 
-    public function checkAvailability(int $amount, int $productId){
+    private function checkAvailability(int $amount, int $productId){
         $product = $this->productService->getById($productId);
         if ($amount <= $product->getAvailableSeats()){
             return true;
@@ -89,7 +88,7 @@ class buyticketformController{
         return false;
     }
 
-    public function checkExistingCart(int $userId, int $productId){
+    private function checkExistingCart(int $userId, int $productId){
 
         $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
         if ($shoppingCartId != NULL){

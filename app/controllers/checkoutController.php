@@ -80,7 +80,7 @@ class CheckoutController extends Controller{
             ],
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
-            "webhookUrl"  => "https://a5f9-31-151-76-20.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://222a-31-151-76-20.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -92,7 +92,6 @@ class CheckoutController extends Controller{
         ]);
 
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
-
         header("Location: " . $payment->getCheckoutUrl());
     }
 

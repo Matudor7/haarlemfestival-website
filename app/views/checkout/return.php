@@ -8,23 +8,24 @@ require_once __DIR__ . '/../../Services/shoppingCartService.php';
 
 
 $paymentService = new PaymentService();
-$paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+$paymentObject = $paymentService->getByUserId(0);
+$orderService = new OrderService();
 $shoppingCartService = new ShoppingCartService();
 $smtpService = new smtpService();
-
+$order  = new order();
 $mollie = new Mollie\Api\MollieApiClient();
 $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
 $payment = $mollie->payments->get($paymentObject->getPaymentId());
+$order = $orderService->getOrderByID($_GET['order_id']);
 
-$payment->isPaid() == true;
 
 if ($payment->isPaid()) {
     //TODO move the logic to the controller
 
 
 
-    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);
+    $shoppingCart = $shoppingCartService->getCartOfUser(0);
 
 
     $email = $paymentObject->getEmail();
@@ -56,19 +57,19 @@ if ($payment->isPaid()) {
             <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
             <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
             <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-            <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'><?=$order->getInvoiceNumber();?></td>
+            <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>".$order[0]->getInvoiceNumber() ."</td>
         </tr>
         <tr>
             <td style='border: none;'><?=$payment->getFullName();?></td>
             <td style='border: none;'><?=$payment->getEmail();?></td>
             <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-            <td style='border: none;'><?=$order->getInvoiceDate();?></td>
+            <td style='border: none;'>".$order[0]->getInvoiceDate() ."</td>
         </tr>
         <tr>
             <td style='border: none;' ><?=$payment->getAddress();?></td>
             <td style='border: none;'><?=$payment->getPhoneNumber();?></td>
             <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-            <td style='border: none;'><?=$order->getInvoiceDate();?></td>
+            <td style='border: none;'>".$order[0]->getInvoiceDate() ."</td>
         </tr>
         <tr>
             <td style='border: none;' ><?=$payment->getZip();?></td>
@@ -87,13 +88,13 @@ if ($payment->isPaid()) {
     </thead>
     <tbody>
    <?php 
-    foreach ($shoppingCart->getProducts() as $product) {
-        $subtotal += $product->calculateTotalPrice($shoppingCart->getAmount(), $product->getPrice());
+    foreach ($shoppingCart[0]->getProducts() as $product) {
+        $subtotal += $product->calculateTotalPrice($shoppingCart[0]->getAmount(), $product->getPrice());
     <tr>
         <td><?=$product->getName();?></td>
-        <td><?=$shoppingCart->getAmount();?></td>
+        <td><?=$shoppingCart[0]->getAmount();?></td>
         <td>&#8364;<?=$product->getPrice();?></td>
-        <td><?=$product->calculateTotalPriceForProduct($shoppingCart->getAmount(), $product->getPrice());?></td>
+        <td><?=$product->calculateTotalPriceForProduct($shoppingCart[0]->getAmount(), $product->getPrice());?></td>
     </tr>
     <?php } ?>
     <tr>
@@ -166,7 +167,8 @@ if ($payment->isPaid()) {
         margin: 0;
     }
 </style>";
-        $invoicePdf = $pdfService->createPDF($order->getOrderId(), $_SESSION['user_id'], $html);
+        $orderId = $_GET['order_id'];
+        $invoicePdf = $pdfService->createPDF($orderId, $_SESSION['user_id'], $html);
 
 
         /*$message .= nl2br("Product: ". $amounts[$i] . "x" . $merged_products[$i]->getName() . "(€". $merged_products[$i]->getPrice() . ")\n");

@@ -139,13 +139,14 @@
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
         var location = "<?php echo $ticket->getLocation();?>";
+        var availability = "<?php echo $ticket->getAvailableSeats();?>";
 
-        if (date == selectedDate && selectedTime == null){
+        if (date == selectedDate && selectedTime == null && availability > 0){
 
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
 
-        } else if (date == selectedDate && time == selectedTime){
+        } else if (date == selectedDate && time == selectedTime && availability > 0){
 
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);

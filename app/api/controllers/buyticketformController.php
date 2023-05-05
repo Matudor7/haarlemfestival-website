@@ -59,11 +59,23 @@ class buyticketformController{
                 $eventType = $data['eventType'];
                 $note = $data['note'];
 
-                $result = $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);
-
+                if ($this->checkAvailability($amount, $productId)) {
+                    $result = $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);
+                } else{
+                    $result = "ticket is sold out";
+                }
                 header('Content-Type: application/json;');
                 echo json_encode($result);
             }  else {echo json_encode("Something went wrong");}
         }
+    }
+
+    public function checkAvailability(int $amount, int $productId){
+        $product = $this->productService->getById($productId);
+        if ($amount <= $product->getAvailableSeats()){
+            return true;
+        }
+
+        return false;
     }
 }

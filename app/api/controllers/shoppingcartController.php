@@ -28,5 +28,30 @@ class ShoppingCartController{
             }
         }
     }
+
+    function updateAvailability(){
+        require_once __DIR__ . '/../../Services/productService.php';
+        $productSer = new ProductService();
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['userId'])){
+
+                $userId  = $data['userId'];
+                $shoppingCart = $this->shoppingCartService->getCartOfUser($userId);
+                $products = $shoppingCart->getProducts();
+                $amounts = $shoppingCart->getAmount();
+
+                for ($i = 0; $i < count($products); $i++){
+                    $productSer->updateProductAvailability($products[$i], $amounts[$i]);
+                }
+
+
+                header('Content-Type: application/json;');
+                echo json_encode($products[0].' '.$amounts[0]);
+            }  else {echo json_encode("does not work yet");}
+        }
+    }
 }
 ?>

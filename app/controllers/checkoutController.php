@@ -120,5 +120,17 @@ class CheckoutController extends Controller{
     function webhook(){
         require __DIR__ . '/../views/checkout/webhook.php';
     }
+
+    function updateAvailability($shoppingCart){
+        require_once __DIR__ . '/../Services/productService.php';
+        $productService = new ProductService();
+
+        $products = $shoppingCart->getProducts();
+        $amounts = $shoppingCart->getAmount();
+
+        for ($i = 0; $i < count($products); $i++){
+            $productService->updateProductAvailability($products[$i], $amounts[$i]);
+        }
+    }
 }
 ?>

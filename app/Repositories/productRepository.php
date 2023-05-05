@@ -44,6 +44,26 @@ class ProductRepository extends Repository{
             echo $e->getMessage();
         }
     }
+
+    public function updateProductAvailability($productId, $amount){
+
+        $query = "UPDATE product SET available_seats = :availableSeats WHERE id = :id";
+
+        try{
+            $availability = $this->getById($productId)->getAvailableSeats();
+            $availableSeats = $availability - $amount;
+
+            $statement = $this->connection->prepare($query);
+
+            $statement->bindParam(':availableSeats', $availableSeats, PDO::PARAM_INT);
+            $statement->bindParam(':id', $productId, PDO::PARAM_INT);
+
+            $statement->execute();
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 
 ?>

@@ -92,7 +92,7 @@ class CheckoutController extends Controller{
         ]);
 
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
-        header("Location: " . $payment->getCheckoutUrl());
+       // header("Location: " . $payment->getCheckoutUrl());
     }
 
 

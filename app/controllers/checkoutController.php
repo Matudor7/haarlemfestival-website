@@ -79,7 +79,7 @@ class CheckoutController extends Controller{
             ],
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
-            "webhookUrl"  => "https://a5f9-31-151-76-20.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => " https://fa62-145-81-207-151.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -90,8 +90,9 @@ class CheckoutController extends Controller{
         ]);
 
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
+        //payment is never gonna be inserted in the database
 
-        header("Location: " . $payment->getCheckoutUrl());
+       // header("Location: " . $payment->getCheckoutUrl());
     }
 
     function return(){
@@ -116,8 +117,10 @@ class CheckoutController extends Controller{
     private function getMolliePayment(){
         require_once __DIR__ . '/../vendor/autoload.php';
         $mollie = new Mollie\Api\MollieApiClient();
+        $paymentService = new PaymentService();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
-
+        $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+        echo $_SESSION['user_id'];
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
     }
 

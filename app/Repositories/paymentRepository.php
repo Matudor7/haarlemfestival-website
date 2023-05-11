@@ -64,7 +64,7 @@ class PaymentRepository extends Repository{
 
     public function addPaymentId($user_id, $paymentId){
         try{
-            $statement = $this->connection->prepare("UPDATE payment_details SET payment_id=:paymentId WHERE user_id=:userId");
+            $statement = $this->connection->prepare("UPDATE payment_details SET payment_id=:paymentId WHERE user_id=:userId AND payment_id IS NULL");
             $sanitizedId = htmlspecialchars($paymentId);
     
             $statement->bindParam(':userId', $user_id);

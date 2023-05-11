@@ -486,8 +486,9 @@ class AdminController extends Controller
                 $inputTitle = $data['title'];
                 $inputText = $data['text'];
                 $inputButtonText = $data['buttonText'];
+                $inputButtonUrl = $data['buttonUrl'];
 
-                $walkingTourService->updateContent($oldSectionName, $inputSectionName, $inputTitle, $inputText, $inputButtonText);
+                $walkingTourService->updateContent($oldSectionName, $inputSectionName, $inputTitle, $inputText, $inputButtonText, $inputButtonUrl);
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully updated in the Database");
@@ -506,8 +507,9 @@ class AdminController extends Controller
                 $inputTitle = $data['title'];
                 $inputText = $data['text'];
                 $inputButtonText = $data['buttonText'];
+                $inputButtonUrl = $data['buttonUrl'];
 
-                $walkingTourService->createContent($inputSectionName, $inputTitle, $inputText, $inputButtonText);
+                $walkingTourService->createContent($inputSectionName, $inputTitle, $inputText, $inputButtonText, $inputButtonUrl);
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully added to the Database");

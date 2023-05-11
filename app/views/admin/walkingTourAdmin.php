@@ -31,6 +31,7 @@
             <textarea class="form-control" id="textInput" rows="4" placeholder="Here goes this section's Text"></textarea>
             <label for="buttonTextInput" class="form-label mt-2 mb-2"><strong>Button Text:</strong></label>
             <input id="buttonTextInput" class="form-control" type="text" placeholder="Here goes this section's Button Text">
+            <input id="buttonUrlInput" class="form-control" type="text" placeholder="Here goes this sections Button URL">
 
         <button id="deleteSection" type="button" class="btn btn-danger m-3" onclick="deleteSection()">Delete Section</button>
         <div id="buttonGroup"">
@@ -47,6 +48,7 @@
 const titleInputField = document.getElementById('titleInput');
 const textInputField = document.getElementById('textInput');
 const buttonTextInputField = document.getElementById('buttonTextInput');
+const buttonUrlInputField = document.getElementById('buttonUrlInput');
 const sectionNameLabel = document.getElementById('sectionName');
 const sectionInputField = document.getElementById('sectionInput');
 let selectedSection = '';
@@ -74,13 +76,13 @@ function selectSection(sectionName){
         body: JSON.stringify(data),
     })
         .then(response => response.json())
-        .then(data => { sectionInputField.value = data.section_name;titleInputField.value = data.title; textInputField.innerText = data.text; buttonTextInputField.value = data.button_text;})
+        .then(data => { sectionInputField.value = data.section_name;titleInputField.value = data.title; textInputField.innerText = data.text; buttonTextInputField.value = data.button_text; buttonUrlInputField.value = data.button_URL})
         .catch(error => console.error(error));
 
 }
 
 function updateSection(){
-    const data = {"oldSectionName": selectedSection, "newSectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value}
+    const data = {"oldSectionName": selectedSection, "newSectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value, "buttonUrl": buttonUrlInputField.value}
     fetch('/admin/updateContent', {
         method: "POST",
         headers: {
@@ -104,7 +106,7 @@ createSectionBtn.addEventListener('click',(event) => {
 
 function createSection(){
 
-    const data = {"SectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value}
+    const data = {"SectionName": sectionInputField.value, "title": titleInputField.value, "text": textInputField.value, "buttonText": buttonTextInputField.value, "buttonUrl": buttonUrlInputField.value}
     fetch('/admin/createContent', {
         method: "POST",
         headers: {
@@ -141,6 +143,7 @@ function emptyInputFields(){
     titleInputField.value = '';
     textInputField.innerText = '';
     buttonTextInputField.value = '';
+    buttonUrlInputField.value = '';
     sectionInputField.value = '';
 }
 function updateButton(action){

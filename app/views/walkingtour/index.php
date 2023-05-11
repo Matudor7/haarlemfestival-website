@@ -24,7 +24,7 @@
 <p id="header-text" class="text-dark"><?php echo $this->getContent('Header')->getText()?></p>
 </div>
 <button id="header-button-show" class="rounded-pill">Show me around</button>
-<button id="header-button-program" class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('Header')->getButtonText()?></button>
+<button id="header-button-program" class="rounded-pill" onClick="<?php echo $this->getContent('Header')->getButtonURL()?>"><?php echo $this->getContent('Header')->getButtonText()?></button>
 </section>
 
 <div class="container pt-5 text-center" >
@@ -65,7 +65,7 @@
             <?php } ?>
     </div>
         
-        <button class="rounded-pill" onClick="openTicketForm()"><?php echo $this->getContent('prices-section')->getButtonText()?></button>
+        <button class="rounded-pill" onClick="<?php echo $this->getContent('prices-section')->getButtonURL()?>"><?php echo $this->getContent('prices-section')->getButtonText()?></button>
     </div>
 </div>
 </div>
@@ -190,7 +190,7 @@
           <h3><?php echo $content->getTitle()?></h3>
           <p><?php echo $content->getText()?></p>
           <br>
-          <button class="rounded-pill" href="#"><?php echo $content->getButtonText()?></button>
+          <a href="<?php echo $content->getButtonURL()?>"><button class="rounded-pill"><?php echo $content->getButtonText()?></button></a>
 
       </div>
       <?php }} ?>

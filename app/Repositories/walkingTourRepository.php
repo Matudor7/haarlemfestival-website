@@ -199,7 +199,7 @@ class walkingTourRepository extends Repository{
 }
 
     public function getContentByElement(string $sectionName){
-        $query = "SELECT Id, section_name, title, text, button_text, isCreated
+        $query = "SELECT Id, section_name, title, text, button_text, isCreated, button_URL
             FROM walkingTour_content WHERE section_name = :sectionName";
 
         try{
@@ -213,6 +213,7 @@ class walkingTourRepository extends Repository{
                 $walkingTourContent->setId($row['Id']);
                 $walkingTourContent->setSection($row['section_name']);
                 $walkingTourContent->setIsCreated($row['isCreated']);
+                $walkingTourContent->setButtonURL($row['button_URL']);
 
                 if(is_null($row['text'])){
                     $walkingTourContent->setText('none');
@@ -253,11 +254,11 @@ class walkingTourRepository extends Repository{
         } catch(PDOException $e){echo $e;}
     }
 
-    public function UpdateContent(string $oldSectionName, string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput){
+    public function UpdateContent(string $oldSectionName, string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput, string $buttonUrlInput){
 
         $content = $this->getContentByElement($oldSectionName);
 
-        $query = "UPDATE walkingTour_content SET section_name = :sectionName, title = :title, text = :text, button_text = :buttonText WHERE Id = :id";
+        $query = "UPDATE walkingTour_content SET section_name = :sectionName, title = :title, text = :text, button_text = :buttonText, button_URL = :buttonUrl WHERE Id = :id";
 
         try{
             $statement = $this->connection->prepare($query);
@@ -267,12 +268,14 @@ class walkingTourRepository extends Repository{
             $text = htmlspecialchars($textInput);
             $buttonText = htmlspecialchars($buttonTextInput);
             $id = $content->getId();
+            $buttonUrl = htmlspecialchars($buttonUrlInput);
 
             $statement->bindParam(':sectionName', $sectionName);
             $statement->bindParam(':title', $title);
             $statement->bindParam(':text', $text);
             $statement->bindParam(':buttonText', $buttonText);
             $statement->bindParam(':id', $id, PDO::PARAM_INT);
+            $statement->bindParam(':buttonUrl', $buttonUrl);
 
             $statement->execute();
 
@@ -281,9 +284,9 @@ class walkingTourRepository extends Repository{
         }
     }
 
-    public function createContent(string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput){
-        $query = "INSERT INTO walkingTour_content (section_name, title, text, button_text, isCreated) 
-                    VALUES (?,?,?,?,?)";
+    public function createContent(string $sectionNameInput, string $titleInput, string $textInput, string $buttonTextInput, string $buttonUrlInput){
+        $query = "INSERT INTO walkingTour_content (section_name, title, text, button_text, isCreated, button_URL) 
+                    VALUES (?,?,?,?,?,?)";
 
         try {
             $statement = $this->connection->prepare($query);
@@ -293,6 +296,7 @@ class walkingTourRepository extends Repository{
                 htmlspecialchars($textInput),
                 htmlspecialchars($buttonTextInput),
                 1,
+                htmlspecialchars($buttonUrlInput),
             ));
         } catch (PDOException $e) {
             echo $e->getMessage();

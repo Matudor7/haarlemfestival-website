@@ -19,13 +19,22 @@ $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 $payment = $mollie->payments->get($paymentObject->getPaymentId());
 $order = $orderService->getOrderByID($_GET['order_id']);
 
+$paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+$shoppingCartService = new ShoppingCartService();
+
+/* $mollie = new Mollie\Api\MollieApiClient();
+$mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
+
+$payment = $mollie->payments->get($paymentObject->getPaymentId()); */
+
+
 
 if ($payment->isPaid()) {
     //TODO move the logic to the controller
 
 
+    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);
 
-    $shoppingCart = $shoppingCartService->getCartOfUser(0);
 
 
     $email = $paymentObject->getEmail();

@@ -14,7 +14,7 @@
 <?php
 include __DIR__ . '/../nav.php';
 ?>
-<main>
+<main id="main">
     <div id="titleSection" class="text-center">
         <h1 id="title"><?php echo $this->getAllAccessContent('title')?></h1>
         <h3 id="subtitle"><?php echo $this->getAllAccessContent('subtitle')?></h3>

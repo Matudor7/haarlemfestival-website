@@ -22,4 +22,9 @@ class OrderService
     }
 
 
+    public function changePaymentStatus($order_id, $payment_status){
+       $orderRepo = new OrderRepository();
+        $orderRepo->changePaymentStatus($order_id, $payment_status);
+    }
+
 }

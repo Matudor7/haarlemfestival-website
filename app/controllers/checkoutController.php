@@ -4,7 +4,6 @@ session_start();
 require __DIR__ . '/controller.php';
 
 require_once __DIR__ . '/../Services/paymentService.php';
-
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 require_once __DIR__ . '/../Services/smtpService.php';
 require_once __DIR__ . '/../Services/OrderService.php';
@@ -51,6 +50,7 @@ class CheckoutController extends Controller{
             $order->setInvoiceDate();
             $order->setInvoiceNumber();
             $order->setPaymentId(1);
+            $order->setPaymentStatus("Paid");
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
@@ -80,7 +80,8 @@ class CheckoutController extends Controller{
             ],
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
-            "webhookUrl"  => "https://222a-31-151-76-20.ngrok-free.app/checkout/webhook",
+
+            "webhookUrl"  => " https://fa62-145-81-207-151.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -92,11 +93,14 @@ class CheckoutController extends Controller{
         ]);
 
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
+
+        //payment is never gonna be inserted in the database
+
        // header("Location: " . $payment->getCheckoutUrl());
     }
 
-
     function return(){
+        require_once __DIR__ . '/../Services/paymentService.php';
         $shoppingCartService = new ShoppingCartService();
 
         //Ale
@@ -105,13 +109,40 @@ class CheckoutController extends Controller{
        // $itemsFromShoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         //$paymentDetails = $paymentService->getByPaymentId();
 
+        //Andy
+        $this->updateAvailability($itemsFromShoppingCart);
+
         $smtpService = new smtpService();
+        $this->getMolliePayment();
+        
         require_once __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/checkout/return.php';
     }
 
+    private function getMolliePayment(){
+        require_once __DIR__ . '/../vendor/autoload.php';
+        $mollie = new Mollie\Api\MollieApiClient();
+        $paymentService = new PaymentService();
+        $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
+        $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+        echo $_SESSION['user_id'];
+        $payment = $mollie->payments->get($paymentObject->getPaymentId());
+    }
+
     function webhook(){
         require __DIR__ . '/../views/checkout/webhook.php';
+    }
+
+    function updateAvailability($shoppingCart){
+        require_once __DIR__ . '/../Services/productService.php';
+        $productService = new ProductService();
+
+        $products = $shoppingCart->getProducts();
+        $amounts = $shoppingCart->getAmount();
+
+        for ($i = 0; $i < count($products); $i++){
+            $productService->updateProductAvailability($products[$i], $amounts[$i]);
+        }
     }
 }
 ?>

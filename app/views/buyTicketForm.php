@@ -82,6 +82,34 @@
         updateProductList(dateDropdown.value, selectedTime)
     })
 
+    /*function updateTimeOptions(selectedDate){
+        timeDropdown.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.text = "Select Time"
+        timeDropdown.add(defaultOption);
+
+        <//?php
+        $times = array();
+        foreach($tickets as $ticket) {
+            $time = $ticket->getProductTime();?>
+
+        var date = "<//?php echo $ticket->getProductDate();?>";
+        var time = "<//?php echo $ticket->getProductTime();?>";
+
+        if (date == selectedDate) {
+            <//?php if (!in_array($time, $times)) { continue; }
+            $times[] = $time;
+            ?>
+
+            var option = document.createElement("option");
+            option.text = time;
+            option.value = time;
+            timeDropdown.add(option);
+        }
+                <//?php } ?>
+
+    }*/
+
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
@@ -100,26 +128,31 @@
 
         <?php }?>
     }
-
+    
     function updateProductList(selectedDate, selectedTime){
         productListDiv.innerHTML = "";
 
         <?php foreach ($tickets as $ticket) {?>
         var id = "<?php echo $ticket->getId();?>";
         var name = "<?php echo $ticket->getName();?>";
-        var price = "<?php echo $ticket->getPrice();?>";
+        var price = "<?php echo '€ '.$ticket->getPrice();?>";
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
         var location = "<?php echo $ticket->getLocation();?>";
+        var availability = "<?php echo $ticket->getAvailableSeats();?>";
 
-        if (date == selectedDate && selectedTime == null){
+        if (date == selectedDate && selectedTime == null && availability > 0){
 
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
 
-        } else if (date == selectedDate && time == selectedTime){
+        } else if (date == selectedDate && time == selectedTime && availability > 0){
 
             var product = createProduct(id, name, price, date, time, location)
+            productListDiv.appendChild(product);
+        } else if (date == selectedDate && time == selectedTime && availability <= 0){
+            price = "No Tickets Available";
+            var product = createProduct(0, name, price, selectedDate, selectedTime, location)
             productListDiv.appendChild(product);
         }
         <?php }?>
@@ -140,7 +173,7 @@
         h6.innerHTML = ticketName;
 
         var small = document.createElement("small");
-        small.innerHTML ="€ " + ticketPrice;
+        small.innerHTML = ticketPrice;
 
         var p = document.createElement("p");
         p.setAttribute("class", "mb-1");
@@ -160,22 +193,27 @@
     }
 
      function selectProduct(productId){
-         selectedProduct = productId;
-        productAmount = 1;
 
-         const data = {"productId": productId}
-                fetch('/walkingTour/selectTicket', {
+        if(productId == 0){
+             productInfoField.value = "Sold Out"
+             productAmount.value = "X";
+         } else {
+            selectedProduct = productId;
+            productAmount = 1;
+
+            const data = {"productId": productId}
+            fetch('/api/buyticketform/selectTicket', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
             })
-                    .then(response => response.json())
-                    .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
-                    .catch(error => console.error(error));
+                .then(response => response.json())
+                .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
+                .catch(error => console.error(error));
 
-
+        }
     }
 
     function changeAmount(number){
@@ -190,12 +228,15 @@
 
     function addToCart(){
 
-        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>
+        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
+        var eventType = <?php echo $thisEvent->getId()?>;
 
         const data = {"userId": userId,
         "amount": productAmount,
-        "productId": selectedProduct}
-        fetch('/walkingTour/addToCart', {
+        "productId": selectedProduct,
+        "eventType": eventType,
+        "note": "trial shopping cart orders"}
+        fetch('/api/buyticketform/addToCart', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -203,10 +244,10 @@
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => alert(data))
             .catch(error => console.error(error));
 
-        closeTicketForm();
+            closeTicketForm();
     }
 
     function addKids(){
@@ -258,12 +299,15 @@
         div.innerText = "";
         kidsAmount = 0;
     }
+    function messageBox(){
+
+    }
 </script>
 <style>
     .form-popup {
         display: none;
         position: fixed;
-        top: 63%;
+        top: 53%;
         left: 50%;
         transform: translate(-50%, -50%);
         border: 3px solid #000000;

@@ -36,7 +36,6 @@ class LoginController extends Controller
             $this->index();
         }
     }
-
     public function logOut(){
        
         session_destroy();

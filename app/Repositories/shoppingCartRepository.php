@@ -28,7 +28,7 @@ class ShoppingCartRepository extends Repository{
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 $shoppingCart->setUserId($row['user_id']);
                 $shoppingCart->addProduct($row['product_id']);
-                $shoppingCart->addProduct($row['event_type']);
+                $shoppingCart->setEventType($row['event_type']);
                 $shoppingCart->addAmount($row['amount']);
                 $shoppingCart->addInfo($row['additional_info']);
             }
@@ -62,8 +62,10 @@ class ShoppingCartRepository extends Repository{
     }
 
     public function removeCartFromUser($user_id){
+
+        $query = "DELETE FROM shopping_cart WHERE user_id=:userId";
         try{
-            $statement = $this->connection->prepare("DELETE FROM shopping_cart WHERE user_id=:userId");
+            $statement = $this->connection->prepare($query);
 
             $statement->bindParam(':userId', $user_id);
     
@@ -73,13 +75,44 @@ class ShoppingCartRepository extends Repository{
         }
     }
 
-    public function addProducts(int $userId, int $productId, int $amount){
+    public function addProducts(int $userId, int $productId, int $amount, int $eventType, string $note){
+
+        $query = "INSERT INTO shopping_cart (user_id, product_id, amount, event_type, additional_info) VALUES (?, ?, ?, ?, ?)";
         try{
-            $statement = $this->connection->prepare("INSERT INTO shopping_cart (user_id, product_id, amount)
-                                                        VALUES (?, ?, ?)");
-            $statement->execute(array($userId, $productId, $amount));
+            $statement = $this->connection->prepare($query);
+            $statement->execute(array($userId, $productId, $amount, $eventType, $note));
         } catch (PDOException $e){
             echo $e->getMessage();
         }
+    }
+
+    public function updateProductAmount(int $id, int $amount){
+        $query = "UPDATE shopping_cart SET amount = :amount WHERE id = :id";
+        try{
+            $statement = $this->connection->prepare($query);
+
+            $statement->bindParam(':amount', $amount, PDO::PARAM_INT);
+            $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+            $statement->execute();
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    public function existingCart(int $userId, int $productId){
+        $query = "SELECT id FROM shopping_cart WHERE product_id = :productId && user_id = :userId";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':userId', $userId);
+            $statement->bindParam(':productId', $productId);
+            $statement->execute();
+
+            $cartId = $statement->fetch();
+            return $cartId[0];
+        }
+        catch(PDOException $e){echo $e;}
+
     }
 }

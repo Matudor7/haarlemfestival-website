@@ -13,6 +13,7 @@
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
 <div id="bodyDiv">
 <div id="SectionButtons">
+    <a href="/walkingTour"><button id="goToPage" type="button" class="btn btn-secondary m-2 w-5">Go To Page</button></a>
     <button id="createSectionbtn" type="button" class="btn btn-success m-4" onClick="">Create Section</button>
     <?php foreach($allContent as $content){?>
     <button id="<?php echo $content->getId()?>" type="button" class="btn btn-primary m-4" onClick="selectSection('<?php echo $content->getSection()?>')"><?php echo $content->getSection()?></button>
@@ -116,6 +117,7 @@ function createSection(){
         .catch(error => console.error(error));
 
     displayForm('close');
+    location.reload();
 }
 
 function deleteSection(){
@@ -132,6 +134,7 @@ function deleteSection(){
         .catch(error => console.error(error));
 
     displayForm('close');
+    location.reload()
 }
 
 function emptyInputFields(){

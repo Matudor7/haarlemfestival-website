@@ -26,5 +26,9 @@ class ProductService{
         $productRepo = new ProductRepository();
         return $productRepo ->getProductNameById($id);
     }
+    public function updateProductAvailability($productId, $amount){
+        $productRepo = new ProductRepository();
+        $productRepo->updateProductAvailability($productId, $amount);
+    }
 }
 ?>

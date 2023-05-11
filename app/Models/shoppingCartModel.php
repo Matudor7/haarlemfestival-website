@@ -5,6 +5,7 @@ class ShoppingCart implements JsonSerializable{
     private $product_id = []; //int array
     private $amount = []; //int array
     private int $event_type;
+    private $additional_info = []; //string array
 
     /**
      * @return int
@@ -21,7 +22,6 @@ class ShoppingCart implements JsonSerializable{
     {
         $this->event_type = $event_type;
     }
-    private $additional_info = []; //string array
 
     #[ReturnTypeWillChange]
     public function jsonSerialize(){
@@ -58,7 +58,10 @@ class ShoppingCart implements JsonSerializable{
         return $this->additional_info;
     }
 
-    public function addInfo(string $additional_info){
+    public function addInfo($additional_info){
+        if(is_null($additional_info)){
+            $additional_info = "";
+        }
         array_push($this->additional_info, $additional_info);
     }
 }

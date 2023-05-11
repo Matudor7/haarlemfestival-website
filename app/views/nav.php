@@ -47,9 +47,6 @@
                     href="<?php echo $event->getUrlRedirect(); ?>"><?php echo $event->getName(); ?></a>
             </li>
             <?php } ?>
-           <!-- <li>
-                <a class='nav-link text-light fw-bold' style='color: white;' href='/user/registerUser'>Create an Account</a>
-            </li>-->
 
             <li class="nav-item" style="margin-top:3px">
                 <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas"
@@ -131,6 +128,7 @@
                     onclick="window.location.href = '/checkout'">Continue to Checkout</button>
                 <button class="mt-5 w-50 btn btn-primary" type="button"
                     onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
+                <button class="btn btn-danger" type="button" onClick="update()">Availability</button>
             </div>
 
     </nav>
@@ -152,6 +150,25 @@
 </body>
 
 </html>
+<script>
+    //this is only for testing I'll delete later on
+    function update(){
+
+        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
+
+        const data = {"userId": userId }
+        fetch('/api/shoppingcart/updateAvailability', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }
+</script>
 <style>
 .form-popup {
     display: none;

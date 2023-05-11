@@ -6,8 +6,10 @@ require __DIR__ . '/../Services/ContentService.php';
 class HomeController extends Controller{
     public function index(){
         if(!isset($_SESSION['user_id'])){
-            $_SESSION['user_id'] = rand(999999, 2000000);
+           $_SESSION['user_id'] = rand(999999, 2000000);
         }
+
+        //echo $_SESSION['user_id'];
 
         $contentService = new ContentService;
         $contents= $contentService->getAllContent();

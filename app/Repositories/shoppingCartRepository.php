@@ -101,7 +101,7 @@ class ShoppingCartRepository extends Repository{
         }
     }
     public function existingCart(int $userId, int $productId){
-        $query = "SELECT id FROM shopping_cart WHERE product_id = :productId && user_id = :userId";
+        $query = "SELECT id FROM shopping_cart WHERE product_id = :productId AND user_id = :userId";
 
         try{
             $statement = $this->connection->prepare($query);
@@ -110,7 +110,7 @@ class ShoppingCartRepository extends Repository{
             $statement->execute();
 
             $cartId = $statement->fetch();
-            return $cartId[0];
+            return $cartId;
         }
         catch(PDOException $e){echo $e;}
 

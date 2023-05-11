@@ -70,7 +70,7 @@ class buyticketformController{
     private function checkExistingCart(int $userId, int $productId){
 
         $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
-        if ($shoppingCartId != NULL){
+        if ($shoppingCartId != NULL ){
             return true;
         }
 

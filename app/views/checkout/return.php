@@ -33,7 +33,8 @@ if ($payment->isPaid()) {
     //TODO move the logic to the controller
 
 
-    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION[0]);
+    $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+
 
 
 

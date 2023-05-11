@@ -42,7 +42,7 @@ class buyticketformController{
 
                 if ($this->checkAvailability($amount, $productId)) {
                     if($this->checkExistingCart($userId, $productId)) {
-                        $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId);
+                        $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId)[0];
                         $this->shoppingCartService->updateProductAmount($shoppingCartId, $amount);}
                     else{
                         $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);}

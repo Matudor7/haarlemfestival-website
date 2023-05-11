@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
 require_once __DIR__ . '/repository.php';
-//require_once __DIR__ . '/../Models/paymentModel.php';
+require_once __DIR__ . '/../Models/paymentModel.php';
 
 class PaymentRepository extends Repository{
 
@@ -42,7 +42,7 @@ class PaymentRepository extends Repository{
             $statement->bindParam(':id', $id);
 
             $statement->execute();
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'PaymentDetailsModel');
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'paymentDetailsModel');
 
             $payment_details = $statement->fetch();
 

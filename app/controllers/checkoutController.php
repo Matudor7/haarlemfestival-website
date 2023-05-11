@@ -54,13 +54,14 @@ class CheckoutController extends Controller{
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
+
         }
     }
 
     private function paymentProcess($order, $ticket){
         $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
-
+        require_once __DIR__ . '/../Models/Order.php';
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
@@ -81,7 +82,7 @@ class CheckoutController extends Controller{
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
 
-            "webhookUrl"  => " https://fa62-145-81-207-151.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://f092-31-151-76-20.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -95,9 +96,9 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        $payment = $mollie->payments->get($paymentObject->getPaymentId());
 
-        header("Location: " . $payment->getCheckoutUrl());
+        header("Location: ". $payment->getCheckoutUrl());
+        $payment = $mollie->payments->get($paymentObject->getPaymentId());
     }
 
     function return(){
@@ -136,6 +137,7 @@ class CheckoutController extends Controller{
         
                 $message = "Here is your invoice, thanks for buying your ticket with us!!!";
                 $pdfService = new PDFGenerator();
+            if ($payment->isPaid()) {
                 $html = "<html>
         <head>
             <title>Invoice</title>
@@ -282,7 +284,7 @@ class CheckoutController extends Controller{
         }
         
         require_once __DIR__ . '/navbarRequirements.php';
-        header("Location: http://localhost/");
+      //  header("Location: http://localhost/");
     }
 
     // private function getMolliePayment(){
@@ -310,5 +312,5 @@ class CheckoutController extends Controller{
             $productService->updateProductAvailability($products[$i], $amounts[$i]);
         }
     }
-}
+}}
 ?>

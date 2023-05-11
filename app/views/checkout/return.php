@@ -14,9 +14,9 @@ $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
 $payment = $mollie->payments->get($paymentObject->getPaymentId()); */
 
-//$payment->isPaid() == true;
+$payment->isPaid() == true;
 
-//if ($payment->isPaid()) {
+if ($payment->isPaid()) {
     //TODO move the logic to the controller
 
     $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
@@ -161,7 +161,6 @@ $payment = $mollie->payments->get($paymentObject->getPaymentId()); */
         margin: 0;
     }
 </style>";
-        echo $order->getOrderId();
         $invoicePdf = $pdfService->createPDF($order->getOrderId(), $_SESSION['user_id'], $html);
 
 
@@ -179,7 +178,7 @@ $payment = $mollie->payments->get($paymentObject->getPaymentId()); */
 
     //$shoppingCartService->removeCartFromUser($_SESSION['user_id']);
     header("Location: http://localhost/");
-//} else {
-    //echo "Payment Failed...";
-//}
+} else {
+    echo "Payment Failed...";
+}
 ?>

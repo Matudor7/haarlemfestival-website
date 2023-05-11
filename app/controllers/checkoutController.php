@@ -55,7 +55,6 @@ class CheckoutController extends Controller{
             $this->paymentProcess($newOrder, $tickets);
         }
     }
-
     private function paymentProcess($order, $ticket){
         $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
@@ -79,7 +78,7 @@ class CheckoutController extends Controller{
             ],
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
-            "webhookUrl"  => " https://fa62-145-81-207-151.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://9bb5-31-151-76-20.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -92,7 +91,7 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
         //payment is never gonna be inserted in the database
 
-       // header("Location: " . $payment->getCheckoutUrl());
+        header("Location: " . $payment->getCheckoutUrl());
     }
 
     function return(){

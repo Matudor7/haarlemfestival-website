@@ -29,11 +29,8 @@ class CheckoutController{
             $payment->setEmail($paymentData["email"]);
             $payment->setAddress($paymentData["address"]);
             $payment->setZip($paymentData["zip"]);
+            $payment->setPhoneNumber($paymentData["phone_number"]);
             $payment->setPaymentMethod($paymentData["payment_method"]);
-            $payment->setCardName($paymentData["card_name"]);
-            $payment->setCardNumber($paymentData["card_number"]);
-            $payment->setCardExpiration($paymentData["card_expiration"]);
-            $payment->setCvv($paymentData["CVV"]);
             $payment->setTotal($paymentData["total"]);
 
             $this->paymentService->insert($payment);

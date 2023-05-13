@@ -65,7 +65,6 @@ class DanceController extends Controller{
             } else {
                 throw new Exception("This artist does not have a detail page yet. Please check again later.");
             }            
-
         } catch (Exception $e) {
             echo "An error occurred: " . $e->getMessage();
         }

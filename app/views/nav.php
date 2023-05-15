@@ -20,7 +20,7 @@
         <a class="navbar-brand px-0 mx-0 py-0" href="/">
             <img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">
             <div class="share">
-                <h5 style="color: white;">Share this page!</h5>
+                
                 <button id="twitter-button" class="btn btn-primary mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-twitter" viewBox="0 0 16 16">

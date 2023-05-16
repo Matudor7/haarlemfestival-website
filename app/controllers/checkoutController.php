@@ -7,7 +7,10 @@ require_once __DIR__ . '/../Services/paymentService.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 require_once __DIR__ . '/../Services/smtpService.php';
 require_once __DIR__ . '/../Services/OrderService.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Order.php';
+require_once __DIR__ . '/../Models/ticket.php';
+require_once __DIR__ . '/../Services/pdfGenerator.php';
 
 
 
@@ -82,7 +85,7 @@ class CheckoutController extends Controller{
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
 
-            "webhookUrl"  => "https://f092-31-151-76-20.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://90cb-77-250-214-48.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -117,8 +120,9 @@ class CheckoutController extends Controller{
 
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
-
+        $orderService =  new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
+        $order = $orderService->getOrderById($_GET['order_id'])[0];
 
         if ($payment->isPaid()) {
             //TODO move the logic to the controller
@@ -134,7 +138,8 @@ class CheckoutController extends Controller{
         
            // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
             //$message .= nl2br("Here your order invoice: \n");
-        
+
+
                 $message = "Here is your invoice, thanks for buying your ticket with us!!!";
                 $pdfService = new PDFGenerator();
             if ($payment->isPaid()) {
@@ -156,22 +161,22 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'><?=$order->getInvoiceNumber();?></td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'><?php echo $order->invoice_number; ?></td>
                 </tr>
                 <tr>
-                    <td style='border: none;'><?=$payment->getFullName();?></td>
-                    <td style='border: none;'><?=$payment->getEmail();?></td>
+                 <td style='border: none;'><?php echo $paymentObject->first_name . '  '. $paymentObject->last_name;?> </td>
+                    <td style='border: none;'><?=$paymentObject->email?></td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'><?=$order->getInvoiceDate();?></td>
+                    <td style='border: none;'><?=$order->invoice_date?></td>
                 </tr>
                 <tr>
-                    <td style='border: none;' ><?=$payment->getAddress();?></td>
-                    <td style='border: none;'><?=$payment->getPhoneNumber();?></td>
+                    <td style='border: none;' ><?=$paymentObject->address?></td>
+                    <td style='border: none;'><?=$paymentObject->phone_number?></td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'><?=$order->getInvoiceDate();?></td>
+                    <td style='border: none;'><?=$order->invoice_date?></td>
                 </tr>
                 <tr>
-                    <td style='border: none;' ><?=$payment->getZip();?></td>
+                    <td style='border: none;' ><?=$paymentObject->zip?></td>
                 </tr>
             </table>
         </div><br><br>
@@ -187,13 +192,13 @@ class CheckoutController extends Controller{
             </thead>
             <tbody>
            <?php 
-            foreach ($shoppingCart->getProducts() as $product) {
-                $subtotal += $product->calculateTotalPrice($shoppingCart->getAmount(), $product->getPrice());
+            foreach ($shoppingCart->product_id as $item) {
+                $subtotal += $item->calculateTotalPrice($shoppingCart->amount, $item->price);
             <tr>
-                <td><?=$product->getName();?></td>
-                <td><?=$shoppingCart->getAmount();?></td>
-                <td>&#8364;<?=$product->getPrice();?></td>
-                <td><?=$product->calculateTotalPriceForProduct($shoppingCart->getAmount(), $product->getPrice());?></td>
+                <td><?=$item->name?></td>
+                <td><?=$shoppingCart->amount;?></td>
+                <td>&#8364;<?=$item->price?></td>
+                <td><?=$item->calculateTotalPriceForProduct($shoppingCart->amount, $item->price;?></td>
             </tr>
             <?php } ?>
             <tr>
@@ -266,12 +271,12 @@ class CheckoutController extends Controller{
                 margin: 0;
             }
         </style>";
-                $invoicePdf = $pdfService->createPDF($order->getOrderId(), $_SESSION['user_id'], $html);
-            
+                $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
+            $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf);
             
             //Andy
-            $this->updateAvailability($itemsFromShoppingCart);
+            //$this->updateAvailability($itemsFromShoppingCart);
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
 

@@ -79,22 +79,38 @@
             // Iterate through each table row
             for (var i = 0; i < table.rows.length; i++) {
                 var row = [];
-                
+
                 // Iterate through each selected column in the row
                 for (var j = 0; j < selectedColumns.length; j++) {
-                var cell = table.rows[i].cells[selectedColumns[j]].innerText;
-                row.push('"' + cell + '"');
+                var columnIndex = selectedColumns[j];
+                var cell = table.rows[i].cells[columnIndex];
+                var cellValue;
+
+                if (columnIndex === table.rows[i].cells.length - 1 && i > 0) {
+                    // Handle select element in the last column for rows after the first row
+                    cellValue = cell.querySelector('select').value;
+                } else {
+                    cellValue = cell.innerText;
                 }
 
-                csv.push(row.join(','));
+                // Split the cell value into characters and add them individually as CSV cells
+                row.push(cellValue.trim());
+                }
+
+                // Join the row with commas and add to the CSV array
+                csv.push(row.join(';'));
             }
 
+            // Join all rows with newlines and create the CSV content
+            var csvContent = csv.join('\n');
+
+            console.log(csvContent);
+
             // Download the CSV file
-            var csvContent = 'data:text/csv;charset=utf-8,' + csv.join('\n');
-            var encodedUri = encodeURI(csvContent);
+            var encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
             var link = document.createElement('a');
             link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'order_data.csv');
+            link.setAttribute('download', 'order_data ' + Date() + '.csv');
             document.body.appendChild(link);
             link.click();
         }

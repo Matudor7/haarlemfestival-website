@@ -94,7 +94,7 @@
             var encodedUri = encodeURI(csvContent);
             var link = document.createElement('a');
             link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'table_data.csv');
+            link.setAttribute('download', 'order_data.csv');
             document.body.appendChild(link);
             link.click();
         }

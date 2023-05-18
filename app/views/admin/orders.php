@@ -14,7 +14,7 @@
     ?>
     <div class="container-fluid">
         <h1>Manage Orders</h1>
-        <button class="btn btn-success" type="button" style="float: right; margin-left: 10px" onclick="getAllCheckedBoxes()">Export Table</button>
+        <button class="btn btn-success" type="button" style="float: right; margin-left: 10px" onclick="exportToCsv()">Export Table</button>
         <button class="btn btn-primary" type="button" style="float: right" onclick="window.location.href = '/admin/generateApiKey' ">Generate Key</button>
         <section>
             <table class="table" id="ordersTable">
@@ -61,61 +61,42 @@
         </section>
     </div>
     <script>
-        function getAllCheckedBoxes(){
-            const headerCheckboxes = document.querySelectorAll('.headerCheckbox');
+        function exportToCsv(){
+            var table = document.getElementById('ordersTable');
+            var checkboxes = document.getElementsByClassName('headerCheckbox');
+            var selectedColumns = [];
 
-            const columnData = [];
-
-            headerCheckboxes.forEach((checkbox, columnIndex) =>{
-               if(checkbox.checked){
-                    const cells = document.querySelectorAll(`#ordersTable td:nth-child(${columnIndex + 1})`);
-
-                    const column = Array.from(cells).map(cell => cell.textContent.trim());
-
-                    columnData.push(column);
-               } 
-            });
-
-            const csvString = convertToCsv(columnData);
-        }
-
-        function convertToCsv(array){
-            const csvRows = [];
-
-            for (const row of array) {
-                const csvColumns = [];
-
-                for (const cellValue of row) {
-                let csvCellValue = cellValue;
-
-                // Escape double quotes by doubling them
-                csvCellValue = csvCellValue.replace(/"/g, '""');
-
-                // Enclose cell value in double quotes if it contains a comma, line break, or double quotes
-                if (csvCellValue.includes(',') || csvCellValue.includes('\n') || csvCellValue.includes('"')) {
-                    csvCellValue = `"${csvCellValue}"`;
+            // Get the selected columns
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                var columnIndex = checkboxes[i].parentNode.cellIndex;
+                selectedColumns.push(columnIndex);
                 }
-
-                csvColumns.push(csvCellValue);
-                }
-
-                csvRows.push(csvColumns.join(','));
             }
 
-            csvRows.join('\n');
-            downloadCsv('order_export.csv', csvRows);
-    }
+            var csv = [];
 
-        function downloadCsv(filename, array){
-            const downloadElement = document.createElement('a');
+            // Iterate through each table row
+            for (var i = 0; i < table.rows.length; i++) {
+                var row = [];
+                
+                // Iterate through each selected column in the row
+                for (var j = 0; j < selectedColumns.length; j++) {
+                var cell = table.rows[i].cells[selectedColumns[j]].innerText;
+                row.push('"' + cell + '"');
+                }
 
-            downloadElement.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(array));
-            downloadElement.setAttribute('download', filename);
-            downloadElement.style.display = 'none';
+                csv.push(row.join(','));
+            }
 
-            document.body.appendChild(downloadElement);
-            downloadElement.click();
-            document.body.removeChild(downloadElement);
+            // Download the CSV file
+            var csvContent = 'data:text/csv;charset=utf-8,' + csv.join('\n');
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'table_data.csv');
+            document.body.appendChild(link);
+            link.click();
         }
 
         function updateField(id){

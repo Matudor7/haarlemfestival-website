@@ -14,28 +14,29 @@
     ?>
     <div class="container-fluid">
         <h1>Manage Orders</h1>
+        <button class="btn btn-success" type="button" style="float: right; margin-left: 10px" onclick="getAllCheckedBoxes()">Export Table</button>
         <button class="btn btn-primary" type="button" style="float: right" onclick="window.location.href = '/admin/generateApiKey' ">Generate Key</button>
         <section>
             <table class="table" id="ordersTable">
                 <thead>
                     <tr>
                         <th scope="col">
-                        <input type="checkbox" id="orderIdCheckbox" checked>   
+                        <input type="checkbox" id="orderIdCheckbox" class="headerCheckbox" checked>   
                         Order ID</th>
                         <th scope="col">
-                        <input type="checkbox" id="paymentIdCheckbox" checked>
+                        <input type="checkbox" id="paymentIdCheckbox" class="headerCheckbox" checked>
                         Payment ID</th>
                         <th scope="col">
-                        <input type="checkbox" id="invoiceNumberCheckbox" checked>    
+                        <input type="checkbox" id="invoiceNumberCheckbox" class="headerCheckbox" checked>    
                         Invoice Number</th>
                         <th scope="col">
-                        <input type="checkbox" id="invoiceDateCheckbox" checked>    
+                        <input type="checkbox" id="invoiceDateCheckbox" class="headerCheckbox" checked>    
                         Invoice Date</th>
                         <th scope="col">
-                        <input type="checkbox" id="productsCheckbox" checked>    
+                        <input type="checkbox" id="productsCheckbox" class="headerCheckbox" checked>    
                         Products</th>
                         <th scope="col">
-                        <input type="checkbox" id="paymentStatusCheckbox" checked>    
+                        <input type="checkbox" id="paymentStatusCheckbox" class="headerCheckbox" checked>    
                         Payment Status</th>
                     </tr>
                 </thead>
@@ -60,6 +61,63 @@
         </section>
     </div>
     <script>
+        function getAllCheckedBoxes(){
+            const headerCheckboxes = document.querySelectorAll('.headerCheckbox');
+
+            const columnData = [];
+
+            headerCheckboxes.forEach((checkbox, columnIndex) =>{
+               if(checkbox.checked){
+                    const cells = document.querySelectorAll(`#ordersTable td:nth-child(${columnIndex + 1})`);
+
+                    const column = Array.from(cells).map(cell => cell.textContent.trim());
+
+                    columnData.push(column);
+               } 
+            });
+
+            const csvString = convertToCsv(columnData);
+        }
+
+        function convertToCsv(array){
+            const csvRows = [];
+
+            for (const row of array) {
+                const csvColumns = [];
+
+                for (const cellValue of row) {
+                let csvCellValue = cellValue;
+
+                // Escape double quotes by doubling them
+                csvCellValue = csvCellValue.replace(/"/g, '""');
+
+                // Enclose cell value in double quotes if it contains a comma, line break, or double quotes
+                if (csvCellValue.includes(',') || csvCellValue.includes('\n') || csvCellValue.includes('"')) {
+                    csvCellValue = `"${csvCellValue}"`;
+                }
+
+                csvColumns.push(csvCellValue);
+                }
+
+                csvRows.push(csvColumns.join(','));
+            }
+
+            csvRows.join('\n');
+            downloadCsv('order_export.csv', csvRows);
+    }
+
+        function downloadCsv(filename, array){
+            const downloadElement = document.createElement('a');
+
+            downloadElement.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(array));
+            downloadElement.setAttribute('download', filename);
+            downloadElement.style.display = 'none';
+
+            document.body.appendChild(downloadElement);
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+        }
+
         function updateField(id){
             const paymentSelect = document.getElementById("paymentStatus " + id);
 

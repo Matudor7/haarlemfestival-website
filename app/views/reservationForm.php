@@ -229,18 +229,17 @@
 
     function deleteKids(){
         const div = document.getElementById('kidsOutput')
-        kidsAmountField = document.getElementById(' ')
+        var kidsAmountField = document.getElementById('kidsAmountField')
 
-        if(kidsAmount > 0){
-            kidsAmount -= 1;
-
-        } else{
+        if(kidsAmount < 1){
             div.innerText = "";
             kidsAmount = 0;
+        } else if(kidsAmount > 0){
+            kidsAmount -= 1;
+            kidsAmountField.value = kidsAmount;
+        } else {
+            kidsAmountField.value = 'none';
         }
-    }
-    function messageBox(){
-
     }
 </script>
 <style>

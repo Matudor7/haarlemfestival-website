@@ -42,7 +42,7 @@ require __DIR__ . '/../nav.php';
 
 
     <div class="scrollable" style="height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;">
-        <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px;" onClick="openTicketForm()">Make a Reservation</button>
+        <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; position: fixed; top: 90%; right: 30px;" onClick="openForm('reservationForm')">Make a Reservation</button>
     </div>
 </div><br><br>
 <div>
@@ -87,7 +87,7 @@ require __DIR__ . '/../nav.php';
                     </div>
                 </div>
                 <div style="text-align:center; padding-bottom: 10px;">
-                    <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; margin: 0 auto;" onClick="openTicketForm()">Make a Reservation</button>
+                    <button style="background-color:#EC5F41; color:#000000; border-radius:20px; font-size:20px; margin: 0 auto;" onClick="openForm('reservationForm')">Make a Reservation</button>
                 </div>
                 </div>
 

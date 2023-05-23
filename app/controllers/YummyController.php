@@ -79,7 +79,7 @@ class YummyController extends Controller
             }
         } catch (Exception $e) {echo $e;}
 
-        require __DIR__ .'/../views/buyTicketForm.php';
+        require __DIR__ .'/../views/reservationForm.php';
     }
 }
 ?>

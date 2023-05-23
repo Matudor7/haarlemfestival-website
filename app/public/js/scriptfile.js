@@ -1,15 +1,14 @@
-function openTicketForm(){
-    document.getElementById("ticketForm").style.display="block";
+function openForm(formId){
+    document.getElementById(formId).style.display="block";
     document.getElementById("main").style.filter = "blur(5px)";
-    document.getElementById("ticketForm").style.filter="none";
+    document.getElementById(formId).style.filter="none";
 }
 
-function closeTicketForm(){
+function closeForm(formId){
     location.reload();
-    document.getElementById("ticketForm").style.display = "none";
+    document.getElementById(formId).style.display = "none";
     document.getElementById("main").style.filter = "none";
 }
-
 //DANCE JS METHODS
 function scrollToElement() {
     document.querySelector('#dance-homepage-schedule').scrollIntoView({

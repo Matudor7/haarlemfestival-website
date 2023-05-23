@@ -51,7 +51,7 @@
 
 
             <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Add to Cart</button>
-            <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeTicketForm()">Close</button>
+            <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('ticketForm')">Close</button>
 
         </form>
     </div>

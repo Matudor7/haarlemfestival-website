@@ -27,7 +27,7 @@
                     <button id="dance-button-learn-more" type="button" class="btn btn-primary rounded-pill fw-bold"
                         onClick="scrollToElement()">Learn More</button>
                     <button id="dance-button-buy-tickets" type="button" class="btn btn-primary rounded-pill fw-bold"
-                        onClick="openTicketForm()">Buy
+                        onClick="openForm('ticketForm')">Buy
                         Tickets</button>
                 </div>
                 <div class="col-md-6">

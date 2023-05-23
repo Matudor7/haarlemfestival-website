@@ -43,6 +43,9 @@ class Product implements JsonSerializable{
         return $this->starting_time;
     }
     public function getProductDate(){
+        if($this->starting_time == '0000-00-00 00:00:00'){
+            return 'none';
+        }
         $date = DateTime::createFromFormat(('Y-m-d H:i:s'),$this->starting_time);
         return $date->format('Y-m-d');
     }

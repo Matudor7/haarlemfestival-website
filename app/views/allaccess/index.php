@@ -27,7 +27,7 @@ include __DIR__ . '/../nav.php';
 
         <p id="typesDescription"><?php echo $this->getAllAccessContent('typesDescription')?></p>
     </div>
-    <button id="buyTicketBtn" class="rounded-pill" onclick="openTicketForm()"><?php echo $this->getAllAccessContent('buyTicketBtn')?></button>
+    <button id="buyTicketBtn" class="rounded-pill" onclick="openForm('ticketForm')"><?php echo $this->getAllAccessContent('buyTicketBtn')?></button>
 </main>
 <?php
 include __DIR__ . '/../footer.php';

@@ -13,7 +13,7 @@
                 $dates = array();
                 foreach($tickets as $ticket) {
                     $date = $ticket->getProductDate();
-                    if(!in_array($date, $dates)) {
+                    if(!in_array($date, $dates) && $date != "Everyday") {
                         $dates[] = $date;
                         echo "<option value=\"$date\">$date</option>";
                     }
@@ -131,7 +131,7 @@
         var location = "<?php echo $ticket->getLocation();?>";
         var availability = "<?php echo $ticket->getAvailableSeats();?>";
 
-        if (date == selectedDate && selectedTime == null && availability > 0){
+        if (date == "Everyday" || date == selectedDate && selectedTime == null && availability > 0){
 
             var product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
@@ -167,7 +167,7 @@
 
         var p = document.createElement("p");
         p.setAttribute("class", "mb-1");
-        p.innerHTML = ticketDate + " at " + ticketTime;
+        p.innerHTML = "on the "+ticketDate + " at " + ticketTime;
 
         var location = document.createElement("small");
         location.innerHTML = "Location: "+ ticketLocation;

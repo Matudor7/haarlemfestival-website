@@ -44,12 +44,15 @@ class Product implements JsonSerializable{
     }
     public function getProductDate(){
         if($this->starting_time == '0000-00-00 00:00:00'){
-            return 'none';
+            return 'Everyday';
         }
         $date = DateTime::createFromFormat(('Y-m-d H:i:s'),$this->starting_time);
-        return $date->format('Y-m-d');
+        return $date->format('dS M/Y');
     }
     public function getProductTime(){
+        if($this->starting_time == '0000-00-00 00:00:00'){
+            return 'Any Time';
+        }
         $time = DateTime::createFromFormat('Y-m-d H:i:s', $this->starting_time);
         return $time->format('H:i');
     }

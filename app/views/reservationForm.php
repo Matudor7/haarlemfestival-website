@@ -12,7 +12,7 @@
                 $dates = array();
                 foreach($tickets as $ticket) {
                     $date = $ticket->getProductDate();
-                    if(!in_array($date, $dates)) {
+                    if(!in_array($date, $dates) && $date != "Everyday") {
                         $dates[] = $date;
                         echo "<option value=\"$date\">$date</option>";
                     }
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <h4>selected timeslot here</h4>
+            <h4 id="selectedTimeslotLbl">Select your preferred Timeslot</h4>
 
             <div id="productOutput">
             <div class="btn-group" role="group">
@@ -46,7 +46,7 @@
             </div>
 
 
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Add to Cart</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Make Reservation</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('reservationForm')">Close</button>
 
         </form>
@@ -58,8 +58,9 @@
     const dateDropdown = document.getElementById('selectDateInput');
     const productListDiv = document.getElementById('productList');
     const productAmountField = document.getElementById("productAmount")
+    const selectedTimeslotLbl = document.getElementById("selectedTimeslotLbl")
     let productAmount = 0;
-    let selectedProduct;
+    let selectedTimeslot;
     let kidsAmount = 0;
     const productInfoField = document.getElementById("productInfo");
 
@@ -72,6 +73,7 @@
 
     function updateProductList(selectedDate){
         productListDiv.innerHTML = "";
+        var restaurant = "<?php echo $restaurant->getRestaurantName()?>";
 
         <?php foreach ($tickets as $ticket) {?>
         var id = "<?php echo $ticket->getId();?>";
@@ -82,14 +84,14 @@
         var location = "<?php echo $ticket->getLocation();?>";
         var availability = "<?php echo $ticket->getAvailableSeats();?>";
 
-        if (date == selectedDate && availability > 0){
+        if (date == selectedDate && location == restaurant && availability > 0){
 
-            var product = createProduct(id, name, price, date, time, location)
+            let product = createProduct(id, name, price, date, time, location)
             productListDiv.appendChild(product);
 
-        } else if (date == selectedDate && availability <= 0){
-            price = "No Tickets Available";
-            var product = createProduct(0, name, price, selectedDate, time, location)
+        } else if (date == selectedDate && location == restaurant && availability <= 0){
+            price = "No Tables Available";
+            let product = createProduct(0, name, price, selectedDate, time, location)
             productListDiv.appendChild(product);
         }
         <?php }?>
@@ -107,14 +109,14 @@
 
         var h6 = document.createElement("h6");
         h6.setAttribute("class", "mb-1");
-        h6.innerHTML = ticketName;
+        h6.innerHTML = ticketName+" at "+ticketTime;
 
-        var small = document.createElement("small");
+        var small = document.createElement("strong");
         small.innerHTML = ticketPrice;
 
         var p = document.createElement("p");
         p.setAttribute("class", "mb-1");
-        p.innerHTML = ticketDate + " at " + ticketTime;
+        p.innerHTML = "on the "+ticketDate;
 
         var location = document.createElement("small");
         location.innerHTML = "Location: "+ ticketLocation;
@@ -139,7 +141,7 @@
             productAmount = 1;
 
             const data = {"productId": productId}
-            fetch('/api/buyticketform/selectTicket', {
+            fetch('/api/reservationform/selectTicket', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -147,7 +149,7 @@
                 body: JSON.stringify(data),
             })
                 .then(response => response.json())
-                .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
+                .then(data => {selectedTimeslotLbl.innerText = data.starting_time;})
                 .catch(error => console.error(error));
 
         }

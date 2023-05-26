@@ -14,28 +14,29 @@
     ?>
     <div class="container-fluid">
         <h1>Manage Orders</h1>
+        <button class="btn btn-success" type="button" style="float: right; margin-left: 10px" onclick="exportToCsv()">Export Table</button>
         <button class="btn btn-primary" type="button" style="float: right" onclick="window.location.href = '/admin/generateApiKey' ">Generate Key</button>
         <section>
             <table class="table" id="ordersTable">
                 <thead>
                     <tr>
                         <th scope="col">
-                        <input type="checkbox" id="orderIdCheckbox" checked>   
+                        <input type="checkbox" id="orderIdCheckbox" class="headerCheckbox" checked>   
                         Order ID</th>
                         <th scope="col">
-                        <input type="checkbox" id="paymentIdCheckbox" checked>
+                        <input type="checkbox" id="paymentIdCheckbox" class="headerCheckbox" checked>
                         Payment ID</th>
                         <th scope="col">
-                        <input type="checkbox" id="invoiceNumberCheckbox" checked>    
+                        <input type="checkbox" id="invoiceNumberCheckbox" class="headerCheckbox" checked>    
                         Invoice Number</th>
                         <th scope="col">
-                        <input type="checkbox" id="invoiceDateCheckbox" checked>    
+                        <input type="checkbox" id="invoiceDateCheckbox" class="headerCheckbox" checked>    
                         Invoice Date</th>
                         <th scope="col">
-                        <input type="checkbox" id="productsCheckbox" checked>    
+                        <input type="checkbox" id="productsCheckbox" class="headerCheckbox" checked>    
                         Products</th>
                         <th scope="col">
-                        <input type="checkbox" id="paymentStatusCheckbox" checked>    
+                        <input type="checkbox" id="paymentStatusCheckbox" class="headerCheckbox" checked>    
                         Payment Status</th>
                     </tr>
                 </thead>
@@ -60,6 +61,60 @@
         </section>
     </div>
     <script>
+        function exportToCsv(){
+            var table = document.getElementById('ordersTable');
+            var checkboxes = document.getElementsByClassName('headerCheckbox');
+            var selectedColumns = [];
+
+            // Get the selected columns
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                var columnIndex = checkboxes[i].parentNode.cellIndex;
+                selectedColumns.push(columnIndex);
+                }
+            }
+
+            var csv = [];
+
+            // Iterate through each table row
+            for (var i = 0; i < table.rows.length; i++) {
+                var row = [];
+
+                // Iterate through each selected column in the row
+                for (var j = 0; j < selectedColumns.length; j++) {
+                var columnIndex = selectedColumns[j];
+                var cell = table.rows[i].cells[columnIndex];
+                var cellValue;
+
+                if (columnIndex === table.rows[i].cells.length - 1 && i > 0) {
+                    // Handle select element in the last column for rows after the first row
+                    cellValue = cell.querySelector('select').value;
+                } else {
+                    cellValue = cell.innerText;
+                }
+
+                // Split the cell value into characters and add them individually as CSV cells
+                row.push(cellValue.trim());
+                }
+
+                // Join the row with commas and add to the CSV array
+                csv.push(row.join(';'));
+            }
+
+            // Join all rows with newlines and create the CSV content
+            var csvContent = csv.join('\n');
+
+            console.log(csvContent);
+
+            // Download the CSV file
+            var encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+            var link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'order_data ' + Date() + '.csv');
+            document.body.appendChild(link);
+            link.click();
+        }
+
         function updateField(id){
             const paymentSelect = document.getElementById("paymentStatus " + id);
 

@@ -4,7 +4,7 @@ class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     public $product_id = []; //int array
     public $amount = []; //int array
-    private int $event_type;
+    public int $event_type;
     private $additional_info = []; //string array
 
     /**

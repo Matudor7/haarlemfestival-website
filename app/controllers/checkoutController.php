@@ -11,6 +11,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Order.php';
 require_once __DIR__ . '/../Models/ticket.php';
 require_once __DIR__ . '/../Services/pdfGenerator.php';
+require_once __DIR__ . '/../Models/productModel.php';
+require_once __DIR__ . '/../Services/productService.php';
 
 
 
@@ -29,25 +31,33 @@ class CheckoutController extends Controller{
             $shoppingCartService = new ShoppingCartService();
             $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
             $tickets = array();
+            $productService = new ProductService();
+            foreach ($shoppingCart->product_id as $item) {
 
-            foreach ($shoppingCart as $item) {
-                $ticket = new ticket();
-                switch ($item->getEventType()) {
+                $product = $productService->getById($item);
+               $ticket = new ticket();
+                switch ($product->getEventType()) {
+                //switch ($item->eventType) {
                     case 1:
-                        $ticket->setDanceEventId($item->getEventType());
+                        $ticket->setDanceEventId($product->getEventType());
                         break;
                     case 2:
-                        $ticket->setYummyEventId($item->getEventType());
+                        $ticket->setYummyEventId($product->getEventType());
                         break;
                     case 44:
-                        $ticket->setHistoryEventId($item->getEventType());
+                        $ticket->setHistoryEventId($product->getEventType());
                         break;
                     case 45:
-                        $ticket->setAccessPassId($item->getEventType());
+                        $ticket->setAccessPassId($product->getEventType());
+                        break;
+                    default:
+                        throw  new Exception("Invalid event type");
                         break;
                 }
-                $ticket->setQuantity($item->amount);
-                $ticket->setUserId($item->user_id);
+                $ticket->quantity = 1;
+                $ticket->user_id = $_SESSION['user_id'];
+                //$ticket->setQuantity($item->amount);
+               // $ticket->setUserId($item->user_id);
                 array_push($tickets, $ticket);
             }
             $order->setInvoiceDate();
@@ -85,7 +95,7 @@ class CheckoutController extends Controller{
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
 
-            "webhookUrl"  => "https://90cb-77-250-214-48.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://df38-2a02-a210-29c1-6180-bc3d-f4e6-cb5a-f157.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -99,9 +109,9 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-
+        //$payment = $mollie->payments->get($paymentObject->getPaymentId());
         header("Location: ". $payment->getCheckoutUrl());
-        $payment = $mollie->payments->get($paymentObject->getPaymentId());
+
     }
 
     function return(){
@@ -127,9 +137,7 @@ class CheckoutController extends Controller{
         if ($payment->isPaid()) {
             //TODO move the logic to the controller
         
-            $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
-        
-        
+
             $email = $paymentObject->getEmail();
             $fullName = $paymentObject->getFullName();
             $subtotal = "";
@@ -143,7 +151,7 @@ class CheckoutController extends Controller{
                 $message = "Here is your invoice, thanks for buying your ticket with us!!!";
                 $pdfService = new PDFGenerator();
             if ($payment->isPaid()) {
-                $html = "<html>
+                $html = "
         <head>
             <title>Invoice</title>
         </head>
@@ -190,29 +198,34 @@ class CheckoutController extends Controller{
                 <th >Total</th>
             </tr>
             </thead>
-            <tbody>
-           <?php 
-            foreach ($shoppingCart->product_id as $item) {
-                $subtotal += $item->calculateTotalPrice($shoppingCart->amount, $item->price);
+            <tbody> ";
+                $subtotal = 0;
+                $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+                $productService = new ProductService();
+                foreach ($shoppingCart->product_id as $item) {
+                $product = $productService->getById($item);
+                $subtotal += intval($shoppingCart->amount[0]) * $product->price;
+                $html .= "
             <tr>
-                <td><?=$item->name?></td>
-                <td><?=$shoppingCart->amount;?></td>
-                <td>&#8364;<?=$item->price?></td>
-                <td><?=$item->calculateTotalPriceForProduct($shoppingCart->amount, $item->price;?></td>
-            </tr>
-            <?php } ?>
+                <td><?=$product->name()?></td>
+                <td><?=$shoppingCart->amount[0];?></td>
+                <td>&#8364;<?=$product->price?></td>
+                <td><?=$product->calculateTotalPriceForProduct($shoppingCart->amount, $product->price;?></td>
+            </tr> ";
+            }
+         $html .= "
             <tr>
                 <td colspan='3'>Subtotal</td>
                 <td>&#8364;<?=$subtotal?></td>
             </tr>
             <tr>
                 <td colspan='3'>Tax</td>
-                <td>&#8364;<?=$product->calculateVat($subtotal)?></td>
+                <td>&#8364;<?=$subtotal * 0.21?></td>
             </tr>
             <tr>
                 <td colspan='3' style='color:#ff6600;  font-weight: bold;'>TOTAL</td>
         
-                <td style='color:#ff6600;  font-weight: bold;'> &#8364;<?=$product->calculateTotal($subtotal, $product->calculateVat($subtotal))?></td>
+                <td style='color:#ff6600;  font-weight: bold;'> &#8364;<?=$subtotal * 0.21 + $subtotal?></td>
             </tr>
             </tbody>
         </table>

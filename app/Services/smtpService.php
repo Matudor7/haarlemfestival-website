@@ -11,7 +11,7 @@ class smtpService
         $client = new PHPMailer();
         $client->isSMTP();
         $client->Mailer = "smtp";
-        $client->SMTPDebug = SMTP::DEBUG_OFF;
+        $client->SMTPDebug = SMTP::DEBUG_SERVER;
         $client->SMTPAuth = true;
         $client->SMTPSecure = "tls";
         $client->Port = 587;

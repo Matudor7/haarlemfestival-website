@@ -3,11 +3,11 @@
 class Product implements JsonSerializable{
     private int $id = 0;
     public string $name = "";
-    private int $event_type = 0;
-    private string $starting_time = "";
-    private string $location = "";
+    public int $event_type = 0;
+    public string $starting_time = "";
+    public string $location = "";
     public float $price= 0;
-    private int $available_seats = 0;
+    public int $available_seats = 0;
     public float $vat = 0.21;
 
     #[ReturnTypeWillChange]

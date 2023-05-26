@@ -5,15 +5,15 @@ class Ticket
 
     private int $id;
     public int $quantity;
-    private float $price;
-    private ?int $dance_event_id;
-    private ?int $yummy_event_id;
-    private ?int $history_event_id;
-    private ?int $access_pass_id;
-    private string $status;
+    public float $price;
+    public ?int $dance_event_id;
+    public ?int $yummy_event_id;
+    public ?int $history_event_id;
+    public ?int $access_pass_id;
+    public string $status;
     public int $user_id;
-    private int $order_id;
-    private ?int $vat_id;
+    public int $order_id;
+    public ?int $vat_id;
     /**
      * @return int
      */

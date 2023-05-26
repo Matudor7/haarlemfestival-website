@@ -169,22 +169,22 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'><?php echo $order->invoice_number; ?></td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>". $order->invoice_number."</td>
                 </tr>
                 <tr>
-                 <td style='border: none;'><?php echo $paymentObject->first_name . '  '. $paymentObject->last_name;?> </td>
-                    <td style='border: none;'><?=$paymentObject->email?></td>
+                 <td style='border: none;'>". $paymentObject->first_name . '  '. $paymentObject->last_name." </td>
+                    <td style='border: none;'>".$paymentObject->email."</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'><?=$order->invoice_date?></td>
+                    <td style='border: none;'>".$order->invoice_date."</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' ><?=$paymentObject->address?></td>
-                    <td style='border: none;'><?=$paymentObject->phone_number?></td>
+                    <td style='border: none;' >".$paymentObject->address."</td>
+                    <td style='border: none;'>".$paymentObject->phone_number."</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'><?=$order->invoice_date?></td>
+                    <td style='border: none;'>".$order->invoice_date."</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' ><?=$paymentObject->zip?></td>
+                    <td style='border: none;' >".$paymentObject->zip."</td>
                 </tr>
             </table>
         </div><br><br>
@@ -205,27 +205,29 @@ class CheckoutController extends Controller{
                 foreach ($shoppingCart->product_id as $item) {
                 $product = $productService->getById($item);
                 $subtotal += intval($shoppingCart->amount[0]) * $product->price;
+                $totalPricePerProduct = $product->calculateTotalPriceForProduct($shoppingCart->amount[0], $product->price);
+                $amount = $shoppingCart->amount[0];
                 $html .= "
             <tr>
-                <td><?=$product->name()?></td>
-                <td><?=$shoppingCart->amount[0];?></td>
-                <td>&#8364;<?=$product->price?></td>
-                <td><?=$product->calculateTotalPriceForProduct($shoppingCart->amount, $product->price;?></td>
+                <td>".$product->name."</td>
+                <td>".$amount."</td>
+                <td>&#8364;".$product->price."</td>
+                <td>".$totalPricePerProduct."</td>
             </tr> ";
             }
          $html .= "
             <tr>
                 <td colspan='3'>Subtotal</td>
-                <td>&#8364;<?=$subtotal?></td>
+                <td>&#8364;".$subtotal."</td>
             </tr>
             <tr>
                 <td colspan='3'>Tax</td>
-                <td>&#8364;<?=$subtotal * 0.21?></td>
+                <td>&#8364;".$subtotal * 0.21."</td>
             </tr>
             <tr>
                 <td colspan='3' style='color:#ff6600;  font-weight: bold;'>TOTAL</td>
         
-                <td style='color:#ff6600;  font-weight: bold;'> &#8364;<?=$subtotal * 0.21 + $subtotal?></td>
+                <td style='color:#ff6600;  font-weight: bold;'> &#8364;".$subtotal * 0.21 + $subtotal."</td>
             </tr>
             </tbody>
         </table>
@@ -296,6 +298,7 @@ class CheckoutController extends Controller{
             $smtpService = new smtpService();
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+            return;
             header("Location: http://localhost/");
         } else {
             echo "Payment Failed...";

@@ -67,8 +67,10 @@ class CheckoutController extends Controller{
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
+            return $tickets;
 
         }
+
     }
 
     private function paymentProcess($order, $ticket){
@@ -110,6 +112,7 @@ class CheckoutController extends Controller{
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
         //$payment = $mollie->payments->get($paymentObject->getPaymentId());
+
         header("Location: ". $payment->getCheckoutUrl());
 
     }
@@ -131,7 +134,7 @@ class CheckoutController extends Controller{
         $orderService =  new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
         $order = $orderService->getOrderById($_GET['order_id'])[0];
-
+        $tickets = $this->payment();
         $subject = "Your Haarlem Festival Order Invoice";
 
         $message = "Here is your invoice, thanks for buying your ticket with us!!!";
@@ -143,10 +146,12 @@ class CheckoutController extends Controller{
             if ($payment->isPaid()) {
 
             $invoicePDF = $pdfService->generateInvoicePDF($paymentObject, $order);
-                $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $invoicePDF);
+            $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $invoicePDF);
+            $ticketPdf = $pdfService->generateTicketPDF($tickets);
             $smtpService = new smtpService();
             $fullName = $paymentObject->first_name . " " . $paymentObject->last_name;
             $smtpService->sendEmail($paymentObject->email, $fullName, $message, $subject, $invoicePdf);
+            $smtpService->sendEmail($paymentObject->email, $fullName, $message, $subject, $ticketPdf);
             
             //Andy
             //$this->updateAvailability($itemsFromShoppingCart);
@@ -156,7 +161,7 @@ class CheckoutController extends Controller{
             $smtpService = new smtpService();
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-            return;
+
             header("Location: http://localhost/");
         } else {
             echo "Payment Failed...";

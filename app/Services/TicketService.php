@@ -5,7 +5,7 @@ class TicketService
     public function getAllTickets()
     {
         $repository = new TicketRepository;
-        $tickets = $repository->getAllTicket();
+        $tickets = $repository->getAllTickets();
         return $ticket;
     }
 
@@ -15,5 +15,11 @@ class TicketService
         $repository = new TicketRepository;
         $ticket = $repository->getTicketByID();
         return $ticket;
+    }
+    public function storeTicketDB($ticket)
+    {
+        $repository = new TicketRepository;
+        return $repository->insert($ticket);
+
     }
 }

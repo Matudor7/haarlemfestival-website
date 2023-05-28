@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Services/shoppingCartService.php';
 require_once __DIR__ . '/../Services/productService.php';
 require_once __DIR__ . './../Services/QrService.php';
+require_once __DIR__ . '/../Models/Ticket.php';
 // Reference the Dompdf namespace
 use Dompdf\Dompdf;
 class PDFGenerator
@@ -26,7 +27,7 @@ class PDFGenerator
 
 
 // (Optional) Set up the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'portrait');
 
 // Render the HTML as PDF
         $dompdf->render();

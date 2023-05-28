@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../Repositories/DanceRepository.php';
+require_once  __DIR__ . '/../Repositories/DanceRepository.php';
 
 class DanceService
 {   

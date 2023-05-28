@@ -1,10 +1,10 @@
 <?php
 session_start();
-require __DIR__ . '/controller.php';
+require_once  __DIR__ . '/controller.php';
 require_once __DIR__ . '/../Services/eventService.php';
-require __DIR__ . '/../Services/DanceService.php';
-require __DIR__ . '/../Services/DanceDetailPageService.php';
-require __DIR__ . '/../Services/productService.php';
+require_once  __DIR__ . '/../Services/DanceService.php';
+require_once  __DIR__ . '/../Services/DanceDetailPageService.php';
+require_once  __DIR__ . '/../Services/productService.php';
 
 class DanceController extends Controller{
     private $eventService;
@@ -40,7 +40,7 @@ class DanceController extends Controller{
         }
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/dance/index.php';
-        require __DIR__ .'/../views/buyTicketForm.php';
+        require_once __DIR__ .'/../views/buyTicketForm.php';
     }
 
     public function detail(){

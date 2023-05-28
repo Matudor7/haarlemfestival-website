@@ -18,8 +18,8 @@ class allAccessController extends Controller{
         $allAccessService = new AllAccessService();
         $allPasses = $allAccessService->getAllPasses();
 
-        require __DIR__ . '/../views/allaccess/index.php';
-        require __DIR__ .'/../views/buyTicketForm.php';
+        require_once __DIR__ . '/../views/allaccess/index.php';
+        require_once __DIR__ .'/../views/buyTicketForm.php';
 
     }
 

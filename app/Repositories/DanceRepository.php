@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/ArtistModel.php';
-require __DIR__ . '/../Models/MusicType.php';
-require __DIR__ . '/../Models/DanceLocation.php';
-require __DIR__ . '/../Models/DanceFlashback.php';
-require __DIR__ . '/../Models/DanceEvent.php';
-require __DIR__ . '/../Models/DanceSession.php';
+require_once  __DIR__ . '/../Models/ArtistModel.php';
+require_once  __DIR__ . '/../Models/MusicType.php';
+require_once  __DIR__ . '/../Models/DanceLocation.php';
+require_once  __DIR__ . '/../Models/DanceFlashback.php';
+require_once  __DIR__ . '/../Models/DanceEvent.php';
+require_once  __DIR__ . '/../Models/DanceSession.php';
 
 class DanceRepository extends Repository{
 

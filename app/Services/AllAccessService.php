@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../Repositories/AllAccessRepository.php';
+require_once  __DIR__ . '/../Repositories/AllAccessRepository.php';
 class AllAccessService
 {
     private $allAccessRepo;

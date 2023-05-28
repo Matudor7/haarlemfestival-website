@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/festivalModel.php';
+require_once __DIR__ . '/../Models/festivalModel.php';
 
 class FestivalRepository extends Repository{
     public function getFestival()

@@ -1,8 +1,8 @@
 <?php
 //Tudor Nosca (678549)
 session_start();
-require __DIR__ . '/controller.php';
-require __DIR__ . '/../Services/ContentService.php';
+require_once  __DIR__ . '/controller.php';
+require_once  __DIR__ . '/../Services/ContentService.php';
 class HomeController extends Controller{
     public function index(){
         if(!isset($_SESSION['user_id'])){

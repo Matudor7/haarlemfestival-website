@@ -2,12 +2,17 @@
 session_start();
 require __DIR__ . '/../../Services/paymentService.php';
 require_once __DIR__ . '/../../Models/paymentModel.php';
+require_once __DIR__ . '/../../Models/shoppingCartModel.php';
+require_once __DIR__ . '/../../Services/shoppingCartService.php';
 
 class CheckoutController{
     private $paymentService;
+    private $shoppingCartService;
 
     function __construct(){
         $this->paymentService = new PaymentService();
+        $this->shoppingCartService = new ShoppingCartService();
+
     }
 
     function index(){
@@ -35,6 +40,19 @@ class CheckoutController{
 
             $this->paymentService->insert($payment);
         }
+    }
+    function storeShoppingCartItems(){
+
+        $shoppingCartItemsJsonString = file_get_contents('php://input');
+        $paymentData = json_decode($shoppingCartItemsJsonString, true);
+        //$shoppingCart =  new shoppingCart();
+       $userId =  $_SESSION["user_id"];
+       $product_id = $paymentData["product_id"];
+       $amount = $paymentData["amount"];
+       $event_type = $paymentData["event_type"];
+       $additional_info = $paymentData["additional_info"];
+
+        $this->shoppingCartService->addProducts($userId, $product_id, $amount, $event_type, $additional_info);
     }
 }
 ?>

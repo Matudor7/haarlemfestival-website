@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/Recipe.php';
+require_once  __DIR__ . '/../Models/Recipe.php';
 
 class RecipeRepository extends Repository
 {

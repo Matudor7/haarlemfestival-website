@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../Repositories/RecipeRepository.php';
+require_once  __DIR__ . '/../Repositories/RecipeRepository.php';
 
 class RecipeService
 {

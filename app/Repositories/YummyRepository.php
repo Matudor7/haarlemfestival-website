@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/repository.php';
-require __DIR__ . '/../Models/RestaurantModel.php';
+require_once  __DIR__ . '/../Models/RestaurantModel.php';
 
 class YummyRepository extends Repository
 {

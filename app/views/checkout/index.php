@@ -28,6 +28,10 @@
                   <small class="text-body-secondary" style="white-space: pre-line"><?php echo $information[$i]?></small>
                 </div>
                 <span class="text-body-secondary">&euro;<?php echo ($merged_products[$i]->getPrice() * $amounts[$i])?></span>
+                  <input type="text" id="product_id" value="<?=$merged_products[$i]->getId()?>" hidden>
+                  <input type="text" id="eventId" value="<?=$merged_products[$i]->getEventType()?>" hidden>
+
+
               </li>
             <?php
             }
@@ -35,7 +39,8 @@
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (EUR)</span>
               <strong style="margin-left: 70%">&euro; </strong>
-              <strong id="totalPrice"><?php echo $totalPrice?></strong>
+              <strong  id="totalPrice"><?php echo $totalPrice?></strong>
+
             </li>
           </ul>
         </div>
@@ -89,6 +94,9 @@
                       <div class="invalid-feedback">
                           Phone number required.
                       </div>
+                      <form>
+                      <input type="text" id="userId" value="<?=$_SESSION['user_id']?>" hidden></form>
+
                   </div>
               </div>
 
@@ -130,6 +138,7 @@
       var credit = document.getElementById("credit");
       var ideal = document.getElementById("ideal");
 
+
     function submitData(){
       if(invalidData()){
         var paymentMethod;
@@ -153,6 +162,7 @@
         };
 
         console.log(paymentData);
+          StoreShoppingCartItemsInDB();
 
         fetch("http://localhost/api/checkout",{
           method: 'POST',
@@ -160,6 +170,7 @@
           body: JSON.stringify(paymentData),
         })
         .then((data)=> {console.log('Output: ', data);
+
         })
         .then(() => {window.location.href = '/checkout/payment?total=' + paymentData.total + "&paymentmethod=" + paymentMethod;})
         .catch(error => {console.error('ERROR: ', error);
@@ -171,6 +182,24 @@
     function invalidData(){
       return (firstName.value.trim() == "" || lastName.value.trim() == "" || email.value.trim() == "" || address.value.trim() == ""
               || !zipRegEx.test(zip.value.trim()) || !phoneNumberRegEx.test(phoneNumber.value.trim()) || (!credit.checked && !ideal.checked));
+    }
+    function StoreShoppingCartItemsInDB(){
+        var userID = document.getElementById("userId").value;
+        var productId = document.getElementById("product_id").value;
+        var totalPrice = document.getElementById("totalPrice").innerText;
+        var eventType = document.getElementById("eventId").value;
+
+        var object = {
+            user_id: userID,
+            product_id: productId,
+            total_price: totalPrice,
+            event_id: eventType
+        }
+        fetch("http://localhost/api/shopping",{
+          method: 'POST',
+          headers: {'Content-Type' : 'application/json',},
+          body: JSON.stringify(object),
+        })
     }
   </script>
 </body>

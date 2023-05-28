@@ -3,7 +3,39 @@
 class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
     public $product_id = []; //int array
-    public $amount = []; //int array
+    public $amount = [];
+
+    /**
+     * @return array
+     */
+    public function getProductId(): array
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * @param array $product_id
+     */
+    public function setProductId(array $product_id): void
+    {
+        $this->product_id = $product_id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalInfo(): array
+    {
+        return $this->additional_info;
+    }
+
+    /**
+     * @param array $additional_info
+     */
+    public function setAdditionalInfo(array $additional_info): void
+    {
+        $this->additional_info = $additional_info;
+    } //int array
     public int $event_type;
     private $additional_info = []; //string array
 

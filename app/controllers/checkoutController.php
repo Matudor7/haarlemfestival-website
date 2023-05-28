@@ -9,10 +9,11 @@ require_once __DIR__ . '/../Services/smtpService.php';
 require_once __DIR__ . '/../Services/OrderService.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Order.php';
-require_once __DIR__ . '/../Models/ticket.php';
+require_once __DIR__ . '/../Models/Ticket.php';
 require_once __DIR__ . '/../Services/pdfGenerator.php';
 require_once __DIR__ . '/../Models/productModel.php';
 require_once __DIR__ . '/../Services/productService.php';
+require_once __DIR__ . '/../Services/TicketService.php';
 
 
 
@@ -32,10 +33,12 @@ class CheckoutController extends Controller{
             $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
             $tickets = array();
             $productService = new ProductService();
+            $ticketService = new TicketService();
             foreach ($shoppingCart->product_id as $item) {
 
                 $product = $productService->getById($item);
-               $ticket = new ticket();
+               $ticket = new Ticket();
+
                 switch ($product->getEventType()) {
                 //switch ($item->eventType) {
                     case 1:
@@ -56,9 +59,11 @@ class CheckoutController extends Controller{
                 }
                 $ticket->quantity = 1;
                 $ticket->user_id = $_SESSION['user_id'];
+                $ticket->setPrice($product->getPrice());
                 //$ticket->setQuantity($item->amount);
                // $ticket->setUserId($item->user_id);
-                array_push($tickets, $ticket);
+                array_push($tickets, $ticketService->storeTicketDB($ticket));
+
             }
             $order->setInvoiceDate();
             $order->setInvoiceNumber();
@@ -67,6 +72,7 @@ class CheckoutController extends Controller{
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
+
             return $tickets;
 
         }
@@ -80,7 +86,7 @@ class CheckoutController extends Controller{
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
 
-        $paymentMethod;
+       $paymentMethod;
 
         if($_GET["paymentmethod"] == 'ideal'){
             $paymentMethod = \Mollie\Api\Types\PaymentMethod::IDEAL;
@@ -97,7 +103,7 @@ class CheckoutController extends Controller{
             "description" => "Haarlem Festival Payment",
             "method" => $paymentMethod,
 
-            "webhookUrl"  => "https://df38-2a02-a210-29c1-6180-bc3d-f4e6-cb5a-f157.ngrok-free.app/checkout/webhook",
+            "webhookUrl"  => "https://eca6-2a02-a210-29c1-6180-1903-982-7496-35ca.ngrok-free.app/checkout/webhook",
            // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
@@ -108,12 +114,12 @@ class CheckoutController extends Controller{
             ],
         ]);
 
-        $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
+       /* $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        //$payment = $mollie->payments->get($paymentObject->getPaymentId());
+        $payment = $mollie->payments->get($paymentObject->getPaymentId());*/
 
-        header("Location: ". $payment->getCheckoutUrl());
+        header("Location: ". $payment->getCheckoutUrl(), true, 303);
 
     }
 
@@ -134,10 +140,12 @@ class CheckoutController extends Controller{
         $orderService =  new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
         $order = $orderService->getOrderById($_GET['order_id'])[0];
-        $tickets = $this->payment();
-        $subject = "Your Haarlem Festival Order Invoice";
+        $tickets[] = $this->payment();
+        //print_r($tickets);
+        //return;
+        $subject = "Your Haarlem Festival Order Invoice and Tickets";
 
-        $message = "Here is your invoice, thanks for buying your ticket with us!!!";
+        $message = "You will find your invoice and your tickets attached in this email, thanks for buying your ticket with us!!!";
         if ($payment->isPaid()) {
             //TODO move the logic to the controller
 
@@ -150,8 +158,8 @@ class CheckoutController extends Controller{
             $ticketPdf = $pdfService->generateTicketPDF($tickets);
             $smtpService = new smtpService();
             $fullName = $paymentObject->first_name . " " . $paymentObject->last_name;
-            $smtpService->sendEmail($paymentObject->email, $fullName, $message, $subject, $invoicePdf);
-            $smtpService->sendEmail($paymentObject->email, $fullName, $message, $subject, $ticketPdf);
+            $smtpService->sendEmail($paymentObject->email, $fullName, $message, $subject, $invoicePdf, $ticketPdf);
+
             
             //Andy
             //$this->updateAvailability($itemsFromShoppingCart);

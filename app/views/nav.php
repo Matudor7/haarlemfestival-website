@@ -73,8 +73,6 @@
                 <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
                     onClick="location.href='/login'">Login</button>
             </li><?php }?>
-            <button type="button" class="btn btn-primary rounded-pill ms-5 me-1 px-3 mt-1"
-                    onClick="location.href='/user/registerUser'">Create an Account</button>
         </ul>
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">

@@ -39,14 +39,14 @@
             </div>
 
                     <div id="kidsOutput"></div>
-                <button id="addKidsBtn" type="button" class="btn rounded-pill" onClick="addKids()">Add Kids</button>
+                <button id="addKidsBtn" type="button" class="btn btn-primary rounded-pill" style="" onClick="addKids()">Add Kids</button>
 
             <div class="m-2 ms-5 me-5">
                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Additional Notes" rows="3" style="max-height: 60px; max-width:400px "></textarea>
             </div>
 
 
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Make Reservation</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Reserve</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('reservationForm')">Close</button>
 
         </form>
@@ -149,7 +149,18 @@
                 body: JSON.stringify(data),
             })
                 .then(response => response.json())
-                .then(data => {selectedTimeslotLbl.innerText = data.starting_time;})
+                .then(data => {
+                    selectedTimeslot = data.starting_time;
+                    let fulldate = new Date(selectedTimeslot);
+                    let day = fulldate.getDate();
+                    let month = fulldate.toLocaleString('en-US', {month: 'long'})
+                    let year = fulldate.getFullYear().toString().slice(-2);
+
+                    let formattedTimeslot = day +' of '+ month+'/'+year;
+
+
+                    selectedTimeslotLbl.innerText = formattedTimeslot;
+                })
                 .catch(error => console.error(error));
 
         }
@@ -243,6 +254,18 @@
             kidsAmountField.value = 'none';
         }
     }
+    function getOrdinalSuffix(day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+
+        switch (day % 10) {
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
+        }
+    }
 </script>
 <style>
     #reservationForm {
@@ -295,6 +318,9 @@
         display: inline-block;
     }
 
+    .form-container #addKidsBtn{
+        background-color: #1DA1F2;
+    }
     /* Set a style for the submit/login button */
     .form-container #addToCartBtn {
         background-color: #04AA6D;

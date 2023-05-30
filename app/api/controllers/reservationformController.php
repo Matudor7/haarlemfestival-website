@@ -26,4 +26,37 @@ class reservationformController
             }  else {echo json_encode("does not work yet");}
         }
     }
+
+    public function addToCart(){
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['productId'])&isset($data['userId'])){
+                $productId = $data['productId'];
+                $userId = $data['userId'];
+                $amount = $data['amount'];
+                $eventType = $data['eventType'];
+                $note = $data['note'];
+                $product = $this->productService->getById($productId);
+
+                if ($this->checkAvailability($amount, $productId)) {
+                    if($this->checkExistingCart($userId, $productId)) {
+                        $shoppingCartId = $this->shoppingCartService->existingCart($userId, $productId)[0];
+                        $this->shoppingCartService->updateProductAmount($shoppingCartId, $amount);}
+                    else{
+                        $this->shoppingCartService->addProducts($userId, $productId, $amount, $eventType, $note);}
+
+                    $result = "Great! we have added ".$amount." ticket(s) for ".$product->getName()." to the shopping cart";
+                } else{
+                    $availability = $product->getAvailableSeats();
+                    $result = "Oh No! we only have ".$availability." tickets for ".$product->getName()." available";
+                }
+                header('Content-Type: application/json;');
+                echo json_encode($result);
+
+            }  else {echo json_encode("No ticket Selected!");}
+        }
+    }
+
 }

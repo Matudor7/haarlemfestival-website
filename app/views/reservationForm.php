@@ -45,8 +45,8 @@
                 <button id="addKidsBtn" type="button" class="btn btn-primary rounded-pill" onClick="addKids()">Add Kids</button>
 
             <div id="cartButtons">
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Reserve</button>
-            <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('reservationForm')">Close</button>
+                <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('reservationForm')">Close</button>
+                <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Reserve</button>
             </div>
         </form>
     </div>
@@ -65,6 +65,7 @@
     const reservationDetailName = document.getElementById("nameField")
     const additionalNoteField = document.getElementById("additionalInfoField")
     const reservationDetailsDiv = document.getElementById("reservationDetailsForm")
+    const kidsAmountField = document.getElementById('kidsAmountField')
 
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
@@ -139,7 +140,7 @@
             productInfoField.value = "Sold Out"
             productAmount.value = "X";
         } else {
-            selectedProduct = productId;
+            selectedTimeslot = productId;
             productAmount = 1;
 
             const data = {"productId": productId}
@@ -182,15 +183,17 @@
 
     function addToCart(){
 
-        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
-        var eventType = <?php echo $thisEvent->getId()?>;
+        let userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
+        const eventType = <?php echo $thisEvent->getId()?>;
 
         const data = {"userId": userId,
             "amount": productAmount,
-            "productId": selectedProduct,
+            "productId": selectedTimeslot,
             "eventType": eventType,
-            "note": ""}
-        fetch('/api/buyticketform/addToCart', {
+            "kidsAmount": kidsAmount,
+            "reservationName": reservationDetailName.value,
+            "note": additionalNoteField.value}
+        fetch('/api/reservaionform/addToCart', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -246,7 +249,6 @@
 
     function deleteKids(){
         const div = document.getElementById('kidsOutput')
-        var kidsAmountField = document.getElementById('kidsAmountField')
 
         if(kidsAmount < 1){
             div.innerText = "";

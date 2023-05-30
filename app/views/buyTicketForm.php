@@ -40,8 +40,8 @@
             <input id="productInfo" class="form-control" type="text" value="Product" aria-label="readonly input example" readonly>
             </div>
 
-            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Add to Cart</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('ticketForm')">Close</button>
+            <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Add to Cart</button>
 
         </form>
     </div>

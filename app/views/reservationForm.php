@@ -27,6 +27,9 @@
 
             <h4 id="selectedTimeslotLbl">Select your preferred Timeslot</h4>
 
+            <div id="reservationDetailsForm" class="m-2 ms-5 me-5"></div>
+
+
             <div id="productOutput">
             <div class="btn-group" role="group">
                 <button id="decreasebtn" type="button" class="amountBtns" onClick="changeAmount(-1)">-</button>
@@ -39,16 +42,12 @@
             </div>
 
                     <div id="kidsOutput"></div>
-                <button id="addKidsBtn" type="button" class="btn btn-primary rounded-pill" style="" onClick="addKids()">Add Kids</button>
+                <button id="addKidsBtn" type="button" class="btn btn-primary rounded-pill" onClick="addKids()">Add Kids</button>
 
-            <div class="m-2 ms-5 me-5">
-                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Additional Notes" rows="3" style="max-height: 60px; max-width:400px "></textarea>
-            </div>
-
-
+            <div id="cartButtons">
             <button type="button" id="addToCartBtn" class="btn rounded-pill" onclick="addToCart()">Reserve</button>
             <button type="button" id="closeBtn" class="btn rounded-pill cancel" onclick="closeForm('reservationForm')">Close</button>
-
+            </div>
         </form>
     </div>
 <script src="/js/scriptfile.js"></script>
@@ -63,6 +62,9 @@
     let selectedTimeslot;
     let kidsAmount = 0;
     const productInfoField = document.getElementById("productInfo");
+    const reservationDetailName = document.getElementById("nameField")
+    const additionalNoteField = document.getElementById("additionalInfoField")
+    const reservationDetailsDiv = document.getElementById("reservationDetailsForm")
 
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
@@ -154,12 +156,14 @@
                     let fulldate = new Date(selectedTimeslot);
                     let day = fulldate.getDate();
                     let month = fulldate.toLocaleString('en-US', {month: 'long'})
-                    let year = fulldate.getFullYear().toString().slice(-2);
+                    let year = fulldate.getFullYear().toString();
 
-                    let formattedTimeslot = day +' of '+ month+'/'+year;
+                    let formattedTimeslot = day +getOrdinalSuffix()+' of '+ month+'/'+year;
 
 
                     selectedTimeslotLbl.innerText = formattedTimeslot;
+                    productAmountField.value = productAmount;
+                    addReservationDetailsForm()
                 })
                 .catch(error => console.error(error));
 
@@ -254,6 +258,35 @@
             kidsAmountField.value = 'none';
         }
     }
+    function addReservationDetailsForm(){
+        reservationDetailsDiv.innerText = "";
+
+// Create the label element
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = "Reserve under:";
+
+// Create the input element
+        const nameField = document.createElement("input");
+        nameField.setAttribute("type", "text");
+        nameField.setAttribute("class", "form-control");
+        nameField.setAttribute("id", "nameField");
+        nameField.setAttribute("placeholder", "your full name..");
+        nameField.setAttribute("style", "max-width: 200px; display: inline-block");
+
+// Create the textarea element
+        const additionalInfoField = document.createElement("textarea");
+        additionalInfoField.setAttribute("class", "form-control");
+        additionalInfoField.setAttribute("id", "additionalInfoField");
+        additionalInfoField.setAttribute("placeholder", "Write here any notes for the restaurant...");
+        additionalInfoField.setAttribute("rows", "4");
+        additionalInfoField.setAttribute("style", "max-height: 70px; max-width:400px");
+
+// Append the label, input, and textarea elements to the parent div
+        reservationDetailsDiv.appendChild(nameLabel);
+        reservationDetailsDiv.appendChild(nameField);
+        reservationDetailsDiv.appendChild(additionalInfoField);
+    }
+
     function getOrdinalSuffix(day) {
         if (day >= 11 && day <= 13) {
             return "th";
@@ -303,13 +336,8 @@
         display: inline-block;
         margin-right: 15px;
     }
-    /* When the inputs get focus, do something */
-    .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-        background-color: #ddd;
-        outline: none;
-    }
 
-    .form-container input{
+    .form-container #productAmount, #kidsAmountField{
         max-width: 55px;
         display: inline-block;
     }

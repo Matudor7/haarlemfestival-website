@@ -2,9 +2,9 @@
 //Tudor Nosca (678549)
 class ShoppingCart implements JsonSerializable{
     private int $user_id = 0;
-    private $product_id = []; //int array
-    private $amount = []; //int array
-    private int $event_type;
+    public $product_id = []; //int array
+    public $amount = []; //int array
+    public int $event_type;
     private $additional_info = []; //string array
 
     /**

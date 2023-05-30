@@ -2,13 +2,13 @@
 //Tudor Nosca (678549)
 class Product implements JsonSerializable{
     private int $id = 0;
-    private string $name = "";
-    private int $event_type = 0;
-    private string $starting_time = "";
-    private string $location = "";
-    private float $price= 0;
-    private int $available_seats = 0;
-    private const VAT = 0.21;
+    public string $name = "";
+    public int $event_type = 0;
+    public string $starting_time = "";
+    public string $location = "";
+    public float $price= 0;
+    public int $available_seats = 0;
+    public float $vat = 0.21;
 
     #[ReturnTypeWillChange]
 
@@ -92,7 +92,7 @@ class Product implements JsonSerializable{
         return $this->price * $amount;
     }
     public function calculateVat($subtotal){
-        return $subtotal * VAT;
+        return $subtotal * $this->vat;
     }
     public function calculateTotal($subtotal, $tax): float{
         return $this->$subtotal + $tax;

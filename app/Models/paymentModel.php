@@ -3,12 +3,13 @@
 class PaymentDetailsModel implements JsonSerializable{
     private int $id = 0;
     private int $user_id = 0;
-    private string $first_name = "";
-    private string $last_name = "";
-    private string $email = "";
-    private string $address = "";
-    private string $zip = "";
-    private string $phone_number = "";
+    public string $first_name = "";
+    public string $last_name = "";
+    public string $email = "";
+    public string $address = "";
+    public string $zip = "";
+    public string $phone_number = "";
+
 
     public function getPhoneNumber(): string
     {

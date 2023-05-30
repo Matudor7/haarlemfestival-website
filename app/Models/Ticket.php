@@ -4,14 +4,16 @@ class Ticket
 {
 
     private int $id;
-    private int $quantity;
-    private float $price;
-    private ?int $dance_event_id;
-    private ?int $yummy_event_id;
-    private ?int $history_event_id;
-    private ?int $access_pass_id;
-    private string $status;
-
+    public int $quantity;
+    public float $price;
+    public ?int $dance_event_id;
+    public ?int $yummy_event_id;
+    public ?int $history_event_id;
+    public ?int $access_pass_id;
+    public string $status;
+    public int $user_id;
+    public int $order_id;
+    public ?int $vat_id;
     /**
      * @return int
      */
@@ -71,7 +73,7 @@ class Ticket
     /**
      * @param int|null $dance_event_id
      */
-    public function setDanceEventId(?int $dance_event_id): void
+    public function setDanceEventId($dance_event_id): void
     {
         $this->dance_event_id = $dance_event_id;
     }
@@ -87,7 +89,7 @@ class Ticket
     /**
      * @param int|null $yummy_event_id
      */
-    public function setYummyEventId(?int $yummy_event_id): void
+    public function setYummyEventId($yummy_event_id): void
     {
         $this->yummy_event_id = $yummy_event_id;
     }
@@ -103,7 +105,7 @@ class Ticket
     /**
      * @param int|null $history_event_id
      */
-    public function setHistoryEventId(?int $history_event_id): void
+    public function setHistoryEventId($history_event_id): void
     {
         $this->history_event_id = $history_event_id;
     }
@@ -119,7 +121,7 @@ class Ticket
     /**
      * @param int|null $access_pass_id
      */
-    public function setAccessPassId(?int $access_pass_id): void
+    public function setAccessPassId($access_pass_id): void
     {
         $this->access_pass_id = $access_pass_id;
     }
@@ -187,8 +189,6 @@ class Ticket
     {
         $this->vat_id = $vat_id;
     }
-    private int $order_id;
-    private int $user_id;
-    private ?int $vat_id;
+
 
 }

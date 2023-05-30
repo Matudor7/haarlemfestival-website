@@ -20,7 +20,7 @@
         <a class="navbar-brand px-0 mx-0 py-0" href="/">
             <img src="/media/NavbarLogo.jpg" class="img-fluid" alt="Logo">
             <div class="share">
-                <h5 style="color: white;">Share this page!</h5>
+                
                 <button id="twitter-button" class="btn btn-primary mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-twitter" viewBox="0 0 16 16">
@@ -47,6 +47,7 @@
                     href="<?php echo $event->getUrlRedirect(); ?>"><?php echo $event->getName(); ?></a>
             </li>
             <?php } ?>
+
             <li class="nav-item" style="margin-top:3px">
                 <a class="btn btn-primary rounded-pill mx-1 px-3 mt-1 fa fa-shopping-cart" data-bs-toggle="offcanvas"
                     role="button" href="#offcanvas"></a>
@@ -72,6 +73,8 @@
                 <button type="button" class="btn btn-success rounded-pill ms-5 me-1 px-3 mt-1"
                     onClick="location.href='/login'">Login</button>
             </li><?php }?>
+            <button type="button" class="btn btn-primary rounded-pill ms-5 me-1 px-3 mt-1"
+                    onClick="location.href='/user/registerUser'">Create an Account</button>
         </ul>
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">

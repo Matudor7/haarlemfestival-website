@@ -42,7 +42,7 @@ class PaymentRepository extends Repository{
             $statement->bindParam(':id', $id);
 
             $statement->execute();
-            $statement->setFetchMode(PDO::FETCH_CLASS, 'PaymentDetailsModel');
+            $statement->setFetchMode(PDO::FETCH_CLASS, 'paymentDetailsModel');
 
             $payment_details = $statement->fetch();
 

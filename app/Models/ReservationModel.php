@@ -3,11 +3,11 @@ class Reservation implements JsonSerializable{
    private int $reservation_id = 0;
    private int $reservation_nrOfAdults = 0;
    private int $reservation_nrOfKids = 0;
-   private float $reservation_totalPrice = 0;
    private string $reservation_AdditionalNote = "";
    private int $reservation_restaurantId = 0;
    private string $reservation_FullName = "";
    private DateTime $reservation_DateTime;
+   private bool $reservation_isActive;
     #[ReturnTypeWillChange]
 
     public function jsonSerialize(){
@@ -24,9 +24,6 @@ class Reservation implements JsonSerializable{
     public function getAmountKids(): int{
         return $this->reservation_nrOfKids;
     }
-    public function getTotalPrice(): float{
-        return $this->reservation_totalPrice;
-    }
     public function getAdditionalNote(): string{
         return $this->reservation_AdditionalNote;
     }
@@ -39,6 +36,9 @@ class Reservation implements JsonSerializable{
     public function getDateTime(): DateTime{
         return $this->reservation_DateTime;
     }
+    public function getIsActive(): bool{
+        return $this->reservation_isActive;
+    }
 
     public function setId($reservationId){
         $this->reservation_id = $reservationId;
@@ -48,9 +48,6 @@ class Reservation implements JsonSerializable{
     }
     public function setAmountKids($amountKids){
         $this->reservation_nrOfKids = $amountKids;
-    }
-    public function setTotalPrice($totalPrice){
-        $this->reservation_totalPrice = $totalPrice;
     }
     public function setAdditionalNote($note){
         $this->reservation_AdditionalNote = $note;
@@ -63,5 +60,8 @@ class Reservation implements JsonSerializable{
     }
     public function setReservationDateTime($dateTime){
         $this->reservation_DateTime = $dateTime;
+    }
+    public function setIsActive($answer){
+        $this->reservation_isActive = $answer;
     }
 }

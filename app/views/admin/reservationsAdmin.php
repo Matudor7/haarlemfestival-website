@@ -11,5 +11,38 @@
 <body>
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
 <h1>Manage Reservations</h1>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Restaurant</th>
+        <th scope="col"># Adults</th>
+        <th scope="col"># Kids</th>
+        <th scope="col">Guest Note</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($allReservations as $reservation){?>
+    <tr>
+        <th scope="row"><?php echo $reservation->getId()?></th>
+        <td><?php echo $reservation->getName()?></td>
+        <td><?php echo $reservation->getDateTime()->format('dS M/Y @ H:i') ?></td>
+        <?php $restaurantId = $reservation->getRestaurantId(); ?>
+        <td><?php echo $this->yummyService->getById($restaurantId)->getRestaurantName(); ?></td>
+        <td><?php echo $reservation->getAmountAdults()?></td>
+        <td><?php echo $reservation->getAmountKids()?></td>
+        <td><?php echo $reservation->getAdditionalNote()?></td>
+        <?php if(!$reservation->getIsActive()){ $status = "Cancelled";} else {$status = "Scheduled";} ?>
+        <td><?php echo $status?></td>
+        <td>  <button class="btn btn-primary" type="button" style="" onclick="">Edit</button>
+            <button class="btn btn-danger" type="button" onclick="">Cancel</button></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
 </body>
 </html>

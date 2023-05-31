@@ -5,8 +5,8 @@ class ReservationRepository extends Repository
 {
 public function getReservationById($reservationId){
     $query = "SELECT reservation_id, reservation_nrOfAdults, reservation_nrOfKids, 
-       reservation_totalPrice, reservation_AdditionalNote, reservation_restaurantId, 
-       reservation_FullName, reservation_DateTime FROM dinner_reservation WHERE reservation_id = :reservationId";
+       reservation_AdditionalNote, reservation_restaurantId, 
+       reservation_FullName, reservation_DateTime, reservation_isActive FROM dinner_reservation WHERE reservation_id = :reservationId";
 
     try{
         $statement = $this->connection->prepare($query);
@@ -19,13 +19,13 @@ public function getReservationById($reservationId){
             $reservation->setId($row['reservation_id']);
             $reservation->setAmountAdults($row['reservation_nrOfAdults']);
             $reservation->setAmountKids($row['reservation_nrOfKids']);
-            $reservation->setTotalPrice($row['reservation_totalPrice']);
             $reservation->setAdditionalNote($row['reservation_AdditionalNote']);
             $reservation->setRestaurantId($row['reservation_restaurantId']);
             $reservation->setName($row['reservation_FullName']);
             $dateTimeString = $row['reservation_DateTime'];
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeString);
             $reservation->setReservationDateTime($dateTime);
+            $reservation->setIsActive($row['reservation_isActive']);
         }
 
         return $reservation;
@@ -52,12 +52,12 @@ public function getAllReservations(){
 public function addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime){
     $query = "INSERT INTO dinner_reservation (reservation_nrOfAdults, reservation_nrOfKids,
                                 reservation_totalPrice, reservation_AdditionalNote, reservation_restaurantId,
-                                reservation_FullName, reservation_DateTime) 
-                    VALUES (?,?,?,?,?,?,?)";
+                                reservation_FullName, reservation_DateTime, reservation_isActive) 
+                    VALUES (?,?,?,?,?,?,?,?)";
     try {
         $statement = $this->connection->prepare($query);
         $statement->execute(array($adults, $kids, $price, htmlspecialchars($note),
-            $restaurantId, htmlspecialchars($name), $dateTime));
+            $restaurantId, htmlspecialchars($name), $dateTime, 1));
     } catch (PDOException $e) {
         echo $e->getMessage();
     }

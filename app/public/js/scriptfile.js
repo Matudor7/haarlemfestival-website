@@ -5,7 +5,7 @@ function openForm(formId){
 }
 
 function closeForm(formId){
-    location.reload();
+    //location.reload();
     document.getElementById(formId).style.display = "none";
     document.getElementById("main").style.filter = "none";
 }

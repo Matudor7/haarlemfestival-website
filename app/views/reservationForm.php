@@ -27,7 +27,11 @@
 
             <h4 id="selectedTimeslotLbl">Select your preferred Timeslot</h4>
 
-            <div id="reservationDetailsForm" class="m-2 ms-5 me-5"></div>
+            <div id="reservationDetailsForm" class="m-2 ms-5 me-5">
+                <label>Reserve under: </label>
+                <input type="text" class="form-control" id="nameField" placeholder="your full name..." style="max-width: 200px; display: inline-block">
+                <textarea class="form-control" id="additionalNoteField" placeholder="Write here any notes for the restaurant..." rows="4" style="max-height: 70px; max-width:400px"></textarea>
+            </div>
 
 
             <div id="productOutput">
@@ -36,7 +40,7 @@
                 <button id="increasebtn" type="button" class="amountBtns" onClick="changeAmount(+1)">+</button>
             </div>
 
-                <input id="productAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>
+                <input id="adultsAmount" class="form-control" type="text" value="Qty" aria-label="readonly input example" readonly>
             <label>X</label>
             <strong id="typeLabel">Adult(s)</strong>
             </div>
@@ -56,15 +60,16 @@
 <script>
     const dateDropdown = document.getElementById('selectDateInput');
     const productListDiv = document.getElementById('productList');
-    const productAmountField = document.getElementById("productAmount")
-    const selectedTimeslotLbl = document.getElementById("selectedTimeslotLbl")
-    let productAmount = 0;
+    const adultsAmountField = document.getElementById('adultsAmount')
+    const selectedTimeslotLbl = document.getElementById('selectedTimeslotLbl')
+    let adultsAmount = 0;
     let selectedTimeslot;
+    let selectedTimeslotId;
     let kidsAmount = 0;
     const productInfoField = document.getElementById("productInfo");
-    const reservationDetailName = document.getElementById("nameField")
-    const additionalNoteField = document.getElementById("additionalInfoField")
-    const reservationDetailsDiv = document.getElementById("reservationDetailsForm")
+    const reservationDetailName = document.getElementById('nameField')
+    const additionalNoteField = document.getElementById('additionalNoteField')
+    const reservationDetailsDiv = document.getElementById('reservationDetailsForm')
     const kidsAmountField = document.getElementById('kidsAmountField')
 
     dateDropdown.addEventListener('change',(event) => {
@@ -103,7 +108,7 @@
     function createProduct(ticketId, ticketName, ticketPrice, ticketDate, ticketTime, ticketLocation){
 
         var newProduct = document.createElement("a");
-        newProduct.setAttribute("onClick", "selectProduct("+ticketId+")");
+        newProduct.setAttribute("onClick", "selectTimeslot("+ticketId+")");
         newProduct.setAttribute("class", "list-group-item list-group-item-action");
         newProduct.setAttribute("id", ticketId)
 
@@ -134,17 +139,17 @@
         return newProduct;
     }
 
-    function selectProduct(productId){
+    function selectTimeslot(timeslotId){
 
-        if(productId == 0){
+        if(timeslotId == 0){
             productInfoField.value = "Sold Out"
-            productAmount.value = "X";
+            adultsAmount.value = "X";
         } else {
-            selectedTimeslot = productId;
-            productAmount = 1;
+            selectedTimeslotId = timeslotId;
+            adultsAmount = 1;
 
-            const data = {"productId": productId}
-            fetch('/api/reservationform/selectTicket', {
+            const data = {"productId": timeslotId}
+            fetch('/api/reservationform/selectTimeslot', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -158,13 +163,15 @@
                     let day = fulldate.getDate();
                     let month = fulldate.toLocaleString('en-US', {month: 'long'})
                     let year = fulldate.getFullYear().toString();
+                    let hour = fulldate.getHours();
+                    let minutes = fulldate.getMinutes();
 
-                    let formattedTimeslot = day +getOrdinalSuffix()+' of '+ month+'/'+year;
+                    let formattedTimeslot = day +getOrdinalSuffix()+' of '
+                        + month+'/'+year+' at '+hour+':'+minutes;
 
 
                     selectedTimeslotLbl.innerText = formattedTimeslot;
-                    productAmountField.value = productAmount;
-                    addReservationDetailsForm()
+                    adultsAmountField.value = adultsAmount;
                 })
                 .catch(error => console.error(error));
 
@@ -173,27 +180,29 @@
 
     function changeAmount(number){
         if(number == "+1"){
-            productAmount+= 1;
-        } else if (number == "-1" & productAmount > 0) {
-            productAmount-= 1;
+            adultsAmount+= 1;
+        } else if (number == "-1" & adultsAmount > 0) {
+            adultsAmount-= 1;
         }
 
-        productAmountField.value = productAmount;
+        adultsAmountField.value = adultsAmount;
     }
 
     function addToCart(){
 
         let userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
         const eventType = <?php echo $thisEvent->getId()?>;
+        let restaurantId = <?php echo $restaurant->getRestaurantId()?>
 
         const data = {"userId": userId,
-            "amount": productAmount,
-            "productId": selectedTimeslot,
+            "adultsAmount": adultsAmount,
             "eventType": eventType,
             "kidsAmount": kidsAmount,
             "reservationName": reservationDetailName.value,
+            "restaurantId": restaurantId,
+            "timeslotId": selectedTimeslotId,
             "note": additionalNoteField.value}
-        fetch('/api/reservaionform/addToCart', {
+        fetch('/api/reservationform/addToCart', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -243,7 +252,6 @@
         kidsLabel.innerText = ' Kid(s)';
         div.appendChild(kidsLabel);
 
-        kidsOutput.appendChild(div);
 
     }
 
@@ -259,36 +267,8 @@
         } else {
             kidsAmountField.value = 'none';
         }
+
     }
-    function addReservationDetailsForm(){
-        reservationDetailsDiv.innerText = "";
-
-// Create the label element
-        const nameLabel = document.createElement("label");
-        nameLabel.textContent = "Reserve under:";
-
-// Create the input element
-        const nameField = document.createElement("input");
-        nameField.setAttribute("type", "text");
-        nameField.setAttribute("class", "form-control");
-        nameField.setAttribute("id", "nameField");
-        nameField.setAttribute("placeholder", "your full name..");
-        nameField.setAttribute("style", "max-width: 200px; display: inline-block");
-
-// Create the textarea element
-        const additionalInfoField = document.createElement("textarea");
-        additionalInfoField.setAttribute("class", "form-control");
-        additionalInfoField.setAttribute("id", "additionalInfoField");
-        additionalInfoField.setAttribute("placeholder", "Write here any notes for the restaurant...");
-        additionalInfoField.setAttribute("rows", "4");
-        additionalInfoField.setAttribute("style", "max-height: 70px; max-width:400px");
-
-// Append the label, input, and textarea elements to the parent div
-        reservationDetailsDiv.appendChild(nameLabel);
-        reservationDetailsDiv.appendChild(nameField);
-        reservationDetailsDiv.appendChild(additionalInfoField);
-    }
-
     function getOrdinalSuffix(day) {
         if (day >= 11 && day <= 13) {
             return "th";
@@ -339,7 +319,7 @@
         margin-right: 15px;
     }
 
-    .form-container #productAmount, #kidsAmountField{
+    .form-container #adultsAmount, #kidsAmountField{
         max-width: 55px;
         display: inline-block;
     }

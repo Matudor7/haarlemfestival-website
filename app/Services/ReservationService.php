@@ -18,6 +18,6 @@ public function addReservation($adults, $kids, $price, $note, $restaurantId, $na
         $this->reservationRepo->addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime);
 }
 public function updateReservation(){
-        
+
 }
 }

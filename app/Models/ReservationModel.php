@@ -61,7 +61,7 @@ class Reservation implements JsonSerializable{
     public function setName($name){
       $this->reservation_FullName = $name;
     }
-    public function setDateTime($dateTime){
+    public function setReservationDateTime($dateTime){
         $this->reservation_DateTime = $dateTime;
     }
 }

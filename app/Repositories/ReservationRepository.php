@@ -25,7 +25,7 @@ public function getReservationById($reservationId){
             $reservation->setName($row['reservation_FullName']);
             $dateTimeString = $row['reservation_DateTime'];
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeString);
-            $reservation->setDateTime($dateTime);
+            $reservation->setReservationDateTime($dateTime);
         }
 
         return $reservation;

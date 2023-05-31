@@ -8,6 +8,9 @@
   <li class="nav-item">
     <a class="nav-link" href="/admin/events">Events</a>
   </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/editHomepageContent">Homepage Content</a>
+    </li>
   <li class="nav-item">
     <a class="nav-link" href="/adminDance">"Dance!" Content</a>
   </li>
@@ -23,7 +26,7 @@
   <li class="nav-item">
     <a class="nav-link" href="/admin/orders">Orders</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/admin/editHomepageContent">Edit Homepage</a>
-  </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/manageReservations">Reservations</a>
+    </li>
 </ul>

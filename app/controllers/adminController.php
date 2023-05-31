@@ -10,6 +10,7 @@ require __DIR__ . '/../Services/UserService.php';
 require __DIR__ . '/../Services/UserTypeService.php';
 require __DIR__.'/../Services/WalkingTourService.php';
 require __DIR__ . '/../Services/ContentService.php';
+require __DIR__ . '/../Services/ReservationService.php';
 
 
 class AdminController extends Controller
@@ -24,6 +25,7 @@ class AdminController extends Controller
     private $userTypeService;
     private $walkingTourService;
     private $contentService;
+    private $reservationService;
 
     public function __construct()
     {
@@ -35,6 +37,7 @@ class AdminController extends Controller
         $this->userTypeService = new userTypeService();
         $this->walkingTourService = new WalkingTourService();
         $this->contentService = new ContentService();
+        $this->reservationService = new ReservationService();
     }
     //Tudor Nosca (678549)
     public function index()
@@ -531,6 +534,17 @@ class AdminController extends Controller
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully deleted from the Database");
             }  else {echo json_encode("There was an Issue");}
+        }
+    }
+
+    function manageReservations(){
+        if ($this->checkRole()){
+            $allReservations = $this->reservationService->getAllReservations();
+
+            require __DIR__ . '/../views/admin/reservationsAdmin.php';
+
+        } else {
+            header('Location: /');
         }
     }
     function checkRole(){

@@ -71,10 +71,14 @@ private function createReservation($adults, $kids, $price, $note, $restaurantId,
          $this->reservationService->addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime);
          $restaurant = $this->yummyService->getById($restaurantId);
          $totalPeople = $adults + $kids;
+         $amountText = $totalPeople." People (".$adults." Adult(s) + ".$kids." Kid(s)).";
+         if ($kids <= 0){
+             $amountText = $adults." Adult(s).";
+         }
 
          return $result = "Dinner Reservation for: ".$name.". In ".$restaurant->getRestaurantName().
              " on ".$this->formatDateTime($dateTime).
-             " for ".$totalPeople." People (".$adults." Adults + ".$kids." Kids). Note for Restaurant: ".
+             " for ".$amountText." Note for Restaurant: ".
              $note;
 }
     private function checkAvailability(int $amount, int $productId){

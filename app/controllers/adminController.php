@@ -547,6 +547,16 @@ class AdminController extends Controller
             header('Location: /');
         }
     }
+    function editReservations(){
+        if ($this->checkRole() && isset($_GET['id'])){
+            $reservation = $this->reservationService->getReservationById($_GET['id']);
+
+            require __DIR__ . '/../views/admin/editReservations.php';
+
+        } else {
+            header('Location: /');
+        }
+    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

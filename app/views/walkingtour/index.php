@@ -210,7 +210,7 @@
 <style>
 
 
-button {
+#main button {
     font-size: 21px;
     background-color: #8564CC;
     color: white;
@@ -222,7 +222,7 @@ button {
     border-width: 3px;
 }
 
-button:hover{
+#main button:hover{
     background-color: white;
     border-color: #8564CC;
     color: #8564CC;

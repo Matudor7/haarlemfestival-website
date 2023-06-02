@@ -43,6 +43,6 @@
     <?php } ?>
     </tbody>
 </table>
-<button class="btn btn-success ms-3" type="button"  onclick="window.location.href = '/admin/editReservations'">Add new Reservation</button>
+<button class="btn btn-success ms-3 mb-5" type="button"  onclick="window.location.href = '/admin/editReservations'">Add new Reservation</button>
 </body>
 </html>

@@ -76,8 +76,8 @@ private function createReservation($adults, $kids, $note, $restaurantId, $name, 
              $amountText = $adults." Adult(s).";
          }
 
-         return $result = "Dinner Reservation for: ".$name.". In ".$restaurant->getRestaurantName().
-             " on ".$this->formatDateTime($dateTime).
+         return $result = "Dinner Reservation for: ".$name.". In: ".$restaurant->getRestaurantName().
+             " on the".$this->formatDateTime($dateTime).
              " for ".$amountText." Note for Restaurant: ".
              $note;
 }

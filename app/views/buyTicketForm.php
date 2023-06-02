@@ -167,7 +167,7 @@
 
         var p = document.createElement("p");
         p.setAttribute("class", "mb-1");
-        p.innerHTML = "on the "+ticketDate + " at " + ticketTime;
+        p.innerHTML = "on "+ticketDate + " at " + ticketTime;
 
         var location = document.createElement("small");
         location.innerHTML = "Location: "+ ticketLocation;

@@ -22,7 +22,7 @@
         <th scope="col"># Kids</th>
         <th scope="col">Guest Note</th>
         <th scope="col">Status</th>
-        <th scope="col">Actions</th>
+        <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -39,7 +39,6 @@
         <?php if(!$reservation->getIsActive()){ $status = "Cancelled";} else {$status = "Scheduled";} ?>
         <td><?php echo $status?></td>
         <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservations?id=<?=$reservation->getId()?>'">Edit</button>
-            <button class="btn btn-danger" type="button" onclick="">Cancel</button></td>
     </tr>
     <?php } ?>
     </tbody>

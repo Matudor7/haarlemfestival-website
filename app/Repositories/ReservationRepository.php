@@ -49,14 +49,14 @@ public function getAllReservations(){
 
     }catch(PDOException $e){echo $e;}
 }
-public function addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime){
+public function addReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
     $query = "INSERT INTO dinner_reservation (reservation_nrOfAdults, reservation_nrOfKids,
-                                reservation_totalPrice, reservation_AdditionalNote, reservation_restaurantId,
+                                 reservation_AdditionalNote, reservation_restaurantId,
                                 reservation_FullName, reservation_DateTime, reservation_isActive) 
-                    VALUES (?,?,?,?,?,?,?,?)";
+                    VALUES (?,?,?,?,?,?,?)";
     try {
         $statement = $this->connection->prepare($query);
-        $statement->execute(array($adults, $kids, $price, htmlspecialchars($note),
+        $statement->execute(array($adults, $kids, htmlspecialchars($note),
             $restaurantId, htmlspecialchars($name), $dateTime, 1));
     } catch (PDOException $e) {
         echo $e->getMessage();

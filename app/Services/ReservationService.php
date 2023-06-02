@@ -14,8 +14,8 @@ public function getReservationById($reservationId){
 public function getAllReservations(){
         return $this->reservationRepo->getAllReservations();
 }
-public function addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime){
-        $this->reservationRepo->addReservation($adults, $kids, $price, $note, $restaurantId, $name, $dateTime);
+public function addReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
+        $this->reservationRepo->addReservation($adults, $kids, $note, $restaurantId, $name, $dateTime);
 }
 public function updateReservation(){
 

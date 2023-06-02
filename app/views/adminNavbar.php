@@ -12,13 +12,13 @@
         <a class="nav-link" href="/admin/editHomepageContent">Edit Homepage</a>
     </li>
   <li class="nav-item">
-    <a class="nav-link" href="/adminDance">"Dance!" Content</a>
+    <a class="nav-link" href="/adminDance">"Dance" Content</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/admin/manageRestaurants">"Yummy!" Content</a>
+    <a class="nav-link" href="/admin/manageRestaurants">"Yummy" Content</a>
   </li>
     <li>
-        <a class="nav-link" href="/admin/ManageWalkingTourContent">"Walking Tour!" Content</a>
+        <a class="nav-link" href="/admin/ManageWalkingTourContent">"Walking Tour" Content</a>
     </li>
   <li class="nav-item">
     <a class="nav-link" href="/admin/users">Users</a>

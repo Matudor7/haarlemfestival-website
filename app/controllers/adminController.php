@@ -548,14 +548,17 @@ class AdminController extends Controller
         }
     }
     function editReservations(){
+        $restaurants = $this->yummyService->getAllRestaurants();
+
         if ($this->checkRole() && isset($_GET['id'])){
             $reservation = $this->reservationService->getReservationById($_GET['id']);
-
-            require __DIR__ . '/../views/admin/editReservations.php';
-
+            $existingReservation = true;
+        }else if ($this->checkRole() && !isset($_GET['id'])){
+            $existingReservation = false;
         } else {
             header('Location: /');
         }
+        require __DIR__ . '/../views/admin/editReservations.php';
     }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){

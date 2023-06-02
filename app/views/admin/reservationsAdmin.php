@@ -44,6 +44,6 @@
     <?php } ?>
     </tbody>
 </table>
-<button class="btn btn-success" type="button">Add new Reservation</button>
+<button class="btn btn-success" type="button"  onclick="window.location.href = '/admin/editReservations'">Add new Reservation</button>
 </body>
 </html>

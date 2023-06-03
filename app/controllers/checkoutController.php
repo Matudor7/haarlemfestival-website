@@ -142,13 +142,13 @@ class CheckoutController extends Controller{
             $fullName = $paymentObject->getFullName();
             $subtotal = "";
         
-            $subject = "Your Haarlem Festival Order Invoice";
+            $subject = "Your Haarlem Festival Order Invoice and Tickets";
         
            // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
             //$message .= nl2br("Here your order invoice: \n");
 
 
-                $message = "Here is your invoice, thanks for buying your ticket with us!!!";
+                $message = "Here is your invoice and your tickets, thanks for buying your ticket with us!!!";
                 $pdfService = new PDFGenerator();
             if ($payment->isPaid()) {
                 $html = "
@@ -286,9 +286,11 @@ class CheckoutController extends Controller{
                 margin: 0;
             }
         </style>";
+
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
+                $ticketPDF = $this->generateTicketPdf($tickets);
             $smtpService = new smtpService();
-            $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf);
+            $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
             
             //Andy
             //$this->updateAvailability($itemsFromShoppingCart);
@@ -303,10 +305,133 @@ class CheckoutController extends Controller{
         } else {
             echo "Payment Failed...";
         }
-        
+
         require_once __DIR__ . '/navbarRequirements.php';
-      //  header("Location: http://localhost/");
+       header("Location: http://localhost/");
     }
+
+         function generateTicketPdf($tickets)
+        {
+            $qrService = new QrService();
+            //get the list of ticket and for each ticket generate a qr code and diplay the rest of the pdf as well with info related to that tickets
+            // $qrService->generateQrCode($ticket);
+            $pdf = "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Haarlem Festival Ticket</title>
+    </head>
+    <body>
+    <div class='container'>
+        <div class='header'>
+            <h1>Haarlem Festival Ticket</h1> ";
+            foreach ($tickets as $ticket) {
+                $qr_code_ur = $qrService->generateQrCode($ticket);
+                $client_name = $ticket->client_name;
+                $event_name = $ticket->event_name;
+                $event_date = $ticket->event_date;
+                $event_time = $ticket->event_time;
+                $event_type = $ticket->event_type;
+                $pdf .= "
+            <h2>" . $event_type . "</h2>
+            <div class='qr-code'>
+                <img src='" . $qr_code_ur . "' alt='QR code'>
+            </div>
+            <div class='info'>
+                <p><span class='label'>Name:</span>" . $client_name . "</p>
+                <p><span class='label'>Event:</span>" . $event_name . "</p>
+                <p><span class='label'>Date:</span>" . $event_date . "</p>
+                <p><span class='label'>Time:</span> " . $event_time . "</p>
+            </div>
+    </body>
+    </html>
+<style>
+    body {
+        <!--background-image: url('path/to/background/image.jpg');-->
+        background-size: cover;
+        background-position: center;
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 397px; /* Half of A4 width in pixels */
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #fff;
+        opacity: 0.9;
+        border: 10px solid #FF6600FF; /* default border color */
+    }
+
+    .container.purple {
+        border-color: #8564CC; /* blue border color for blue event type */
+    }
+
+    .container.blue {
+        border-color: #0d47a1;
+        /*border-color: #3366CFFF;*/ /* green border color for green event type */
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .qr-code {
+        float: right;
+        margin-left: 30px;
+        width: 75px;
+        height: 75px;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #333;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    .qr-code img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .info {
+        margin-top: 25px;
+        font-size: 14px;
+    }
+
+    .label {
+        font-weight: bold;
+        display: inline-block;
+        min-width: 70px;
+    }
+</style>";
+
+
+            }
+            return $pdf;
+
+        }
+
+
+
+
 
     // private function getMolliePayment(){
     //     require_once __DIR__ . '/../vendor/autoload.php';

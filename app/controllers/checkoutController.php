@@ -138,6 +138,7 @@ class CheckoutController extends Controller{
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
         $orderService =  new OrderService();
+
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
         $order = $orderService->getOrderById($_GET['order_id'])[0];
         $tickets[] = $this->payment();

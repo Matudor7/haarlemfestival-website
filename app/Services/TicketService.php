@@ -16,4 +16,11 @@ class TicketService
         $ticket = $repository->getTicketByID();
         return $ticket;
     }
+    public function storeTicketDB($ticket)
+    {
+        $repository = new TicketRepository;
+        return $repository->insert($ticket);
+
+    }
+
 }

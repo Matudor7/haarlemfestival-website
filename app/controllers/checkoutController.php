@@ -9,10 +9,11 @@ require_once __DIR__ . '/../Services/smtpService.php';
 require_once __DIR__ . '/../Services/OrderService.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Order.php';
-require_once __DIR__ . '/../Models/ticket.php';
+
 require_once __DIR__ . '/../Services/pdfGenerator.php';
 require_once __DIR__ . '/../Models/productModel.php';
 require_once __DIR__ . '/../Services/productService.php';
+require_once __DIR__ . '/../Services/TicketService.php';
 
 
 
@@ -32,12 +33,14 @@ class CheckoutController extends Controller{
             $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
             $tickets = array();
             $productService = new ProductService();
+            $ticketService = new TicketService();
             foreach ($shoppingCart->product_id as $item) {
 
                 $product = $productService->getById($item);
-               $ticket = new ticket();
+                $ticket = new Ticket();
+
                 switch ($product->getEventType()) {
-                //switch ($item->eventType) {
+                    //switch ($item->eventType) {
                     case 1:
                         $ticket->setDanceEventId($product->getEventType());
                         break;
@@ -56,9 +59,11 @@ class CheckoutController extends Controller{
                 }
                 $ticket->quantity = 1;
                 $ticket->user_id = $_SESSION['user_id'];
+                $ticket->setPrice($product->getPrice());
                 //$ticket->setQuantity($item->amount);
-               // $ticket->setUserId($item->user_id);
-                array_push($tickets, $ticket);
+                // $ticket->setUserId($item->user_id);
+                array_push($tickets, $ticketService->storeTicketDB($ticket));
+
             }
             $order->setInvoiceDate();
             $order->setInvoiceNumber();
@@ -67,6 +72,8 @@ class CheckoutController extends Controller{
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
+
+            return $tickets;
 
         }
     }
@@ -288,7 +295,7 @@ class CheckoutController extends Controller{
         </style>";
 
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
-                $ticketPDF = $this->generateTicketPdf($tickets);
+                $ticketPDF = $this->generateTicketPdf($this->payment());
             $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
             

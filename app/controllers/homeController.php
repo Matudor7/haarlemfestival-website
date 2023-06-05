@@ -15,7 +15,7 @@ class HomeController extends Controller{
         $contents= $contentService->getAllContent();
 
         require __DIR__ . '/navbarRequirements.php';
-        //require __DIR__ . '/../views/checkout/testingPDFTicket.php';
+       // require __DIR__ . '/../views/checkout/testingPDFTicket.php';
         //require __DIR__ . '/../views/checkout/testingPDFDesign.php';
         require __DIR__ . '/../views/homepage/index.php';
     }
@@ -23,8 +23,8 @@ class HomeController extends Controller{
     {
         //$eventService = new EventService();
         //$events = $eventService->getAll();
-        //require __DIR__ . '/navbarRequirements.php';
-        //require __DIR__ . '/../views/checkout/testingPDFDesign.php';
+        require __DIR__ . '/navbarRequirements.php';
+        require __DIR__ . '/../views/checkout/testingPDFDesign.php';
     }
 }
 ?>

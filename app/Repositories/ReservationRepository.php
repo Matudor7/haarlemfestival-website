@@ -19,9 +19,11 @@ public function getReservationById($reservationId){
             $reservation->setId($row['reservation_id']);
             $reservation->setAmountAdults($row['reservation_nrOfAdults']);
             $reservation->setAmountKids($row['reservation_nrOfKids']);
-            $reservation->setAdditionalNote($row['reservation_AdditionalNote']);
+            $aditionalNote = htmlspecialchars_decode($row['reservation_AdditionalNote']);
+            $reservation->setAdditionalNote($aditionalNote);
             $reservation->setRestaurantId($row['reservation_restaurantId']);
-            $reservation->setName($row['reservation_FullName']);
+            $name = htmlspecialchars_decode($row['reservation_FullName']);
+            $reservation->setName($name);
             $dateTimeString = $row['reservation_DateTime'];
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeString);
             $reservation->setReservationDateTime($dateTime);
@@ -62,7 +64,27 @@ public function addReservation($adults, $kids, $note, $restaurantId, $name, $dat
         echo $e->getMessage();
     }
 }
-public function updateReservation($reservationId){
+public function updateReservation($reservationId, $nameInput, $date, $amountAdults, $amountKids, $guestNoteInput, $restaurantId, $status){
+$query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reservation_nrOfKids= :kids , reservation_AdditionalNote= :guestNote
+                            ,reservation_restaurantId= :restaurantId , reservation_FullName= :name , reservation_DateTime= :date
+                            , reservation_isActive= :status WHERE reservation_id= :id";
+    try{
+        $statement = $this->connection->prepare($query);
+        $name = htmlspecialchars($nameInput);
+        $guestNote = htmlspecialchars($guestNoteInput);
 
+        $statement->bindParam(':id', $reservationId, PDO::PARAM_INT);
+        $statement->bindParam(':adults', $amountAdults, PDO::PARAM_INT);
+        $statement->bindParam(':kids', $amountKids, PDO::PARAM_INT);
+        $statement->bindParam(':guestNote', $guestNote);
+        $statement->bindParam(':restaurantId', $restaurantId, PDO::PARAM_INT);
+        $statement->bindParam(':status', $status, PDO::PARAM_BOOL);
+        $statement->bindParam(':date', $date);
+        $statement->bindParam(':name', $name);
+
+        $statement->execute();
+    } catch (PDOException $e){
+        echo " We apologize, It wasn't possible to update this reservation. Review all the information and contact the Service Desk if the issue persists. Message: ".$e->getMessage();
+    }
 }
 }

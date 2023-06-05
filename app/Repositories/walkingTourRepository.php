@@ -211,33 +211,30 @@ class walkingTourRepository extends Repository{
 
                 $walkingTourContent = new WalkingTourContentModel();
                 $walkingTourContent->setId($row['Id']);
-                $walkingTourContent->setSection($row['section_name']);
+                $sanitizedSectionName = htmlspecialchars_decode($row['section_name']);
+                $walkingTourContent->setSection($sanitizedSectionName);
                 $walkingTourContent->setIsCreated($row['isCreated']);
-                $walkingTourContent->setButtonURL($row['button_URL']);
+                $sanitizedBtnURL = htmlspecialchars_decode($row['button_URL']);
+                $walkingTourContent->setButtonURL($sanitizedBtnURL);
+                $sanitizedText = htmlspecialchars($this->formatContentField($row['text']));
+                $walkingTourContent->setText($sanitizedText);
+                $sanitizedTitle = htmlspecialchars_decode($this->formatContentField($row['title']));
+                $walkingTourContent->setTitle($sanitizedTitle);
+                $sanitizeBtnText = htmlspecialchars_decode($this->formatContentField($row['button_text']));
+                $walkingTourContent->setButtonText($sanitizeBtnText);
 
-                if(is_null($row['text'])){
-                    $walkingTourContent->setText('none');
-                } else {
-                    $walkingTourContent->setText($row['text']);
-                }
-
-                if(is_null($row['title'])){
-                    $walkingTourContent->setTitle('none');
-                } else {
-                    $walkingTourContent->setTitle($row['title']);
-                }
-
-                if(is_null($row['button_text'])){
-                    $walkingTourContent->setButtonText('none');
-                } else {
-                    $walkingTourContent->setButtonText($row['button_text']);
-                }
 
                 return $walkingTourContent;
         }}
         catch(PDOException $e){echo $e;}
     }
+private function formatContentField($content){
+        if(is_null($content)){
+            $content = 'none';
+        }
 
+        return $content;
+}
     public function getAllWalkingTourContent(){
         $query = "SELECT section_name FROM walkingTour_content";
 

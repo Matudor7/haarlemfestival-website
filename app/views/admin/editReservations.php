@@ -10,7 +10,7 @@
 </head>
 <body>
 <?php require __DIR__ . '/../adminNavbar.php'; ?>
-<div id="editReservationForm" class="mt-3">
+<div id="editReservationForm" class="mt-3 ms-2">
     <h1 id="pageTitle" class="mb-4"></h1>
     <form class="row g-3 w-50 ms-5">
     <div class="form-floating col-md-6 mb-2">
@@ -51,11 +51,12 @@
             </select>
             <label for="statusDropdown">Status</label>
         </div>
-        <div id="btnGroup" class="mb-5">
-            <button class="btn btn-success me-3">Save</button>
-            <button class="btn btn-danger"><a href="/admin/manageReservations">Cancel</a></button>
-        </div>
     </form>
+        <div id="btnGroup" class="mb-5">
+            <button id="saveBtn" class="btn btn-success me-3">Save</button>
+            <button class="btn btn-danger" onclick="closeWindow()">Cancel</button>
+        </div>
+
 </div>
 </body>
 </html>
@@ -68,10 +69,13 @@
     const kidsAmountField = document.getElementById("kidsAmountField");
     const additionalGuestNote = document.getElementById("additionalGuestNote");
     const statusDropdown = document.getElementById("statusDropdown");
+    const saveBtn = document.getElementById("saveBtn");
+    let reservationId = 0;
 
 window.onload = function loadForm(){
    <?php if ($existingReservation){?>
-    pageTitle.innerText = "Edit Reservation #"+"<?php echo $reservation->getId();?>";
+    reservationId = <?php echo $reservation->getId();?>;
+    pageTitle.innerText = "Edit Reservation #"+ reservationId;
     nameField.value = "<?php echo $reservation->getName()?>";
     datePicker.value = "<?php echo $reservation->getDateTime()->format('Y-m-d H:i')?>";
     adultAmountField.value = "<?php echo $reservation->getAmountAdults()?>"
@@ -79,9 +83,49 @@ window.onload = function loadForm(){
     additionalGuestNote.innerText = "<?php echo $reservation->getAdditionalNote()?>"
     restaurantDropdown.value = "<?php echo $reservation->getRestaurantId()?>"
     statusDropdown.value = "<?php echo $reservation->getIsActive()?>"
-    <?php } else if(!$existingReservation) {?>
+
+    saveBtn.onclick = updateReservation;
+    <?php } else {?>
     pageTitle.innerText = "Add a new Reservation";
+    saveBtn.onclick = createReservation;
     <?php }?>
+}
+
+function updateReservation(){
+        fetch('/admin/editReservation', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reservationData()),
+        })
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .then(closeWindow)
+            .catch(error => console.error(error));
+}
+function createReservation(){
+    fetch('/admin/createReservation', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservationData()),
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
+}
+
+function reservationData(){
+    const data = { "id": reservationId, "name": nameField.value, "date": datePicker.value, "adults": adultAmountField.value,
+        "kids": kidsAmountField.value, "guestNote": additionalGuestNote.value, "restaurantId": restaurantDropdown.value,
+        "status": statusDropdown.value }
+
+    return data;
+}
+function closeWindow(){
+ window.location.href = "/admin/manageReservations"
 }
 </script>
 <style>

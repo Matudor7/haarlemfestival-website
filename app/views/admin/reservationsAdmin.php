@@ -38,11 +38,11 @@
         <td><?php echo $reservation->getAdditionalNote()?></td>
         <?php if(!$reservation->getIsActive()){ $status = "Cancelled";} else {$status = "Scheduled";} ?>
         <td><?php echo $status?></td>
-        <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservations?id=<?=$reservation->getId()?>'">Edit</button>
+        <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservationsPage?id=<?=$reservation->getId()?>'">Edit</button>
     </tr>
     <?php } ?>
     </tbody>
 </table>
-<button class="btn btn-success ms-3 mb-5" type="button"  onclick="window.location.href = '/admin/editReservations'">Add new Reservation</button>
+<button class="btn btn-success ms-3 mb-5" type="button"  onclick="window.location.href = '/admin/editReservationsPage'">Add new Reservation</button>
 </body>
 </html>

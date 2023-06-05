@@ -547,7 +547,7 @@ class AdminController extends Controller
             header('Location: /');
         }
     }
-    function editReservations(){
+    function editReservationsPage(){
         $restaurants = $this->yummyService->getAllRestaurants();
 
         if ($this->checkRole() && isset($_GET['id'])){
@@ -559,6 +559,27 @@ class AdminController extends Controller
             header('Location: /');
         }
         require __DIR__ . '/../views/admin/editReservations.php';
+    }
+    function editReservation(){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['id'])){
+                $reservationId = $data['id'];
+                $name = $data['name'];
+                $date = $data['date'];
+                $amountAdults = $data['adults'];
+                $amountKids = $data['kids'];
+                $guestNote = $data['guestNote'];
+                $restaurantId = $data['restaurantId'];
+                $status = $data['status'];
+
+                $this->reservationService->updateReservation($reservationId, $name, $date,$amountAdults,$amountKids,$guestNote,$restaurantId,$status);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully updated in the Database");
+            }  else {echo json_encode("There was a problem editing reservation #".$reservationId);}
+        }
     }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){

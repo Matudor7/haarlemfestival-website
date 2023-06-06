@@ -51,7 +51,7 @@ public function getAllReservations(){
 
     }catch(PDOException $e){echo $e;}
 }
-public function addReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
+public function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
     $query = "INSERT INTO dinner_reservation (reservation_nrOfAdults, reservation_nrOfKids,
                                  reservation_AdditionalNote, reservation_restaurantId,
                                 reservation_FullName, reservation_DateTime, reservation_isActive) 

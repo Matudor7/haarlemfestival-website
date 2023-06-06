@@ -68,7 +68,7 @@ class reservationformController
         }
     }
 private function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
-         $this->reservationService->addReservation($adults, $kids, $note, $restaurantId, $name, $dateTime);
+         $this->reservationService->createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime);
          $restaurant = $this->yummyService->getById($restaurantId);
          $totalPeople = $adults + $kids;
          $amountText = $totalPeople." People (".$adults." Adult(s) + ".$kids." Kid(s)).";

@@ -581,6 +581,26 @@ class AdminController extends Controller
             }  else {echo json_encode("There was a problem editing reservation #".$reservationId);}
         }
     }
+
+    function createReservation(){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if(isset($data['id'])){
+                $name = $data['name'];
+                $date = $data['date'];
+                $amountAdults = $data['adults'];
+                $amountKids = $data['kids'];
+                $guestNote = $data['guestNote'];
+                $restaurantId = $data['restaurantId'];
+
+                $this->reservationService->createReservation($amountAdults, $amountKids, $guestNote, $restaurantId,$name,$date);
+
+                header('Content-Type: application/json;');
+                echo json_encode("Successfully updated in the Database");
+            }  else {echo json_encode("There was a problem create the reservation");}
+        }
+    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

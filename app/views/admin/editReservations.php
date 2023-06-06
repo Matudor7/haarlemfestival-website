@@ -128,6 +128,7 @@ function createReservation(){
     })
         .then(response => response.json())
         .then(response => console.log(response))
+        .then(closeWindow)
         .catch(error => console.error(error));
 }
 

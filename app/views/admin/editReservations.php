@@ -45,9 +45,9 @@
 </div>
         <div class="form-floating mb-3 col-12 w-75">
             <select class="form-select" id="statusDropdown">
-                <option <?php if(!isset($this->reservation)){echo '';} else {echo 'selected';} ;?>>...</option>
-                <option value="0" data-id="1">Cancelled</option>
-                <option value="1" data-id="2" <?php echo ($reservation->getIsActive() == 1) ? 'selected' : '';?>>Scheduled</option>
+                <option <?php if(!isset($reservation)){echo '';} else {echo 'selected';} ;?>>...</option>
+                <option value="0">Cancelled</option>
+                <option value="1">Scheduled</option>
             </select>
             <label for="statusDropdown">Status</label>
         </div>
@@ -69,12 +69,24 @@
     const kidsAmountField = document.getElementById("kidsAmountField");
     const additionalGuestNote = document.getElementById("additionalGuestNote");
     const statusDropdown = document.getElementById("statusDropdown");
+    let selectedStatus;
     const saveBtn = document.getElementById("saveBtn");
     let reservationId = 0;
 
 window.onload = function loadForm(){
    <?php if ($existingReservation){?>
     reservationId = <?php echo $reservation->getId();?>;
+    fillForm();
+    setSelectedStatus();
+    selectedStatus.setAttribute('selected',  'selected')
+    saveBtn.onclick = updateReservation;
+    <?php } else {?>
+    pageTitle.innerText = "Add a new Reservation";
+    saveBtn.onclick = createReservation;
+    <?php }?>
+}
+function fillForm(){
+    <?php if ($existingReservation){?>
     pageTitle.innerText = "Edit Reservation #"+ reservationId;
     nameField.value = "<?php echo $reservation->getName()?>";
     datePicker.value = "<?php echo $reservation->getDateTime()->format('Y-m-d H:i')?>";
@@ -82,16 +94,17 @@ window.onload = function loadForm(){
     kidsAmountField.value = "<?php echo $reservation->getAmountKids()?>"
     additionalGuestNote.innerText = "<?php echo $reservation->getAdditionalNote()?>"
     restaurantDropdown.value = "<?php echo $reservation->getRestaurantId()?>"
-    //statusDropdown.value = "<//?php echo $reservation->getIsActive()?>"
-    statusDropdown.setAttribute('selected', <?php echo ($reservation->getIsActive() == 0) ? 'selected' : '';?>)
-    statusDropdown.op
-    saveBtn.onclick = updateReservation;
-    <?php } else {?>
-    pageTitle.innerText = "Add a new Reservation";
-    saveBtn.onclick = createReservation;
     <?php }?>
 }
 
+function setSelectedStatus(){
+    <?php if ($existingReservation){
+        if ($reservation->getIsActive()){ ?>
+    selectedStatus = statusDropdown.querySelector('option[value="1"]')
+    <?php } else { ?>
+    selectedStatus = statusDropdown.querySelector('option[value="0"]')
+    <?php } }?>
+}
 function updateReservation(){
         fetch('/admin/editReservation', {
             method: "POST",

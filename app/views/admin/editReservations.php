@@ -45,9 +45,9 @@
 </div>
         <div class="form-floating mb-3 col-12 w-75">
             <select class="form-select" id="statusDropdown">
-                <option selected>...</option>
-                <option value="0">Cancelled</option>
-                <option value="1">Scheduled</option>
+                <option <?php if(!isset($this->reservation)){echo '';} else {echo 'selected';} ;?>>...</option>
+                <option value="0" data-id="1">Cancelled</option>
+                <option value="1" data-id="2" <?php echo ($reservation->getIsActive() == 1) ? 'selected' : '';?>>Scheduled</option>
             </select>
             <label for="statusDropdown">Status</label>
         </div>
@@ -82,8 +82,9 @@ window.onload = function loadForm(){
     kidsAmountField.value = "<?php echo $reservation->getAmountKids()?>"
     additionalGuestNote.innerText = "<?php echo $reservation->getAdditionalNote()?>"
     restaurantDropdown.value = "<?php echo $reservation->getRestaurantId()?>"
-    statusDropdown.value = "<?php echo $reservation->getIsActive()?>"
-
+    //statusDropdown.value = "<//?php echo $reservation->getIsActive()?>"
+    statusDropdown.setAttribute('selected', <?php echo ($reservation->getIsActive() == 0) ? 'selected' : '';?>)
+    statusDropdown.op
     saveBtn.onclick = updateReservation;
     <?php } else {?>
     pageTitle.innerText = "Add a new Reservation";
@@ -128,6 +129,3 @@ function closeWindow(){
  window.location.href = "/admin/manageReservations"
 }
 </script>
-<style>
-
-</style>

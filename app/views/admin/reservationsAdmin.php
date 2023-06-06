@@ -36,8 +36,12 @@
         <td><?php echo $reservation->getAmountAdults()?></td>
         <td><?php echo $reservation->getAmountKids()?></td>
         <td><?php echo $reservation->getAdditionalNote()?></td>
-        <?php if(!$reservation->getIsActive()){ $status = "Cancelled";} else {$status = "Scheduled";} ?>
-        <td><?php echo $status?></td>
+        <td>
+            <select class="form-select status-dropdown" data-reservation-id="<?php echo $reservation->getId();?>" id="statusDropdown2">
+                <option value="0"  <?php echo ($reservation->getIsActive() == 0) ? 'selected' : ''; ?>>Cancelled</option>
+                <option value="1" <?php echo ($reservation->getIsActive() == 1) ? 'selected' : ''; ?>>Scheduled</option>
+            </select>
+        </td>
         <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservationsPage?id=<?=$reservation->getId()?>'">Edit</button>
     </tr>
     <?php } ?>
@@ -46,3 +50,8 @@
 <button class="btn btn-success ms-3 mb-5" type="button"  onclick="window.location.href = '/admin/editReservationsPage'">Add new Reservation</button>
 </body>
 </html>
+<script>
+const statusDropdown2 = document.getElementById("statusDropdown2")
+    window.onload = function loadPage(){
+    }
+</script>

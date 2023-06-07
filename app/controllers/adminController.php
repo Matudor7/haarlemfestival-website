@@ -598,9 +598,22 @@ class AdminController extends Controller
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully updated in the Database");
-            }  else {echo json_encode("There was a problem create the reservation");}
+            }  else {echo json_encode("There was a problem creating the reservation");}
         }
     }
+    function changeReservationStatus(){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+        if(isset($data['id'])){
+
+            $reservationId = $data['id'];
+            $reservationStatus = $data['status'];
+
+            $this->reservationService->changeReservationStatus($reservationId, $reservationStatus);
+            header('Content-Type: application/json;');
+            echo json_encode('Successfully changed the status of reservation #'.$reservationId.'in the Database');
+        } else {echo json_encode('There was a problem changing the satus of the reservation');}
+    }}
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

@@ -87,4 +87,18 @@ $query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reserv
         echo " We apologize, It wasn't possible to update this reservation. Review all the information and contact the Service Desk if the issue persists. Message: ".$e->getMessage();
     }
 }
+public function ChangeReservationStatus($reservationId, $reservationStatus){
+    $query = "UPDATE dinner_reservation SET reservation_isActive= :status WHERE reservation_id= :id";
+
+    try{
+        $statement = $this->connection->prepare($query);
+
+        $statement->bindParam(':id', $reservationId, PDO::PARAM_INT);
+        $statement->bindParam(':status', $reservationStatus, PDO::PARAM_BOOL);
+        $statement->execute();
+
+    } catch (PDOException $e){
+        echo " We apologize, It wasn't possible to change the status of this reservation. Refresh the page and try again, If the issue persists please contact the Service Desk. Message: ".$e->getMessage();
+    }
+}
 }

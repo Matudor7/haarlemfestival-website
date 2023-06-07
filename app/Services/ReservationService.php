@@ -20,4 +20,7 @@ public function createReservation($adults, $kids, $note, $restaurantId, $name, $
 public function updateReservation($reservationId, $nameInput, $date, $amountAdults, $amountKids, $guestNoteInput, $restaurantId, $status){
         $this->reservationRepo->updateReservation($reservationId, $nameInput, $date, $amountAdults, $amountKids, $guestNoteInput, $restaurantId, $status);
 }
+public function changeReservationStatus($reservationId, $reservationStatus){
+        $this->reservationRepo->ChangeReservationStatus($reservationId, $reservationStatus);
+}
 }

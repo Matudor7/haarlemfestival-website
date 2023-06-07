@@ -37,7 +37,7 @@
         <td><?php echo $reservation->getAmountKids()?></td>
         <td><?php echo $reservation->getAdditionalNote()?></td>
         <td>
-            <select class="form-select status-dropdown" data-reservation-id="<?php echo $reservation->getId();?>" id="statusDropdown2">
+            <select class="form-select status-dropdown" data-info="<?php echo $reservation->getId();?>" id="statusDropdown<?php echo $reservation->getId();?>">
                 <option value="0"  <?php echo ($reservation->getIsActive() == 0) ? 'selected' : ''; ?>>Cancelled</option>
                 <option value="1" <?php echo ($reservation->getIsActive() == 1) ? 'selected' : ''; ?>>Scheduled</option>
             </select>
@@ -51,7 +51,27 @@
 </body>
 </html>
 <script>
-const statusDropdown2 = document.getElementById("statusDropdown2")
-    window.onload = function loadPage(){
-    }
+const statusDropdown2 = document.getElementById("statusDropdown2");
+let selectedStatus;
+let reservationId;
+statusDropdown2.addEventListener('change', function(event){
+    selectedStatus = event.target.value;
+    reservationId = event.target.dataset.info;
+    changeStatus()
+})
+
+function changeStatus(){
+    const data = {"id": reservationId, "status": selectedStatus}
+    fetch('/admin/changeReservationStatus', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .then(location.reload)
+        .catch(error => console.error(error));
+}
 </script>

@@ -70,7 +70,8 @@
     const reservationDetailName = document.getElementById('nameField')
     const additionalNoteField = document.getElementById('additionalNoteField')
     const reservationDetailsDiv = document.getElementById('reservationDetailsForm')
-    const kidsAmountField = document.getElementById('kidsAmountField')
+    //const kidsAmountField = document.getElementById('kidsAmountField')
+    const testingLabel = document.getElementById('testingLabel')
 
     dateDropdown.addEventListener('change',(event) => {
         const selectedDate = event.target.value;
@@ -129,7 +130,6 @@
         var location = document.createElement("small");
         location.innerHTML = "Location: "+ ticketLocation;
 
-        // append the child elements to the parent element
         div.appendChild(h6);
         div.appendChild(small);
         newProduct.appendChild(div);
@@ -257,17 +257,16 @@
 
     function deleteKids(){
         const div = document.getElementById('kidsOutput')
-
-        if(kidsAmount < 1){
-            div.innerText = "";
+        if(kidsAmount < 0){
             kidsAmount = 0;
-        } else if(kidsAmount > 0){
+            div.innerText = "";
+        } else if(kidsAmount > 1){
             kidsAmount -= 1;
-            kidsAmountField.value = kidsAmount;
         } else {
-            kidsAmountField.value = 'none';
+            div.innerText = "";
         }
-
+        let kidsAmountField = document.getElementById('kidsAmountField')
+        kidsAmountField.value = kidsAmount;
     }
     function getOrdinalSuffix(day) {
         if (day >= 11 && day <= 13) {
@@ -293,8 +292,6 @@
         z-index: 9;
         margin-top: 50px;
     }
-
-    /* Add styles to the form container */
     .form-container {
         width: 500px;
         max-height: 370px;

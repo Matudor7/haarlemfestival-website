@@ -72,48 +72,21 @@
         updateProductList(dateDropdown.value, selectedTime)
     })
 
-    /*function updateTimeOptions(selectedDate){
-        timeDropdown.innerHTML = "";
-        var defaultOption = document.createElement("option");
-        defaultOption.text = "Select Time"
-        timeDropdown.add(defaultOption);
-
-        <//?php
-        $times = array();
-        foreach($tickets as $ticket) {
-            $time = $ticket->getProductTime();?>
-
-        var date = "<//?php echo $ticket->getProductDate();?>";
-        var time = "<//?php echo $ticket->getProductTime();?>";
-
-        if (date == selectedDate) {
-            <//?php if (!in_array($time, $times)) { continue; }
-            $times[] = $time;
-            ?>
-
-            var option = document.createElement("option");
-            option.text = time;
-            option.value = time;
-            timeDropdown.add(option);
-        }
-                <//?php } ?>
-
-    }*/
-
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
         defaultOption.text = "Select Time"
         timeDropdown.add(defaultOption);
+        let times = new Array();
 
         <?php foreach ($tickets as $ticket) {?>
         var date = "<?php echo $ticket->getProductDate();?>";
         var time = "<?php echo $ticket->getProductTime();?>";
-
-        if (date == selectedDate){
+        if (date == selectedDate & !times.includes(time)){
             var option = document.createElement("option");
             option.text = time;
             timeDropdown.add(option);
+            times.push(time);
         }
 
         <?php }?>
@@ -172,7 +145,6 @@
         var location = document.createElement("small");
         location.innerHTML = "Location: "+ ticketLocation;
 
-        // append the child elements to the parent element
         div.appendChild(h6);
         div.appendChild(small);
         newProduct.appendChild(div);
@@ -238,10 +210,6 @@
             .catch(error => console.error(error));
 
             closeForm('ticketForm');
-    }
-
-    function messageBox(){
-
     }
 </script>
 <style>

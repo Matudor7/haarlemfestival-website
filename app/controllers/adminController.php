@@ -606,22 +606,13 @@ class AdminController extends Controller
             $data = json_decode(file_get_contents("php://input"), true);
         if(isset($data['id'])){
             $reservationId = $data['id'];
-            $newStatus = $this->revertStatus($data['currentStatus']);
+            $status = $data['status'];
 
-            $this->reservationService->changeReservationStatus($reservationId, $newStatus);
+            $this->reservationService->changeReservationStatus($reservationId, $status);
             header('Content-Type: application/json;');
             echo json_encode('Successfully changed the status of reservation #'.$reservationId.'in the Database');
-        } else {echo json_encode('There was a problem changing the satus of the reservation');}
+        } else {echo json_encode('There was a problem changing the status of the reservation');}
     }}
-
-    function revertStatus($currentStatus){
-        $newStatus = 0;
-        if($currentStatus == 0){
-            $newStatus = 1;
-        }
-
-        return $newStatus;
-    }
     function checkRole(){
         if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2){
             return true;

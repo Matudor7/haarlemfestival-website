@@ -48,6 +48,7 @@
                 <option <?php if(!isset($reservation)){echo '';} else {echo 'selected';} ;?>>...</option>
                 <option value="0">Cancelled</option>
                 <option value="1">Scheduled</option>
+                <option value="2">Unpaid</option>
             </select>
             <label for="statusDropdown">Status</label>
         </div>
@@ -77,7 +78,7 @@ window.onload = function loadForm(){
    <?php if ($existingReservation){?>
     reservationId = <?php echo $reservation->getId();?>;
     fillForm();
-    setSelectedStatus();
+    setStatus();
     selectedStatus.setAttribute('selected',  'selected')
     saveBtn.onclick = updateReservation;
     <?php } else {?>
@@ -97,11 +98,13 @@ function fillForm(){
     <?php }?>
 }
 
-function setSelectedStatus(){
+function setStatus(){
     <?php if ($existingReservation){
-        if ($reservation->getIsActive()){ ?>
+        if ($reservation->getReservationStatus() == 1){ ?>
     selectedStatus = statusDropdown.querySelector('option[value="1"]')
-    <?php } else { ?>
+    <?php } elseif($reservation->getReservationStatus() == 2) { ?>
+            selectedStatus = statusDropdown.querySelector('option[value="2"]')
+    <?php }else { ?>
     selectedStatus = statusDropdown.querySelector('option[value="0"]')
     <?php } }?>
 }

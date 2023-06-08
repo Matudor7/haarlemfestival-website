@@ -114,7 +114,8 @@ class CheckoutController extends Controller{
 
     }
 
-    function return(){
+    function return()
+    {
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Services/paymentService.php';
         $shoppingCartService = new ShoppingCartService();
@@ -122,7 +123,7 @@ class CheckoutController extends Controller{
         //Ale
         require_once __DIR__ . '/../Services/paymentService.php';
         $paymentService = new PaymentService();
-       // $itemsFromShoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+        // $itemsFromShoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         //$paymentDetails = $paymentService->getByPaymentId();
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
@@ -130,26 +131,26 @@ class CheckoutController extends Controller{
 
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
-        $orderService =  new OrderService();
+        $orderService = new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
         $order = $orderService->getOrderById($_GET['order_id'])[0];
 
         if ($payment->isPaid()) {
             //TODO move the logic to the controller
-        
+
 
             $email = $paymentObject->getEmail();
             $fullName = $paymentObject->getFullName();
             $subtotal = "";
-        
+
             $subject = "Your Haarlem Festival Order Invoice";
-        
-           // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
+
+            // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
             //$message .= nl2br("Here your order invoice: \n");
 
 
-                $message = "Here is your invoice, thanks for buying your ticket with us!!!";
-                $pdfService = new PDFGenerator();
+            $message = "Here is your invoice, thanks for buying your ticket with us!!!";
+            $pdfService = new PDFGenerator();
             if ($payment->isPaid()) {
                 $html = "
         <head>
@@ -169,22 +170,22 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>". $order->invoice_number."</td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number . "</td>
                 </tr>
                 <tr>
-                 <td style='border: none;'>". $paymentObject->first_name . '  '. $paymentObject->last_name." </td>
-                    <td style='border: none;'>".$paymentObject->email."</td>
+                 <td style='border: none;'>" . $paymentObject->first_name . '  ' . $paymentObject->last_name . " </td>
+                    <td style='border: none;'>" . $paymentObject->email . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'>".$order->invoice_date."</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' >".$paymentObject->address."</td>
-                    <td style='border: none;'>".$paymentObject->phone_number."</td>
+                    <td style='border: none;' >" . $paymentObject->address . "</td>
+                    <td style='border: none;'>" . $paymentObject->phone_number . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'>".$order->invoice_date."</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' >".$paymentObject->zip."</td>
+                    <td style='border: none;' >" . $paymentObject->zip . "</td>
                 </tr>
             </table>
         </div><br><br>
@@ -203,31 +204,31 @@ class CheckoutController extends Controller{
                 $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
                 $productService = new ProductService();
                 foreach ($shoppingCart->product_id as $item) {
-                $product = $productService->getById($item);
-                $subtotal += intval($shoppingCart->amount[0]) * $product->price;
-                $totalPricePerProduct = $product->calculateTotalPriceForProduct($shoppingCart->amount[0], $product->price);
-                $amount = $shoppingCart->amount[0];
+                    $product = $productService->getById($item);
+                    $subtotal += intval($shoppingCart->amount[0]) * $product->price;
+                    $totalPricePerProduct = $product->calculateTotalPriceForProduct($shoppingCart->amount[0], $product->price);
+                    $amount = $shoppingCart->amount[0];
+                    $html .= "
+            <tr>
+                <td>" . $product->name . "</td>
+                <td>" . $amount . "</td>
+                <td>&#8364;" . $product->price . "</td>
+                <td>" . $totalPricePerProduct . "</td>
+            </tr> ";
+                }
                 $html .= "
             <tr>
-                <td>".$product->name."</td>
-                <td>".$amount."</td>
-                <td>&#8364;".$product->price."</td>
-                <td>".$totalPricePerProduct."</td>
-            </tr> ";
-            }
-         $html .= "
-            <tr>
                 <td colspan='3'>Subtotal</td>
-                <td>&#8364;".$subtotal."</td>
+                <td>&#8364;" . $subtotal . "</td>
             </tr>
             <tr>
                 <td colspan='3'>Tax</td>
-                <td>&#8364;".$subtotal * 0.21."</td>
+                <td>&#8364;" . $subtotal * 0.21 . "</td>
             </tr>
             <tr>
                 <td colspan='3' style='color:#ff6600;  font-weight: bold;'>TOTAL</td>
         
-                <td style='color:#ff6600;  font-weight: bold;'> &#8364;".$subtotal * 0.21 + $subtotal."</td>
+                <td style='color:#ff6600;  font-weight: bold;'> &#8364;" . $subtotal * 0.21 + $subtotal . "</td>
             </tr>
             </tbody>
         </table>
@@ -287,27 +288,27 @@ class CheckoutController extends Controller{
             }
         </style>";
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
-            $smtpService = new smtpService();
-            $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf);
-            
-            //Andy
-            //$this->updateAvailability($itemsFromShoppingCart);
+                $smtpService = new smtpService();
+                $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf);
 
-            $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+                //Andy
+                $this->updateAvailability($shoppingCart);
 
-            $smtpService = new smtpService();
+                $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
 
-            $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-            return;
-            header("Location: http://localhost/");
-        } else {
-            echo "Payment Failed...";
+                $smtpService = new smtpService();
+
+                $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+                return;
+                header("Location: http://localhost/");
+            } else {
+                echo "Payment Failed...";
+            }
+
+            require_once __DIR__ . '/navbarRequirements.php';
+            //  header("Location: http://localhost/");
         }
-        
-        require_once __DIR__ . '/navbarRequirements.php';
-      //  header("Location: http://localhost/");
     }
-
     // private function getMolliePayment(){
     //     require_once __DIR__ . '/../vendor/autoload.php';
     //     $mollie = new Mollie\Api\MollieApiClient();
@@ -331,7 +332,17 @@ class CheckoutController extends Controller{
 
         for ($i = 0; $i < count($products); $i++){
             $productService->updateProductAvailability($products[$i], $amounts[$i]);
+            if($products[$i]->getEventType() == 2){
+                
+            }
         }
     }
-}}
+
+    function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
+        require_once __DIR__.'/../Services/ReservationService.php';
+        $reservationService = new ReservationService();
+
+
+    }
+}
 ?>

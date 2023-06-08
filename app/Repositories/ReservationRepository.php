@@ -6,7 +6,7 @@ class ReservationRepository extends Repository
 public function getReservationById($reservationId){
     $query = "SELECT reservation_id, reservation_nrOfAdults, reservation_nrOfKids, 
        reservation_AdditionalNote, reservation_restaurantId, 
-       reservation_FullName, reservation_DateTime, reservation_isActive FROM dinner_reservation WHERE reservation_id = :reservationId";
+       reservation_FullName, reservation_DateTime, reservation_status FROM dinner_reservation WHERE reservation_id = :reservationId";
 
     try{
         $statement = $this->connection->prepare($query);
@@ -27,7 +27,7 @@ public function getReservationById($reservationId){
             $dateTimeString = $row['reservation_DateTime'];
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeString);
             $reservation->setReservationDateTime($dateTime);
-            $reservation->setIsActive($row['reservation_isActive']);
+            $reservation->setReservationStatus($row['reservation_status']);
         }
 
         return $reservation;
@@ -54,12 +54,12 @@ public function getAllReservations(){
 public function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
     $query = "INSERT INTO dinner_reservation (reservation_nrOfAdults, reservation_nrOfKids,
                                  reservation_AdditionalNote, reservation_restaurantId,
-                                reservation_FullName, reservation_DateTime, reservation_isActive) 
+                                reservation_FullName, reservation_DateTime, reservation_status) 
                     VALUES (?,?,?,?,?,?,?)";
     try {
         $statement = $this->connection->prepare($query);
         $statement->execute(array($adults, $kids, htmlspecialchars($note),
-            $restaurantId, htmlspecialchars($name), $dateTime, 1));
+            $restaurantId, htmlspecialchars($name), $dateTime, 2));
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -67,7 +67,7 @@ public function createReservation($adults, $kids, $note, $restaurantId, $name, $
 public function updateReservation($reservationId, $nameInput, $date, $amountAdults, $amountKids, $guestNoteInput, $restaurantId, $status){
 $query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reservation_nrOfKids= :kids , reservation_AdditionalNote= :guestNote
                             ,reservation_restaurantId= :restaurantId , reservation_FullName= :name , reservation_DateTime= :date
-                            , reservation_isActive= :status WHERE reservation_id= :id";
+                            , reservation_status= :status WHERE reservation_id= :id";
     try{
         $statement = $this->connection->prepare($query);
         $name = htmlspecialchars($nameInput);
@@ -78,7 +78,7 @@ $query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reserv
         $statement->bindParam(':kids', $amountKids, PDO::PARAM_INT);
         $statement->bindParam(':guestNote', $guestNote);
         $statement->bindParam(':restaurantId', $restaurantId, PDO::PARAM_INT);
-        $statement->bindParam(':status', $status, PDO::PARAM_BOOL);
+        $statement->bindParam(':status', $status, PDO::PARAM_INT);
         $statement->bindParam(':date', $date);
         $statement->bindParam(':name', $name);
 
@@ -88,13 +88,13 @@ $query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reserv
     }
 }
 public function ChangeReservationStatus($reservationId, $reservationStatus){
-    $query = "UPDATE dinner_reservation SET reservation_isActive= :status WHERE reservation_id= :id";
+    $query = "UPDATE dinner_reservation SET reservation_status= :status WHERE reservation_id= :id";
 
     try{
         $statement = $this->connection->prepare($query);
 
         $statement->bindParam(':id', $reservationId, PDO::PARAM_INT);
-        $statement->bindParam(':status', $reservationStatus, PDO::PARAM_BOOL);
+        $statement->bindParam(':status', $reservationStatus, PDO::PARAM_INT);
         $statement->execute();
 
     } catch (PDOException $e){

@@ -37,9 +37,10 @@
         <td><?php echo $reservation->getAmountKids()?></td>
         <td><?php echo $reservation->getAdditionalNote()?></td>
         <td>
-            <select class="form-select status-dropdown" data-info="<?php echo $reservation->getId();?>" onchange="changeStatus(<?php echo $reservation->getId();?>, <?php echo $reservation->getIsActive();?>)">
-                <option value="0"  <?php echo ($reservation->getIsActive() == 0) ? 'selected' : ''; ?>>Cancelled</option>
-                <option value="1" <?php echo ($reservation->getIsActive() == 1) ? 'selected' : ''; ?>>Scheduled</option>
+            <select class="form-select status-dropdown" data-info="<?php echo $reservation->getId();?>" onchange="changeStatus(<?php echo $reservation->getId();?>, this)">
+                <option value="0"  <?php echo ($reservation->getReservationStatus() == 0) ? 'selected' : ''; ?>>Cancelled</option>
+                <option value="1" <?php echo ($reservation->getReservationStatus() == 1) ? 'selected' : ''; ?>>Scheduled</option>
+                <option value="2" <?php echo ($reservation->getReservationStatus() == 2) ? 'selected' : ''; ?>>Unpaid</option>
             </select>
         </td>
         <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservationsPage?id=<?=$reservation->getId()?>'">Edit</button>
@@ -51,8 +52,9 @@
 </body>
 </html>
 <script>
-function changeStatus(reservationId, currentStatus){
-    const data = {"id": reservationId, "currentStatus": currentStatus}
+function changeStatus(reservationId, selectElement){
+    let status = selectElement.options[selectElement.selectedIndex].value
+    const data = {"id": reservationId, "status": status}
     fetch('/admin/changeReservationStatus', {
         method: "POST",
         headers: {
@@ -62,7 +64,8 @@ function changeStatus(reservationId, currentStatus){
     })
         .then(response => response.json())
         .then(response => console.log(response))
-        .then(location.reload())
+        .then(response => console.log(data))
+        //.then(location.reload())
         .catch(error => console.error(error));
 }
 </script>

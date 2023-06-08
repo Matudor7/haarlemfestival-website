@@ -7,7 +7,7 @@ class Reservation implements JsonSerializable{
    private int $reservation_restaurantId = 0;
    private string $reservation_FullName = "";
    private DateTime $reservation_DateTime;
-   private bool $reservation_isActive;
+   private int $reservation_status;
     #[ReturnTypeWillChange]
 
     public function jsonSerialize(){
@@ -36,8 +36,8 @@ class Reservation implements JsonSerializable{
     public function getDateTime(): DateTime{
         return $this->reservation_DateTime;
     }
-    public function getIsActive(): bool{
-        return $this->reservation_isActive;
+    public function getReservationStatus(): int{
+        return $this->reservation_status;
     }
 
     public function setId($reservationId){
@@ -61,7 +61,7 @@ class Reservation implements JsonSerializable{
     public function setReservationDateTime($dateTime){
         $this->reservation_DateTime = $dateTime;
     }
-    public function setIsActive($answer){
-        $this->reservation_isActive = $answer;
+    public function setReservationStatus($answer){
+        $this->reservation_status = $answer;
     }
 }

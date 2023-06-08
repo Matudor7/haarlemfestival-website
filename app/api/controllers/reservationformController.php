@@ -52,9 +52,12 @@ class reservationformController
                 $reservationName = $data['reservationName'];
 
                 $selectedTimeSlot = $this->productService->getById($timeslotId);
+                $lastId = $this->shoppingCartService->getLatestId();
+                $shoppingCartId = $lastId + 1;
+                $reservationId = $shoppingCartId.'-'.$userId;
 
                 if ($this->checkAvailability($amount, $timeslotId)) {
-                        $shoppingcartNote = $this->createReservation($adultsAmount, $kidsAmount, $note, $restaurantId, $reservationName, $selectedTimeSlot->getStartTime());
+                        $shoppingcartNote = $this->createReservationNote($reservationId, $adultsAmount, $kidsAmount, $note, $restaurantId, $reservationName, $selectedTimeSlot->getStartTime());
                         $this->shoppingCartService->addProducts($userId, $productId, 1, $eventType, $shoppingcartNote);
                     $result = "Great! we have added ".$amount." seats for ".$selectedTimeSlot->getName()." at ".$selectedTimeSlot->getLocation()." on ".$this->formatDateTime($selectedTimeSlot->getStartTime())." to the shopping cart";
                 } else{
@@ -67,8 +70,8 @@ class reservationformController
             }  else {echo json_encode("No reservation Selected!");}
         }
     }
-private function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
-         $this->reservationService->createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime);
+private function createReservationNote($id,$adults, $kids, $note, $restaurantId, $name, $dateTime){
+         $this->reservationService->createReservation($id,$adults, $kids, $note, $restaurantId, $name, $dateTime);
          $restaurant = $this->yummyService->getById($restaurantId);
          $totalPeople = $adults + $kids;
          $amountText = $totalPeople." People (".$adults." Adult(s) + ".$kids." Kid(s)).";

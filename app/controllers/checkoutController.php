@@ -333,14 +333,15 @@ class CheckoutController extends Controller{
         for ($i = 0; $i < count($products); $i++){
             $productService->updateProductAvailability($products[$i], $amounts[$i]);
             if($products[$i]->getEventType() == 2){
-                
+
             }
         }
     }
 
-    function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
+    function changeReservationStatus(){
         require_once __DIR__.'/../Services/ReservationService.php';
         $reservationService = new ReservationService();
+
 
 
     }

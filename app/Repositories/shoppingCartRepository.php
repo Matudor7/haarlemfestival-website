@@ -115,4 +115,22 @@ class ShoppingCartRepository extends Repository{
         catch(PDOException $e){echo $e;}
 
     }
+
+    public function getLatestId(){
+        $query = "SELECT id FROM shopping_cart ORDER BY id DESC LIMIT 1";
+
+        try{
+            $statement = $this->connection->prepare($query);
+
+            $statement->execute();
+            while($row = $statement->fetch()) {
+                $shoppingCartId = $row['id'];
+            }
+
+            return $shoppingCartId;
+
+        } catch(PDOException $e){
+            echo 'There was an error getting the Latest shopping cart Id from the database. Message:'.$e;
+        }
+    }
 }

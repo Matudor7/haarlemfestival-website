@@ -213,7 +213,7 @@
             .then(data => alert(data))
             .catch(error => console.error(error));
 
-        closeForm('reservationForm');
+        //closeForm('reservationForm');
     }
 
     function addKids(){

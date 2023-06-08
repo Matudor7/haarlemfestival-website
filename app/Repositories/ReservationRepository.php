@@ -51,14 +51,14 @@ public function getAllReservations(){
 
     }catch(PDOException $e){echo $e;}
 }
-public function createReservation($adults, $kids, $note, $restaurantId, $name, $dateTime){
-    $query = "INSERT INTO dinner_reservation (reservation_nrOfAdults, reservation_nrOfKids,
+public function createReservation($id,$adults, $kids, $note, $restaurantId, $name, $dateTime){
+    $query = "INSERT INTO dinner_reservation (reservation_id, reservation_nrOfAdults, reservation_nrOfKids,
                                  reservation_AdditionalNote, reservation_restaurantId,
                                 reservation_FullName, reservation_DateTime, reservation_status) 
-                    VALUES (?,?,?,?,?,?,?)";
+                    VALUES (?,?,?,?,?,?,?,?)";
     try {
         $statement = $this->connection->prepare($query);
-        $statement->execute(array($adults, $kids, htmlspecialchars($note),
+        $statement->execute(array($id, $adults, $kids, htmlspecialchars($note),
             $restaurantId, htmlspecialchars($name), $dateTime, 2));
     } catch (PDOException $e) {
         echo $e->getMessage();
@@ -73,7 +73,7 @@ $query = "UPDATE dinner_reservation SET reservation_nrOfAdults= :adults , reserv
         $name = htmlspecialchars($nameInput);
         $guestNote = htmlspecialchars($guestNoteInput);
 
-        $statement->bindParam(':id', $reservationId, PDO::PARAM_INT);
+        $statement->bindParam(':id', $reservationId);
         $statement->bindParam(':adults', $amountAdults, PDO::PARAM_INT);
         $statement->bindParam(':kids', $amountKids, PDO::PARAM_INT);
         $statement->bindParam(':guestNote', $guestNote);

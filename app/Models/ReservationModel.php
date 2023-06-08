@@ -1,6 +1,6 @@
 <?php
 class Reservation implements JsonSerializable{
-   private int $reservation_id = 0;
+   private string $reservation_id = "";
    private int $reservation_nrOfAdults = 0;
    private int $reservation_nrOfKids = 0;
    private string $reservation_AdditionalNote = "";
@@ -15,7 +15,7 @@ class Reservation implements JsonSerializable{
         return $vars;
     }
 
-    public function getId(): int{
+    public function getId(): string{
         return $this->reservation_id;
     }
     public function getAmountAdults(): int{

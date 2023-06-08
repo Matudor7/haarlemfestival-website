@@ -42,5 +42,8 @@ class ShoppingCartService{
     public function existingCart(int $userId, int $productId){
         return $this->shoppingCartRepo->existingCart($userId, $productId);
     }
+    public function getLatestId(): int{
+        return $this->shoppingCartRepo->getLatestId();
+    }
 }
 ?>

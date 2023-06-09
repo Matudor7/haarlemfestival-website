@@ -41,10 +41,10 @@ public function getAllReservations(){
     try{
         $statement = $this->connection->prepare($query);
         $statement->execute();
-
+        $reservations = array();
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-
-            $reservations[] = $this->getReservationById($row['reservation_id']);
+            $reservation = $this->getReservationById($row['reservation_id']);
+            $reservations[] = $reservation;
         }
 
         return $reservations;
@@ -93,7 +93,7 @@ public function ChangeReservationStatus($reservationId, $reservationStatus){
     try{
         $statement = $this->connection->prepare($query);
 
-        $statement->bindParam(':id', $reservationId, PDO::PARAM_INT);
+        $statement->bindParam(':id', $reservationId);
         $statement->bindParam(':status', $reservationStatus, PDO::PARAM_INT);
         $statement->execute();
 

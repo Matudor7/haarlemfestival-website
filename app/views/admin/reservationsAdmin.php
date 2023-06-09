@@ -26,6 +26,7 @@
     </tr>
     </thead>
     <tbody>
+    <?php if(isset($allReservations)){?>
     <?php foreach ($allReservations as $reservation){?>
     <tr>
         <th scope="row"><?php echo $reservation->getId()?></th>
@@ -37,7 +38,7 @@
         <td><?php echo $reservation->getAmountKids()?></td>
         <td><?php echo $reservation->getAdditionalNote()?></td>
         <td>
-            <select class="form-select status-dropdown" data-info="<?php echo $reservation->getId();?>" onchange="changeStatus(<?php echo $reservation->getId();?>, this)">
+            <select class="form-select status-dropdown" data-info="<?php echo $reservation->getId();?>" onchange="changeStatus('<?php echo $reservation->getId();?>', this)">
                 <option value="0"  <?php echo ($reservation->getReservationStatus() == 0) ? 'selected' : ''; ?>>Cancelled</option>
                 <option value="1" <?php echo ($reservation->getReservationStatus() == 1) ? 'selected' : ''; ?>>Scheduled</option>
                 <option value="2" <?php echo ($reservation->getReservationStatus() == 2) ? 'selected' : ''; ?>>Unpaid</option>
@@ -45,6 +46,8 @@
         </td>
         <td>  <button class="btn btn-primary" type="button" onclick="window.location.href = '/admin/editReservationsPage?id=<?=$reservation->getId()?>'">Edit</button>
     </tr>
+    <?php }}else {?>
+        <h3>Currently there are no reservations</h3>
     <?php } ?>
     </tbody>
 </table>
@@ -64,8 +67,7 @@ function changeStatus(reservationId, selectElement){
     })
         .then(response => response.json())
         .then(response => console.log(response))
-        .then(response => console.log(data))
-        //.then(location.reload())
+        .then(location.reload())
         .catch(error => console.error(error));
 }
 </script>

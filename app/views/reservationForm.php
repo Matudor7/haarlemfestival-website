@@ -213,7 +213,7 @@
             .then(data => alert(data))
             .catch(error => console.error(error));
 
-        //closeForm('reservationForm');
+        closeForm('reservationForm');
     }
 
     function addKids(){
@@ -263,6 +263,7 @@
         } else if(kidsAmount > 1){
             kidsAmount -= 1;
         } else {
+            kidsAmount = 0;
             div.innerText = "";
         }
         let kidsAmountField = document.getElementById('kidsAmountField')

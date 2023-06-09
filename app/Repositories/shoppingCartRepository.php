@@ -116,21 +116,18 @@ class ShoppingCartRepository extends Repository{
 
     }
 
-    public function getLatestId(){
-        $query = "SELECT id FROM shopping_cart ORDER BY id DESC LIMIT 1";
+    public function getAdditionalInfoByProduct($productId, $userId){
+        $query = "SELECT additional_info FROM shopping_cart WHERE product_id = :productId AND user_id = :userId";
 
         try{
             $statement = $this->connection->prepare($query);
-
+            $statement->bindParam(':userId', $userId);
+            $statement->bindParam(':productId', $productId);
             $statement->execute();
-            while($row = $statement->fetch()) {
-                $shoppingCartId = $row['id'];
-            }
 
-            return $shoppingCartId;
-
-        } catch(PDOException $e){
-            echo 'There was an error getting the Latest shopping cart Id from the database. Message:'.$e;
+            $additionalInfo = $statement->fetch();
+            return $additionalInfo[0];
         }
+        catch(PDOException $e){echo $e;}
     }
 }

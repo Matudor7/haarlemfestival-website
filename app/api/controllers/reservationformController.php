@@ -52,9 +52,7 @@ class reservationformController
                 $reservationName = $data['reservationName'];
 
                 $selectedTimeSlot = $this->productService->getById($timeslotId);
-                $lastId = $this->shoppingCartService->getLatestId();
-                $shoppingCartId = $lastId + 1;
-                $reservationId = $shoppingCartId.'-'.$userId;
+                $reservationId = $this->generateReservationId();
 
                 if ($this->checkAvailability($amount, $timeslotId)) {
                         $shoppingcartNote = $this->createReservationNote($reservationId, $adultsAmount, $kidsAmount, $note, $restaurantId, $reservationName, $selectedTimeSlot->getStartTime());
@@ -79,7 +77,7 @@ private function createReservationNote($id,$adults, $kids, $note, $restaurantId,
              $amountText = $adults." Adult(s).";
          }
 
-         return $result = "Dinner Reservation for: ".$name.". In: ".$restaurant->getRestaurantName().
+         return "(".$id.") Dinner Reservation for: ".$name.". In: ".$restaurant->getRestaurantName().
              " on the".$this->formatDateTime($dateTime).
              " for ".$amountText." Note for Restaurant: ".
              $note;
@@ -91,7 +89,9 @@ private function createReservationNote($id,$adults, $kids, $note, $restaurantId,
         }
         return false;
     }
-
+    private function generateReservationId(){
+        return uniqid("R#");
+    }
     private function formatDateTime(string $dateTime){
         $date = DateTime::createFromFormat('Y-m-d H:i:s', $dateTime);
         return $date->format('dS M/Y @ H:i');

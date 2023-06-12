@@ -19,8 +19,6 @@ class UserController extends Controller
     }
     public function registerUserPage()
     {
-        //$eventService = new EventService();
-        // $events = $eventService->getAll();
         require __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/user/registerUser.php';
     }
@@ -36,23 +34,44 @@ class UserController extends Controller
                 $user->setUsername($_POST['username']);
                 $user->setUserEmail($_POST['email']);
 
-                if ($this->userService->createUser($user)) {
-                    $userCreationMessage = "User created successfully!!!!";
-                    $status = "success";
-                } else {
-                    $userCreationMessage = "User was not created, please try again!";
-                    $status = "danger";
+                $captchaResponse = $_POST['g-recaptcha-response'];
+
+                //if ($this->validateCaptcha($captchaResponse)) {
+
+                    if ($this->userService->createUser($user)) {
+                        $userCreationMessage = "User created successfully!!!!";
+                        $status = "success";
+                    } else {
+                        $userCreationMessage = "User was not created, please try again!";
+                        $status = "danger";
+                    }
+                    //$this->registerUserPage();
+                //} else {
+                    //$userCreationMessage = "Please check the user verification box!";
+                    //$status = "danger";
                 }
-            }
-            $this->registerUserPage();
+            //}
             if (isset($userCreationMessage)) {
                 return [$userCreationMessage, $status];
             } else {
-                return [null, null];
+                return ["didn't work", "danger"];
             }
 
     }
+    public function validateCaptcha($captchaResponse){
+        if(isset($captchaResponse)&&!empty($captchaResponse)){
+            $secretKey = "6LfIsI8mAAAAAE14_FOlwvwNhrvPH0BH2XHjAXgy";
+            $serverResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret'.$secretKey.'&response='.$captchaResponse);
 
+            $data = json_decode($serverResponse);
+
+            if ($data->success){
+                return true;
+            }
+
+            return false;
+        }
+    }
     public function getAllUsers(){
         return $this->userService->getAllUsers();
     }

@@ -46,16 +46,12 @@ class UserController extends Controller
                         $status = "danger";
                     }
 
-                    require_once __DIR__ . '/../views/login.php';
-                    $loginController = new LoginController();
-                    $loginController->index();
-                    header("location: /");
-
                 } else {
                     $userCreationMessage = "Please check the user verification box!";
                     $status = "danger";
                 }
             }
+        $this->registerUserPage();
             if (isset($userCreationMessage)) {
                 return [$userCreationMessage, $status];
             } else {

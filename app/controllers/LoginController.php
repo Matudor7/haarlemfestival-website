@@ -8,8 +8,6 @@ class LoginController extends Controller
 {
     public function index()
     {
-        //$eventService = new EventService();
-        //$events = $eventService->getAll();
         require __DIR__ . '/navbarRequirements.php';
         require __DIR__ . '/../views/login.php';
     }

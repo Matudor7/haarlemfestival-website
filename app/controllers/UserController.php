@@ -36,7 +36,7 @@ class UserController extends Controller
 
                 $captchaResponse = $_POST['g-recaptcha-response'];
 
-                //if ($this->validateCaptcha($captchaResponse)) {
+                if ($this->validateCaptcha($captchaResponse)) {
 
                     if ($this->userService->createUser($user)) {
                         $userCreationMessage = "User created successfully!!!!";
@@ -45,12 +45,12 @@ class UserController extends Controller
                         $userCreationMessage = "User was not created, please try again!";
                         $status = "danger";
                     }
-                    //$this->registerUserPage();
-                //} else {
-                    //$userCreationMessage = "Please check the user verification box!";
-                    //$status = "danger";
+                    $this->registerUserPage();
+                } else {
+                    $userCreationMessage = "Please check the user verification box!";
+                    $status = "danger";
                 }
-            //}
+            }
             if (isset($userCreationMessage)) {
                 return [$userCreationMessage, $status];
             } else {
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function validateCaptcha($captchaResponse){
         if(isset($captchaResponse)&&!empty($captchaResponse)){
             $secretKey = "6LfIsI8mAAAAAE14_FOlwvwNhrvPH0BH2XHjAXgy";
-            $serverResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret'.$secretKey.'&response='.$captchaResponse);
+            $serverResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$captchaResponse);
 
             $data = json_decode($serverResponse);
 

@@ -29,12 +29,12 @@ include __DIR__ . '/../nav.php';
      <br>
     <div id="captchaElement" class="g-recaptcha" data-sitekey="6LfIsI8mAAAAAN0gIUKzN7G-D7rxcieciUvTMZ8B"></div>
         <br>
-        <input id="createUserButton" class="btn btn-success" type="submit" name="Create new User" value="Create new User"><br><br>
+        <input id="createUserButton" class="btn btn-success" type="submit" name="singUp" value="Sing Up!"><br><br>
     </form>
 
 </div>
 <?php if (isset($userCreationMessage)){ ?>
-    <div class="alert alert-<?= $status ?>">
+    <div class="alert alert-<?= $status ?>" role="alert">
         <?= $userCreationMessage ?>
     </div>
 <?php }
@@ -45,6 +45,9 @@ include __DIR__ . '/../footer.php';
 
 </body>
 </html>
+<script>
+
+</script>
 <style>
     #captchaElement{
         display: flex;

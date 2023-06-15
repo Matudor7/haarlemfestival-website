@@ -88,7 +88,7 @@
                     style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
                     <div>
                         <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton"
-                            onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                            onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>, <?php echo $merged_products[$i]->getAvailableSeats()?>)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-plus" viewBox="0 0 16 16">
                                 <path

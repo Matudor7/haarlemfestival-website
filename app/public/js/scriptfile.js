@@ -83,28 +83,34 @@ function updateTotal(userId){
     });
 }
 
-function addAmount(index, userId, productId){
-    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
-    fetch(apiUrl, {
-        method: "PATCH",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            amounts: [{index: index, increment: 1}]
+function addAmount(index, userId, productId, available_seats){
+    const amount = document.getElementById("productamount " + index);
+    const amountValue = parseInt(amount.textContent, 10);
+    if(amountValue < available_seats){
+        const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
+        fetch(apiUrl, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                amounts: [{index: index, increment: 1}]
+            })
         })
-    })
-    .then(response => {
-        if(!response.ok){
-            throw new Error('Request failed.');
-        }
-    })
-    .then(()=>{
-        updateProduct(index, userId, "add");
-    })
-    .catch(error=> {
-        console.error(error);
-    });
+        .then(response => {
+            if(!response.ok){
+                throw new Error('Request failed.');
+            }
+        })
+        .then(()=>{
+            updateProduct(index, userId, "add");
+        })
+        .catch(error=> {
+            console.error(error);
+        });
+    }else{
+        window.alert("Sorry, but there are no more tickets available at this current moment.");
+    }
 }
 
 function removeAmount(index, userId, productId){

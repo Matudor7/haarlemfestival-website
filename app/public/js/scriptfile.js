@@ -83,29 +83,37 @@ function updateTotal(userId){
     });
 }
 
-function addAmount(index, userId, productId){
-    const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=add';
+function addAmount(index, userId, productId) {
+    const apiUrl =
+      'http://localhost/api/shoppingcart?user_id=' +
+      userId +
+      '&product_id=' +
+      productId +
+      '&action=add';
+  
     fetch(apiUrl, {
-        method: "PATCH",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            amounts: [{index: index, increment: 1}]
-        })
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: [{ index: index, increment: 1 }],
+      }),
     })
-    .then(response => {
-        if(!response.ok){
-            throw new Error('Request failed.');
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Request failed.');
         }
-    })
-    .then(()=>{
-        updateProduct(index, userId, "add");
-    })
-    .catch(error=> {
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        updateProduct(index, userId, 'add');
+      })
+      .catch((error) => {
         console.error(error);
-    });
-}
+      });
+  }
 
 function removeAmount(index, userId, productId){
     const apiUrl = 'http://localhost/api/shoppingcart?user_id=' + userId + '&product_id=' + productId + '&action=delete';

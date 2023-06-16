@@ -19,7 +19,7 @@ include __DIR__ . '/../nav.php';
 <div id="createUserDiv" class="text-center" style="min-height: 500px;">
     <br><br>
     <h2>Create new User</h2><br>
-    <form method="POST" action="/User/RegisterUser">
+    <form method="POST" action="/user/registerUser">
         <input required type="text" name="username" placeholder="Username"><br><br>
         <input required type="password" name="password" placeholder="Password"><br><br>
 

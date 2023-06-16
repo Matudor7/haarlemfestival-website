@@ -64,6 +64,11 @@
             echo "<a class='nav-link' style='color: white;' href='/user/userManageAccount'>Manage Account</a>";  } ?>
             </li>
 
+            <li>
+                <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"]) && $_SESSION["user_role"] == 1) { 
+            echo "<a class='nav-link' style='color: white;' href='/scanTicket'>Scan Tickets</a>";  } ?>
+            </li>
+
 
             <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
             <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"

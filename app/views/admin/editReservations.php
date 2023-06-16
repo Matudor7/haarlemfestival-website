@@ -76,7 +76,7 @@
 
 window.onload = function loadForm(){
    <?php if ($existingReservation){?>
-    reservationId = <?php echo $reservation->getId();?>;
+    reservationId = '<?php echo $reservation->getId();?>';
     fillForm();
     setStatus();
     selectedStatus.setAttribute('selected',  'selected')

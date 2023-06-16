@@ -551,7 +551,8 @@ class AdminController extends Controller
         $restaurants = $this->yummyService->getAllRestaurants();
 
         if ($this->checkRole() && isset($_GET['id'])){
-            $reservation = $this->reservationService->getReservationById($_GET['id']);
+            $reservationId = $_GET['id'];
+            $reservation = $this->reservationService->getReservationById($reservationId);
             $existingReservation = true;
         }else if ($this->checkRole() && !isset($_GET['id'])){
             $existingReservation = false;
@@ -587,6 +588,7 @@ class AdminController extends Controller
             $data = json_decode(file_get_contents("php://input"), true);
 
             if(isset($data['id'])){
+                $reservationId = uniqid("R");
                 $name = $data['name'];
                 $date = $data['date'];
                 $amountAdults = $data['adults'];
@@ -594,7 +596,7 @@ class AdminController extends Controller
                 $guestNote = $data['guestNote'];
                 $restaurantId = $data['restaurantId'];
 
-                $this->reservationService->createReservation($amountAdults, $amountKids, $guestNote, $restaurantId,$name,$date);
+                $this->reservationService->createReservation($reservationId,$amountAdults, $amountKids, $guestNote, $restaurantId,$name,$date);
 
                 header('Content-Type: application/json;');
                 echo json_encode("Successfully updated in the Database");

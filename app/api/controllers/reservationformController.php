@@ -90,7 +90,7 @@ private function createReservationNote($id,$adults, $kids, $note, $restaurantId,
         return false;
     }
     private function generateReservationId(){
-        return uniqid("R#");
+        return uniqid("R");
     }
     private function formatDateTime(string $dateTime){
         $date = DateTime::createFromFormat('Y-m-d H:i:s', $dateTime);

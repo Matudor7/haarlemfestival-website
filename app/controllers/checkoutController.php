@@ -343,7 +343,7 @@ class CheckoutController extends Controller{
         }
     }
     function getReservationId($additionalNote){
-        $pattern = '/\(R#([a-zA-Z0-9]+)\)/';
+        $pattern = '/\(R([a-zA-Z0-9]+)\)/';
         if (preg_match($pattern, $additionalNote, $matches)) {
             $reservationId = $matches[1];
         }

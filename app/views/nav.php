@@ -64,6 +64,11 @@
             echo "<a class='nav-link' style='color: white;' href='/user/userManageAccount'>Manage Account</a>";  } ?>
             </li>
 
+            <li>
+                <?php if (isset($_SESSION["user_id"])&& isset($_SESSION["user_role"]) && $_SESSION["user_role"] == 1) { 
+            echo "<a class='nav-link' style='color: white;' href='/scanTicket'>Scan Tickets</a>";  } ?>
+            </li>
+
 
             <?php if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] < 999999) { ?>
             <button type="button" class="btn btn-danger ;" onClick="location.href='/login/logOut'"
@@ -88,7 +93,7 @@
                     style="display: flex; justify-content: space-between; align-items: center; background-color:#F8F8F8">
                     <div>
                         <button type="button" class="btn btn-primary" style="padding: 5px 5px" id="addButton"
-                            onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>)">
+                            onclick="addAmount(<?php echo $i?>, <?php echo $_SESSION['user_id']?>, <?php echo $merged_products[$i]->getId()?>, <?php echo $merged_products[$i]->getAvailableSeats()?>)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-plus" viewBox="0 0 16 16">
                                 <path
@@ -120,13 +125,13 @@
                 <?php
                     }?>
                 <div style="bottom:1; right:0; float: right">
-                    <h2 id="totalprice">Total: &euro;<?php echo $totalPrice?></h2>
+                    <h2 id="totalprice">Total + VAT: &euro;<?php echo $totalPrice?></h2>
                 </div>
                 <button class="w-100 btn btn-success btn-lg" type="submit"
                     onclick="window.location.href = '/checkout'">Continue to Checkout</button>
                 <button class="mt-5 w-50 btn btn-primary" type="button"
-                    onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart</button>
-                <button class="btn btn-danger" type="button" onClick="update()">Availability</button>
+                    onclick="copyCartLink('<?php echo $hashedUserId?>')">Share Cart
+                </button>
             </div>
 
     </nav>

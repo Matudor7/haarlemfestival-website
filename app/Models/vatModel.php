@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
 class Vat{
-    private int $id = 0;
+    public int $id = 0;
     private int $amount = 0;
 
     public function getId(): int{

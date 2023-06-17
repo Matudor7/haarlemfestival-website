@@ -2,7 +2,7 @@
 
 class User
 {
-    private int $user_id;
+    public int $user_id;
     private string $username;
     private string $userPicURL = "";
     private string $user_firstName;

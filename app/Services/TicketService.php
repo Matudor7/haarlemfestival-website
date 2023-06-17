@@ -19,6 +19,8 @@ class TicketService
     public function storeTicketDB($ticket)
     {
         $repository = new TicketRepository;
+
+    //var_dump($repository->insert($ticket));
         return $repository->insert($ticket);
 
     }

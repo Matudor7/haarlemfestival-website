@@ -1,7 +1,7 @@
 <?php
 //Tudor Nosca (678549)
 class Product implements JsonSerializable{
-    private int $id = 0;
+    public int $id = 0;
     public string $name = "";
     public int $event_type = 0;
     public string $starting_time = "";

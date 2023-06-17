@@ -20,6 +20,7 @@ require_once __DIR__ . '/../Services/QrService.php';
 
 class CheckoutController extends Controller{
     function index(){
+
         require_once __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/checkout/index.php';
     }
@@ -35,9 +36,15 @@ class CheckoutController extends Controller{
             $tickets = array();
             $productService = new ProductService();
             $ticketService = new TicketService();
-            foreach ($shoppingCart->product_id as $item) {
+            //var_dump("SHOPPING CART->product_id");
 
+           // var_dump($shoppingCart->product_id);
+            foreach ($shoppingCart->product_id as $item) {
+               // var_dump("ITEM");
+               // var_dump($item);
                 $product = $productService->getById($item);
+               // var_dump("PRODUCT");
+               // var_dump($product);
                 $ticket = new Ticket();
 
                 switch ($product->getEventType()) {
@@ -64,6 +71,8 @@ class CheckoutController extends Controller{
                 //$ticket->setQuantity($item->amount);
                 // $ticket->setUserId($item->user_id);
                 array_push($tickets, $ticketService->storeTicketDB($ticket));
+                //var_dump("TICKETS");
+                //var_dump($tickets);
 
             }
             $order->setInvoiceDate();
@@ -74,6 +83,8 @@ class CheckoutController extends Controller{
             $newOrder = $orderService->insertOrder($order);
             $this->paymentProcess($newOrder, $tickets);
 
+            var_dump($tickets);
+           // return;
             return $tickets;
 
         }
@@ -124,6 +135,7 @@ class CheckoutController extends Controller{
     //function generateTicketPdf($tickets)
     function generateTicketPdf()
     {
+       // var_dump($this->payment());
         $tickets = array();
         $tickets = $this->payment();
         $qrService = new QrService();

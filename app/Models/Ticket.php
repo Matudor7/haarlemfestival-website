@@ -3,7 +3,7 @@
 class Ticket
 {
 
-    private int $id;
+    public int $id;
     public int $quantity;
     public float $price;
     public ?int $dance_event_id = 0;

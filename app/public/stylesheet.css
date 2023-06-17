@@ -1,0 +1,22 @@
+
+body {
+    background-color: #282323;
+}
+
+.mainTitle {
+    color: brown;
+}
+/* The Festival NavBar */
+.navbar {
+    position: absolute;
+    width: 1920px;
+    height: 218px;
+    left: 0px;
+    top: 741px;
+}
+
+.navbarLogo {
+height: 144px;
+left: 0px;
+top: 0px;
+}

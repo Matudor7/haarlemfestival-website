@@ -27,7 +27,9 @@ class smtpService
         $client->msgHTML($content);
          if($pdf != null && $ticket != null){
             $client->AddAttachment($pdf);
-            $client->AddAttachment($ticket);
+           $client->AddAttachment($ticket);
+           //  $client->addStringAttachment($pdf, 'invoice.pdf');
+               // $client->addStringAttachment($ticket, 'ticket.pdf');
          }
         $client->send();
 

@@ -2,10 +2,13 @@
 require __DIR__ . '/../Repositories/OrderRepository.php';
 class OrderService
 {
+    private $all;
+
     public function getAll()
     {
         $orderRepo = new OrderRepository();
-        $orders = $orderRepo->getAll();
+        $this->all = $orderRepo->getAll();
+        $orders = $this->all;
         return $orders;
     }
 

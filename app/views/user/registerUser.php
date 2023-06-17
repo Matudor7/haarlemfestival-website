@@ -19,13 +19,12 @@ include __DIR__ . '/../nav.php';
 <div id="createUserDiv" class="text-center" style="min-height: 500px;">
     <br><br>
     <h2>Create new User</h2><br>
-    <form method="POST" action="/user/registerUser">
-        <input required type="text" name="username" placeholder="Username"><br><br>
-        <input required type="password" name="password" placeholder="Password"><br><br>
-
-        <input required type="text" name="firstname" placeholder="First name"><br><br>
-        <input required type="text" name="lastname" placeholder="Last name"><br><br>
-        <input required type="email" name="email" placeholder="Email"><br><br>
+    <form method="POST" action="/user/registerNewUser">
+        <input required type="text" name="username" placeholder="Username" id="usernameField"><br><br>
+        <input required type="password" name="password" placeholder="Password" id="passwordField"><br><br>
+        <input required type="text" name="firstname" placeholder="First name" id="nameField"><br><br>
+        <input required type="text" name="lastname" placeholder="Last name" id="lastnameField"><br><br>
+        <input required type="email" name="email" placeholder="Email" id="emailField"><br><br>
      <br>
     <div id="captchaElement" class="g-recaptcha" data-sitekey="6LfIsI8mAAAAAN0gIUKzN7G-D7rxcieciUvTMZ8B"></div>
         <br>
@@ -33,12 +32,6 @@ include __DIR__ . '/../nav.php';
     </form>
 
 </div>
-<?php if (isset($userCreationMessage)){ ?>
-    <div class="alert alert-<?= $status ?>" role="alert">
-        <?= $userCreationMessage ?>
-    </div>
-<?php }
-?>
 <?php
 include __DIR__ . '/../footer.php';
 ?>
@@ -46,7 +39,39 @@ include __DIR__ . '/../footer.php';
 </body>
 </html>
 <script>
+    const usernameField = document.getElementById("usernameField")
+    const nameField = document.getElementById("nameField")
+    const passwordField = document.getElementById("passwordField")
+    const lastnameField = document.getElementById("lastnameField")
+    const emailField = document.getElementById("emailField")
+function register(){
+    const data = {
+        "username": usernameField.value,
+        "password": passwordField.value,
+        "firstname": nameField.value,
+        "lastname": lastnameField.value,
+        "emailField": emailField.value};
 
+    fetch('/user/registerNewUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => showAlert(data.message, data.status))
+        .catch(error => console.error(error));
+}
+    function showAlert(message, status) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${status}`;
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerText = message;
+
+        const container = document.getElementById('createUserDiv');
+        container.insertBefore(alertDiv, container.firstChild);
+    }
 </script>
 <style>
     #captchaElement{

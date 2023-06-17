@@ -353,7 +353,7 @@ class CheckoutController extends Controller{
     function changeReservationStatus($reservationId){
         require_once __DIR__.'/../Services/ReservationService.php';
         $reservationService = new ReservationService();
-        $reservationStatus = 0;
+        $reservationStatus = 1;
         $reservationService->changeReservationStatus($reservationId, $reservationStatus);
     }
 }

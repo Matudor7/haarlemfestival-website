@@ -23,10 +23,10 @@ class UserController extends Controller
         require_once __DIR__ . '/../views/user/registerUser.php';
     }
 
-    public function registerUser(){
+    public function registerNewUser(){
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $this->registerUserPage();
-            } else {
+            } else if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user = new User();
                 $user->setUserFirstName($_POST['firstname']);
                 $user->setUserLastName($_POST['lastname']);
@@ -39,24 +39,33 @@ class UserController extends Controller
                 if ($this->validateCaptcha($captchaResponse)) {
 
                     if ($this->userService->createUser($user)) {
-                        $userCreationMessage = "User created successfully!!!!";
+                        $header = "All set!";
+                        $userCreationMessage = "User registered successfully!!!!";
                         $status = "success";
                     } else {
-                        $userCreationMessage = "User was not created, please try again!";
+                        $header = "Oh no!";
+                        $userCreationMessage = "User was not registered, please verify the given details and try again.";
                         $status = "danger";
                     }
 
                 } else {
-                    $userCreationMessage = "Please check the user verification box!";
-                    $status = "danger";
+                    $header = "Don't forget..";
+                    $userCreationMessage = "Please check the user verification box and try again.";
+                    $status = "warning";
                 }
+                if (isset($userCreationMessage)) {
+                    $response = ['header'=> $header, 'message'=>$userCreationMessage, 'status'=>$status];
+                } else {
+                    $response = ['header'=>"Something went wrong!" ,
+                        'message'=>"There was an error when registering the user. verify the details and try again later",
+                        'status'=>"warning"];
+                }
+                $this->registrationResponsePage($response);
             }
-        $this->registerUserPage();
-            if (isset($userCreationMessage)) {
-                return [$userCreationMessage, $status];
-            } else {
-                return ["didn't work", "danger"];
-            }
+    }
+    function registrationResponsePage($response){
+        require __DIR__ . '/navbarRequirements.php';
+        require __DIR__ . '/../views/user/registerResult.php';
 
     }
     public function validateCaptcha($captchaResponse){

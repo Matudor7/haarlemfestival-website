@@ -409,10 +409,9 @@ class CheckoutController extends Controller{
         </style>";
 
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
-                $ticketPDF = $this->generateTicketPdf();
+                $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $this->generateTicketPdf());
             $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
-            
             //Andy
             //$this->updateAvailability($itemsFromShoppingCart);
 
@@ -421,14 +420,10 @@ class CheckoutController extends Controller{
             $smtpService = new smtpService();
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-            return;
             header("Location: http://localhost/");
         } else {
             echo "Payment Failed...";
         }
-
-        require_once __DIR__ . '/navbarRequirements.php';
-       header("Location: http://localhost/");
     }
 
 

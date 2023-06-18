@@ -256,6 +256,7 @@ class CheckoutController extends Controller{
         $order = $orderService->getOrderById($_GET['order_id'])[0];
 
         if ($payment->isPaid()) {
+            header("Location: http://localhost/");
             //TODO move the logic to the controller
         
 
@@ -417,10 +418,7 @@ class CheckoutController extends Controller{
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
 
-            $smtpService = new smtpService();
-
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-            header("Location: http://localhost/");
         } else {
             echo "Payment Failed...";
         }

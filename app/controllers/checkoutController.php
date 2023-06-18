@@ -29,68 +29,19 @@ class CheckoutController extends Controller{
     function payment(){
         require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
-            //Ale
             $order = new order();
-            $shoppingCartService = new ShoppingCartService();
-            $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
-            $tickets = array();
-            $productService = new ProductService();
-            $ticketService = new TicketService();
-            //var_dump("SHOPPING CART->product_id");
-
-           // var_dump($shoppingCart->product_id);
-            foreach ($shoppingCart->product_id as $item) {
-               // var_dump("ITEM");
-               // var_dump($item);
-                $product = $productService->getById($item);
-               // var_dump("PRODUCT");
-               // var_dump($product);
-                $ticket = new Ticket();
-
-                switch ($product->getEventType()) {
-                    //switch ($item->eventType) {
-                    case 1:
-                        $ticket->setDanceEventId($product->getEventType());
-                        break;
-                    case 2:
-                        $ticket->setYummyEventId($product->getEventType());
-                        break;
-                    case 44:
-                        $ticket->setHistoryEventId($product->getEventType());
-                        break;
-                    case 45:
-                        $ticket->setAccessPassId($product->getEventType());
-                        break;
-                    default:
-                        throw  new Exception("Invalid event type");
-                        break;
-                }
-                $ticket->quantity = 1;
-                $ticket->user_id = $_SESSION['user_id'];
-                $ticket->setPrice($product->getPrice());
-                //$ticket->setQuantity($item->amount);
-                // $ticket->setUserId($item->user_id);
-                array_push($tickets, $ticketService->storeTicketDB($ticket));
-                //var_dump("TICKETS");
-                //var_dump($tickets);
-
-            }
             $order->setInvoiceDate();
             $order->setInvoiceNumber();
             $order->setPaymentId(1);
             $order->setPaymentStatus("Paid");
             $orderService = new OrderService();
             $newOrder = $orderService->insertOrder($order);
-            $this->paymentProcess($newOrder, $tickets);
-
-            var_dump($tickets);
-           // return;
-            return $tickets;
+            $this->paymentProcess($newOrder);
 
         }
     }
 
-    private function paymentProcess($order, $ticket){
+    private function paymentProcess($order){
         $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Models/Order.php';
@@ -119,7 +70,7 @@ class CheckoutController extends Controller{
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
                 "order_id" => $orderId,
-                "ticket" => $ticket,
+                //"ticket" => $ticket,
                // "payment_id" => "1", //TODO: change to payment id
                 "userId" => $_SESSION['user_id'],
             ],
@@ -136,8 +87,51 @@ class CheckoutController extends Controller{
     function generateTicketPdf()
     {
        // var_dump($this->payment());
+        //Ale
+        $shoppingCartService = new ShoppingCartService();
+        $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $tickets = array();
-        $tickets = $this->payment();
+        $productService = new ProductService();
+        $ticketService = new TicketService();
+        //var_dump("SHOPPING CART->product_id");
+
+       // var_dump($shoppingCart->product_id);
+        foreach ($shoppingCart->product_id as $item) {
+           // var_dump("ITEM");
+           // var_dump($item);
+            $product = $productService->getById($item);
+           // var_dump("PRODUCT");
+           // var_dump($product);
+            $ticket = new Ticket();
+
+            switch ($product->getEventType()) {
+                //switch ($item->eventType) {
+                case 1:
+                    $ticket->setDanceEventId($product->getEventType());
+                    break;
+                case 2:
+                    $ticket->setYummyEventId($product->getEventType());
+                    break;
+                case 44:
+                    $ticket->setHistoryEventId($product->getEventType());
+                    break;
+                case 45:
+                    $ticket->setAccessPassId($product->getEventType());
+                    break;
+                default:
+                    throw  new Exception("Invalid event type");
+                    break;
+            }
+            $ticket->quantity = 1;
+            $ticket->user_id = $_SESSION['user_id'];
+            $ticket->setPrice($product->getPrice());
+            //$ticket->setQuantity($item->amount);
+            // $ticket->setUserId($item->user_id);
+            array_push($tickets, $ticketService->storeTicketDB($ticket));
+            //var_dump("TICKETS");
+            //var_dump($tickets);
+
+        }
         $qrService = new QrService();
         //get the list of ticket and for each ticket generate a qr code and diplay the rest of the pdf as well with info related to that tickets
         // $qrService->generateQrCode($ticket);
@@ -154,21 +148,9 @@ class CheckoutController extends Controller{
             <h1>Haarlem Festival Ticket</h1> ";
         foreach ($tickets as $ticket) {
             $qr_code_ur = $qrService->generateQrCode($ticket);
-            $client_name = $ticket->client_name;
-            $event_name = $ticket->event_name;
-            $event_date = $ticket->event_date;
-            $event_time = $ticket->event_time;
-            $event_type = $ticket->event_type;
             $pdf .= "
-            <h2>" . $event_type . "</h2>
             <div class='qr-code'>
                 <img src='" . $qr_code_ur . "' alt='QR code'>
-            </div>
-            <div class='info'>
-                <p><span class='label'>Name:</span>" . $client_name . "</p>
-                <p><span class='label'>Event:</span>" . $event_name . "</p>
-                <p><span class='label'>Date:</span>" . $event_date . "</p>
-                <p><span class='label'>Time:</span> " . $event_time . "</p>
             </div>
     </body>
     </html>
@@ -427,7 +409,7 @@ class CheckoutController extends Controller{
         </style>";
 
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
-                $ticketPDF = $this->generateTicketPdf($this->payment());
+                $ticketPDF = $this->generateTicketPdf();
             $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
             

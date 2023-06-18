@@ -347,7 +347,7 @@ class CheckoutController extends Controller{
         if (preg_match($pattern, $additionalNote, $matches)) {
             $reservationId = $matches[1];
         }
-        return $reservationId;
+        return 'R'.$reservationId;
     }
 
     function changeReservationStatus($reservationId){

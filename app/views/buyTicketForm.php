@@ -45,33 +45,11 @@
 
         </form>
     </div>
-<script src="/js/scriptfile.js"></script>
+<script src="/js/ticketFormScript.js"></script>
 </body>
 </html>
 
 <script>
-    const dateDropdown = document.getElementById('selectDateInput');
-    const timeDropdown = document.getElementById('selectTimeInput');
-    const productListDiv = document.getElementById('productList');
-    const productAmountField = document.getElementById("productAmount")
-    let productAmount = 0;
-    let selectedProduct;
-    let kidsAmount = 0;
-    const productInfoField = document.getElementById("productInfo");
-
-    dateDropdown.addEventListener('change',(event) => {
-        const selectedDate = event.target.value;
-
-        updateTimeOptions(selectedDate);
-        updateProductList(selectedDate, null);
-    })
-
-    timeDropdown.addEventListener('change',(event) => {
-        const selectedTime = event.target.value;
-
-        updateProductList(dateDropdown.value, selectedTime)
-    })
-
     function updateTimeOptions(selectedDate){
         timeDropdown.innerHTML = "";
         var defaultOption = document.createElement("option");
@@ -91,7 +69,6 @@
 
         <?php }?>
     }
-    
     function updateProductList(selectedDate, selectedTime){
         productListDiv.innerHTML = "";
 
@@ -120,84 +97,16 @@
         }
         <?php }?>
     }
-
-    function createProduct(ticketId, ticketName, ticketPrice, ticketDate, ticketTime, ticketLocation){
-
-        var newProduct = document.createElement("a");
-        newProduct.setAttribute("onClick", "selectProduct("+ticketId+")");
-        newProduct.setAttribute("class", "list-group-item list-group-item-action");
-        newProduct.setAttribute("id", ticketId)
-
-        var div = document.createElement("div");
-        div.setAttribute("class", "d-flex w-75 justify-content-between");
-
-        var h6 = document.createElement("h6");
-        h6.setAttribute("class", "mb-1");
-        h6.innerHTML = ticketName;
-
-        var small = document.createElement("small");
-        small.innerHTML = ticketPrice;
-
-        var p = document.createElement("p");
-        p.setAttribute("class", "mb-1");
-        p.innerHTML = "on "+ticketDate + " at " + ticketTime;
-
-        var location = document.createElement("small");
-        location.innerHTML = "Location: "+ ticketLocation;
-
-        div.appendChild(h6);
-        div.appendChild(small);
-        newProduct.appendChild(div);
-        newProduct.appendChild(p);
-        newProduct.appendChild(location);
-
-        return newProduct;
-    }
-
-     function selectProduct(productId){
-
-        if(productId == 0){
-             productInfoField.value = "Sold Out"
-             productAmount.value = "X";
-         } else {
-            selectedProduct = productId;
-            productAmount = 1;
-
-            const data = {"productId": productId}
-            fetch('/api/buyticketform/selectTicket', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {productInfoField.value = data.name; productAmountField.value = productAmount;})
-                .catch(error => console.error(error));
-
-        }
-    }
-
-    function changeAmount(number){
-        if(number == "+1"){
-            productAmount+= 1;
-        } else if (number == "-1" & productAmount > 0) {
-            productAmount-= 1;
-        }
-
-        productAmountField.value = productAmount;
-    }
-
     function addToCart(){
 
         var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
         var eventType = <?php echo $thisEvent->getId()?>;
 
         const data = {"userId": userId,
-        "amount": productAmount,
-        "productId": selectedProduct,
-        "eventType": eventType,
-        "note": ""}
+            "amount": productAmount,
+            "productId": selectedProduct,
+            "eventType": eventType,
+            "note": ""}
         fetch('/api/buyticketform/addToCart', {
             method: "POST",
             headers: {
@@ -209,7 +118,7 @@
             .then(data => alert(data))
             .catch(error => console.error(error));
 
-            closeForm('ticketForm');
+        closeForm('ticketForm');
     }
 </script>
 <style>
@@ -224,7 +133,6 @@
         margin-top: 50px;
     }
 
-    /* Add styles to the form container */
     .form-container {
         width: 500px;
         max-height: 370px;
@@ -248,7 +156,6 @@
         max-width: 140px;
         display: inline-block;
     }
-    /* When the inputs get focus, do something */
     .form-container input[type=text]:focus, .form-container input[type=password]:focus {
         background-color: #ddd;
         outline: none;
@@ -264,7 +171,6 @@
         display: inline-block;
     }
 
-    /* Set a style for the submit/login button */
     .form-container #addToCartBtn {
         background-color: #04AA6D;
         color: white;
@@ -280,14 +186,12 @@
         background-color: lightgrey;
         margin-right: 10px;
     }
-    /* Add a red background color to the cancel button */
     .form-container #closeBtn {
         background-color: red;
         display: inline-block;
         max-width: 150px;
     }
 
-    /* Add some hover effects to buttons */
     .form-container .btn:hover, .open-button:hover {
         opacity: 1;
     }

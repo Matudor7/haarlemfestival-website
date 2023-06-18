@@ -6,15 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Walking Tour</title>
 
-        <link rel="stylesheet" href="/stylesheet.css" type="text/css">
+        <link rel="stylesheet" href="/style/stylesheet.css" type="text/css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
     </head>
     <body>
-    <?php
-    include __DIR__ . '/../nav.php';
-    ?>
+    <?php include __DIR__ . '/../nav.php'; ?>
 
 
     <main id="main">
@@ -23,25 +21,25 @@
 <div id="text-container" class="container bg-light w-50 opacity-75 text-center">
 <p id="header-text" class="text-dark"><?php echo $this->getContent('Header')->getText()?></p>
 </div>
-<button id="header-button-show" class="rounded-pill">Show me around</button>
+<button id="header-button-show" class="rounded-pill" onClick="scrollingToElement('titlelogo')">Show me around</button>
 <button id="header-button-program" class="rounded-pill" onClick="<?php echo $this->getContent('Header')->getButtonURL()?>"><?php echo $this->getContent('Header')->getButtonText()?></button>
 </section>
 
 <div class="container pt-5 text-center" >
-  <img src="/media/walkingtourPics/walking-tour-title-logo.png" class="" id="title-logo">
+  <img src="/media/walkingtourPics/walking-tour-title-logo.png" class="" id="titlelogo">
   <div class="container text-center">
     <div class="row pt-4">
   <div class="col" id="description-left">
     <h5><?php echo $this->getContent('Description-Left')->getTitle()?></h5>
   <p><?php echo $this->getContent('Description-Left')->getText()?></p>
-  <button class="rounded-pill"><?php echo $this->getContent('description-left')->getButtonText()?></button>
+  <button class="rounded-pill" onClick="<?php echo $this->getContent('Description-Left')->getButtonURL()?>"><?php echo $this->getContent('description-left')->getButtonText()?></button>
 </div>
   <div id="map-container" class="col">
        <img id="map-placeholder" src="/media/walkingtourPics/mapplaceholder.png" class="" alt="map">
   </div>
   <div class="col" id="description-right">
   <p><?php echo $this->getContent('Description-Right')->getText()?></p>
-  <button class="rounded-pill"><?php echo $this->getContent('Description-Right')->getButtonText()?></button>
+  <button class="rounded-pill" onClick="<?php echo $this->getContent('Description-Right')->getButtonURL()?>"><?php echo $this->getContent('Description-Right')->getButtonText()?></button>
 </div>
 </div>
 <div class="row pt-4">
@@ -201,15 +199,22 @@
 </main>
 
 
-<?php
-        include __DIR__ . '/../footer.php';
-        ?>
+<?php include __DIR__ . '/../footer.php'; ?>
 
     </body>
 </html>
+<script>
+    function scrollingToElement(elementId) {
+        let element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+        }
+    }
+</script>
 <style>
-
-
 #main button {
     font-size: 21px;
     background-color: #8564CC;
@@ -267,7 +272,7 @@
     z-index: 2;
 }
 
-#title-logo{
+#titlelogo{
     width: 300px
 }
 

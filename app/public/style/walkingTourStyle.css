@@ -1,5 +1,5 @@
 
-#main button {
+ #main button {
     font-size: 21px;
     background-color: #8564CC;
     color: white;
@@ -28,7 +28,7 @@
     height: 100%;
 }
 
-#text-container{
+text-container{
     position: absolute;
     top: 48%;
     left: 54%;
@@ -88,47 +88,4 @@
     padding: 10px;
     border-radius: 60px;
     margin: auto;
-    max-width: 460px;
-}
-
-label{
-    font-size: 12px;
-}
-
-#locations-text-container{
-    border: 4px solid #8564CC;
-    padding: 10px;
-    border-radius: 60px;
-    max-width: 1000px;
-}
-
-#locations-map-container{
-    border: 4px solid #8564CC;
-    padding: 10px;
-    border-radius: 60px;
-    margin: 30px;
-    max-width: 330px;
-}
-
-#timetable-text-container{
-    border: 4px solid #8564CC;
-    padding: 10px;
-    max-width: 1000px;
-    border-radius: 60px;
-}
-
-table{
-    font-size: 14px;
-    max-width: 550px;
-    margin: auto;
-}
-
-
-.newSectionContainer{
-    border: 4px solid #8564CC;
-    padding: 20px;
-    border-radius: 60px;
-    max-width: 1000px;
-    margin-left: 50px;
-    margin-top: 20px;
-}
+    max-width: 460px;}

@@ -12,7 +12,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/stylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/style/stylesheet.css" type="text/css">
 </head>
 
 <body>
@@ -153,25 +153,6 @@
 </body>
 
 </html>
-<script>
-    //this is only for testing I'll delete later on
-    function update(){
-
-        var userId = <?php if (isset($_SESSION["user_id"]) ){echo $_SESSION["user_id"];} else { echo 0;};?>;
-
-        const data = {"userId": userId }
-        fetch('/api/shoppingcart/updateAvailability', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-    }
-</script>
 <style>
 .form-popup {
     display: none;

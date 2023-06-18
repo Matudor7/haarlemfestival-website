@@ -1,0 +1,73 @@
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #000000;
+    z-index: 9;
+    margin-top: 50px;
+}
+
+.form-container {
+    width: 500px;
+    max-height: 370px;
+    padding: 10px;
+    background-color: white;
+    overflow: scroll;
+    text-align: center;
+}
+
+.form-container h1{
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-container #selectDateInput{
+    max-width: 240px;
+    display: inline-block;
+    margin-right: 15px;
+}
+.form-container #selectTimeInput{
+    max-width: 140px;
+    display: inline-block;
+}
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.form-container #productAmount{
+    max-width: 55px;
+    display: inline-block;
+}
+
+.form-container #productInfo{
+    max-width: 240px;
+    display: inline-block;
+}
+
+.form-container #addToCartBtn {
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    cursor: pointer;
+    max-width: 150px;
+    display: inline-block;
+
+}
+.form-container .amountBtns{
+    max-height: 40px;
+    max-width: 40px;
+    background-color: lightgrey;
+    margin-right: 10px;
+}
+.form-container #closeBtn {
+    background-color: red;
+    display: inline-block;
+    max-width: 150px;
+}
+
+.form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+}

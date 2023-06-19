@@ -13,7 +13,8 @@ class TicketsController{
 
             if(isset($_GET['id'])){
                 header('Content-Type: application/json; charset=utf-8');
-                echo json_encode($this->ticketService->getByID($_GET['id']));
+                $ticket = $this->ticketService->getByID($_GET['id']);
+                echo json_encode($ticket);
             }
         }
     }

@@ -55,8 +55,6 @@ VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	)");
         } catch (PDOException $e) {
             echo $e;
         }
-
-
     }
 
 }

@@ -29,17 +29,22 @@ class CheckoutController extends Controller{
     function payment(){
         require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
-            $order = new order();
-            $order->setInvoiceDate();
-            $order->setInvoiceNumber();
-            $order->setPaymentId(1);
-            $order->setPaymentStatus("Paid");
-            $orderService = new OrderService();
-            $newOrder = $orderService->insertOrder($order);
-            $this->paymentProcess($newOrder);
+            $shoppingCartService = new ShoppingCartService();
+        $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+        $productService = new ProductService();
 
+        $order = new order();
+        $order->setInvoiceDate();
+        $order->setInvoiceNumber();
+        $order->setPaymentStatus("Paid");
+        $this->paymentProcess($order);
+
+        foreach ($shoppingCart->product_id as $item) {
+            $product = $productService->getById($item);
+            $order->setListProductId($product->getName());
         }
     }
+}
 
     private function paymentProcess($order){
         $paymentService = new PaymentService();
@@ -56,7 +61,7 @@ class CheckoutController extends Controller{
             $paymentMethod = \Mollie\Api\Types\PaymentMethod::CREDITCARD;
         }
 
-        $orderId = $order[0]->getOrderId();
+        $orderId = $order->getOrderId();
         $payment = $mollie->payments->create([
             "amount" => [
                 "currency" => "EUR",
@@ -76,7 +81,11 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        //$payment = $mollie->payments->get($paymentObject->getPaymentId());
+
+        $orderService = new OrderService();
+        $order->setPaymentId($payment->id);
+        $orderService->insertOrder($order);
+
         header("Location: ". $payment->getCheckoutUrl());
 
     }
@@ -236,7 +245,7 @@ class CheckoutController extends Controller{
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
         $orderService =  new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
-        $order = $orderService->getOrderById($_GET['order_id'])[0];
+        $order = $orderService->getOrderById($_GET['order_id']);
 
         if ($payment->isPaid()) {
             header("Location: http://localhost/");

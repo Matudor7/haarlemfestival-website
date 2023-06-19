@@ -3,7 +3,7 @@
 class Order implements JsonSerializable
 {
     private int $order_id = 0;
-    private int $payment_id;
+    private string $payment_id;
     public string $invoice_date;
     public string $invoice_number;
     private string $list_Product_id = "";
@@ -23,7 +23,7 @@ class Order implements JsonSerializable
     }*/
     public function setListProductId($list_Product_id)
     {
-        $this->list_Product_id = $list_Product_id;
+        $this->list_Product_id .= " " . $list_Product_id;
     }
 
 
@@ -37,12 +37,12 @@ class Order implements JsonSerializable
         $this->order_id = $order_id;
     }
 
-    public function getPaymentId(): int
+    public function getPaymentId(): string
     {
         return $this->payment_id;
     }
 
-    public function setPaymentId(int $payment_id): void
+    public function setPaymentId(string $payment_id): void
     {
         $this->payment_id = $payment_id;
     }

@@ -22,7 +22,7 @@ class PaymentDetailsModel implements JsonSerializable{
     }
     private string $payment_method = "";
     private int $total = 0;
-    private string $payment_id = "";
+    private ?string $payment_id = "";
 
     #[ReturnTypeWillChange]
 

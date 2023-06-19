@@ -4,11 +4,7 @@ require_once ("repository.php");
 class TicketRepository extends Repository
 {
 
-    public function __construct()
-    {
-
-    }
-    function getAllUsers()
+    function getAllTickets()
     {
         try {
             $statement = $this->connection->prepare("SELECT  id,	quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status	
@@ -25,7 +21,7 @@ FROM ticket");
 
     }
 
-    public function getUserByID($id)
+    public function getTicketByID($id)
     {
         try {
 
@@ -39,6 +35,28 @@ FROM ticket WHERE id=:id ");
         } catch (PDOException $e) {
             echo $e;
         }
+
+    }
+    public function insert($ticket)
+    {
+        try {
+            $statement = $this->connection->prepare("INSERT INTO ticket (quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status	)
+VALUES (	?,	?,	?,	?,	?,	?,	?	)");
+            $statement->execute(array(
+                htmlspecialchars($ticket->getQuantity()),
+                htmlspecialchars($ticket->getPrice()),
+                htmlspecialchars($ticket->getDanceEventId()),
+                htmlspecialchars($ticket->getYummyEventId()),
+                htmlspecialchars($ticket->getHistoryEventId()),
+                htmlspecialchars($ticket->getAccessPassId()),
+                htmlspecialchars($ticket->getStatus())
+            ));
+            return $this->getTicketByID($this->connection->lastInsertId());
+
+        } catch (PDOException $e) {
+            echo $e;
+        }
+
 
     }
 

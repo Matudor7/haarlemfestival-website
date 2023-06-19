@@ -66,12 +66,9 @@ class CheckoutController extends Controller{
             "method" => $paymentMethod,
 
             "webhookUrl"  => "https://df38-2a02-a210-29c1-6180-bc3d-f4e6-cb5a-f157.ngrok-free.app/checkout/webhook",
-           // "redirectUrl" => "localhost/checkout/return",
             "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
             "metadata" => [
                 "order_id" => $orderId,
-                //"ticket" => $ticket,
-               // "payment_id" => "1", //TODO: change to payment id
                 "userId" => $_SESSION['user_id'],
             ],
         ]);
@@ -83,29 +80,22 @@ class CheckoutController extends Controller{
         header("Location: ". $payment->getCheckoutUrl());
 
     }
-    //function generateTicketPdf($tickets)
     function generateTicketPdf()
     {
-       // var_dump($this->payment());
         //Ale
         $shoppingCartService = new ShoppingCartService();
         $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $tickets = array();
         $productService = new ProductService();
         $ticketService = new TicketService();
-        //var_dump("SHOPPING CART->product_id");
 
-       // var_dump($shoppingCart->product_id);
         foreach ($shoppingCart->product_id as $item) {
-           // var_dump("ITEM");
-           // var_dump($item);
+
             $product = $productService->getById($item);
-           // var_dump("PRODUCT");
-           // var_dump($product);
+
             $ticket = new Ticket();
 
             switch ($product->getEventType()) {
-                //switch ($item->eventType) {
                 case 1:
                     $ticket->setDanceEventId($product->getEventType());
                     break;
@@ -125,16 +115,11 @@ class CheckoutController extends Controller{
             $ticket->quantity = 1;
             $ticket->user_id = $_SESSION['user_id'];
             $ticket->setPrice($product->getPrice());
-            //$ticket->setQuantity($item->amount);
-            // $ticket->setUserId($item->user_id);
+
             array_push($tickets, $ticketService->storeTicketDB($ticket));
-            //var_dump("TICKETS");
-            //var_dump($tickets);
 
         }
         $qrService = new QrService();
-        //get the list of ticket and for each ticket generate a qr code and diplay the rest of the pdf as well with info related to that tickets
-        // $qrService->generateQrCode($ticket);
         $pdf = "
     <!DOCTYPE html>
     <html>
@@ -243,8 +228,6 @@ class CheckoutController extends Controller{
         //Ale
         require_once __DIR__ . '/../Services/paymentService.php';
         $paymentService = new PaymentService();
-       // $itemsFromShoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
-        //$paymentDetails = $paymentService->getByPaymentId();
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
         $shoppingCartService = new ShoppingCartService();
@@ -257,7 +240,6 @@ class CheckoutController extends Controller{
 
         if ($payment->isPaid()) {
             header("Location: http://localhost/");
-            //TODO move the logic to the controller
         
 
             $email = $paymentObject->getEmail();
@@ -265,13 +247,9 @@ class CheckoutController extends Controller{
             $subtotal = "";
         
             $subject = "Your Haarlem Festival Order Invoice and Tickets";
-        
-            //$message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
-            //$message .= nl2br("Here your order invoice: \n");
 
-
-                $message = "Here is your invoice and your tickets, thanks for buying your ticket with us!!!";
-                $pdfService = new PDFGenerator();
+            $message = "Here is your invoice and your tickets, thanks for buying your ticket with us!!!";
+            $pdfService = new PDFGenerator();
             if ($payment->isPaid()) {
                 $html = "
         <head>
@@ -413,29 +391,12 @@ class CheckoutController extends Controller{
                 $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $this->generateTicketPdf(), "tickets");
                 $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
-            //Andy
-            //$this->updateAvailability($itemsFromShoppingCart);
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
         } else {
             echo "Payment Failed...";
         }
     }
-
-
-
-
-
-
-    // private function getMolliePayment(){
-    //     require_once __DIR__ . '/../vendor/autoload.php';
-    //     $mollie = new Mollie\Api\MollieApiClient();
-    //     $paymentService = new PaymentService();
-    //     $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
-    //     $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-    //     echo $_SESSION['user_id'];
-    //     $payment = $mollie->payments->get($paymentObject->getPaymentId());
-    // }
 
     function webhook(){
         require __DIR__ . '/../views/checkout/webhook.php';

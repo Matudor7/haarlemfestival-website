@@ -25,4 +25,9 @@ class TicketService
 
     }
 
+    public function updateStatus($id){
+        $repository = new TicketRepository;
+        $repository->updateStatus($id);
+    }
+
 }

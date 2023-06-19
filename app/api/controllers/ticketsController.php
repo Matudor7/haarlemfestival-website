@@ -15,6 +15,7 @@ class TicketsController{
                 header('Content-Type: application/json; charset=utf-8');
                 $ticket = $this->ticketService->getByID($_GET['id']);
                 echo json_encode($ticket);
+                $this->ticketService->updateStatus($ticket->getId());
             }
         }
     }

@@ -57,4 +57,16 @@ VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	)");
         }
     }
 
+    public function updateStatus($id){
+        try {
+            $statement = $this->connection->prepare("UPDATE ticket SET `status`='Scanned' WHERE `id`=:id");
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            $return = $statement->fetch();
+
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
 }

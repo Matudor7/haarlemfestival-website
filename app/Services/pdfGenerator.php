@@ -6,7 +6,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Dompdf\Dompdf;
 class PDFGenerator
 {
-    public function createPDF($order_id, $user_id, $html)
+    public function createPDF($order_id, $user_id, $html, $type)
     {
         $dompdf = new Dompdf();
 
@@ -22,7 +22,7 @@ class PDFGenerator
 // Render the HTML as PDF
         $dompdf->render();
         $pdf_content = $dompdf->output();
-        $file_name = "tickets_" . $order_id . ".pdf";
+        $file_name = $type . "_" . $order_id . ".pdf";
         file_put_contents($file_name, $pdf_content);
 
         return $file_name;

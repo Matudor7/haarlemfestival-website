@@ -266,7 +266,7 @@ class CheckoutController extends Controller{
         
             $subject = "Your Haarlem Festival Order Invoice and Tickets";
         
-           // $message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
+            //$message = nl2br("Hello, " . $paymentObject->getFirstName() . ".\n");
             //$message .= nl2br("Here your order invoice: \n");
 
 
@@ -409,14 +409,12 @@ class CheckoutController extends Controller{
             }
         </style>";
 
-                $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html);
-                $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $this->generateTicketPdf());
-            $smtpService = new smtpService();
+                $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html, "invoice");
+                $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $this->generateTicketPdf(), "tickets");
+                $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
             //Andy
             //$this->updateAvailability($itemsFromShoppingCart);
-
-            $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
 
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
         } else {

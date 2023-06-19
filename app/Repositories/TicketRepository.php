@@ -41,7 +41,7 @@ FROM ticket WHERE id=:id ");
     {
         try {
             $statement = $this->connection->prepare("INSERT INTO ticket (quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status	)
-VALUES (	?,	?,	?,	?,	?,	?,	?	)");
+VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	)");
             $statement->execute(array(
                 htmlspecialchars($ticket->getQuantity()),
                 htmlspecialchars($ticket->getPrice()),
@@ -49,7 +49,6 @@ VALUES (	?,	?,	?,	?,	?,	?,	?	)");
                 htmlspecialchars($ticket->getYummyEventId()),
                 htmlspecialchars($ticket->getHistoryEventId()),
                 htmlspecialchars($ticket->getAccessPassId()),
-                htmlspecialchars($ticket->getStatus())
             ));
             return $this->getTicketByID($this->connection->lastInsertId());
 

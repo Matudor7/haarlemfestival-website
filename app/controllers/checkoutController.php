@@ -37,12 +37,12 @@ class CheckoutController extends Controller{
         $order->setInvoiceDate();
         $order->setInvoiceNumber();
         $order->setPaymentStatus("Paid");
-        $this->paymentProcess($order);
 
         foreach ($shoppingCart->product_id as $item) {
             $product = $productService->getById($item);
             $order->setListProductId($product->getName());
         }
+        $this->paymentProcess($order);
     }
 }
 
@@ -119,7 +119,6 @@ class CheckoutController extends Controller{
                     break;
                 default:
                     throw  new Exception("Invalid event type");
-                    break;
             }
             $ticket->quantity = 1;
             $ticket->user_id = $_SESSION['user_id'];

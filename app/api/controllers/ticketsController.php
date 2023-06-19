@@ -1,14 +1,14 @@
 <?php
 require __DIR__ . '/../../Services/TicketService.php';
 require_once __DIR__ . '/../../Models/Ticket.php';
-class ScanController{
-    private $shoppingCartService;
+class TicketsController{
+    private $ticketService;
 
     function __construct(){
-        $this->shoppingCartService = new ShoppingCartService();
+        $this->ticketService = new TicketService();
     }
 
-    function index(){
+    function scan(){
         if($_SERVER["REQUEST_METHOD"] == "GET"){
 
             if(isset($_GET['user_id'])){

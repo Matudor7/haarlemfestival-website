@@ -3,14 +3,14 @@
 class Ticket
 {
 
-    private int $id;
+    public int $id;
     public int $quantity;
     public float $price;
-    public ?int $dance_event_id;
-    public ?int $yummy_event_id;
-    public ?int $history_event_id;
-    public ?int $access_pass_id;
-    public string $status;
+    public ?int $dance_event_id = 0;
+    public ?int $yummy_event_id = 0;
+    public ?int $history_event_id = 0;
+    public ?int $access_pass_id = 0;
+    public string $status = "";
     public int $user_id;
     public int $order_id;
     public ?int $vat_id;

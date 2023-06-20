@@ -272,7 +272,8 @@ class CheckoutController extends Controller{
     }
 
 
-    function return(){
+    function return()
+    {
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Services/paymentService.php';
         $shoppingCartService = new ShoppingCartService();
@@ -286,18 +287,18 @@ class CheckoutController extends Controller{
 
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
-        $orderService =  new OrderService();
+        $orderService = new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
         $order = $orderService->getOrderById($_GET['order_id']);
 
         if ($payment->isPaid()) {
             header("Location: http://localhost/");
-        
+
 
             $email = $paymentObject->getEmail();
             $fullName = $paymentObject->getFullName();
             $subtotal = "";
-        
+
             $subject = "Your Haarlem Festival Order Invoice and Tickets";
 
             $message = "Here is your invoice and your tickets, thanks for buying your ticket with us!!!";
@@ -321,22 +322,22 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>". $order->invoice_number."</td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number . "</td>
                 </tr>
                 <tr>
-                 <td style='border: none;'>". $paymentObject->first_name . '  '. $paymentObject->last_name." </td>
-                    <td style='border: none;'>".$paymentObject->email."</td>
+                 <td style='border: none;'>" . $paymentObject->first_name . '  ' . $paymentObject->last_name . " </td>
+                    <td style='border: none;'>" . $paymentObject->email . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'>".$order->invoice_date."</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' >".$paymentObject->address."</td>
-                    <td style='border: none;'>".$paymentObject->phone_number."</td>
+                    <td style='border: none;' >" . $paymentObject->address . "</td>
+                    <td style='border: none;'>" . $paymentObject->phone_number . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'>".$order->invoice_date."</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
-                    <td style='border: none;' >".$paymentObject->zip."</td>
+                    <td style='border: none;' >" . $paymentObject->zip . "</td>
                 </tr>
             </table>
         </div><br><br>
@@ -355,31 +356,31 @@ class CheckoutController extends Controller{
                 $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
                 $productService = new ProductService();
                 foreach ($shoppingCart->product_id as $item) {
-                $product = $productService->getById($item);
-                $subtotal += intval($shoppingCart->amount[0]) * $product->price;
-                $totalPricePerProduct = $product->calculateTotalPriceForProduct($shoppingCart->amount[0], $product->price);
-                $amount = $shoppingCart->amount[0];
+                    $product = $productService->getById($item);
+                    $subtotal += intval($shoppingCart->amount[0]) * $product->price;
+                    $totalPricePerProduct = $product->calculateTotalPriceForProduct($shoppingCart->amount[0], $product->price);
+                    $amount = $shoppingCart->amount[0];
+                    $html .= "
+            <tr>
+                <td>" . $product->name . "</td>
+                <td>" . $amount . "</td>
+                <td>&#8364;" . $product->price . "</td>
+                <td>" . $totalPricePerProduct . "</td>
+            </tr> ";
+                }
                 $html .= "
             <tr>
-                <td>".$product->name."</td>
-                <td>".$amount."</td>
-                <td>&#8364;".$product->price."</td>
-                <td>".$totalPricePerProduct."</td>
-            </tr> ";
-            }
-         $html .= "
-            <tr>
                 <td colspan='3'>Subtotal</td>
-                <td>&#8364;".$subtotal."</td>
+                <td>&#8364;" . $subtotal . "</td>
             </tr>
             <tr>
                 <td colspan='3'>Tax</td>
-                <td>&#8364;".$subtotal * 0.21."</td>
+                <td>&#8364;" . $subtotal * 0.21 . "</td>
             </tr>
             <tr>
                 <td colspan='3' style='color:#ff6600;  font-weight: bold;'>TOTAL</td>
         
-                <td style='color:#ff6600;  font-weight: bold;'> &#8364;".$subtotal * 0.21 + $subtotal."</td>
+                <td style='color:#ff6600;  font-weight: bold;'> &#8364;" . $subtotal * 0.21 + $subtotal . "</td>
             </tr>
             </tbody>
         </table>
@@ -443,18 +444,20 @@ class CheckoutController extends Controller{
                 $htmlTicket = $this->generateTicketPdf($_GET['order_id'], $paymentObject);
                 $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $htmlTicket, "tickets");
                 $smtpService = new smtpService();
-            $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
-            $this->updateAvailability($shoppingCart);
-            $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
-        } else {
-            echo "Payment Failed...";
+                $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
+                $this->updateAvailability($shoppingCart);
+                $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+            } else {
+                echo "Payment Failed...";
+            }
+        }
+
+        function webhook()
+        {
+            require __DIR__ . '/../views/checkout/webhook.php';
         }
     }
 
-    function webhook(){
-        require __DIR__ . '/../views/checkout/webhook.php';
-    }
-}
     function updateAvailability($shoppingCart){
         require_once __DIR__ . '/../Services/productService.php';
         require_once __DIR__.'/../Services/shoppingCartService.php';

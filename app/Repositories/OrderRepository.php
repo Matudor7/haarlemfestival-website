@@ -73,6 +73,7 @@ class OrderRepository extends Repository{
             $statement->bindParam(':orderId', $orderId);
 
             $statement->execute();
+            return $this->getById($orderId);
         }catch(PDOException $e){
             echo $e->getMessage();
         }

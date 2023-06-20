@@ -22,7 +22,9 @@ class OrderService
     }
     public function addPaymentId($paymentId, $orderId){
        $orderRepo = new OrderRepository();
-        $orderRepo->addPaymentId($paymentId, $orderId);
+       return $orderRepo->addPaymentId($paymentId, $orderId);
+
+
 
     }
 

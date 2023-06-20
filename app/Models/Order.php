@@ -3,7 +3,7 @@
 class Order implements JsonSerializable
 {
     private int $order_id = 0;
-    private string $payment_id;
+    private string $payment_id = "";
     public string $invoice_date;
     public string $invoice_number;
     private string $list_Product_id = "";

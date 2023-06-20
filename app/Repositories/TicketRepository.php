@@ -25,7 +25,7 @@ FROM ticket");
     {
         try {
 
-            $stmt = $this->connection->prepare("SELECT  id,	quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status	
+            $stmt = $this->connection->prepare("SELECT  id,	quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status, event_name	
 FROM ticket WHERE id=:id ");
             $stmt->bindParam(':id', $id);
             $stmt->execute();

@@ -19,7 +19,7 @@ class OrderedProductsRepository extends Repository{
     {
         try {
             $statement = $this->connection->prepare("SELECT id, productId, orderId,amount FROM `OrderedProducts` WHERE orderId=:id");
-            $statement->bindParam(':id', $id);
+            $statement->bindParam(':id', $orderId);
 
             $statement->execute();
             $order = $statement->fetchAll(PDO::FETCH_CLASS, 'OrderedProducts');

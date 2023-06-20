@@ -16,6 +16,8 @@ require_once __DIR__ . '/../Models/productModel.php';
 require_once __DIR__ . '/../Services/productService.php';
 require_once __DIR__ . '/../Services/TicketService.php';
 require_once __DIR__ . '/../Services/QrService.php';
+require_once __DIR__ . '/../Models/eventModel.php';
+require_once __DIR__ . '/../Services/eventService.php';
 
 
 
@@ -63,7 +65,7 @@ class CheckoutController extends Controller{
         $shoppingCartService = new ShoppingCartService();
 
         //$order->setPaymentId($payment->id);
-        $order->setPaymentId(1);
+
         $bookedOrder = $orderService->insertOrder($order);
         $bookedOrderId = $bookedOrder[0]->getOrderId();
         $paymentMethod;
@@ -73,8 +75,6 @@ class CheckoutController extends Controller{
         } else{
             $paymentMethod = \Mollie\Api\Types\PaymentMethod::CREDITCARD;
         }
-
-        $orderId = $order->getOrderId();
         $payment = $mollie->payments->create([
             "amount" => [
                 "currency" => "EUR",
@@ -94,7 +94,8 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        $orderService->addPaymentId($payment->id, $bookedOrderId);
+
+        $order = $orderService->addPaymentId($payment->id, $bookedOrderId);
 
         foreach ($shoppingCart->product_id as $item) {
             $amount = $shoppingCartService->getAmountOfProduct($item, $_SESSION['user_id']);
@@ -105,14 +106,8 @@ class CheckoutController extends Controller{
         header("Location: ". $payment->getCheckoutUrl());
 
     }
-    function debug_to_console($data) {
-        $output = $data;
-        if (is_array($output))
-            $output = implode(',', $output);
 
-        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-    }
-    function generateTicketPdf($order_id)
+    function generateTicketPdf($order_id, $paymentObject)
     {
         //Ale
         $shoppingCartService = new ShoppingCartService();
@@ -122,7 +117,6 @@ class CheckoutController extends Controller{
         $ticketService = new TicketService();
         $orderedProductsService = new OrderedProductsService();
         $orderedProduct = $orderedProductsService->getByOrderId($order_id);
-        $this->debug_to_console($orderedProduct);
 
         foreach ($orderedProduct as $item) {
 
@@ -133,7 +127,6 @@ class CheckoutController extends Controller{
             switch ($product->getEventType()) {
                 case 1:
                     $ticket->setDanceEventId($product->getEventType());
-
                     break;
                 case 2:
                     $ticket->setYummyEventId($product->getEventType());
@@ -147,11 +140,17 @@ class CheckoutController extends Controller{
                 default:
                     throw  new Exception("Invalid event type");
             }
+            $eventService = new EventService();
+            $event = $eventService->getById($product->getEventType());
+            $ticket->setEventName($event->getName());
             $ticket->quantity = $item->getAmount();
             $ticket->user_id = $_SESSION['user_id'];
+            //$ticket->setStartingTime($product->getProductTime());
+            //$ticket->setEventDate($product->getProductDate());
             $ticket->setPrice($product->getPrice());
 
-                array_push($tickets, $ticketService->storeTicketDB($ticket));
+                    array_push($tickets, $ticketService->storeTicketDB($ticket));
+        
 
 
         }
@@ -169,10 +168,10 @@ class CheckoutController extends Controller{
             <h1>Haarlem Festival Ticket</h1> ";
         foreach ($tickets as $ticket) {
             $qr_code_ur = $qrService->generateQrCode($ticket);
-            $client_name = $ticket->client_name;
+            $client_name =  $paymentObject->first_name . '  '. $paymentObject->last_name;
             $event_name = $ticket->event_name;
-            $event_date = $ticket->event_date;
-            $event_time = $ticket->event_time;
+            $event_date = $ticket->eventDate;
+            $event_time = $ticket->startingTime;
             $event_type = $ticket->event_type;
             $pdf .= "
             <h2>" . $event_type . "</h2>
@@ -437,7 +436,7 @@ class CheckoutController extends Controller{
         </style>";
 
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html, "invoice");
-                $htmlTicket = $this->generateTicketPdf($_GET['order_id']);
+                $htmlTicket = $this->generateTicketPdf($_GET['order_id'], $paymentObject);
                 $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $htmlTicket, "tickets");
                 $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);

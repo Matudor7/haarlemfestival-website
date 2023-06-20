@@ -145,12 +145,14 @@ class CheckoutController extends Controller{
             $ticket->setEventName($event->getName());
             $ticket->quantity = $item->getAmount();
             $ticket->user_id = $_SESSION['user_id'];
-            //$ticket->setStartingTime($product->getProductTime());
-            //$ticket->setEventDate($product->getProductDate());
+            $ticket->setStartingTime($product->getProductTime());
+            $ticket->setEventDate($product->getProductDate());
             $ticket->setPrice($product->getPrice());
+         for($i = 0; $i < $ticket->quantity; $i++){
+             array_push($tickets, $ticketService->storeTicketDB($ticket));
+         }
 
-                    array_push($tickets, $ticketService->storeTicketDB($ticket));
-        
+
 
 
         }

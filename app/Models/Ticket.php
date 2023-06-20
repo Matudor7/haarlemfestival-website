@@ -14,6 +14,40 @@ class Ticket
     public int $user_id;
     public int $order_id;
     public ?int $vat_id;
+    public string $startingTime = "";
+    public string $eventDate = "";
+
+    /**
+     * @return string
+     */
+    public function getStartingTime(): string
+    {
+        return $this->startingTime;
+    }
+
+    /**
+     * @param string $startingTime
+     */
+    public function setStartingTime(string $startingTime): void
+    {
+        $this->startingTime = $startingTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEventDate(): string
+    {
+        return $this->eventDate;
+    }
+
+    /**
+     * @param string $eventDate
+     */
+    public function setEventDate(string $eventDate): void
+    {
+        $this->eventDate = $eventDate;
+    }
 
     /**
      * @return string

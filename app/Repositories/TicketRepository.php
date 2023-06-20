@@ -25,7 +25,7 @@ FROM ticket");
     {
         try {
 
-            $stmt = $this->connection->prepare("SELECT  id,	quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status, event_name	
+            $stmt = $this->connection->prepare("SELECT  id,	quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status, event_name, startingTime, eventDate	
 FROM ticket WHERE id=:id ");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
@@ -40,8 +40,8 @@ FROM ticket WHERE id=:id ");
     public function insert($ticket)
     {
         try {
-            $statement = $this->connection->prepare("INSERT INTO ticket (quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status, event_name	)
-VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	, ?)");
+            $statement = $this->connection->prepare("INSERT INTO ticket (quantity,	price,	dance_event_id,	yummy_event_id,	history_event_id,	access_pass_id,	status, event_name, startingTime, eventDate	)
+VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	, ?, ?, ?)");
             $statement->execute(array(
                 htmlspecialchars($ticket->getQuantity()),
                 htmlspecialchars($ticket->getPrice()),
@@ -49,7 +49,9 @@ VALUES (	?,	?,	?,	?,	?,	?,	'Valid'	, ?)");
                 htmlspecialchars($ticket->getYummyEventId()),
                 htmlspecialchars($ticket->getHistoryEventId()),
                 htmlspecialchars($ticket->getAccessPassId()),
-                htmlspecialchars($ticket->getEventName())
+                htmlspecialchars($ticket->getEventName()),
+                htmlspecialchars($ticket->getStartingTime()),
+                htmlspecialchars($ticket->getEventDate())
 
             ));
             return $this->getTicketByID($this->connection->lastInsertId());

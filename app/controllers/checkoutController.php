@@ -454,17 +454,40 @@ class CheckoutController extends Controller{
     function webhook(){
         require __DIR__ . '/../views/checkout/webhook.php';
     }
-
+}
     function updateAvailability($shoppingCart){
         require_once __DIR__ . '/../Services/productService.php';
+        require_once __DIR__.'/../Services/shoppingCartService.php';
         $productService = new ProductService();
+        $shoppingCartService = new ShoppingCartService();
 
         $products = $shoppingCart->getProducts();
         $amounts = $shoppingCart->getAmount();
 
         for ($i = 0; $i < count($products); $i++){
             $productService->updateProductAvailability($products[$i], $amounts[$i]);
+            $product = $productService->getById($products[$i]);
+            if($product->getEventType() == 2){
+                $additionalInfo = $shoppingCartService->getAdditionalInfoByProduct($products[$i], $shoppingCart->getUserId());
+                $reservationId = $this->getReservationId($additionalInfo);
+                $this->changeReservationStatus($reservationId);
+            }
         }
     }
-}}
+    function getReservationId($additionalNote){
+        $pattern = '/\(R([a-zA-Z0-9]+)\)/';
+        if (preg_match($pattern, $additionalNote, $matches)) {
+            $reservationId = $matches[1];
+        }
+        return 'R'.$reservationId;
+    }
+
+    function changeReservationStatus($reservationId){
+        require_once __DIR__.'/../Services/ReservationService.php';
+        $reservationService = new ReservationService();
+        $reservationStatus = 1;
+        $reservationService->changeReservationStatus($reservationId, $reservationStatus);
+    }
+}
+
 ?>

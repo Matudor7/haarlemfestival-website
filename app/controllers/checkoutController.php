@@ -267,7 +267,7 @@ class CheckoutController extends Controller{
     }
 </style>";
 
-        
+
         return $pdf;
     }
 

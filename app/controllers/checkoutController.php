@@ -186,6 +186,8 @@ class CheckoutController extends Controller{
                 <p><span class='label'>Date:</span>" . $event_date . "</p>
                 <p><span class='label'>Time:</span> " . $event_time . "</p>
             </div>
+            ";}
+        $pdf .= "
     </body>
     </html>
 <style>
@@ -265,7 +267,7 @@ class CheckoutController extends Controller{
     }
 </style>";
 
-        }
+        
         return $pdf;
     }
 

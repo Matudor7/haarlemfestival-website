@@ -145,9 +145,10 @@ class UserController extends Controller
             $newUserProfile->setUserEmail($_POST['userManageAccountEmailTextBox']);
             $newUserProfile->setUserPassword($_POST['userManageAccountPassword1TextBox']);
             $newUserProfile->setUserPicURL($downloadPath);
+            
             $this->userService->updateUserProfile($user, $newUserProfile);  
             $this->sendEditConfirmationMail($newUserProfile);
-            header('Location: /user/userManageAccount'); 
+            header('Location: /'); 
         }  
         
         

@@ -66,4 +66,16 @@ class OrderRepository extends Repository{
             echo $e->getMessage();
         }
     }
+    public function addPaymentId($paymentId, $orderId){
+        try{
+            $statement = $this->connection->prepare("UPDATE `order` SET payment_id=:paymentId WHERE order_id=:orderId");
+            $statement->bindParam(':paymentId', $paymentId);
+            $statement->bindParam(':orderId', $orderId);
+
+            $statement->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+    }
 }

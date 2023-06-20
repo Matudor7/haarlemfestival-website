@@ -14,6 +14,23 @@ class Ticket
     public int $user_id;
     public int $order_id;
     public ?int $vat_id;
+
+    /**
+     * @return string
+     */
+    public function getEventName(): string
+    {
+        return $this->event_name;
+    }
+
+    /**
+     * @param string $event_name
+     */
+    public function setEventName(string $event_name): void
+    {
+        $this->event_name = $event_name;
+    }
+    public string $event_name = "";
     /**
      * @return int
      */

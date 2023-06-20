@@ -45,7 +45,9 @@ class CheckoutController extends Controller{
             $order->setListProductId($product->getId());
 
         }
+
         $this->paymentProcess($order, $shoppingCart);
+
 
     }
 }
@@ -56,7 +58,14 @@ class CheckoutController extends Controller{
         require_once __DIR__ . '/../Models/Order.php';
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
+        $orderService = new OrderService();
+        $bookedOrderService = new OrderedProductsService();
+        $shoppingCartService = new ShoppingCartService();
 
+        //$order->setPaymentId($payment->id);
+        $order->setPaymentId(1);
+        $bookedOrder = $orderService->insertOrder($order);
+        $bookedOrderId = $bookedOrder[0]->getOrderId();
         $paymentMethod;
 
         if($_GET["paymentmethod"] == 'ideal'){
@@ -75,9 +84,9 @@ class CheckoutController extends Controller{
             "method" => $paymentMethod,
 
             "webhookUrl"  => "https://df38-2a02-a210-29c1-6180-bc3d-f4e6-cb5a-f157.ngrok-free.app/checkout/webhook",
-            "redirectUrl" => "http://localhost/checkout/return?order_id={$orderId}" ,
+            "redirectUrl" => "http://localhost/checkout/return?order_id={$bookedOrderId}" ,
             "metadata" => [
-                "order_id" => $orderId,
+                "order_id" => $bookedOrderId,
                 "userId" => $_SESSION['user_id'],
             ],
         ]);
@@ -85,14 +94,8 @@ class CheckoutController extends Controller{
         $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+        $orderService->addPaymentId($payment->id, $bookedOrderId);
 
-        $orderService = new OrderService();
-        $bookedOrderService = new OrderedProductsService();
-        $shoppingCartService = new ShoppingCartService();
-
-        $order->setPaymentId($payment->id);
-        $bookedOrder = $orderService->insertOrder($order);
-        $bookedOrderId = $bookedOrder[0]->getOrderId();
         foreach ($shoppingCart->product_id as $item) {
             $amount = $shoppingCartService->getAmountOfProduct($item, $_SESSION['user_id']);
             $bookedOrderService->addOrderedProduct($item, $bookedOrderId, $amount);
@@ -102,7 +105,14 @@ class CheckoutController extends Controller{
         header("Location: ". $payment->getCheckoutUrl());
 
     }
-    function generateTicketPdf()
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
+    function generateTicketPdf($order_id)
     {
         //Ale
         $shoppingCartService = new ShoppingCartService();
@@ -110,16 +120,20 @@ class CheckoutController extends Controller{
         $tickets = array();
         $productService = new ProductService();
         $ticketService = new TicketService();
+        $orderedProductsService = new OrderedProductsService();
+        $orderedProduct = $orderedProductsService->getByOrderId($order_id);
+        $this->debug_to_console($orderedProduct);
 
-        foreach ($shoppingCart->product_id as $item) {
+        foreach ($orderedProduct as $item) {
 
-            $product = $productService->getById($item);
+            $product = $productService->getById($item->getProductId());
 
             $ticket = new Ticket();
 
             switch ($product->getEventType()) {
                 case 1:
                     $ticket->setDanceEventId($product->getEventType());
+
                     break;
                 case 2:
                     $ticket->setYummyEventId($product->getEventType());
@@ -133,11 +147,12 @@ class CheckoutController extends Controller{
                 default:
                     throw  new Exception("Invalid event type");
             }
-            $ticket->quantity = 1;
+            $ticket->quantity = $item->getAmount();
             $ticket->user_id = $_SESSION['user_id'];
             $ticket->setPrice($product->getPrice());
 
-            array_push($tickets, $ticketService->storeTicketDB($ticket));
+                array_push($tickets, $ticketService->storeTicketDB($ticket));
+
 
         }
         $qrService = new QrService();
@@ -154,9 +169,21 @@ class CheckoutController extends Controller{
             <h1>Haarlem Festival Ticket</h1> ";
         foreach ($tickets as $ticket) {
             $qr_code_ur = $qrService->generateQrCode($ticket);
+            $client_name = $ticket->client_name;
+            $event_name = $ticket->event_name;
+            $event_date = $ticket->event_date;
+            $event_time = $ticket->event_time;
+            $event_type = $ticket->event_type;
             $pdf .= "
+            <h2>" . $event_type . "</h2>
             <div class='qr-code'>
                 <img src='" . $qr_code_ur . "' alt='QR code'>
+            </div>
+            <div class='info'>
+                <p><span class='label'>Name:</span>" . $client_name . "</p>
+                <p><span class='label'>Event:</span>" . $event_name . "</p>
+                <p><span class='label'>Date:</span>" . $event_date . "</p>
+                <p><span class='label'>Time:</span> " . $event_time . "</p>
             </div>
     </body>
     </html>
@@ -236,6 +263,7 @@ class CheckoutController extends Controller{
         min-width: 70px;
     }
 </style>";
+
         }
         return $pdf;
     }
@@ -409,7 +437,8 @@ class CheckoutController extends Controller{
         </style>";
 
                 $invoicePdf = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $html, "invoice");
-                $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $this->generateTicketPdf(), "tickets");
+                $htmlTicket = $this->generateTicketPdf($_GET['order_id']);
+                $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $htmlTicket, "tickets");
                 $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
 

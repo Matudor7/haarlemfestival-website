@@ -20,6 +20,11 @@ class OrderService
         $order = $orderRepo->insertOrder($order);
         return $order;
     }
+    public function addPaymentId($paymentId, $orderId){
+       $orderRepo = new OrderRepository();
+        $orderRepo->addPaymentId($paymentId, $orderId);
+
+    }
 
 
     public function changePaymentStatus($order_id, $payment_status){

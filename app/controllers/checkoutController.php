@@ -444,7 +444,7 @@ class CheckoutController extends Controller{
                 $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $htmlTicket, "tickets");
                 $smtpService = new smtpService();
             $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
-
+            $this->updateAvailability($shoppingCart);
             $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
         } else {
             echo "Payment Failed...";

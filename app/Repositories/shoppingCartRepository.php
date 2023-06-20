@@ -130,4 +130,18 @@ class ShoppingCartRepository extends Repository{
         }
         catch(PDOException $e){echo $e;}
     }
+    public function getAmountOfProduct($item, $user_id){
+        $query = "SELECT amount FROM shopping_cart WHERE product_id = :productId AND user_id = :userId";
+
+        try{
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':userId', $user_id);
+            $statement->bindParam(':productId', $item);
+            $statement->execute();
+
+            $amount = $statement->fetch();
+            return $amount[0];
+        }
+        catch(PDOException $e){echo $e;}
+    }
 }

@@ -9,7 +9,8 @@ require_once __DIR__ . '/../Services/smtpService.php';
 require_once __DIR__ . '/../Services/OrderService.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Order.php';
-
+require_once __DIR__ . '/../Models/OrderedProducts.php';
+require_once __DIR__ . '/../Services/OrderedProductsService.php';
 require_once __DIR__ . '/../Services/pdfGenerator.php';
 require_once __DIR__ . '/../Models/productModel.php';
 require_once __DIR__ . '/../Services/productService.php';
@@ -33,6 +34,7 @@ class CheckoutController extends Controller{
         $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $productService = new ProductService();
 
+
         $order = new order();
         $order->setInvoiceDate();
         $order->setInvoiceNumber();
@@ -40,13 +42,15 @@ class CheckoutController extends Controller{
 
         foreach ($shoppingCart->product_id as $item) {
             $product = $productService->getById($item);
-            $order->setListProductId($product->getName());
+            $order->setListProductId($product->getId());
+
         }
-        $this->paymentProcess($order);
+        $this->paymentProcess($order, $shoppingCart);
+
     }
 }
 
-    private function paymentProcess($order){
+    private function paymentProcess($order, $shoppingCart){
         $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Models/Order.php';
@@ -83,8 +87,17 @@ class CheckoutController extends Controller{
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
 
         $orderService = new OrderService();
+        $bookedOrderService = new OrderedProductsService();
+        $shoppingCartService = new ShoppingCartService();
+
         $order->setPaymentId($payment->id);
-        $orderService->insertOrder($order);
+        $bookedOrder = $orderService->insertOrder($order);
+        $bookedOrderId = $bookedOrder[0]->getOrderId();
+        foreach ($shoppingCart->product_id as $item) {
+            $amount = $shoppingCartService->getAmountOfProduct($item, $_SESSION['user_id']);
+            $bookedOrderService->addOrderedProduct($item, $bookedOrderId, $amount);
+        }
+
 
         header("Location: ". $payment->getCheckoutUrl());
 

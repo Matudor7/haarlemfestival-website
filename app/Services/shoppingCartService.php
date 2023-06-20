@@ -45,5 +45,9 @@ class ShoppingCartService{
     public function getAdditionalInfoByProduct($productId, $userId){
         return $this->shoppingCartRepo->getAdditionalInfoByProduct($productId,$userId );
     }
+    public function getAmountOfProduct($item, $user_id)
+    {
+        return $this->shoppingCartRepo->getAmountOfProduct($item, $user_id);
+    }
 }
 ?>

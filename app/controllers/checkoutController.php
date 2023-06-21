@@ -42,7 +42,6 @@ class CheckoutController extends Controller{
         $shoppingCart =$this->shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $productService = new ProductService();
 
-
         $order = new order();
         $order->setInvoiceDate();
         $order->setInvoiceNumber();
@@ -98,9 +97,38 @@ class CheckoutController extends Controller{
             $bookedOrderService->addOrderedProduct($item, $bookedOrderId, $amount);
         }
 
-
         header("Location: ". $payment->getCheckoutUrl());
+    }
+    function createTicketFromProduct($product)
+    {
+        $ticket = new Ticket();
 
+        switch ($product->getEventType()) {
+            case 1:
+                $ticket->setDanceEventId($product->getEventType());
+                break;
+            case 2:
+                $ticket->setYummyEventId($product->getEventType());
+                break;
+            case 44:
+                $ticket->setHistoryEventId($product->getEventType());
+                break;
+            case 45:
+                $ticket->setAccessPassId($product->getEventType());
+                break;
+            default:
+                throw new Exception("Invalid event type");
+        }
+
+        $event = $eventService->getById($product->getEventType());
+        $ticket->setEventName($event->getName());
+        $ticket->quantity = $item->getAmount();
+        $ticket->user_id = $_SESSION['user_id'];
+        $ticket->setStartingTime($product->getProductTime());
+        $ticket->setEventDate($product->getProductDate());
+        $ticket->setPrice($product->getPrice());
+
+        return $ticket;
     }
 
     function generateTicketPdf($order_id, $paymentObject)
@@ -261,7 +289,6 @@ class CheckoutController extends Controller{
         return $pdf;
     }
 
-
     function return()
     {
         require_once __DIR__ . '/../vendor/autoload.php';
@@ -273,7 +300,7 @@ class CheckoutController extends Controller{
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
         $orderService = new OrderService();
         $payment = $mollie->payments->get($paymentObject->getPaymentId());
-        $order = $orderService->getOrderById($_GET['order_id']);
+        $order = $orderService->getOrderById($_GET['order_id'])[0];
 
         if ($payment->isPaid()) {
             header("Location: http://localhost/");
@@ -306,19 +333,19 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number . "</td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number. "</td>
                 </tr>
                 <tr>
                  <td style='border: none;'>" . $paymentObject->first_name . '  ' . $paymentObject->last_name . " </td>
                     <td style='border: none;'>" . $paymentObject->email . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'>" . $order->invoice_date . "</td>
+                    <td style='border: none;'>" . $order->invoice_date. "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->address . "</td>
                     <td style='border: none;'>" . $paymentObject->phone_number . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'>" . $order->invoice_date . "</td>
+                    <td style='border: none;'>" . $order->invoice_date. "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->zip . "</td>
@@ -429,6 +456,8 @@ class CheckoutController extends Controller{
                 $ticketPDF = $pdfService->createPDF($_GET['order_id'], $_SESSION['user_id'], $htmlTicket, "tickets");
                 $smtpService = new smtpService();
                 $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
+                unlink($invoicePdf);
+                unlink($ticketPDF);
                 $this->updateAvailability($shoppingCart);
                 $this->shoppingCartService->removeCartFromUser($_SESSION['user_id']);
             } else {

@@ -22,6 +22,15 @@ require_once __DIR__ . '/../Services/eventService.php';
 
 
 class CheckoutController extends Controller{
+
+
+    private $shoppingCartService;
+
+    public function __construct() {
+
+
+        $this->shoppingCartService = new ShoppingCartService();
+    }
     function index(){
 
         require_once __DIR__ . '/navbarRequirements.php';
@@ -32,8 +41,7 @@ class CheckoutController extends Controller{
     function payment(){
         require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
-            $shoppingCartService = new ShoppingCartService();
-        $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+        $shoppingCart =$this->shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $productService = new ProductService();
 
 
@@ -45,15 +53,10 @@ class CheckoutController extends Controller{
         foreach ($shoppingCart->product_id as $item) {
             $product = $productService->getById($item);
             $order->setListProductId($product->getId());
-
         }
-
         $this->paymentProcess($order, $shoppingCart);
-
-
     }
 }
-
     private function paymentProcess($order, $shoppingCart){
         $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
@@ -62,9 +65,6 @@ class CheckoutController extends Controller{
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
         $orderService = new OrderService();
         $bookedOrderService = new OrderedProductsService();
-        $shoppingCartService = new ShoppingCartService();
-
-        //$order->setPaymentId($payment->id);
 
         $bookedOrder = $orderService->insertOrder($order);
         $bookedOrderId = $bookedOrder[0]->getOrderId();
@@ -98,7 +98,7 @@ class CheckoutController extends Controller{
         $order = $orderService->addPaymentId($payment->id, $bookedOrderId);
 
         foreach ($shoppingCart->product_id as $item) {
-            $amount = $shoppingCartService->getAmountOfProduct($item, $_SESSION['user_id']);
+            $amount =$this->shoppingCartService->getAmountOfProduct($item, $_SESSION['user_id']);
             $bookedOrderService->addOrderedProduct($item, $bookedOrderId, $amount);
         }
 
@@ -109,9 +109,7 @@ class CheckoutController extends Controller{
 
     function generateTicketPdf($order_id, $paymentObject)
     {
-        //Ale
-        $shoppingCartService = new ShoppingCartService();
-        $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+        $shoppingCart = $this->shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $tickets = array();
         $productService = new ProductService();
         $ticketService = new TicketService();
@@ -151,10 +149,6 @@ class CheckoutController extends Controller{
          for($i = 0; $i < $ticket->quantity; $i++){
              array_push($tickets, $ticketService->storeTicketDB($ticket));
          }
-
-
-
-
         }
         $qrService = new QrService();
         $pdf = "
@@ -276,14 +270,14 @@ class CheckoutController extends Controller{
     {
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Services/paymentService.php';
-        $shoppingCartService = new ShoppingCartService();
+      //  $shoppingCartService = new ShoppingCartService();
 
         //Ale
         require_once __DIR__ . '/../Services/paymentService.php';
         $paymentService = new PaymentService();
 
         $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        $shoppingCartService = new ShoppingCartService();
+        //$shoppingCartService = new ShoppingCartService();
 
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
@@ -322,19 +316,19 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->getInvoiceNumber() . "</td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number . "</td>
                 </tr>
                 <tr>
                  <td style='border: none;'>" . $paymentObject->first_name . '  ' . $paymentObject->last_name . " </td>
                     <td style='border: none;'>" . $paymentObject->email . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'>" . $order->getInvoiceDate() . "</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->address . "</td>
                     <td style='border: none;'>" . $paymentObject->phone_number . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'>" . $order->getInvoiceDate() . "</td>
+                    <td style='border: none;'>" . $order->invoice_date . "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->zip . "</td>
@@ -353,7 +347,7 @@ class CheckoutController extends Controller{
             </thead>
             <tbody> ";
                 $subtotal = 0;
-                $shoppingCart = $shoppingCartService->getCartOfUser($_SESSION['user_id']);
+                $shoppingCart = $this->shoppingCartService->getCartOfUser($_SESSION['user_id']);
                 $productService = new ProductService();
                 foreach ($shoppingCart->product_id as $item) {
                     $product = $productService->getById($item);
@@ -446,7 +440,7 @@ class CheckoutController extends Controller{
                 $smtpService = new smtpService();
                 $smtpService->sendEmail($email, $fullName, $message, $subject, $invoicePdf, $ticketPDF);
                 $this->updateAvailability($shoppingCart);
-                $shoppingCartService->removeCartFromUser($_SESSION['user_id']);
+                $this->shoppingCartService->removeCartFromUser($_SESSION['user_id']);
             } else {
                 echo "Payment Failed...";
             }
@@ -462,7 +456,7 @@ class CheckoutController extends Controller{
         require_once __DIR__ . '/../Services/productService.php';
         require_once __DIR__.'/../Services/shoppingCartService.php';
         $productService = new ProductService();
-        $shoppingCartService = new ShoppingCartService();
+        //$shoppingCartService = new ShoppingCartService();
 
         $products = $shoppingCart->getProducts();
         $amounts = $shoppingCart->getAmount();
@@ -471,7 +465,7 @@ class CheckoutController extends Controller{
             $productService->updateProductAvailability($products[$i], $amounts[$i]);
             $product = $productService->getById($products[$i]);
             if($product->getEventType() == 2){
-                $additionalInfo = $shoppingCartService->getAdditionalInfoByProduct($products[$i], $shoppingCart->getUserId());
+                $additionalInfo = $this->shoppingCartService->getAdditionalInfoByProduct($products[$i], $shoppingCart->getUserId());
                 $reservationId = $this->getReservationId($additionalInfo);
                 $this->changeReservationStatus($reservationId);
             }

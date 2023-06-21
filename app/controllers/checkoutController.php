@@ -322,19 +322,19 @@ class CheckoutController extends Controller{
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold; text-transform:uppercase;'>BILL TO</td>
                     <td style='color:#ff6600;border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none; font-weight: bold;  text-transform:uppercase;'>CUSTOMER'S INF</td>
                     <td style='color:#ff6600; border: none; font-weight: bold; text-transform:uppercase;'>INVOICE#</td>
-                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->invoice_number . "</td>
+                    <td style= 'border-top: 1px dashed #ff6600; border-left: none; border-right: none; border-bottom: none;'>" . $order->getInvoiceNumber() . "</td>
                 </tr>
                 <tr>
                  <td style='border: none;'>" . $paymentObject->first_name . '  ' . $paymentObject->last_name . " </td>
                     <td style='border: none;'>" . $paymentObject->email . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>INVOICE DATE</td>
-                    <td style='border: none;'>" . $order->invoice_date . "</td>
+                    <td style='border: none;'>" . $order->getInvoiceDate() . "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->address . "</td>
                     <td style='border: none;'>" . $paymentObject->phone_number . "</td>
                     <td style='color: #ff6600; border: none; font-weight: bold; text-transform: uppercase;'>PAYMENT DATE</td>
-                    <td style='border: none;'>" . $order->invoice_date . "</td>
+                    <td style='border: none;'>" . $order->getInvoiceDate() . "</td>
                 </tr>
                 <tr>
                     <td style='border: none;' >" . $paymentObject->zip . "</td>

@@ -23,18 +23,15 @@ require_once __DIR__ . '/../Services/eventService.php';
 
 class CheckoutController extends Controller{
 
-
     private $shoppingCartService;
     private $paymentService;
 
     public function __construct() {
 
-
         $this->shoppingCartService = new ShoppingCartService();
         $this->paymentService = new PaymentService();
     }
     function index(){
-
         require_once __DIR__ . '/navbarRequirements.php';
         require_once __DIR__ . '/../views/checkout/index.php';
     }
@@ -60,7 +57,6 @@ class CheckoutController extends Controller{
 }
     private function paymentProcess($order, $shoppingCart){
         require_once __DIR__ . '/../vendor/autoload.php';
-        require_once __DIR__ . '/../Models/Order.php';
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
         $orderService = new OrderService();

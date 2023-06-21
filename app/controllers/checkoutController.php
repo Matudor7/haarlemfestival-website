@@ -25,11 +25,13 @@ class CheckoutController extends Controller{
 
 
     private $shoppingCartService;
+    private $paymentService;
 
     public function __construct() {
 
 
         $this->shoppingCartService = new ShoppingCartService();
+        $this->paymentService = new PaymentService();
     }
     function index(){
 
@@ -39,7 +41,6 @@ class CheckoutController extends Controller{
 
     
     function payment(){
-        require_once __DIR__ . '/../Services/paymentService.php';
         if(isset($_GET["total"]) && isset($_GET["paymentmethod"])){
         $shoppingCart =$this->shoppingCartService->getCartOfUser($_SESSION['user_id']);
         $productService = new ProductService();
@@ -58,7 +59,6 @@ class CheckoutController extends Controller{
     }
 }
     private function paymentProcess($order, $shoppingCart){
-        $paymentService = new PaymentService();
         require_once __DIR__ . '/../vendor/autoload.php';
         require_once __DIR__ . '/../Models/Order.php';
         $mollie = new Mollie\Api\MollieApiClient();
@@ -91,9 +91,9 @@ class CheckoutController extends Controller{
             ],
         ]);
 
-        $paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
+        $this->paymentService->addPaymentId($_SESSION['user_id'], $payment->id);
 
-        $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
+        $paymentObject = $this->paymentService->getByUserId($_SESSION['user_id']);
 
         $order = $orderService->addPaymentId($payment->id, $bookedOrderId);
 
@@ -269,15 +269,9 @@ class CheckoutController extends Controller{
     function return()
     {
         require_once __DIR__ . '/../vendor/autoload.php';
-        require_once __DIR__ . '/../Services/paymentService.php';
-      //  $shoppingCartService = new ShoppingCartService();
 
-        //Ale
-        require_once __DIR__ . '/../Services/paymentService.php';
-        $paymentService = new PaymentService();
+        $paymentObject = $this->paymentService->getByUserId($_SESSION['user_id']);
 
-        $paymentObject = $paymentService->getByUserId($_SESSION['user_id']);
-        //$shoppingCartService = new ShoppingCartService();
 
         $mollie = new Mollie\Api\MollieApiClient();
         $mollie->setApiKey('test_mgqJkkMVNtskk2e9vpgsBhUPsTj9K4');
@@ -456,7 +450,6 @@ class CheckoutController extends Controller{
         require_once __DIR__ . '/../Services/productService.php';
         require_once __DIR__.'/../Services/shoppingCartService.php';
         $productService = new ProductService();
-        //$shoppingCartService = new ShoppingCartService();
 
         $products = $shoppingCart->getProducts();
         $amounts = $shoppingCart->getAmount();

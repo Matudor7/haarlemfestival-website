@@ -44,8 +44,7 @@ class CheckoutController extends Controller{
 
         foreach ($shoppingCart->product_id as $item) {
             $product = $productService->getById($item);
-            $order->setListProductId($product->getId());
-
+            $order->setListProductId($product->getName());
         }
 
         $this->paymentProcess($order, $shoppingCart);
